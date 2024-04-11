@@ -18,7 +18,7 @@ code {
 
 @font-face {
   font-family: "SOYO";
-  src: url("./asset/font/SOYOMapleRegular.ttf") format("truetype");
+  src: url("./asset/font/SOYOMapleBold.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
