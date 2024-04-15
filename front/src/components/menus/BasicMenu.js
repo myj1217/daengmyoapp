@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import image from "../../images/logo.png"
+import image from "../../images/logo.png";
 const BasicMenu = () => {
   const { isLogin, doLogout, moveToPath } = useCustomLogin();
 
@@ -13,7 +13,7 @@ const BasicMenu = () => {
     <header className="flex bg-green-50 text-green-800 p-4 shadow-md w-full h-24 sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center h-full w-full">
         <Link to="/" className="text-lg font-bold">
-        <img src={image} alt="logo" className="w-28 h-auto"></img>
+          <img src={image} alt="logo" className="w-28 h-auto"></img>
         </Link>
         <nav>
           <ul className="flex gap-8">
@@ -35,7 +35,7 @@ const BasicMenu = () => {
             </li>
             <li>
               <Link
-                to="/comunity"
+                to="/community"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 커뮤니티
