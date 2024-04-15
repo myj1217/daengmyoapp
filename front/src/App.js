@@ -1,6 +1,6 @@
 import { RouterProvider } from "react-router-dom";
 import "./App.css";
-import root from "./router/root";
+import root from "./router/rootRouter";
 
 function App() {
   return <RouterProvider router={root} />;
