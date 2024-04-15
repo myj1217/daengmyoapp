@@ -1,5 +1,5 @@
 import React from "react";
-import CartComponent from "../components/cart/CartComponent";
+import CartComponent from "../../components/cart/CartComponent";
 // import BasicLayout from "../layouts/BasicLayout";
 import { FaShoppingCart } from "react-icons/fa";
 
