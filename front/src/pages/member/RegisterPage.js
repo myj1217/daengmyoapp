@@ -1,5 +1,5 @@
 import RegisterComponent from "../../components/member/RegisterComponent";
-import BasicMenu from "../../components/menus/Basicmenu.js";
+import BasicMenu from "../../components/menus/BasicMenu";
 
 const LoginPage = () => {
   return (
@@ -7,7 +7,7 @@ const LoginPage = () => {
       <BasicMenu />
 
       <div className="w-full flex flex-wrap  h-full justify-center  items-center border-2">
-      <RegisterComponent />
+        <RegisterComponent />
       </div>
     </div>
   );
