@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { searchProducts } from "../api/productApi";
-import { API_SERVER_HOST } from "../api/rootApi";
-import PageComponent from "./common/PageComponent";
+import { searchProducts } from "../../api/productApi";
+import { API_SERVER_HOST } from "../../api/rootApi";
+import PageComponent from "../../components/common/PageComponent";
 import { useLocation } from "react-router-dom";
-import useCustomMove from "../hooks/useCustomMove";
+import useCustomMove from "../../hooks/useCustomMove";
 import noResultImage from "../../asset/images/noResult.jpg";
 
 const host = API_SERVER_HOST;
