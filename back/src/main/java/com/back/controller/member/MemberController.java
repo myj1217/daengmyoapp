@@ -99,6 +99,7 @@ public class MemberController {
     @PostMapping("/sendCode")
     public ResponseEntity<String> checkMember(@RequestParam("email") String email) {
         boolean memberExists = mailService.existsByEmail(email); // 이메일을 확인한다
+        log.info(email);
         if (memberExists) {//이메일이 존재할경우 인증코드 전송.
             MailDTO dto = mailService.createMail(email);
             mailService.mailSend(dto);

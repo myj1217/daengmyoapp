@@ -35,7 +35,7 @@ const BasicMenu = () => {
             </li>
             <li>
               <Link
-                to="/comunity"
+                to="/community"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 커뮤니티

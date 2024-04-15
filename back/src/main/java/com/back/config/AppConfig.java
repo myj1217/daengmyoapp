@@ -14,10 +14,5 @@ public class AppConfig {
         return new ModelMapper();
     }
 
-    @Bean
-    public JavaMailSender javaMailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        // JavaMailSender 설정
-        return mailSender;
-    }
+
 }

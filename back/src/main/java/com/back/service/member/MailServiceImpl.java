@@ -65,7 +65,7 @@ public class MailServiceImpl implements MailService {
     // 메일보내기
     @Override
     public void mailSend(MailDTO mailDTO) {
-        System.out.println("전송 완료!");
+
         MimeMessage message = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -76,6 +76,7 @@ public class MailServiceImpl implements MailService {
             helper.setReplyTo("nmnmtest6@gmail.com");
             System.out.println("message" + message);
             javaMailSender.send(message);
+            System.out.println("전송 완료!");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
