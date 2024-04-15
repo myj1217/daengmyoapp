@@ -59,7 +59,7 @@ const MainBanner = () => {
             <img src={dog2} alt="Banner 2" className="w-full h-auto block" />
           </div>
         </Link>
-        <Link to="/products/list">
+        <Link to="/products/">
           <div className="slide-item">
             <img src={dog3} alt="Banner 3" className="w-full h-auto block" />
           </div>
