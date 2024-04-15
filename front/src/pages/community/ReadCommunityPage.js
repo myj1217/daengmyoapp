@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import ReadCommunityComponent from "../../components/community/ReadCommunity";
 
-const ReadPage = () => {
+const ReadCommunityPage = () => {
   const { communityBno } = useParams();
 
   return (
@@ -15,4 +15,4 @@ const ReadPage = () => {
   );
 };
 
-export default ReadPage;
+export default ReadCommunityPage;

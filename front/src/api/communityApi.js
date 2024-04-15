@@ -24,7 +24,7 @@ export const regCommunity = async (community) => {
 
 // 게시글 상세보기
 export const getCommunity = async (communityBno, page, size) => {
-  const res = await jwtAxios.get(`${host}/${communityBno}`, {
+  const res = await jwtAxios.get(`${host}/read/${communityBno}`, {
     params: {
       page: page,
       size: size,

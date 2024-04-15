@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import RegCommunityComponent from "../../components/community/RegCommunityComponent";
 import { Navigate } from "react-router-dom";
 
-const RegPage = () => {
+const RegCommunityPage = () => {
   const loginState = useSelector((state) => state.loginSlice);
 
   if (!loginState.email) {
@@ -17,4 +17,4 @@ const RegPage = () => {
   );
 };
 
-export default RegPage;
+export default RegCommunityPage;

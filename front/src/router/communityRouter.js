@@ -2,10 +2,14 @@ import { Suspense, lazy } from "react";
 import { Navigate } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
 
-const CommunityList = lazy(() => import("../pages/community/ListPage"));
-const ReadCommunity = lazy(() => import("../pages/community/ReadPage"));
-const ModCommunity = lazy(() => import("../pages/community/ModifyPage"));
-const RegCommunity = lazy(() => import("../pages/community/RegPage"));
+const CommunityList = lazy(() =>
+  import("../pages/community/ListCommunityPage")
+);
+const ReadCommunity = lazy(() =>
+  import("../pages/community/ReadCommunityPage")
+);
+const ModCommunity = lazy(() => import("../pages/community/ModCommunityPage"));
+const RegCommunity = lazy(() => import("../pages/community/RegCommunityPage"));
 
 const communityRouter = () => {
   return [

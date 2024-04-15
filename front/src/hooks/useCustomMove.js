@@ -51,38 +51,33 @@ const useCustomMove = () => {
   const moveToSearchList = (pageParam) => {
     let queryStr = "";
     const pname = queryParams.get("pname") || "";
-  
+
     if (pageParam) {
       const pageNum = getNum(pageParam.page, 1);
       const sizeNum = getNum(pageParam.size, 10);
-  
+
       queryStr = createSearchParams({
         pname: pname, // pname 추가
         page: pageNum,
         size: sizeNum,
-        
       }).toString();
     } else {
       const page = getNum(queryParams.get("page"), 1);
       const size = getNum(queryParams.get("size"), 10);
-  
+
       queryStr = createSearchParams({
         pname: pname, // pname 추가
         page: page,
         size: size,
-        
       }).toString();
     }
-  
+
     navigate({
       pathname: `../search`,
       search: queryStr,
     });
     setRefresh(!refresh);
   };
-  
-
-
 
   const moveToModify = (num) => {
     console.log(queryDefault);
@@ -102,7 +97,15 @@ const useCustomMove = () => {
     });
   };
 
-  return { moveToRead, moveToModify, moveToList, page, size, refresh, moveToSearchList }; //refresh 추가
+  return {
+    moveToRead,
+    moveToModify,
+    moveToList,
+    page,
+    size,
+    refresh,
+    moveToSearchList,
+  }; //refresh 추가
 };
 
 export default useCustomMove;

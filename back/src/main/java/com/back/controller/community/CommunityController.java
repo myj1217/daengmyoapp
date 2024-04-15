@@ -47,7 +47,7 @@ public class CommunityController {
         return Map.of("result", communityBno);
     }
 
-    @GetMapping("/{communityBno}")
+    @GetMapping("/read/{communityBno}")
     public CommunityDTO getCommunity(@PathVariable(name = "communityBno") Long communityBno) {
         return communityService.getCommunity(communityBno);
     }
@@ -97,7 +97,7 @@ public class CommunityController {
 
     }
 
-    @DeleteMapping("{communityBno}")
+    @DeleteMapping("/{communityBno}")
     public Map<String, String>  delCommunity(@PathVariable(name = "communityBno") Long communityBno) {
 
         //삭제해야할 파일들 알아내기

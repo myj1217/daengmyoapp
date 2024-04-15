@@ -4,7 +4,7 @@ import BasicMenu from "../../components/menus/BasicMenu";
 import { FaComment } from "react-icons/fa";
 // import { FaComment } from "react-icons/fa";
 
-const ListPage = () => {
+const ListCommunityPage = () => {
   // const [queryParams] = useSearchParams();
 
   // const page = queryParams.get("page") ? parseInt(queryParams.get("page")) : 1;
@@ -23,4 +23,4 @@ const ListPage = () => {
   );
 };
 
-export default ListPage;
+export default ListCommunityPage;

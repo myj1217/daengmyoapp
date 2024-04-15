@@ -2,7 +2,7 @@ import { Navigate, useParams } from "react-router-dom";
 import ModCommunityComponent from "../../components/community/ModCommunityComponent";
 import { useSelector } from "react-redux";
 
-const ModPage = () => {
+const ModCommunityPage = () => {
   const { communityBno } = useParams();
   const loginState = useSelector((state) => state.loginSlice);
   if (!loginState.email) {
@@ -17,4 +17,4 @@ const ModPage = () => {
   );
 };
 
-export default ModPage;
+export default ModCommunityPage;
