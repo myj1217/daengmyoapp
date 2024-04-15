@@ -1,5 +1,5 @@
 import ForgotPasswordComponent from "../../components/member/ForgotPasswordComponent";
-import BasicMenu from "../../components/menus/Basicmenu.js";
+import BasicMenu from "../../components/menus/BasicMenu";
 
 const ForgotPasswordPage = () => {
   return (
@@ -7,7 +7,7 @@ const ForgotPasswordPage = () => {
       <BasicMenu />
 
       <div className="w-full flex flex-wrap  h-full justify-center  items-center">
-      <ForgotPasswordComponent />
+        <ForgotPasswordComponent />
       </div>
     </div>
   );
