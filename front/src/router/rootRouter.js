@@ -12,7 +12,7 @@ const Cart = lazy(() => import("../pages/cart/CartPage"));
 // const FAQ = lazy(() => import("../pages/FAQ"));
 // const InquiryForm = lazy(() => import("../components/InquiryForm"));
 // const MonthArtistPage = lazy(() => import("../pages/MonthArtistPage"));
-// const Community = lazy(() => import("../pages/CommunityPage"));
+const Community = lazy(() => import("../pages/ListPage"));
 const ErrorPage = lazy(() => import("../pages/etc/ErrorPage"));
 
 const rootRouter = createBrowserRouter([
@@ -63,23 +63,15 @@ const rootRouter = createBrowserRouter([
   //     </Suspense>
   //   ),
   // },
-  // {
-  //   path: "community",
-  //   element: (
-  //     <Suspense fallback={<LoadingSpinner />}>
-  //       <Community />
-  //     </Suspense>
-  //   ),
-  // },
-  // {
-  //   path: "comboard",
-  //   element: (
-  //     <Suspense fallback={<LoadingSpinner />}>
-  //       <Community />
-  //     </Suspense>
-  //   ),
-  //   children: communityRouter(),
-  // },
+  {
+    path: "community",
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <Community />
+      </Suspense>
+    ),
+  },
+
   {
     path: "/*",
     element: (
