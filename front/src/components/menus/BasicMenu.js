@@ -1,38 +1,25 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
-
+import image from "../../images/logo.png"
 const BasicMenu = () => {
-  const loginState = useSelector((state) => state.loginSlice);
   const { isLogin, doLogout, moveToPath } = useCustomLogin();
-  const { refreshCart, cartItems } = useCustomCart();
 
-  // 로그아웃 핸들러
-  const logoutHandler = () => {
+  const clickLogout = () => {
     doLogout();
     moveToPath("/");
   };
-
-  useEffect(() => {
-    if (isLogin) {
-      refreshCart();
-    }
-  }, [isLogin]);
-
   return (
-    <header className="bg-blue-400 text-white p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
+    <header className="flex bg-green-50 text-green-800 p-4 shadow-md w-full h-24 sticky top-0 z-50">
+      <div className="container mx-auto flex justify-between items-center h-full w-full">
         <Link to="/" className="text-lg font-bold">
-          댕묘앞
+        <img src={image} alt="logo" className="w-28 h-auto"></img>
         </Link>
         <nav>
           <ul className="flex gap-8">
-            {" "}
             <li>
               <Link
-                to="/"
+                to="/adopt"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 분양 받기
@@ -40,7 +27,7 @@ const BasicMenu = () => {
             </li>
             <li>
               <Link
-                to="/products/"
+                to="/products/list"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 펫shop
@@ -48,7 +35,7 @@ const BasicMenu = () => {
             </li>
             <li>
               <Link
-                to="/community"
+                to="/comunity"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 커뮤니티
@@ -59,7 +46,7 @@ const BasicMenu = () => {
                 to="/"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
-                공지사항
+                공지
               </Link>
             </li>
             <li>
@@ -72,7 +59,7 @@ const BasicMenu = () => {
             </li>
             <li>
               <Link
-                to="/"
+                to="/about"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 문의하기
@@ -80,44 +67,27 @@ const BasicMenu = () => {
             </li>
           </ul>
         </nav>
-        <div>
-          {!loginState.email ? (
+        <div className="">
+          {isLogin ? (
+            <button
+              onClick={clickLogout}
+              className="ml-2 bg-emerald-600 py-2 px-4 rounded hover:bg-emerald-500 transition-colors duration-300 text-white"
+            >
+              로그아웃
+            </button>
+          ) : (
             <>
               <Link
                 to="/member/login"
-                className="bg-slate-700 py-2 px-4 rounded hover:bg-slate-600 transition-colors duration-300"
+                className="bg-slate-700 py-2 px-4 rounded hover:bg-slate-600 transition-colors duration-300 text-white"
               >
                 로그인
               </Link>
               <Link
                 to="/member/register"
-                className="ml-2 bg-emerald-600 py-2 px-4 rounded hover:bg-emerald-500 transition-colors duration-300"
+                className="ml-2 bg-emerald-600 py-2 px-4 rounded hover:bg-emerald-500 transition-colors duration-300 text-white"
               >
                 회원가입
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/cart"
-                className="bg-slate-700 py-2 px-4 rounded hover:bg-slate-600 transition-colors duration-300"
-              >
-                장바구니
-              </Link>
-              <div className="text-xs pl-1 ml-1 rounded-full bg-red-500 w-4 h-4">
-                <Link to={"/cart"}>{cartItems.length}</Link>
-              </div>
-              <Link
-                to="/member/mypage"
-                className="ml-2 bg-emerald-600 py-2 px-4 rounded hover:bg-emerald-500 transition-colors duration-300"
-              >
-                마이페이지
-              </Link>
-              <Link
-                to="/member/login"
-                className="bg-slate-700 py-2 px-4 rounded hover:bg-slate-600 transition-colors duration-300"
-              >
-                <div onClick={logoutHandler}>로그아웃</div>
               </Link>
             </>
           )}

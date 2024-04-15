@@ -1,12 +1,13 @@
 import axios from "axios";
-import { API_SERVER_HOST } from "./rootApi";
 import jwtAxios from "../utils/jwtUtil";
 
-export const host = `${API_SERVER_HOST}/member`;
+import { API_SERVER_HOST } from "./rootApi";
 
 const header = {
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
 };
+
+const host = `${API_SERVER_HOST}/member`
 
 export const loginPost = async (loginParam) => {
   const form = new FormData();
