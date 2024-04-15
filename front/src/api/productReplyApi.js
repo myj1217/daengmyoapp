@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_SERVER_HOST } from "./rootApi";
 import jwtAxios from "../utils/jwtUtil";
 
-const host = `${API_SERVER_HOST}/api/products`;
+const host = `${API_SERVER_HOST}/replies`;
 
 export const postAdd = async (product) => {
   const header = { headers: { "Content-Type": "multipart/form-data" } };
@@ -16,7 +16,7 @@ export const postAdd = async (product) => {
 export const getList = async (pno, pageParam) => {
   const { page, size } = pageParam;
 
-  const res = await axios.get(`${host}/replies/list/${pno}`, {
+  const res = await axios.get(`${host}/list/${pno}`, {
     params: { page: page, size: size },
   });
 
@@ -24,7 +24,7 @@ export const getList = async (pno, pageParam) => {
 };
 
 export const getOne = async (pno) => {
-  const res = await axios.get(`${host}/replies/list/${pno}`);
+  const res = await axios.get(`${host}/list/${pno}`);
 
   return res.data;
 };
