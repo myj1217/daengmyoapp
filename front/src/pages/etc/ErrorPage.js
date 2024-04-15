@@ -6,7 +6,7 @@ const ErrorPage = () => {
     <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
       <div id="logo" className="p-6">
         <p className="text-5xl">
-          <Link to={"/"}>니모내모</Link>
+          <Link to={"/"}>댕묘앞</Link>
         </p>
       </div>
       <p className="text-xl my-2">
