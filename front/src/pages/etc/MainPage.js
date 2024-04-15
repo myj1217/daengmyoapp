@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 const MainPage = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return (
+    <div>
+      <h1>메인페이지 입니다.</h1>
+    </div>
+  );
 };
 
 export default MainPage;
