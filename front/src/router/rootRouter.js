@@ -12,7 +12,7 @@ const Cart = lazy(() => import("../pages/cart/CartPage"));
 // const FAQ = lazy(() => import("../pages/FAQ"));
 // const InquiryForm = lazy(() => import("../components/InquiryForm"));
 // const MonthArtistPage = lazy(() => import("../pages/MonthArtistPage"));
-const Community = lazy(() => import("../pages/ListPage"));
+const Community = lazy(() => import("../pages/community/ListPage"));
 const ErrorPage = lazy(() => import("../pages/etc/ErrorPage"));
 
 const rootRouter = createBrowserRouter([

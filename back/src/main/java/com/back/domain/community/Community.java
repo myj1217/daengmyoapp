@@ -32,6 +32,9 @@ public class Community {
     @Column(length = 10, nullable = false)
     private String communityWriter;
 
+    @Column(nullable = false) // 추가: 논리적 삭제 여부를 나타내는 필드
+    private final boolean deleted = false; // 추가: 논리적 삭제 여부를 나타내는 필드
+
     public void changeTitle(String communityTitle) {
         this.communityTitle = communityTitle;
     }

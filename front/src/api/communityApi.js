@@ -1,13 +1,13 @@
 import axios from "axios";
 import { API_SERVER_HOST } from "./rootApi";
-import jwtAxios from "../util/jwtUtil";
+import jwtAxios from "../utils/jwtUtil";
 
 const host = `${API_SERVER_HOST}/community`;
 
 // 게시글 리스트
 export const communityList = async (pageParam) => {
   const { page, size } = pageParam;
-  const res = await axios.get(`${host}`, {
+  const res = await axios.get(`${host}/list`, {
     params: { page: page, size: size },
   });
 

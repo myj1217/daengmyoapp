@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Log4j2
 @RequiredArgsConstructor
 @RequestMapping(value = "/community")
-@CrossOrigin(origins ="http://localhost:3000" )
 
 public class CommunityController {
     private final CommunityService communityService;
