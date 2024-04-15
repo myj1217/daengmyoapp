@@ -1,7 +1,8 @@
 import axios from "axios";
+import { API_SERVER_HOST } from "./rootApi";
 import jwtAxios from "../utils/jwtUtil";
 
-export const host = "http://localhost:8080/member";
+export const host = `${API_SERVER_HOST}/member`;
 
 const header = {
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
