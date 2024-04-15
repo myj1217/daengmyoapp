@@ -1,19 +1,19 @@
 import { Suspense, lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import productsRouter from "./productsRouter";
+import productRouter from "./productRouter";
 import memberRouter from "./memberRouter";
 import cartRouter from "./cartRouter";
 import LoadingSpinner from "./LoadingSpninner";
-import communityRouter from "./communityRouter";
+// import communityRouter from "./communityRouter";
 
-const Main = lazy(() => import("../pages/MainPage"));
-const ProductsRouter = lazy(() => import("../pages/products/IndexPage"));
-const Cart = lazy(() => import("../pages/CartPage"));
-const FAQ = lazy(() => import("../pages/FAQ"));
-const InquiryForm = lazy(() => import("../components/InquiryForm"));
-const MonthArtistPage = lazy(() => import("../pages/MonthArtistPage"));
-const Community = lazy(() => import("../pages/CommunityPage"));
-const ErrorPage = lazy(() => import("../pages/ErrorPage"));
+const Main = lazy(() => import("../pages/etc/MainPage"));
+const Product = lazy(() => import("../pages/product/ProductListPage"));
+const Cart = lazy(() => import("../pages/cart/CartPage"));
+// const FAQ = lazy(() => import("../pages/FAQ"));
+// const InquiryForm = lazy(() => import("../components/InquiryForm"));
+// const MonthArtistPage = lazy(() => import("../pages/MonthArtistPage"));
+// const Community = lazy(() => import("../pages/CommunityPage"));
+const ErrorPage = lazy(() => import("../pages/etc/ErrorPage"));
 
 const rootRouter = createBrowserRouter([
   {
@@ -28,10 +28,10 @@ const rootRouter = createBrowserRouter([
     path: "products",
     element: (
       <Suspense fallback={<LoadingSpinner />}>
-        <ProductsRouter />
+        <Product />
       </Suspense>
     ),
-    children: productsRouter(),
+    children: productRouter(),
   },
   {
     path: "member",
@@ -46,40 +46,40 @@ const rootRouter = createBrowserRouter([
     ),
     children: cartRouter(),
   },
-  {
-    path: "about",
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <FAQ />
-        <InquiryForm />
-      </Suspense>
-    ),
-  },
-  {
-    path: "month",
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <MonthArtistPage />
-      </Suspense>
-    ),
-  },
-  {
-    path: "community",
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <Community />
-      </Suspense>
-    ),
-  },
-  {
-    path: "comboard",
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <Community />
-      </Suspense>
-    ),
-    children: communityRouter(),
-  },
+  // {
+  //   path: "about",
+  //   element: (
+  //     <Suspense fallback={<LoadingSpinner />}>
+  //       <FAQ />
+  //       <InquiryForm />
+  //     </Suspense>
+  //   ),
+  // },
+  // {
+  //   path: "month",
+  //   element: (
+  //     <Suspense fallback={<LoadingSpinner />}>
+  //       <MonthArtistPage />
+  //     </Suspense>
+  //   ),
+  // },
+  // {
+  //   path: "community",
+  //   element: (
+  //     <Suspense fallback={<LoadingSpinner />}>
+  //       <Community />
+  //     </Suspense>
+  //   ),
+  // },
+  // {
+  //   path: "comboard",
+  //   element: (
+  //     <Suspense fallback={<LoadingSpinner />}>
+  //       <Community />
+  //     </Suspense>
+  //   ),
+  //   children: communityRouter(),
+  // },
   {
     path: "/*",
     element: (
