@@ -2,7 +2,7 @@ import { Suspense, lazy } from "react";
 import { Navigate } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpninner";
 
-const Loading = <div>Loading....</div>;
+// const Loading = <div>Loading....</div>;
 const ProductList = lazy(() => import("../pages/product/ProductListPage"));
 const ProductAdd = lazy(() => import("../pages/product/ProductAddPage"));
 const ProductRead = lazy(() => import("../pages/product/ProductReadPage"));
