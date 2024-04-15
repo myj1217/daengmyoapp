@@ -32,7 +32,7 @@ const BasicMenu = () => {
             {" "}
             <li>
               <Link
-                to="/adopt"
+                to="/"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 분양 받기
@@ -48,7 +48,7 @@ const BasicMenu = () => {
             </li>
             <li>
               <Link
-                to="/comunity"
+                to="/community"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 커뮤니티
@@ -59,7 +59,7 @@ const BasicMenu = () => {
                 to="/"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
-                공지
+                공지사항
               </Link>
             </li>
             <li>
@@ -72,7 +72,7 @@ const BasicMenu = () => {
             </li>
             <li>
               <Link
-                to="/about"
+                to="/"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 문의하기
