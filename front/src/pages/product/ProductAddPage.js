@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import ProductAddComponent from "../../components/product/ProductAddComponent";
 import { Navigate, useNavigate } from "react-router-dom";
+import BasicMenu from "../../components/menus/BasicMenu";
 
 const ProductAddPage = () => {
   const loginState = useSelector((state) => state.loginSlice);
@@ -11,6 +12,7 @@ const ProductAddPage = () => {
   }
   return (
     <div className="p-4 w-full bg-white">
+      <BasicMenu />
       <div className="text-3xl font-extrabold">상품 추가하기</div>
 
       <ProductAddComponent />

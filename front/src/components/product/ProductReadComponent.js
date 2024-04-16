@@ -5,6 +5,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import { useNavigate } from "react-router-dom";
 
 const initState = {
   pno: 0,
@@ -18,34 +19,43 @@ const host = API_SERVER_HOST;
 
 const ProductReadComponent = ({ pno }) => {
   const [product, setProduct] = useState(initState);
-  //화면 이동용 함수
   const { moveToList, moveToModify } = useCustomMove();
-  //fetching
   const [fetching, setFetching] = useState(false);
-  // 장바구니 기능
   const { changeCart, cartItems } = useCustomCart();
-  // 로그인 정보
-  const { loginState } = useCustomLogin();
+  const { isLogin, loginState } = useCustomLogin();
+  const navigate = useNavigate();
 
   // 장바구니 담기 핸들러
   const handleClickAddCart = () => {
-    let qty = 1;
+    if (!isLogin) {
+      window.alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+      navigate("/member/login");
+    } else {
+      let qty = 1;
 
-    const addedItem = cartItems.filter((item) => item.pno === parseInt(pno))[0];
+      const addedItem = cartItems.filter(
+        (item) => item.pno === parseInt(pno)
+      )[0];
 
-    if (addedItem) {
-      if (
-        window.confirm(
-          "장바구니에 이미 추가된 상품입니다. 추가하시겠습니까? "
-        ) === false
-      ) {
-        return;
+      if (addedItem) {
+        if (
+          window.confirm(
+            "장바구니에 이미 추가된 상품입니다. 추가하시겠습니까? "
+          ) === false
+        ) {
+          return;
+        }
+        qty = addedItem.qty + 1;
       }
-      qty = addedItem.qty + 1;
-    }
 
-    changeCart({ email: loginState.email, pno: pno, qty: qty });
-    window.alert("장바구니에 성공적으로 추가되었습니다.");
+      changeCart({ email: loginState.email, pno: pno, qty: qty });
+      window.alert("장바구니에 성공적으로 추가되었습니다.");
+    }
+  };
+
+  // 목록으로 돌아가기 핸들러
+  const handleClickList = () => {
+    navigate("/products/list");
   };
 
   useEffect(() => {
@@ -104,12 +114,23 @@ const ProductReadComponent = ({ pno }) => {
             >
               장바구니에 담기
             </button>
+            {isLogin ? (
+              <button
+                type="button"
+                className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600"
+                onClick={() => moveToModify(pno)}
+              >
+                상품정보 수정
+              </button>
+            ) : (
+              <></>
+            )}
             <button
               type="button"
               className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600"
-              onClick={() => moveToModify(pno)}
+              onClick={handleClickList}
             >
-              상품정보 수정
+              목록으로 돌아가기
             </button>
           </div>
         </div>
