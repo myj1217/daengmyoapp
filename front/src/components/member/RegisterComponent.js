@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkNickname, checkEmail, registerMember } from "../../api/memberApi";
 import { Link } from "react-router-dom";
@@ -18,7 +18,7 @@ const RegisterComponent = () => {
     profileImage: "",
   });
 
-  const ref = useRef();
+
 
   const [errors, setErrors] = useState({});
 
@@ -103,10 +103,6 @@ const RegisterComponent = () => {
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleProfileImageChange = (e) => {
-    const file = e.target.files[0];
-    setFormValues((prev) => ({ ...prev, profileImage: file }));
-  };
 
 
   // 닉네임,이메일 실시간 중복 체크 부분
@@ -223,18 +219,6 @@ const RegisterComponent = () => {
         onSubmit={handleSubmit}
         className="w-full max-w-2xl bg-green-50 rounded-lg mb-16"
       >
-        <div className="flex w-full h-40">
-         {/* 프로필 이미지 업로드 입력 필드 */}
-         <label htmlFor="profileImage">프로필 이미지 업로드 (선택)</label>
-        <input
-          type="file"
-          name="profileImage"
-          id="profileImage"
-          ref={ref}
-          onChange={handleProfileImageChange}
-          className="w-full"/>
-          </div>
-
         {/* 이메일 입력 필드 */}
         <label htmlFor="email">이메일</label>
         {errors.valid_email && (
@@ -324,7 +308,7 @@ const RegisterComponent = () => {
           <button
             type="button"
             onClick={openPostcode}
-            className="ml-2 bg-orange-500 hover:bg-orange-600 text-white font-bold p-3 rounded-md"
+            className="ml-2 bg-green-500 hover:bg-green-600 text-white font-bold p-3 rounded-md"
             style={{ width: "150px" }}
           >
             주소 찾기
