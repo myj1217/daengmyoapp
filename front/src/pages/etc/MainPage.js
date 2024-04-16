@@ -127,8 +127,8 @@ const MainPage = () => {
       <BasicMenu />
 
       {/* <MainBanner /> */}
-      <div className="flex w-full h-80">
-      <div className="main-banner relative overflow-hidden w-3/4 mr-10 ml-10 mt-2 h-full">
+      <div className="flex w-full h-full border border-bottom-2">
+      <div className="main-banner relative overflow-hidden w-3/4 m-2 h-full">
         <Slider {...settings}>
           <Link to="/community">
             <div className="slide-item">
@@ -147,30 +147,32 @@ const MainPage = () => {
           </Link>
         </Slider>
       </div>
-  <div className="w-1/4 h-full bg-green-50 flex flex-col items-center justify-center mr-2 mb-auto mt-2 rounded-lg shadow-lg">
 
+      <div className="w-1/4 min-h-80 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
   <div className="w-full flex items-center justify-center mb-auto mt-2 border-b-2 pb-2">
-            <FaUser className="text-3xl mr-2 mt-1 w-5 f-5" />
-            <p className="text-xl font-bold">프로필</p></div>
+    <FaUser className="text-3xl mr-2 mt-1 w-5 f-5" />
+    <p className="text-xl font-bold">프로필</p>
+  </div>
 
-            {!isLogin ? (
-            <>
-              <div className="text-gray-600 text-sm mb-auto">
-                <p className="">로그인이 필요한 서비스입니다.</p>
-              </div>
-              <div className="w-4/5 mb-24">
-                <Link to="member/login">
-                  <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer h-full">
-                    로그인하기
-                    <CiLogin className="inline-block ml-2"/>
-                  </button>
-                </Link>
-              </div>
-            </>
-          ) : (
-            <div>로그인된 상태</div>
-          )}
-        </div>
+  {!isLogin ? (
+    <>
+      <div className="text-gray-600 text-sm flex flex-col items-center justify-center h-full">
+        <div className="w-full text-center">로그인이 필요한 서비스입니다.</div>
+      </div>
+      <div className="w-4/5 mb-24">
+        <Link to="member/login">
+          <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer h-full">
+            로그인하기
+            <CiLogin className="inline-block ml-2"/>
+          </button>
+        </Link>
+      </div>
+    </>
+  ) : (
+    <div>로그인된 상태</div>
+  )}
+</div>
+
       </div>
       <div className="py-8">
         <div className="text-center text-4xl font-bold mb-6">
