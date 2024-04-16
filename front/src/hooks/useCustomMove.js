@@ -41,7 +41,7 @@ const useCustomMove = () => {
     }
 
     navigate({
-      pathname: `../community`,
+      pathname: ``,
       search: queryStr,
     });
     setRefresh(!refresh);
