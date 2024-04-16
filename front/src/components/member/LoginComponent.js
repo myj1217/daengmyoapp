@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { getKakaoLoginLink } from "../../api/kakaoApi";
 
+
 const initState = {
   email: "",
   pw: "",
@@ -74,7 +75,7 @@ const LoginComponent = () => {
               name="pw"
               value={loginParam.pw}
               onChange={handleChange}
-              className="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-black focus:border-black"
+              className="mt-1 block w-full px-3 py-2 bg-g<FaUser />ray-50 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-black focus:border-black"
               placeholder="비밀번호"
             />
           </div>
