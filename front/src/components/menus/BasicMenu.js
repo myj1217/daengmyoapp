@@ -65,33 +65,23 @@ const BasicMenu = () => {
                 문의하기
               </Link>
             </li>
-          </ul>
-        </nav>
-        <div className="">
-          {isLogin ? (
-            <button
+            {isLogin ? (
+            <li
               onClick={clickLogout}
-              className="ml-2 bg-emerald-600 py-2 px-4 rounded hover:bg-emerald-500 transition-colors duration-300 text-white"
+              className="hover:text-amber-200 transition-colors duration-300 cursor-pointer"
             >
               로그아웃
-            </button>
+            </li>
           ) : (
-            <>
-              <Link
+            <Link
                 to="/member/login"
-                className="bg-slate-700 py-2 px-4 rounded hover:bg-slate-600 transition-colors duration-300 text-white"
+                className="hover:text-amber-200 transition-colors duration-300"
               >
                 로그인
               </Link>
-              <Link
-                to="/member/register"
-                className="ml-2 bg-emerald-600 py-2 px-4 rounded hover:bg-emerald-500 transition-colors duration-300 text-white"
-              >
-                회원가입
-              </Link>
-            </>
           )}
-        </div>
+          </ul>
+        </nav>
       </div>
     </header>
   );
