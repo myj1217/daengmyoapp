@@ -208,9 +208,8 @@ public class MemberServiceImpl implements MemberService {
         return validatorResult;
     }
 
-    public Member getMemberInfo(String email, String pw) {
-        Member memberInfo = memberRepository.findByEmailAndPw(email,pw);
-
+    public Member getMemberInfo(String email) {
+        Member memberInfo = memberRepository.findByEmail(email);
         return memberInfo;
     }
 

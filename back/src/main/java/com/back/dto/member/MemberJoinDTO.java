@@ -43,4 +43,6 @@ public class MemberJoinDTO {
 
 
     private List<MemberRole> memberRoleList = new ArrayList<>();
+
+    private String profileImage;
 }

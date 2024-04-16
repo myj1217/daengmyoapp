@@ -26,11 +26,11 @@ const rootRouter = createBrowserRouter([
   },
   {
     path: "products",
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <Product />
-      </Suspense>
-    ),
+    // element: (
+    //   <Suspense fallback={<LoadingSpinner />}>
+    //     <Product />
+    //   </Suspense>
+    // ),
     children: productRouter(),
   },
   {

@@ -1,19 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link ,useLocation} from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import image from "../../images/logo.png";
 const BasicMenu = () => {
   const { isLogin, doLogout, moveToPath } = useCustomLogin();
-
+  const location = useLocation();
+  
   const clickLogout = () => {
     doLogout();
     moveToPath("/");
   };
+
+  const isMyPage = location.pathname === "/member/mypage";
+  
   return (
-    <header className="flex bg-green-50 text-green-800 p-4 shadow-md w-full h-24 sticky top-0 z-50">
+    <header className={`flex bg-green-50 text-green-800 p-4 w-full h-24 top-0 z-50 ${isMyPage ? "" : "sticky shadow-md"}`}>
       <div className="container mx-auto flex justify-between items-center h-full w-full">
         <Link to="/" className="text-lg font-bold">
-          <img src={image} alt="logo" className="w-28 h-auto"></img>
+          <img src={image} alt="logo" className="w-32 h-auto"></img>
         </Link>
         <nav>
           <ul className="flex gap-8">

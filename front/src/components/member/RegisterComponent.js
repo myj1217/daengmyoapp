@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkNickname, checkEmail, registerMember } from "../../api/memberApi";
+import { Link } from "react-router-dom";
+import image from "../../images/logo.png";
 
 const RegisterComponent = () => {
   const [formValues, setFormValues] = useState({
@@ -13,7 +15,10 @@ const RegisterComponent = () => {
     streetAddress: "",
     detailAddress: "",
     number: "",
+    profileImage: "",
   });
+
+  const ref = useRef();
 
   const [errors, setErrors] = useState({});
 
@@ -97,6 +102,12 @@ const RegisterComponent = () => {
 
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
+
+  const handleProfileImageChange = (e) => {
+    const file = e.target.files[0];
+    setFormValues((prev) => ({ ...prev, profileImage: file }));
+  };
+
 
   // 닉네임,이메일 실시간 중복 체크 부분
   useEffect(() => {
@@ -202,18 +213,35 @@ const RegisterComponent = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100">
+    <div className="min-h-screen flex justify-center items-center  bg-green-50 flex-col w-full">
+      <div className="w-full h-24 flex justify-center items-center">
+      <Link to="/" className="text-lg font-bold">
+          <img src={image} alt="logo" className="w-44 h-auto"></img>
+        </Link>
+        </div>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-screen-md p-8 bg-white rounded-lg shadow-xl"
+        className="w-full max-w-2xl bg-green-50 rounded-lg mb-16"
       >
+        <div className="flex w-full h-40">
+         {/* 프로필 이미지 업로드 입력 필드 */}
+         <label htmlFor="profileImage">프로필 이미지 업로드 (선택)</label>
+        <input
+          type="file"
+          name="profileImage"
+          id="profileImage"
+          ref={ref}
+          onChange={handleProfileImageChange}
+          className="w-full"/>
+          </div>
+
         {/* 이메일 입력 필드 */}
         <label htmlFor="email">이메일</label>
         {errors.valid_email && (
           <p className="text-red-500">*{errors.valid_email}</p>
         )}
         <input
-          className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
           type="text"
           name="email"
           id="email"
@@ -222,10 +250,11 @@ const RegisterComponent = () => {
           placeholder="이메일"
         />
         {/* 비밀번호 입력 필드 */}
+      
         <label htmlFor="pw">비밀번호</label>
         {errors.valid_pw && <p className="text-red-500">*{errors.valid_pw}</p>}
         <input
-          className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
           type="password"
           name="pw"
           id="pw"
@@ -240,7 +269,7 @@ const RegisterComponent = () => {
           <p className="text-red-500">*{errors.confirmPassword}</p>
         )}
         <input
-          className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
           type="password"
           name="confirmPassword"
           id="confirmPassword"
@@ -254,7 +283,7 @@ const RegisterComponent = () => {
           <p className="text-red-500">*{errors.valid_name}</p>
         )}
         <input
-          className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
           type="text"
           name="name"
           id="name"
@@ -268,7 +297,7 @@ const RegisterComponent = () => {
           <p className="text-red-500">*{errors.valid_nickname}</p>
         )}
         <input
-          className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
           type="text"
           name="nickname"
           id="nickname"
@@ -277,13 +306,13 @@ const RegisterComponent = () => {
           placeholder="닉네임"
         />
         {/* 주소 입력 필드 */}
-        <label htmlFor="zipCode">우편번호</label>
+        <label htmlFor="zipCode">우편번호 (선택)</label>
         {errors.valid_zipCode && (
           <p className="text-red-500">*{errors.valid_zipCode}</p>
         )}
         <div className="flex mb-4">
           <input
-            className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500"
+            className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500"
             type="text"
             name="zipCode"
             value={formValues.zipCode}
@@ -295,19 +324,19 @@ const RegisterComponent = () => {
           <button
             type="button"
             onClick={openPostcode}
-            className="ml-2 bg-orange-500 hover:bg-orange-600 text-white font-bold p-4 rounded-md"
+            className="ml-2 bg-orange-500 hover:bg-orange-600 text-white font-bold p-3 rounded-md"
             style={{ width: "150px" }}
           >
             주소 찾기
           </button>
         </div>
-        <label htmlFor="streetAddress">주소</label>
+        <label htmlFor="streetAddress">주소 (선택)</label>
         {errors.valid_streetAddress && (
           <p className="text-red-500">*{errors.valid_streetAddress}</p>
         )}
         <div className="flex mb-4">
           <input
-            className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500"
+            className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500"
             type="text"
             name="streetAddress"
             value={formValues.streetAddress}
@@ -317,9 +346,9 @@ const RegisterComponent = () => {
           />
         </div>
         {/* 상세 주소 입력 필드 */}
-        <label htmlFor="detailAddress">상세 주소</label>
+        <label htmlFor="detailAddress">상세 주소 (선택)</label>
         <input
-          className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
           type="text"
           name="detailAddress"
           id="detailAddress"
@@ -333,7 +362,7 @@ const RegisterComponent = () => {
           <p className="text-red-500">*{errors.valid_number}</p>
         )}
         <input
-          className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
           type="text"
           name="number"
           id="number"
@@ -351,7 +380,7 @@ const RegisterComponent = () => {
           className="w-full bg-black hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-md transition duration-200"
           type="submit"
         >
-          회원가입
+          가입하기
         </button>
       </form>
     </div>

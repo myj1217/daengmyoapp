@@ -42,7 +42,7 @@ public interface MemberService {
     public Map<String, String> validateHandling(Errors errors);
 
 
-    Member getMemberInfo(String email,String pw);
+    Member getMemberInfo(String email);
 
     boolean checkNickname(String nickname);
 

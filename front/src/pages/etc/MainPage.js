@@ -5,7 +5,9 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 // import Introduction from "../../components/main/Introduction";
 import MissingPet from "../../components/etc/MissingPet";
 // import Footer from "../../components/main/Footer";
-
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { getMember} from "../../api/memberApi";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -33,6 +35,8 @@ import {
 import { CiLogin } from "react-icons/ci";
 
 
+
+  
 // **** Main Banner ****
 const settings = {
   dots: true,
@@ -41,7 +45,7 @@ const settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   autoplay: true,
-  autoplaySpeed: 3000,
+  autoplaySpeed: 5000,
   cssEase: "linear",
   arrows: true, // 화살표 컨트롤 추가
   responsive: [
@@ -121,6 +125,21 @@ const PetCard = ({ pet }) => {
 // };
 
 const MainPage = () => {
+  const [nickname, setNickname] = useState("");
+  
+
+  const loginInfo = useSelector((state) => state.loginSlice);
+
+  useEffect(() => {
+    if(isLogin){
+    const get = async () => {
+      const memberInfo = await getMember(loginInfo.email);
+    setNickname(memberInfo.nickname);
+  };
+  get();
+}
+},[]);
+
   const { isLogin } = useCustomLogin();
   return (
     <div>
@@ -128,7 +147,7 @@ const MainPage = () => {
 
       {/* <MainBanner /> */}
       <div className="flex w-full h-full border border-bottom-2">
-      <div className="main-banner relative overflow-hidden w-3/4 m-2 h-full">
+      <div className="main-banner relative overflow-hidden w-3/4 m-2 h-full rounded-lg shadow-lg">
         <Slider {...settings}>
           <Link to="/community">
             <div className="slide-item">
@@ -146,6 +165,7 @@ const MainPage = () => {
             </div>
           </Link>
         </Slider>
+        <div className="h-7"/>
       </div>
 
       <div className="w-1/4 min-h-80 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
@@ -169,7 +189,17 @@ const MainPage = () => {
       </div>
     </>
   ) : (
-    <div>로그인된 상태</div>
+    <div className="w-full h-full items-center flex flex-col">
+
+      <div>{nickname}</div>
+
+      <Link to="member/mypage">
+          <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer h-full top-0">
+            마이페이지
+          </button>
+        </Link>
+    </div>
+    
   )}
 </div>
 
@@ -298,3 +328,4 @@ const MainPage = () => {
 };
 
 export default MainPage;
+
