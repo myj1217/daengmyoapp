@@ -1,6 +1,9 @@
 package com.back.controller.community;
 
 
+import com.back.dto.PageRequestDTO;
+import com.back.dto.PageResponseDTO;
+import com.back.dto.community.CommunityDTO;
 import com.back.dto.community.ReplyDTO;
 import com.back.service.community.ReplyService;
 import jakarta.validation.Valid;
@@ -11,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @Log4j2
-@RequestMapping("reply")
+@RequestMapping("community/reply")
 
 public class ReplyController {
 
@@ -22,13 +25,20 @@ public class ReplyController {
         this.replyService = replyService;
     }
 
-    @PostMapping("/register")
+    @GetMapping("/list/{communityBno}")
+    public PageResponseDTO<ReplyDTO> getReplyList(PageRequestDTO pageRequestDTO) {
+        log.info("Reply List입니다 " + pageRequestDTO);
+        log.info("----------d" + replyService.getReplyList(pageRequestDTO));
+        return replyService.getReplyList(pageRequestDTO);
+    }
+
+    @PostMapping("/register/{communityBno}")
     public Long regReply(@Valid @RequestBody ReplyDTO replyDTO) {
 
         return replyService.regReply(replyDTO);
     }
 
-    @PutMapping("{replyRno}")
+    @PutMapping("/{replyRno}")
     public void modReply(@PathVariable Long replyRno, @Valid @RequestBody ReplyDTO replyDTO) {
         replyDTO.setReplyRno(replyRno);
         replyService.modReply(replyDTO);

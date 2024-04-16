@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 import { Navigate } from "react-router-dom";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "./LoadingSpninner";
 
 const CommunityList = lazy(() =>
   import("../pages/community/ListCommunityPage")

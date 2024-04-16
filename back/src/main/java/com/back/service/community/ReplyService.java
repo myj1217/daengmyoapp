@@ -1,5 +1,7 @@
 package com.back.service.community;
 
+import com.back.dto.PageRequestDTO;
+import com.back.dto.PageResponseDTO;
 import com.back.dto.community.ReplyDTO;
 
 public interface ReplyService {
@@ -11,4 +13,5 @@ public interface ReplyService {
     void delReply(Long replyRno);
 
 
+    PageResponseDTO<ReplyDTO> getReplyList(PageRequestDTO pageRequestDTO);
 }
