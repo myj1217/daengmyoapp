@@ -1,68 +1,64 @@
 import { useRef, useState } from "react";
-import { postAdd } from "../../api/productApi";
+import { replyAdd } from "../../api/productReplyApi";
 import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
 import useCustomMove from "../../hooks/useCustomMove";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 const initState = {
-  pname: "",
-  pdesc: "",
-  price: 0,
-  files: [],
+  prno: 0,
+  pno: 0,
+  productReplyText: "",
+  productReplyer: "",
+  regDate: "",
 };
 
-const ProductAddComponent = () => {
+const ReviewAddComponent = ({ handleCloseModal, pno }) => {
   const loginState = useSelector((state) => state.loginSlice);
-  const navigate = useNavigate();
 
-  const [product, setProduct] = useState({ ...initState });
-  const uploadRef = useRef();
+  const [review, setReview] = useState({ ...initState });
+  //   const uploadRef = useRef();
 
   const [fetching, setFetching] = useState(false);
   const [result, setResult] = useState(null);
   const { moveToList } = useCustomMove(); //이동을 위한 함수
 
-  const handleChangeProduct = (e) => {
-    product[e.target.name] = e.target.value;
-    setProduct({ ...product });
+  // 작성한 내용 반응
+  const handleChangeReview = (e) => {
+    review[e.target.name] = e.target.value;
+    setReview({ ...review });
   };
 
+  // 추가 버튼 클릭 시 작동
   const handleClickAdd = (e) => {
-    const files = uploadRef.current.files;
+    // const files = uploadRef.current.files;
 
     const formData = new FormData();
 
-    for (let i = 0; i < files.length; i++) {
-      formData.append("files", files[i]);
-    }
+    // for (let i = 0; i < files.length; i++) {
+    //   formData.append("files", files[i]);
+    // }
 
     //other data
-    formData.append("pname", product.pname);
-    formData.append("pdesc", product.pdesc);
-    formData.append("price", product.price);
-    formData.append("artist", loginState.nickname);
+    formData.append("pno", pno);
+    formData.append("productReplyText", review.productReplyText);
+    // formData.append("regDate", review.regDate);
+    formData.append("productReplyer", loginState.nickname);
 
-    console.log("formData");
     console.log(formData);
 
     setFetching(true);
 
-    postAdd(formData).then((data) => {
+    replyAdd(formData).then((data) => {
       setFetching(false);
       setResult(data.result);
     });
   };
 
-  const handleClickList = () => {
-    navigate({ pathname: "../" });
-  };
-
   const closeModal = () => {
     //ResultModal 종료
     setResult(null);
-    navigate({ pathname: "../" });
+    moveToList({ page: 1 }); //모달 창이 닫히면 이동
   };
 
   return (
@@ -80,43 +76,43 @@ const ProductAddComponent = () => {
       )}
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">상품명</div>
+          <div className="w-1/5 p-6 text-right font-bold">작성자</div>
           <input
             className="w-4/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
-            name="pname"
+            name="productReplyer"
             type={"text"}
-            value={product.pname}
-            onChange={handleChangeProduct}
+            value={loginState.nickname}
+            onChange={handleChangeReview}
           ></input>
         </div>
       </div>
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">상품설명</div>
+          <div className="w-1/5 p-6 text-right font-bold">내용</div>
           <textarea
             className="w-4/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md resize-y"
-            name="pdesc"
+            name="productReplyText"
             rows="4"
-            onChange={handleChangeProduct}
-            value={product.pdesc}
+            onChange={handleChangeReview}
+            value={review.productReplyText}
           >
-            {product.pdesc}
+            {review.productReplyText}
           </textarea>
         </div>
       </div>
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">가격</div>
           <input
             className="w-4/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
-            name="price"
+            name="regDate"
             type={"number"}
-            value={product.price}
-            onChange={handleChangeProduct}
+            value={review.regDate}
+            onChange={handleChangeReview}
           ></input>
         </div>
-      </div>
-      <div className="flex justify-center">
+      </div> */}
+      {/* <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">파일</div>
           <input
@@ -126,22 +122,26 @@ const ProductAddComponent = () => {
             multiple={true}
           ></input>
         </div>
+      </div> */}
+      <div className="flex justify-end">
+        <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
+          <button
+            type="button"
+            className="rounded p-4 w-36 bg-gray-800 text-xl  text-white "
+            onClick={handleClickAdd}
+          >
+            추가하기
+          </button>
+        </div>
       </div>
       <div className="flex justify-end">
         <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
           <button
             type="button"
-            className="rounded mx-2 p-4 w-36 bg-gray-800 text-xl  text-white "
-            onClick={handleClickAdd}
+            className="rounded p-4 w-36 bg-gray-800 text-xl  text-white "
+            onClick={handleCloseModal}
           >
-            추가하기
-          </button>
-          <button
-            type="button"
-            className="rounded mx-2 p-4 w-36 bg-gray-800 text-xl  text-white "
-            onClick={handleClickList}
-          >
-            목록으로
+            닫기
           </button>
         </div>
       </div>
@@ -149,4 +149,4 @@ const ProductAddComponent = () => {
   );
 };
 
-export default ProductAddComponent;
+export default ReviewAddComponent;
