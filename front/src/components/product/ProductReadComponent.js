@@ -63,6 +63,23 @@ const ProductReadComponent = ({ pno }) => {
       changeCart({ email: loginState.email, pno: pno, qty: qty });
       window.alert("장바구니에 성공적으로 추가되었습니다.");
     }
+    // let qty = 1;
+
+    // const addedItem = cartItems.filter((item) => item.pno === parseInt(pno))[0];
+
+    // if (addedItem) {
+    //   if (
+    //     window.confirm(
+    //       "장바구니에 이미 추가된 상품입니다. 추가하시겠습니까? "
+    //     ) === false
+    //   ) {
+    //     return;
+    //   }
+    //   qty = addedItem.qty + 1;
+    // }
+
+    // changeCart({ email: loginState.email, pno: pno, qty: qty });
+    // window.alert("장바구니에 성공적으로 추가되었습니다.");
   };
 
   // 목록으로 돌아가기 핸들러
