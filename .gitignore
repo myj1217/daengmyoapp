@@ -2,3 +2,4 @@
 .DS_Store
 back/src/main/resources/application.properties
 front/src/api/rootApi.js
+back/build.gradle
