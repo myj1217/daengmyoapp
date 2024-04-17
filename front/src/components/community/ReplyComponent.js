@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 
 const ReplyComponent = ({ replies, setReplies }) => {
+  const repliesArray = replies || [];
+
   const [replyContent, setReplyContent] = useState("");
   const [replyWriter, setReplyWriter] = useState(""); // replyWriter 변수 선언 및 초기화
+  console.log(replies); // 확인용 콘솔 로그
 
   const handleReplySubmit = () => {
     // 댓글 등록 처리
@@ -13,6 +16,9 @@ const ReplyComponent = ({ replies, setReplies }) => {
     setReplies([...replies, newReply]);
     setReplyContent(""); // 댓글 작성 후 내용 초기화
   };
+  if (!replies || replies.length === 0) {
+    return <div>댓글이 없습니다.</div>;
+  }
 
   return (
     <div>
