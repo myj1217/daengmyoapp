@@ -72,6 +72,12 @@ public class MemberController {
         return dto;
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<List<Member>> getAllMembers() {
+        List<Member> members = memberRepository.findAll();
+        return ResponseEntity.ok(members);
+    }
+
     @PostMapping("/join")
     public ResponseEntity<Map<String, String>> join(@Valid MemberJoinDTO memberJoinDTO, Errors errors) {
         if (errors.hasErrors()) {
