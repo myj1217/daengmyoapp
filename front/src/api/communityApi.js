@@ -48,3 +48,32 @@ export const delCommunity = async (communityBno) => {
 
   return res.data;
 };
+
+//******** Reply  *************/
+
+// 댓글 리스트
+export const replyList = async (communityBno) => {
+  const res = await axios.get(`${host}/reply/list/${communityBno}`);
+  return res.data;
+};
+
+// 댓글 등록
+export const regReply = async (communityBno, reply) => {
+  const res = await jwtAxios.post(
+    `${host}/reply/register/${communityBno}`,
+    reply
+  );
+  return res.data;
+};
+
+// 댓글 수정
+export const modReply = async (replyRno, reply) => {
+  const res = await jwtAxios.put(`${host}/reply/${replyRno}`, reply);
+  return res.data;
+};
+
+// 댓글 삭제
+export const delReply = async (replyRno) => {
+  const res = await jwtAxios.delete(`${host}/reply/${replyRno}`);
+  return res.data;
+};

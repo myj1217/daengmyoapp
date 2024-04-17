@@ -4,6 +4,7 @@ import productRouter from "./productRouter";
 import memberRouter from "./memberRouter";
 import cartRouter from "./cartRouter";
 import LoadingSpinner from "./LoadingSpninner";
+import communityRouter from "./communityRouter";
 // import communityRouter from "./communityRouter";
 
 const Main = lazy(() => import("../pages/etc/MainPage"));
@@ -65,11 +66,12 @@ const rootRouter = createBrowserRouter([
   // },
   {
     path: "community",
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <Community />
-      </Suspense>
-    ),
+    // element: (
+    //   <Suspense fallback={<LoadingSpinner />}>
+    //     <Community />
+    //   </Suspense>
+    // ),
+    children: communityRouter(),
   },
 
   {

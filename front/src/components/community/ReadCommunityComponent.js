@@ -3,7 +3,8 @@ import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { API_SERVER_HOST } from "../../api/rootApi";
-import { getCommunity } from "../../api/communityApi";
+import { getCommunity, replyList, regReply } from "../../api/communityApi";
+import ReplyComponent from "./ReplyComponent";
 
 const initState = {
   communityBno: 0,
@@ -17,6 +18,10 @@ const host = API_SERVER_HOST;
 
 const ReadCommunityComponent = ({ communityBno }) => {
   const [community, setCommunity] = useState(initState);
+
+  // 댓글 상태 추가
+  const [replies, setReplies] = useState([]);
+
   //화면 이동용 함수
   const { moveToList, moveToModify } = useCustomMove();
   //fetching
@@ -31,22 +36,47 @@ const ReadCommunityComponent = ({ communityBno }) => {
       setCommunity(data);
       setFetching(false);
     });
+    fetchReplies(); // 댓글 목록 가져오기
   }, [communityBno]);
 
-  console.log("이미지정보" + community.uploadFileNames);
+  // 댓글 리스트 가져오기
+  const fetchReplies = () => {
+    replyList(communityBno)
+      .then((data) => {
+        setReplies(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching replies:", error);
+      });
+  };
+
+  // 댓글 등록 처리
+  const handleReplySubmit = async (replyContent) => {
+    try {
+      const replyData = {
+        communityBno: communityBno,
+        replyContent: replyContent,
+      };
+
+      await regReply(communityBno, replyData);
+      fetchReplies(); // 댓글 목록 다시 가져오기
+    } catch (error) {
+      console.error("Error submitting reply:", error);
+    }
+  };
 
   return (
     <div className="border-2 border-gray-300 mt-10 m-2 p-4">
       {fetching ? <FetchingModal /> : <></>}
 
       <div
-        id="comboard_image_zone"
+        id="community_image_zone"
         className="w-full justify-center flex  flex-col m-auto items-center"
       >
         {community.uploadFileNames &&
           community.uploadFileNames.map((fileName, i) => (
             <img
-              alt="comBoard"
+              alt="community"
               key={i}
               className="p-4 w-1/2"
               src={`${host}/community/view/${fileName}`}
@@ -93,7 +123,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
           <br />
           수정
         </button>
-        {/* <button
+        <button
           type="button"
           className="rounded p-4 m-2 w-32 bg-gray-800"
           onClick={moveToList}
@@ -101,8 +131,14 @@ const ReadCommunityComponent = ({ communityBno }) => {
           목록으로
           <br />
           돌아가기
-        </button> */}
+        </button>
       </div>
+      {/* 댓글 컴포넌트 추가 */}
+      <ReplyComponent
+        replies={replies}
+        setReplies={setReplies}
+        handleReplySubmit={handleReplySubmit} // 댓글 등록 핸들러 전달
+      />
     </div>
   );
 };
