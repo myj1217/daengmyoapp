@@ -1,12 +1,12 @@
 package com.back.controller.member;
 
 
-//import com.back.domain.Cart;
-//import com.back.dto.CartItemListDTO;
-//import com.back.repository.CartItemRepository;
-//import com.back.repository.CartRepository;
-//import com.back.service.CartService;
-//import com.back.service.ProductService;
+import com.back.domain.cart.Cart;
+import com.back.dto.cart.CartItemListDTO;
+import com.back.repository.cart.CartItemRepository;
+import com.back.repository.cart.CartRepository;
+import com.back.service.cart.CartService;
+import com.back.service.product.ProductService;
 import com.back.domain.member.Member;
 import com.back.dto.member.MailDTO;
 import com.back.dto.member.MemberJoinDTO;
@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/member")
 @Log4j2
 @RequiredArgsConstructor
@@ -46,9 +46,9 @@ public class MemberController {
 
     private final MailService mailService;
 
-//    private final CartItemRepository cartItemRepository;
-//
-//    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
+
+    private final CartRepository cartRepository;
 
 
     private final MemberRepository memberRepository;
@@ -71,17 +71,6 @@ public class MemberController {
                 member.getAddressCode());
         return dto;
     }
-
-
-//    @GetMapping("/info")
-//    public ResponseEntity<Member> getMemberByEmail(@RequestParam("email") String email) {
-//        Member member = memberService.getMemberInfo(email);
-//        if (member != null) {
-//            return ResponseEntity.ok(member);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//        }
-//    }
 
     @PostMapping("/join")
     public ResponseEntity<Map<String, String>> join(@Valid MemberJoinDTO memberJoinDTO, Errors errors) {
@@ -165,31 +154,31 @@ public class MemberController {
         }
     }
 
-//    @PostMapping("/delete")
-//    public ResponseEntity<String> delete(@RequestParam("email") String email, @RequestParam("password") String password) {
-//        boolean emailAndPw = memberRepository.existsByEmailAndPw(email, password);
-//        if (emailAndPw) {
-//            Member member = memberRepository.findByEmail(email);
-//            Cart cart = cartRepository.findByOwner(member);
-//            log.info("-----------------------------------------------------");
-//            log.info(cart);
-//
-//            if(cart != null) {
-//                // 1. 해당 회원의 장바구니에 연결된 모든 장바구니 항목을 삭제
-//                cartItemRepository.deleteAllByCart(cart);
-//
-//                // 2. 회원의 장바구니를 삭제
-//                cartRepository.delete(cart);
-//            }
-//
-//            // 3. 회원을 삭제
-//            memberRepository.delete(member);
-//
-//            return ResponseEntity.ok("회원 탈퇴되었습니다.");
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("비밀번호가 올바르지 않습니다.");
-//        }
-//    }
+    @PostMapping("/delete")
+    public ResponseEntity<String> delete(@RequestParam("email") String email, @RequestParam("password") String password) {
+        boolean emailAndPw = memberRepository.existsByEmailAndPw(email, password);
+        if (emailAndPw) {
+            Member member = memberRepository.findByEmail(email);
+            Cart cart = cartRepository.findByOwner(member);
+            log.info("-----------------------------------------------------");
+            log.info(cart);
+
+            if(cart != null) {
+                // 1. 해당 회원의 장바구니에 연결된 모든 장바구니 항목을 삭제
+                cartItemRepository.deleteAllByCart(cart);
+
+                // 2. 회원의 장바구니를 삭제
+                cartRepository.delete(cart);
+            }
+
+            // 3. 회원을 삭제
+            memberRepository.delete(member);
+
+            return ResponseEntity.ok("회원 탈퇴되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("비밀번호가 올바르지 않습니다.");
+        }
+    }
 
 
 
@@ -232,12 +221,15 @@ public class MemberController {
     @GetMapping("/kakao")
     public Map<String, Object> getMemberFromKakao(String accessToken) {
 
+        log.info("accessToken ");
+        log.info(accessToken);
+
         MemberSecurityDTO memberSecurityDTO = memberService.getKakaoMember(accessToken);
 
         Map<String, Object> claims = memberSecurityDTO.getClaims();
 
-        String jwtAccessToken = JWTUtil.generateToken(claims, 10);
-        String jwtRefreshToken = JWTUtil.generateToken(claims, 60*1);
+        String jwtAccessToken = JWTUtil.generateToken(claims, 30);
+        String jwtRefreshToken = JWTUtil.generateToken(claims, 60*24);
 
         claims.put("accessToken", jwtAccessToken);
         claims.put("refreshToken", jwtRefreshToken);

@@ -61,7 +61,7 @@ public class MemberSecurityDTO extends User {
 
     public Map<String, Object> getClaims() {
 
-            Map<String, Object> dataMap = new HashMap<>(); // LinkedHashMap 사용
+            Map<String, Object> dataMap = new HashMap<>();
 
             dataMap.put("email", email);
             dataMap.put("pw", pw);

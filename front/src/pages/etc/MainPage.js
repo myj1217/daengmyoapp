@@ -100,28 +100,6 @@ const PetCard = ({ pet }) => {
   );
 };
 
-// **** Missing Pet ****
-
-// const lostPets = [
-//   {
-//     id: 1,
-//     name: "루피",
-//     age: "3",
-//     gender: "수컷",
-//     image: loopy,
-//     details: "마지막으로 서울 강남구에서 발견되었습니다.",
-//   },
-// ];
-
-// const containerStyle = {
-//   width: "95%",
-//   height: "95%",
-// };
-
-// const center = {
-//   lat: 37.4979,
-//   lng: 127.0276,
-// };
 
 const MainPage = () => {
   const loginInfo = useSelector((state) => state.loginSlice);
@@ -163,7 +141,7 @@ const MainPage = () => {
         <div className="h-7"/>
       </div>
 
-      <div className="w-1/4 min-h-80 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
+      <div className="w-1/4 min-h-40 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
   <div className="w-full flex items-center justify-center mb-auto mt-2 border-b-2 pb-2">
     <FaUser className="text-3xl mr-2 mt-1 w-5 f-5" />
     <p className="text-xl font-bold">프로필</p>
@@ -186,7 +164,7 @@ const MainPage = () => {
   ) : (
     <div className="w-full h-full items-center flex flex-col">
 
-      <div>{nickname}</div>
+      <div>{nickname} 님</div>
 
       <Link to="member/mypage">
           <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer h-full top-0">
@@ -219,43 +197,7 @@ const MainPage = () => {
       </div>
 
       <MissingPet />
-      {/* <LoadScript
-        googleMapsApiKey="AIzaSyAIGX6HrHtDewguKt0oJLSHMGENuIRSfFo" // API 키
-        onLoad={() => setMapLoaded(true)}
-      >
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={13}
-          options={{
-            mapTypeControl: true,
-            zoomControl: false,
-            streetViewControl: false,
-            fullscreenControl: false,
-            styles: [
-              { elementType: "geometry", stylers: [{ color: "#ebe3cd" }] },
-              {
-                elementType: "labels.text.fill",
-                stylers: [{ color: "#523735" }],
-              },
-              {
-                elementType: "labels.text.stroke",
-                stylers: [{ color: "#f5f1e6" }],
-              },
-            ],
-          }}
-        >
-          {mapLoaded && (
-            <Marker
-              position={center}
-              icon={{
-                url: loopy,
-                scaledSize: new window.google.maps.Size(100, 100),
-              }}
-            />
-          )}
-        </GoogleMap>
-      </LoadScript> */}
+   
 
       {/* <Footer /> */}
       <footer className="bg-gray-200 text-gray-800 text-center p-4">
