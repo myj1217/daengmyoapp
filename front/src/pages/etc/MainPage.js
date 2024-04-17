@@ -125,10 +125,9 @@ const PetCard = ({ pet }) => {
 // };
 
 const MainPage = () => {
-  const [nickname, setNickname] = useState("");
-  
-
   const loginInfo = useSelector((state) => state.loginSlice);
+  const [nickname, setNickname] = useState("");
+  const { isLogin } = useCustomLogin();
 
   useEffect(() => {
     if(isLogin){
@@ -138,9 +137,9 @@ const MainPage = () => {
   };
   get();
 }
-},[]);
+},[isLogin]);
 
-  const { isLogin } = useCustomLogin();
+  
   return (
     <div>
       <BasicMenu />
@@ -208,7 +207,7 @@ const MainPage = () => {
         <div className="text-center text-4xl font-bold mb-6">
           당신을 기다리고 있는 천사들
         </div>
-        <div className="flex flex-row justify-center gap-4 overflow-auto">
+        <div className="flex flex-row justify-center gap-4 p-6">
           {pets.map((pet) => (
             <PetCard key={pet.id} pet={pet} />
           ))}
