@@ -11,7 +11,7 @@ const ModifyComponent = ({ setIsModify }) => {
     confirmPassword: "",
     name: "",
     nickname: "",
-    zipCode: "",
+    addressCode: "",
     streetAddress: "",
     detailAddress: "",
     number: "",
@@ -24,12 +24,8 @@ const ModifyComponent = ({ setIsModify }) => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    const get = async () => {
-      const memberInfo = await getMember(loginInfo.email);
-      setMember({ ...memberInfo });
-      setOriginalNickname(memberInfo.nickname);
-    };
-    get();
+      setMember({ ...loginInfo });
+      setOriginalNickname(loginInfo.nickname);
   }, []);
 
   //정보수정 전송
@@ -88,7 +84,7 @@ const ModifyComponent = ({ setIsModify }) => {
           fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
         }
 
-        setMember({ ...member, streetAddress: fullAddress, zipCode: code });
+        setMember({ ...member, streetAddress: fullAddress, addressCode: code });
       },
     }).open();
   };
@@ -258,17 +254,17 @@ const ModifyComponent = ({ setIsModify }) => {
           placeholder="닉네임"
         />
         {/* 주소 입력 필드 */}
-        <label htmlFor="zipCode">우편번호</label>
-        {errors.valid_zipCode && (
-          <p className="text-red-500">*{errors.valid_zipCode}</p>
+        <label htmlFor="addressCode">우편번호</label>
+        {errors.valid_addressCode && (
+          <p className="text-red-500">*{errors.valid_addressCode}</p>
         )}
         <div className="flex mb-4">
           <input
             className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500"
             type="text"
-            id="zipCode"
-            name="zipCode"
-            value={member.zipCode}
+            id="addressCode"
+            name="addressCode"
+            value={member.addressCode}
             onChange={handleChange}
             placeholder="우편번호"
             readOnly

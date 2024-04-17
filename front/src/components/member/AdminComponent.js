@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import InfoComponent from "./InfoComponent";
 import { useSelector } from "react-redux";
-import AdminComponent from "./AdminComponent";
 
-const MyPageComponent = () => {
+const AdminComponent = () => {
   const [selectedTab, setSelectedTab] = useState("profile"); // 선택된 탭 상태
   
   const loginInfo = useSelector((state) => state.loginSlice);
@@ -17,14 +16,12 @@ const MyPageComponent = () => {
   // 선택된 탭에 따라 해당 컴포넌트를 렌더링하는 함수
   const renderTabContent = () => {
     switch (selectedTab) {
-      case "profile":
-        return <InfoComponent />;
+      case "members":
+        return <div>멤버관리페이지</div>;
       case "write":
         return <div>글</div>;
       case "orders":
-        return <div>주문</div>;
-      case "admin":
-        return <AdminComponent />;
+        return <div>문의목록페이지</div>;
       // 다른 탭에 대한 렌더링을 추가할 수 있음
       default:
         return;
@@ -32,11 +29,11 @@ const MyPageComponent = () => {
   };
 
   return (
-    <div className="flex w-full max-h-screen-24">
-      {/* 왼쪽에 탭 메뉴 */}
-      <div className="w-1/4">
+    <div className="flex w-full h-full flex-col">
+      {/* 위쪽 탭 메뉴 */}
+      <div className="w-full border-b-2">
 
-        <div className="flex flex-col">
+        <div className="flex flex-row w-full">
           <button
             onClick={() => handleTabClick("profile")}
             className={`p-3 cursor-pointer ${
@@ -45,7 +42,7 @@ const MyPageComponent = () => {
                 : "transition duration-200 hover:bg-gray-400"
             }`}
           >
-            회원 정보
+            회원 관리
           </button>
           <button
             onClick={() => handleTabClick("write")}
@@ -55,7 +52,7 @@ const MyPageComponent = () => {
                 : "transition duration-200 hover:bg-gray-400"
             }`}
           >
-            글 작성 목록
+            신고 목록
           </button>
           <button
             onClick={() => handleTabClick("orders")}
@@ -65,26 +62,15 @@ const MyPageComponent = () => {
                 : "transition duration-200 hover:bg-gray-400"
             }`}
           >
-            주문
+            주문 목록
           </button>
-          {isAdmin && (
-          <button
-          onClick={() => handleTabClick("admin")}
-          className={`p-3 cursor-pointer ${
-            selectedTab === "admin"
-              ? "bg-gray-300 hover:bg-gray-400 transition duration-200"
-              : "transition duration-200 hover:bg-gray-400"
-          }`}
-        >
-          관리자 페이지
-        </button>)}
           {/* 다른 탭을 추가할 수 있음 */}
         </div>
       </div>
-      {/* 오른쪽에 선택된 탭 컨텐츠 */}
-      <div className="w-4/5">{renderTabContent()}</div>
+      {/* 아래쪽 탭 컨텐츠 */}
+      <div className="w-full">{renderTabContent()}</div>
     </div>
   );
 };
 
-export default MyPageComponent;
+export default AdminComponent;

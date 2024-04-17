@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/member")
@@ -53,16 +55,33 @@ public class MemberController {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final MemberSecurityDTO entityToDTO(Member member){
 
-    @GetMapping("/info")
-    public ResponseEntity<Member> getMemberByEmail(@RequestParam("email") String email) {
-        Member member = memberService.getMemberInfo(email);
-        if (member != null) {
-            return ResponseEntity.ok(member);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        MemberSecurityDTO dto = new MemberSecurityDTO(
+                member.getEmail(),
+                member.getPw(),
+                member.getName(),
+                member.getNumber(),
+                member.getNickname(),
+                member.getStreetAddress(),
+                member.getDetailAddress(),
+                member.getMemberRoleList()
+                        .stream()
+                        .map(memberRole -> memberRole.name()).collect(Collectors.toList()),
+                member.getAddressCode());
+        return dto;
     }
+
+
+//    @GetMapping("/info")
+//    public ResponseEntity<Member> getMemberByEmail(@RequestParam("email") String email) {
+//        Member member = memberService.getMemberInfo(email);
+//        if (member != null) {
+//            return ResponseEntity.ok(member);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+//        }
+//    }
 
     @PostMapping("/join")
     public ResponseEntity<Map<String, String>> join(@Valid MemberJoinDTO memberJoinDTO, Errors errors) {
@@ -81,7 +100,7 @@ public class MemberController {
 
 
     @PutMapping("/modify")
-    public ResponseEntity<Map<String, String>> modify(@Valid MemberModifyDTO memberModifyDTO, Errors errors) {
+    public ResponseEntity<Map<String, ?>> modify(@Valid MemberModifyDTO memberModifyDTO, Errors errors) {
 
         if (errors.hasErrors()) {
             /* 유효성 통과 못한 필드와 메시지를 핸들링 */
@@ -90,11 +109,22 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(validatorResult);
 
         }
-
         //수정처리 완료
         memberService.modifyMember(memberModifyDTO);
 
-        return ResponseEntity.ok().build();
+        Member member = memberRepository.findByEmail(memberModifyDTO.getEmail());
+
+        MemberSecurityDTO memberSecurityDTO = entityToDTO(member);
+
+        Map<String, Object> claims = memberSecurityDTO.getClaims();
+
+        String newAccessToken = JWTUtil.generateToken(claims, 30); // 새로운 액세스 토큰 생성
+        String newRefreshToken = JWTUtil.generateToken(claims, 60 * 24); // 새로운 리프레시 토큰 생성
+
+        claims.put("accessToken", newAccessToken);
+        claims.put("refreshToken", newRefreshToken);
+
+        return ResponseEntity.ok().body(claims);
 
     }
 
@@ -170,6 +200,11 @@ public class MemberController {
     @GetMapping("/check/nickname/{nickname}")
     public ResponseEntity<?> checkNickname(@PathVariable("nickname") String nickname) {
 
+        // 회원 테이블의 존재 여부를 확인
+        if (!memberService.isMemberTableExists()) {
+            // 회원 테이블이 없으면 닉네임 사용 가능
+            return ResponseEntity.status(HttpStatus.OK).body(true);
+        }
 
         if (memberService.checkNickname(nickname)) {
             return ResponseEntity.status(HttpStatus.OK).body(false);
@@ -181,6 +216,11 @@ public class MemberController {
     @GetMapping("/check/email/{email}")
     public ResponseEntity<?> checkEmail(@PathVariable("email") String email) {
 
+        // 회원 테이블의 존재 여부를 확인
+        if (!memberService.isMemberTableExists()) {
+            // 회원 테이블이 없으면 닉네임 사용 가능
+            return ResponseEntity.status(HttpStatus.OK).body(true);
+        }
 
         if (memberService.checkEmail(email)) {
             return ResponseEntity.status(HttpStatus.OK).body(false);
@@ -189,30 +229,8 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(true);
     }
 
-    @PostMapping("/modifyPw")
-    @ResponseBody
-    public ResponseEntity<String> modifyPw(@RequestParam("email")String email,
-                                           @RequestParam("pw")String pw,
-                                           @RequestParam("newPw")String newPw) {
-        // 이메일과 일치하는 회원이 존재하는지 확인
-        Member member = memberRepository.findByEmail(email);
-        // 비밀번호 검사하기
-        if (passwordEncoder.matches(pw,member.getPw())) {
-            member.changePw(passwordEncoder.encode(newPw));
-            memberRepository.save(member);
-            log.info(email + "의 비밀번호가 변경되었습니다.");
-            return ResponseEntity.ok("비밀번호가 성공적으로 재설정되었습니다.");
-        } else {
-            log.info(email + "의 비밀번호가 변경 실패.");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("기존 비밀번호가 일치하지 않습니다.");
-        }
-    }
-
     @GetMapping("/kakao")
     public Map<String, Object> getMemberFromKakao(String accessToken) {
-
-        log.info("accessToken ");
-        log.info(accessToken);
 
         MemberSecurityDTO memberSecurityDTO = memberService.getKakaoMember(accessToken);
 

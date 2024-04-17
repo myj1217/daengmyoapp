@@ -11,7 +11,7 @@ const RegisterComponent = () => {
     confirmPassword: "",
     name: "",
     nickname: "",
-    zipCode: "",
+    addressCode: "",
     streetAddress: "",
     detailAddress: "",
     number: "",
@@ -176,7 +176,7 @@ const RegisterComponent = () => {
         setFormValues({
           ...formValues,
           streetAddress: fullAddress,
-          zipCode: code,
+          addressCode: code,
         });
       },
     }).open();
@@ -290,16 +290,16 @@ const RegisterComponent = () => {
           placeholder="닉네임"
         />
         {/* 주소 입력 필드 */}
-        <label htmlFor="zipCode">우편번호 (선택)</label>
-        {errors.valid_zipCode && (
-          <p className="text-red-500">*{errors.valid_zipCode}</p>
+        <label htmlFor="addressCode">우편번호 (선택)</label>
+        {errors.valid_addressCode && (
+          <p className="text-red-500">*{errors.valid_addressCode}</p>
         )}
         <div className="flex mb-4">
           <input
             className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500"
             type="text"
-            name="zipCode"
-            value={formValues.zipCode}
+            name="addressCode"
+            value={formValues.addressCode}
             placeholder="우편번호"
             onChange={handleChange}
             readOnly

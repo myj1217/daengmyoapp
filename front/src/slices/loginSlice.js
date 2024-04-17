@@ -11,8 +11,13 @@ const loadMemberCookie = () => {
   const memberInfo = getCookie("member");
 
   //닉네임 처리하여 사용자가 입력한 값중에 특수문자나 공백이 포함되면 디코딩하여 제대로 된 형태로 표시
-  if (memberInfo && memberInfo.nickname) {
-    memberInfo.nickname = decodeURIComponent(memberInfo.nickname);
+  if (memberInfo) {
+    if(memberInfo.nickname){
+    memberInfo.nickname = decodeURIComponent(memberInfo.nickname);}
+    if(memberInfo.streetAddres){
+      memberInfo.streetAddres = decodeURIComponent(memberInfo.streetAddress);}
+    if(memberInfo.detailAddress){
+      memberInfo.detailAddress = decodeURIComponent(memberInfo.detailAddress);}
   }
   return memberInfo;
 };

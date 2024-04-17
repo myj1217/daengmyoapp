@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwtAxios from "../utils/jwtUtil";
-
+import { removeCookie, setCookie } from "../utils/cookieUtil";
 import { API_SERVER_HOST } from "./rootApi";
 
 const header = {
@@ -19,15 +19,14 @@ export const loginPost = async (loginParam) => {
   return res.data;
 };
 
-export const getMember = async (email) => {
-  try {
-    const response = await jwtAxios.get(`${host}/info?email=${email}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching member info:', error);
-    return null;
-  }
-};
+// export const getMember = async (email) => {
+//   try {
+//     const response = await jwtAxios.get(`${host}/info?email=${email}`);
+//     return response.data;
+//   } catch (error) {
+//     return null;
+//   }
+// };
 
 export const modifyMember = async (member) => {
   const form = new FormData();
@@ -36,12 +35,13 @@ export const modifyMember = async (member) => {
   form.append("name", member.name);
   form.append("nickname", member.nickname);
   form.append("number", member.number);
-  form.append("zipCode", member.zipCode);
+  form.append("addressCode", member.addressCode);
   form.append("streetAddress", member.streetAddress);
   form.append("detailAddress", member.detailAddress);
   try {
     const res = await jwtAxios.put(`${host}/modify`, form);
-
+    removeCookie("member")
+    setCookie("member", JSON.stringify(res.data), 1);
     return res.data;
   } catch (error) {
     throw error.response.data; // 오류 응답 반환
@@ -134,7 +134,7 @@ export const registerMember = async (register) => {
   form.append("name", register.name);
   form.append("nickname", register.nickname);
   form.append("number", register.number);
-  form.append("zipCode", register.zipCode);
+  form.append("addressCode", register.addressCode);
   form.append("streetAddress", register.streetAddress);
   form.append("detailAddress", register.detailAddress);
 

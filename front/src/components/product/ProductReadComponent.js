@@ -34,6 +34,7 @@ const ProductReadComponent = ({ pno }) => {
   const { changeCart, cartItems } = useCustomCart();
   const { isLogin, loginState } = useCustomLogin();
   const navigate = useNavigate();
+  const [reviewModal, setReviewModal] = useState(false); // 모달 상태 추가
 
   // 장바구니 담기 핸들러
   const handleClickAddCart = () => {
@@ -66,6 +67,20 @@ const ProductReadComponent = ({ pno }) => {
   // 목록으로 돌아가기 핸들러
   const handleClickList = () => {
     navigate("/products/list");
+  };
+
+  const reviewHandler = () => {
+    if (!isLogin) {
+      if (
+        window.confirm(
+          "로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?"
+        ) === false
+      ) {
+        return;
+      }
+      navigate("/member/login");
+    }
+    setReviewModal(true); // 모달 열기
   };
 
   useEffect(() => {
@@ -156,29 +171,62 @@ const ProductReadComponent = ({ pno }) => {
           </div>
         </div>
       </div>
-      {/* <div
+      <div
         id="review zone"
         className="w-full border-2 border-gray-300 mt-4 m-2 p-4"
       >
         <div className="flex flex-col">
-          {review.dtoList.map((product) => (
+          {review.dtoList ? (
+            review.dtoList.map((product) => (
+              <div
+                key={product.prno}
+                className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
+              >
+                <div className="flex text-lg p-4 justify-between">
+                  <div className="w-1/4 text-center p-1">
+                    {product.productReplyer}
+                  </div>
+                  <div className="w-2/4 text-center p-1">
+                    {product.productReplyText}
+                  </div>
+                  <div className="w-1/4 text-center p-1">{product.regDate}</div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div>No reviews available</div>
+          )}
+        </div>
+        <button
+          type="button"
+          className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600 text-white"
+          onClick={reviewHandler}
+        >
+          리뷰 작성하기
+        </button>
+        {reviewModal && ( // 모달 표시 조건 추가
+          <div
+            className="fixed top-0 left-0 w-full h-full flex justify-center items-center overflow-y-auto bg-black bg-opacity-80"
+            style={{ zIndex: 9999 }}
+          >
             <div
-              key={product.prno}
-              className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
+              className="bg-white p-8 rounded-lg"
+              style={{ width: "400px", height: "600px", zIndex: 9999999 }}
             >
-              <div className="flex text-lg p-4 justify-between">
-                <div className="w-1/4 text-center p-1">
-                  {product.productReplyer}
-                </div>
-                <div className="w-2/4 text-center p-1">
-                  {product.productReplyText}
-                </div>
-                <div className="w-1/4 text-center p-1">{product.regDate}</div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              >
+                <h1>리뷰모달입니다.</h1>
               </div>
             </div>
-          ))}
-        </div>
-      </div> */}
+          </div>
+        )}
+      </div>
     </>
   );
 };

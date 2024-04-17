@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getList } from "../../api/productApi";
 import useCustomMove from "../../hooks/useCustomMove";
 
 import { API_SERVER_HOST } from "../../api/rootApi";
 import PageComponent from "../common/PageComponent";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import { useNavigate } from "react-router-dom";
 
 const host = API_SERVER_HOST;
 
@@ -24,9 +25,14 @@ const initState = {
 const ProductListComponent = () => {
   const { exceptionHandle } = useCustomLogin();
   const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
+  const navigate = useNavigate();
 
   //serverData는 나중에 사용
   const [serverData, setServerData] = useState(initState);
+
+  const handleClickAdd = useCallback(() => {
+    navigate({ pathname: "../add" });
+  });
 
   useEffect(() => {
     getList({ page, size })
@@ -61,10 +67,14 @@ const ProductListComponent = () => {
           </div>
         ))}
       </div>
-      <PageComponent
-        serverData={serverData}
-        movePage={moveToList}
-      ></PageComponent>
+      <PageComponent serverData={serverData} movePage={moveToList} />
+      <div
+        // className="m-1 p-2 w-30 font-extrabold text-center underline"
+        className="block w-1/3 py-2 bg-gray-900 text-white text-center mt-4 hover:bg-gray-700 transition duration-200 ease-in-out mx-auto cursor-pointer"
+        onClick={handleClickAdd}
+      >
+        상품 추가
+      </div>
     </div>
   );
 };

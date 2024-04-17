@@ -37,6 +37,13 @@ public class MemberServiceImpl implements MemberService {
 
     private final PasswordEncoder passwordEncoder;
 
+
+    public boolean isMemberTableExists() {
+        int count = memberRepository.countMemberTable();
+        return count > 0;
+    }
+
+
     //일반 회원가입 부분
     @Override
     public void join(MemberJoinDTO memberJoinDTO){
@@ -47,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
                 .name(memberJoinDTO.getName())
                 .nickname(memberJoinDTO.getNickname())
                 .number(memberJoinDTO.getNumber())
-                .zipCode(memberJoinDTO.getNumber())
+                .addressCode(memberJoinDTO.getAddressCode())
                 .streetAddress(memberJoinDTO.getStreetAddress())
                 .detailAddress(memberJoinDTO.getDetailAddress())
                 .build();
@@ -153,9 +160,8 @@ public class MemberServiceImpl implements MemberService {
                 .pw(passwordEncoder.encode(tempPassword))
                 .name(name)
                 .nickname("카카오#" + randomString) // 랜덤 문자열을 닉네임에 추가.
-//                .social(true)
                 .number("전화번호를 수정 해주세요.")
-                .zipCode("")
+                .addressCode("")
                 .streetAddress("")
                 .detailAddress("")
                 .build();
@@ -183,11 +189,10 @@ public class MemberServiceImpl implements MemberService {
 
 
 
-//        member.changePw(passwordEncoder.encode(memberModifyDTO.getPw()));
-//        member.changeSocial(false);
+
         member.changeName(memberModifyDTO.getName());
         member.changeNumber(memberModifyDTO.getNumber());
-        member.changeZipCode(memberModifyDTO.getZipCode());
+        member.changeAddressCode(memberModifyDTO.getAddressCode());
         member.changeNickname(memberModifyDTO.getNickname());
         member.changeStreetAddress(memberModifyDTO.getStreetAddress());
         member.changeDetailAddress(memberModifyDTO.getDetailAddress());
