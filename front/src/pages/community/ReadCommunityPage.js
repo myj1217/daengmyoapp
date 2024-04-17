@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
 import ReadCommunityComponent from "../../components/community/ReadCommunityComponent";
+import ReplyComponent from "../../components/community/ReplyComponent";
 
 const ReadCommunityPage = () => {
   const { communityBno } = useParams();

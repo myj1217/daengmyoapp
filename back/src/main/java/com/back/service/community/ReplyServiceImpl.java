@@ -30,7 +30,7 @@ public class ReplyServiceImpl implements ReplyService  {
     private final ModelMapper modelMapper;
 
     @Override
-    public PageResponseDTO<ReplyDTO> getReplyList(PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<ReplyDTO> getReplyList(Long communityBno, PageRequestDTO pageRequestDTO) {
         log.info("getList..............");
 
         Pageable pageable = PageRequest.of(
@@ -38,29 +38,13 @@ public class ReplyServiceImpl implements ReplyService  {
                 pageRequestDTO.getSize(),
                 Sort.by("replyRno").descending());
 
-        Page<Object[]> result = replyRepository.selectList(pageable);
+        Page<Reply> result = replyRepository.selectList(communityBno, pageable); // selectList 메서드 수정 필요
 
-        log.info("커뮤니티 게시글 리스트입니다. " + result);
+        log.info("커뮤니티 댓글 리스트입니다. " + result);
 
-
-        List<ReplyDTO> dtoList = result.get().map(arr -> {
-            Reply reply = (Reply) arr[0];
-//            CommunityImage communityImage = (CommunityImage) arr[1];
-
-            ReplyDTO replyDTO = ReplyDTO.builder()
-                    .replyRno(reply.getReplyRno())
-                    .replyContent(reply.getReplyContent())
-                    .replyWriter(reply.getReplyWriter())
-                    .build();
-
-//            // CommunityImage 객체가 null이 아닌 경우에만 이미지 파일명을 설정합니다.
-//            if (communityImage != null) {
-//                String imageStr = communityImage.getFileName();
-//                communityDTO.setUploadFileNames(List.of(imageStr));
-//            }
-
-            return replyDTO;
-        }).collect(Collectors.toList());
+        List<ReplyDTO> dtoList = result.getContent().stream()
+                .map(reply -> modelMapper.map(reply, ReplyDTO.class))
+                .collect(Collectors.toList());
 
         long totalCount = result.getTotalElements();
 

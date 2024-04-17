@@ -3,7 +3,8 @@ import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { API_SERVER_HOST } from "../../api/rootApi";
-import { getCommunity, regReply, replyList } from "../../api/communityApi";
+import { getCommunity, replyList, regReply } from "../../api/communityApi";
+import ReplyComponent from "./ReplyComponent";
 
 const initState = {
   communityBno: 0,
@@ -18,9 +19,7 @@ const host = API_SERVER_HOST;
 const ReadCommunityComponent = ({ communityBno }) => {
   const [community, setCommunity] = useState(initState);
 
-  // 댓글 내용 상태 추가
-  const [replyContent, setReplyContent] = useState("");
-  // 댓글 목록 상태 추가
+  // 댓글 상태 추가
   const [replies, setReplies] = useState([]);
 
   //화면 이동용 함수
@@ -40,7 +39,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
     fetchReplies(); // 댓글 목록 가져오기
   }, [communityBno]);
 
-  // 댓글 리스트
+  // 댓글 리스트 가져오기
   const fetchReplies = () => {
     replyList(communityBno)
       .then((data) => {
@@ -51,8 +50,8 @@ const ReadCommunityComponent = ({ communityBno }) => {
       });
   };
 
-  // 댓글 등록
-  const handleReplySubmit = async () => {
+  // 댓글 등록 처리
+  const handleReplySubmit = async (replyContent) => {
     try {
       const replyData = {
         communityBno: communityBno,
@@ -60,7 +59,6 @@ const ReadCommunityComponent = ({ communityBno }) => {
       };
 
       await regReply(communityBno, replyData);
-      setReplyContent(""); // 댓글 작성 후 내용 초기화
       fetchReplies(); // 댓글 목록 다시 가져오기
     } catch (error) {
       console.error("Error submitting reply:", error);
@@ -135,37 +133,12 @@ const ReadCommunityComponent = ({ communityBno }) => {
           돌아가기
         </button>
       </div>
-      {/* 댓글 목록 */}
-      <div className="mt-4 border-t pt-4">
-        <h2 className="text-lg font-semibold mb-2">댓글</h2>
-        {replies.map((reply) => (
-          <div key={reply.replyRno} className="border-b py-2">
-            <div className="flex justify-between">
-              <div>{reply.replyWriter}</div>
-              {/* <div>{reply.replyDate}</div> */}
-            </div>
-            <div>{reply.replyContent}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* 댓글 입력 폼 */}
-      <div className="mt-4">
-        <h2 className="text-lg font-semibold mb-2">댓글 작성</h2>
-        <textarea
-          className="border p-2 w-full"
-          value={replyContent}
-          onChange={(e) => setReplyContent(e.target.value)}
-          rows="4"
-          placeholder="댓글을 입력하세요..."
-        ></textarea>
-        <button
-          className="mt-2 bg-gray-800 text-white py-2 px-4 rounded"
-          onClick={handleReplySubmit}
-        >
-          댓글 작성
-        </button>
-      </div>
+      {/* 댓글 컴포넌트 추가 */}
+      <ReplyComponent
+        replies={replies}
+        setReplies={setReplies}
+        handleReplySubmit={handleReplySubmit} // 댓글 등록 핸들러 전달
+      />
     </div>
   );
 };

@@ -13,5 +13,5 @@ public interface ReplyService {
     void delReply(Long replyRno);
 
 
-    PageResponseDTO<ReplyDTO> getReplyList(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<ReplyDTO> getReplyList(Long communityBno, PageRequestDTO pageRequestDTO);
 }

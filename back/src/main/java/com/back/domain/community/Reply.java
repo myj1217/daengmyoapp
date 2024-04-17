@@ -27,7 +27,7 @@ public class Reply {
     private String replyContent;
 
     @Column(length = 10)
-    private String ReplyWriter;
+    private String replyWriter;
 
     public void changeContent(String updatedContent) {
         this.replyContent = updatedContent;
