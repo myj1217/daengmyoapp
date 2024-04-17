@@ -19,6 +19,16 @@ export const loginPost = async (loginParam) => {
   return res.data;
 };
 
+export const getMember = async (email) => {
+  try {
+    const response = await jwtAxios.get(`${host}/info?email=${email}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching member info:', error);
+    return null;
+  }
+};
+
 export const modifyMember = async (member) => {
   const form = new FormData();
   form.append("email", member.email);

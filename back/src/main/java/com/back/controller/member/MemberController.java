@@ -54,12 +54,15 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
 
 
-    @GetMapping("/test1")
-    public String getMemberInfo(Authentication authentication) {
-        String email = authentication.getPrincipal().toString();
-        return email;
+    @GetMapping("/info")
+    public ResponseEntity<Member> getMemberByEmail(@RequestParam("email") String email) {
+        Member member = memberService.getMemberInfo(email);
+        if (member != null) {
+            return ResponseEntity.ok(member);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
-
 
     @PostMapping("/join")
     public ResponseEntity<Map<String, String>> join(@Valid MemberJoinDTO memberJoinDTO, Errors errors) {

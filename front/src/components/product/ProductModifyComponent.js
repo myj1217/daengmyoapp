@@ -18,14 +18,9 @@ const host = API_SERVER_HOST;
 
 const ProductModifyComponent = ({ pno }) => {
   const [product, setProduct] = useState(initState);
-
-  //결과 모달
   const [result, setResult] = useState(null);
-  //이동용 함수
   const { moveToRead, moveToList } = useCustomMove();
-
   const [fetching, setFetching] = useState(false);
-
   const uploadRef = useRef();
 
   useEffect(() => {
@@ -53,6 +48,7 @@ const ProductModifyComponent = ({ pno }) => {
     setProduct({ ...product });
   };
 
+  // 수정완료
   const handleClickModify = () => {
     const files = uploadRef.current.files;
 
@@ -81,6 +77,8 @@ const ProductModifyComponent = ({ pno }) => {
       setFetching(false);
     });
   };
+
+  // 삭제
   const handleClickDelete = () => {
     setFetching(true);
     deleteOne(pno).then((data) => {
@@ -88,6 +86,7 @@ const ProductModifyComponent = ({ pno }) => {
       setFetching(false);
     });
   };
+
   const closeModal = () => {
     if (result === "Modified") {
       moveToRead(pno);

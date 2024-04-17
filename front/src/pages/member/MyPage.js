@@ -2,6 +2,7 @@ import MyPageComponent from "../../components/member/MyPageComponent";
 import { FaUser } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import BasicMenu from "../../components/menus/BasicMenu";
 
 const MyPagePage = () => {
   const loginState = useSelector((state) => state.loginSlice);
@@ -18,10 +19,10 @@ const MyPagePage = () => {
 
   return (
     <div>
-      {/* <BasicLayout /> */}
+      <BasicMenu />
       <div className="flex flex-col w-full">
         {/* "커뮤니티" 헤더 */}
-        <div className="h-11 bg-gray-700 text-white flex items-center pl-8 sticky top-0 z-55">
+        <div className="h-11 bg-green-100 shadow-md text-gray-700 flex items-center pl-8 sticky top-0 z-55">
           <FaUser className="w-6 h-6 mr-2" />
           마이 페이지
         </div>

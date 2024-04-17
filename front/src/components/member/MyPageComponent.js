@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import InfoComponent from "./InfoComponent";
+import { useSelector } from "react-redux";
 
 const MyPageComponent = () => {
   const [selectedTab, setSelectedTab] = useState("profile"); // 선택된 탭 상태
+  
+  const loginInfo = useSelector((state) => state.loginSlice);
 
+  const isAdmin = loginInfo.memberRoleList.includes("ADMIN");
   // 탭을 클릭했을 때 호출되는 함수
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -14,8 +18,12 @@ const MyPageComponent = () => {
     switch (selectedTab) {
       case "profile":
         return <InfoComponent />;
+      case "write":
+        return <div>글</div>;
       case "orders":
-        return <div>감사합니다.</div>;
+        return <div>주문</div>;
+      case "admin":
+        return <div>관리자 전용 페이지</div>
       // 다른 탭에 대한 렌더링을 추가할 수 있음
       default:
         return;
@@ -39,6 +47,16 @@ const MyPageComponent = () => {
             회원 정보
           </button>
           <button
+            onClick={() => handleTabClick("write")}
+            className={`p-3 cursor-pointer ${
+              selectedTab === "write"
+                ? "bg-gray-300 hover:bg-gray-400 transition duration-200"
+                : "transition duration-200 hover:bg-gray-400"
+            }`}
+          >
+            글 작성 목록
+          </button>
+          <button
             onClick={() => handleTabClick("orders")}
             className={`p-3 cursor-pointer ${
               selectedTab === "orders"
@@ -48,6 +66,17 @@ const MyPageComponent = () => {
           >
             주문
           </button>
+          {isAdmin && (
+          <button
+          onClick={() => handleTabClick("admin")}
+          className={`p-3 cursor-pointer ${
+            selectedTab === "admin"
+              ? "bg-gray-300 hover:bg-gray-400 transition duration-200"
+              : "transition duration-200 hover:bg-gray-400"
+          }`}
+        >
+          관리자 페이지
+        </button>)}
           {/* 다른 탭을 추가할 수 있음 */}
         </div>
       </div>

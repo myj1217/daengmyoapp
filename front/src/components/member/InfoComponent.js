@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import ModifyComponent from "./ModifyComponent";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import { deleteId } from "../../api/memberApi";
+import { getMember, deleteId } from "../../api/memberApi";
 
 const InfoComponent = () => {
   const [member, setMember] = useState({
@@ -21,8 +21,12 @@ const InfoComponent = () => {
   const [isModify, setIsModify] = useState(false); // 수정 모드 상태 추가
 
   useEffect(() => {
-    setMember({ ...loginInfo });
-  }, []);
+    const get = async () => {
+      const memberInfo = await getMember(loginInfo.email);
+    setMember({ ...memberInfo });
+  };
+  get();
+},[]);
 
   const goModify = () => {
     setIsModify(true); // 수정 모드로 변경
@@ -35,7 +39,7 @@ const InfoComponent = () => {
   const remove = async () => {
 
     const isConfirmed = window.confirm(
-        "정말로 회원 탈퇴를 하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+        "탈퇴 하시겠습니까? 이 작업은 되돌릴 수 없습니다."
       );
   
       if (isConfirmed && loginInfo.email == member.email) {
