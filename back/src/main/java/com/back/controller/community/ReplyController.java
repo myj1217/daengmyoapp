@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @Log4j2
 @RequestMapping("/community/reply")
 //@RequiredArgsConstructor
@@ -26,11 +26,13 @@ public class ReplyController {
         this.replyService = replyService;
     }
 
-    @GetMapping("/{communityBno}")
+    @GetMapping("/list/{communityBno}")
     public PageResponseDTO<ReplyDTO> getReplyList(@PathVariable("communityBno")
                                                    Long communityBno, PageRequestDTO pageRequestDTO) {
         PageResponseDTO<ReplyDTO> responseDTO =
                 replyService.getReplyList(communityBno, pageRequestDTO);
+        log.info("댓글 목록: " + responseDTO.getDtoList());
+
         return responseDTO;
     }
 

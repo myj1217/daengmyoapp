@@ -9,9 +9,8 @@ const ReadCommunityPage = () => {
     <div className="p-4 w-full bg-white">
       <div className="text-3xl font-extrabold">커뮤니티</div>
 
-      <ReadCommunityComponent
-        communityBno={communityBno}
-      ></ReadCommunityComponent>
+      <ReadCommunityComponent communityBno={communityBno} />
+      <ReplyComponent />
     </div>
   );
 };

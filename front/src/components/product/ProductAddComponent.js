@@ -4,6 +4,7 @@ import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
 import useCustomMove from "../../hooks/useCustomMove";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const initState = {
   pname: "",
@@ -14,6 +15,7 @@ const initState = {
 
 const ProductAddComponent = () => {
   const loginState = useSelector((state) => state.loginSlice);
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState({ ...initState });
   const uploadRef = useRef();
@@ -55,7 +57,7 @@ const ProductAddComponent = () => {
   const closeModal = () => {
     //ResultModal 종료
     setResult(null);
-    moveToList({ page: 1 }); //모달 창이 닫히면 이동
+    navigate({ pathname: "../" });
   };
 
   return (
