@@ -24,13 +24,8 @@ import java.util.Map;
 public class ProductReplyController {
     private final ProductReplyService productReplyService;
     @PostMapping(value = "/", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Long> register(@Valid @RequestBody ProductReplyDTO productReplyDTO,
-                                      BindingResult bindingResult)throws BindException {
+    public Map<String, Long> register(@Valid @RequestBody ProductReplyDTO productReplyDTO) {
         log.info(productReplyDTO);
-
-        if(bindingResult.hasErrors()){
-            throw new BindException(bindingResult);
-        }
 
         Map<String, Long> resultMap = new HashMap<>();
         Long prno = productReplyService.register(productReplyDTO);
