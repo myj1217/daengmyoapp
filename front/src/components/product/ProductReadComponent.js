@@ -7,6 +7,7 @@ import FetchingModal from "../common/FetchingModal";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
+import ReviewAddComponent from "../product/ReviewAddComponent";
 
 const initState = {
   pno: 0,
@@ -81,6 +82,10 @@ const ProductReadComponent = ({ pno }) => {
       navigate("/member/login");
     }
     setReviewModal(true); // 모달 열기
+  };
+
+  const handleCloseModal = () => {
+    setReviewModal(false); // 모달 닫기;
   };
 
   useEffect(() => {
@@ -221,7 +226,44 @@ const ProductReadComponent = ({ pno }) => {
                   height: "100%",
                 }}
               >
+                {/* <div id="anc modal">
                 <h1>리뷰모달입니다.</h1>
+                <div id="review writting zone"></div>
+                <button
+                  onClick={handleCloseModal}
+                  className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
+                  style={{
+                    width: "200px",
+                    height: "35px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  작성완료
+                </button>
+                <button
+                  onClick={handleCloseModal}
+                  className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
+                  style={{
+                    width: "200px",
+                    height: "35px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  닫기
+                </button>
+                </div> */}
+                <div id="comp modal">
+                  <ReviewAddComponent
+                    handleCloseModal={handleCloseModal}
+                    pno={pno}
+                  />
+                </div>
               </div>
             </div>
           </div>
