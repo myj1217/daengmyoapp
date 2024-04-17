@@ -6,10 +6,7 @@ import lombok.ToString;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -31,10 +28,7 @@ public class MemberSecurityDTO extends User {
     private String nickname;
 
 
-//    private boolean social;
 
-
-    private String zipCode;				// 우편 번호
 
     private String streetAddress;		// 지번 주소
 
@@ -42,10 +36,11 @@ public class MemberSecurityDTO extends User {
 
     private List<String> memberRoleList = new ArrayList<>();
 
+    private String addressCode;				// 우편 번호
 
 
-    public MemberSecurityDTO(String email, String pw, String name, String number, String nickname,
-                             String zipCode, String streetAddress, String detailAddress, List<String> memberRoleList) {
+
+    public MemberSecurityDTO(String email, String pw, String name, String number, String nickname, String streetAddress, String detailAddress, List<String> memberRoleList, String addressCode) {
         super(
                 email,
                 pw,
@@ -56,32 +51,28 @@ public class MemberSecurityDTO extends User {
         this.name = name;
         this.number = number;
         this.nickname = nickname;
-//        this.social = social;
-        this.zipCode = zipCode;
         this.streetAddress = streetAddress;
         this.detailAddress = detailAddress;
         this.memberRoleList = memberRoleList;
+        this.addressCode = addressCode;
     }
 
     //JWT문자열 생성시에 사용. 현재사용자정보를 Map타입으로 전환.
 
     public Map<String, Object> getClaims() {
 
-        Map<String, Object> dataMap = new HashMap<>();
+            Map<String, Object> dataMap = new HashMap<>(); // LinkedHashMap 사용
 
-        dataMap.put("email", email);
-        dataMap.put("pw",pw);
-        dataMap.put("name", name);
-        dataMap.put("number", number);
-//        dataMap.put("social", social);
-        dataMap.put("zipCode", zipCode);
-        dataMap.put("nickname", nickname);
-        dataMap.put("streetAddress", streetAddress);
-        dataMap.put("detailAddress", detailAddress);
-        dataMap.put("memberRoleList", memberRoleList);
-
-
-        return dataMap;
-    }
+            dataMap.put("email", email);
+            dataMap.put("pw", pw);
+            dataMap.put("name", name);
+            dataMap.put("number", number);
+            dataMap.put("nickname", nickname);
+            dataMap.put("streetAddress", streetAddress);
+            dataMap.put("detailAddress", detailAddress);
+            dataMap.put("memberRoleList", memberRoleList);
+            dataMap.put("addressCode", addressCode);
+            return dataMap;
+        }
 
 }

@@ -111,7 +111,7 @@ const LoginComponent = () => {
               className="inline-block w-full px-4 py-2 text-center bg-yellow-400 text-black rounded-md hover:bg-yellow-500 focus:outline-none"
             >
               <img src="https://pbs.twimg.com/profile_images/738200195578494976/CuZ9yUAT_400x400.jpg" className="w-6 h-6 inline-block mr-2 align-middle" />
-              카카오로 로그인
+              카카오 계정으로 로그인
             </Link>
           </div>
         </form>

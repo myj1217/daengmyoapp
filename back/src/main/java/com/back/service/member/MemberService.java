@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public interface MemberService {
 
 
-
+    boolean isMemberTableExists();
     void join(MemberJoinDTO memberJoinDTO) ;
 
     MemberSecurityDTO getKakaoMember(String accessToken);
@@ -29,13 +29,13 @@ public interface MemberService {
                 member.getPw(),
                 member.getName(),
                 member.getNumber(),
-                member.getZipCode(),
                 member.getNickname(),
                 member.getStreetAddress(),
                 member.getDetailAddress(),
                 member.getMemberRoleList()
                         .stream()
-                        .map(memberRole -> memberRole.name()).collect(Collectors.toList()));
+                        .map(memberRole -> memberRole.name()).collect(Collectors.toList()),
+                member.getAddressCode());
                 return dto;
     }
 

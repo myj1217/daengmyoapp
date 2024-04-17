@@ -34,7 +34,7 @@ public class MemberJoinDTO {
     @Length(min = 2, max = 16, message = "닉네임은 2자 이상 16자 이하로 입력해주세요.")
     private String nickname;
 
-    private String zipCode;				// 우편 번호
+    private String addressCode;				// 우편 번호
 
 
     private String streetAddress;		// 지번 주소

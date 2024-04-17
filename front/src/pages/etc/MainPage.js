@@ -7,7 +7,6 @@ import MissingPet from "../../components/etc/MissingPet";
 // import Footer from "../../components/main/Footer";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getMember} from "../../api/memberApi";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -129,14 +128,11 @@ const MainPage = () => {
   const [nickname, setNickname] = useState("");
   const { isLogin } = useCustomLogin();
 
+
   useEffect(() => {
     if(isLogin){
-    const get = async () => {
-      const memberInfo = await getMember(loginInfo.email);
-    setNickname(memberInfo.nickname);
+    setNickname(loginInfo.nickname);
   };
-  get();
-}
 },[isLogin]);
 
   

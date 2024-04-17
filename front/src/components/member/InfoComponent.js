@@ -10,7 +10,7 @@ const InfoComponent = () => {
     email: "",
     name: "",
     nickname: "",
-    zipCode: "",
+    addressCode: "",
     streetAddress: "",
     detailAddress: "",
     number: "",
@@ -21,12 +21,9 @@ const InfoComponent = () => {
   const [isModify, setIsModify] = useState(false); // 수정 모드 상태 추가
 
   useEffect(() => {
-    const get = async () => {
-      const memberInfo = await getMember(loginInfo.email);
-    setMember({ ...memberInfo });
-  };
-  get();
-},[]);
+    setMember({ ...loginInfo });
+}, []);
+
 
   const goModify = () => {
     setIsModify(true); // 수정 모드로 변경
@@ -87,13 +84,13 @@ const InfoComponent = () => {
             value={member.nickname}
             readOnly // 읽기 전용으로 설정
           />
-          <label htmlFor="zipCode">우편번호</label>
+          <label htmlFor="addressCode">우편번호</label>
           <input
             className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
             type="text"
-            id="zipCode"
-            name="zipCode"
-            value={member.zipCode}
+            id="addressCode"
+            name="addressCode"
+            value={member.addressCode}
             readOnly // 읽기 전용으로 설정
           />
           <label htmlFor="streetAddress">주소</label>

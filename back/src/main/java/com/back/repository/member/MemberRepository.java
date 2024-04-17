@@ -14,6 +14,10 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     @Query("select m from Member m where m.email = :email")
     Member getWithRoles(@Param("email") String email);
 
+
+    @Query(value = "SELECT COUNT(*) FROM information_schema.tables WHERE table_name = 'member'", nativeQuery = true)
+    int countMemberTable();
+
     Member findByEmail(@Param("email") String email);
 
     Member findByEmailAndPw(@Param("email") String email,@Param("pw")String pw);

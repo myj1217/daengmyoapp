@@ -29,7 +29,7 @@ public class Member {
     private String number;   //휴대폰 번호
 
 
-    private String zipCode;				// 우편 번호
+
 
     private String streetAddress;		// 지번 주소
 
@@ -45,7 +45,7 @@ public class Member {
 
         memberRoleList.add(memberRole);
     }
-
+    private String addressCode;				// 우편 번호
 
 
     public void changeNickname(String nickname) {this.nickname = nickname; }
@@ -62,8 +62,8 @@ public class Member {
         this.pw = pw;
     }
 
-    public void changeZipCode(String zipCode){
-        this.zipCode = zipCode;
+    public void changeAddressCode(String addressCode){
+        this.addressCode = addressCode;
     }
 
 

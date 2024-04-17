@@ -37,12 +37,12 @@ public class CustomUserDetailsService implements UserDetailsService{
                 member.getName(),
                 member.getNumber(),
                 member.getNickname(),
-                member.getZipCode(),
                 member.getStreetAddress(),
                 member.getDetailAddress(),
                 member.getMemberRoleList()
                         .stream()
-                        .map(memberRole -> memberRole.name()).collect(Collectors.toList()));
+                        .map(memberRole -> memberRole.name()).collect(Collectors.toList()),
+                member.getAddressCode());
 
         log.info(memberSecurityDTO);
 
