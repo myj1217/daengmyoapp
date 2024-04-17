@@ -4,11 +4,11 @@ import jwtAxios from "../utils/jwtUtil";
 
 const host = `${API_SERVER_HOST}/products/replies`;
 
-export const replyAdd = async (product) => {
+export const replyAdd = async (review) => {
   const header = { headers: { "Content-Type": "multipart/form-data" } };
 
   // 경로 뒤 '/' 주의
-  const res = await jwtAxios.post(`${host}/`, product, header);
+  const res = await jwtAxios.post(`${host}/`, review, header);
 
   return res.data;
 };
