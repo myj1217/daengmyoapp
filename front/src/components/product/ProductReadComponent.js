@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getOne } from "../../api/productApi";
+import { replyList } from "../../api/productReplyApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
@@ -15,11 +16,20 @@ const initState = {
   uploadFileNames: [],
 };
 
+const iniState = {
+  prno: 0,
+  pno: 0,
+  productReplyText: "",
+  productReplyer: "",
+  regDate: "",
+};
+
 const host = API_SERVER_HOST;
 
 const ProductReadComponent = ({ pno }) => {
   const [product, setProduct] = useState(initState);
-  const { moveToList, moveToModify } = useCustomMove();
+  const [review, setReview] = useState(iniState);
+  const { page, size, moveToList, moveToModify } = useCustomMove();
   const [fetching, setFetching] = useState(false);
   const { changeCart, cartItems } = useCustomCart();
   const { isLogin, loginState } = useCustomLogin();
@@ -61,81 +71,115 @@ const ProductReadComponent = ({ pno }) => {
   useEffect(() => {
     setFetching(true);
 
+    // 상품 정보
     getOne(pno).then((data) => {
       setProduct(data);
+      console.log(data);
+      setFetching(false);
+    });
+
+    // 상품 리뷰
+    replyList(pno, { page, size }).then((data) => {
+      console.log(data);
+      setReview(data);
       setFetching(false);
     });
   }, [pno]);
 
   return (
-    <div className="w-full border-2 border-gray-300 mt-4 m-2 p-4">
-      {fetching ? <FetchingModal /> : <></>}
-      <div id="product_zone" className="flex">
-        <div
-          id="product_image_zone"
-          // className="w-1/2 justify-center flex  flex-col m-auto items-center"
-          className="w-1/2"
-        >
-          {product.uploadFileNames.map((imgFile, i) => (
-            <img
-              alt="product"
-              key={i}
-              className="w-full object-cover"
-              src={`${host}/api/products/view/${imgFile}`}
-            />
-          ))}
-        </div>
-        <div id="product_text_zone" className="w-1/2">
-          <div className="flex justify-center">
-            <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-              <div className="w-full p-4 text-3xl">{product.pname}</div>
-            </div>
+    <>
+      <div className="w-full border-2 border-gray-300 mt-4 m-2 p-4">
+        {fetching ? <FetchingModal /> : <></>}
+        <div id="product_zone" className="flex">
+          <div
+            id="product_image_zone"
+            // className="w-1/2 justify-center flex  flex-col m-auto items-center"
+            className="w-1/2"
+          >
+            {product.uploadFileNames.map((imgFile, i) => (
+              <img
+                alt="product"
+                key={i}
+                className="w-full object-cover"
+                src={`${host}/api/products/view/${imgFile}`}
+              />
+            ))}
           </div>
-          <div className="flex justify-center">
-            <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-              <div className="w-full p-4 text-xl">
-                {product.price.toLocaleString("ko-KR")}원
+          <div id="product_text_zone" className="w-1/2">
+            <div className="flex justify-center">
+              <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                <div className="w-full p-4 text-3xl">{product.pname}</div>
               </div>
             </div>
-          </div>
-          <div className="flex justify-center">
-            <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-              <div className="w-full p-4 text-lg">{product.pdesc}</div>
+            <div className="flex justify-center">
+              <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                <div className="w-full p-4 text-xl">
+                  {product.price.toLocaleString("ko-KR")}원
+                </div>
+              </div>
             </div>
-          </div>
-          <div
-            id="product_read_buttons"
-            className="flex-col justify-center p-4 text-sm text-white"
-          >
-            <button
-              type="button"
-              className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600"
-              onClick={handleClickAddCart}
+            <div className="flex justify-center">
+              <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                <div className="w-full p-4 text-lg">{product.pdesc}</div>
+              </div>
+            </div>
+            <div
+              id="product_read_buttons"
+              className="flex-col justify-center p-4 text-sm text-white"
             >
-              장바구니에 담기
-            </button>
-            {isLogin ? (
               <button
                 type="button"
                 className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600"
-                onClick={() => moveToModify(pno)}
+                onClick={handleClickAddCart}
               >
-                상품정보 수정
+                장바구니에 담기
               </button>
-            ) : (
-              <></>
-            )}
-            <button
-              type="button"
-              className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600"
-              onClick={handleClickList}
-            >
-              목록으로 돌아가기
-            </button>
+              {isLogin ? (
+                <button
+                  type="button"
+                  className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600"
+                  onClick={() => moveToModify(pno)}
+                >
+                  상품정보 수정
+                </button>
+              ) : (
+                <></>
+              )}
+              <button
+                type="button"
+                className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600"
+                onClick={handleClickList}
+              >
+                목록으로 돌아가기
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {/* <div
+        id="review zone"
+        className="w-full border-2 border-gray-300 mt-4 m-2 p-4"
+      >
+        <div className="flex flex-col">
+          {review.dtoList.map((product) => (
+            <div
+              key={product.prno}
+              className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
+            >
+              <div className="flex text-lg p-4 justify-between">
+                <div className="w-1/4 text-center p-1">
+                  {product.productReplyer}
+                </div>
+                <div className="w-2/4 text-center p-1">
+                  {product.productReplyText}
+                </div>
+                <div className="w-1/4 text-center p-1">{product.regDate}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div> */}
+    </>
   );
 };
 
