@@ -47,7 +47,7 @@ public class CustomSecurityConfig {
 
         //API 서버로 로그인할수 있게 설정.
         http.formLogin(config ->{
-            config.loginPage("/member/login");
+            config.loginPage("/api/member/login");
             config.successHandler(new LoginSuccessHandler());
             config.failureHandler(new LoginFailHandler());
         });

@@ -35,7 +35,7 @@ public class JWTCheckFilter extends OncePerRequestFilter{
         log.info("check uri......................."+path);
 
         //경로의 호출은 체크하지 않음
-        if(path.startsWith("/member/")) {
+        if(path.startsWith("/api/member/login")) {
             return true;
         }
         if(path.startsWith("/api/products/")) {
@@ -76,11 +76,11 @@ public class JWTCheckFilter extends OncePerRequestFilter{
             String nickname = (String) claims.get("nickname");
             String streetAddress = (String) claims.get("streetAddress");
             String detailAddress = (String) claims.get("detailAddress");
-            List<String> memberRoleList = (List<String>) claims.get("memberRoleList");
+            List<String> roleNames = (List<String>) claims.get("roleNames");
             String addressCode = (String) claims.get("addressCode");
 
             MemberSecurityDTO memberSecurityDTO = new MemberSecurityDTO(email, pw, name,
-                    number,nickname,streetAddress,detailAddress,memberRoleList,addressCode);
+                    number,nickname,streetAddress,detailAddress,roleNames,addressCode);
 
             log.info("-----------------------------------");
             log.info(memberSecurityDTO);

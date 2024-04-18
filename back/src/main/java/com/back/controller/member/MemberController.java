@@ -22,6 +22,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -37,9 +38,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/member")
-@Log4j2
 @RequiredArgsConstructor
+@Log4j2
+@RequestMapping("/api/member")
 public class MemberController {
 
     private final MemberService memberService;
@@ -55,28 +56,7 @@ public class MemberController {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final MemberSecurityDTO entityToDTO(Member member){
 
-        MemberSecurityDTO dto = new MemberSecurityDTO(
-                member.getEmail(),
-                member.getPw(),
-                member.getName(),
-                member.getNumber(),
-                member.getNickname(),
-                member.getStreetAddress(),
-                member.getDetailAddress(),
-                member.getMemberRoleList()
-                        .stream()
-                        .map(memberRole -> memberRole.name()).collect(Collectors.toList()),
-                member.getAddressCode());
-        return dto;
-    }
-
-    @GetMapping("/list")
-    public ResponseEntity<List<Member>> getAllMembers() {
-        List<Member> members = memberRepository.findAll();
-        return ResponseEntity.ok(members);
-    }
 
     @PostMapping("/join")
     public ResponseEntity<Map<String, String>> join(@Valid MemberJoinDTO memberJoinDTO, Errors errors) {
@@ -91,6 +71,15 @@ public class MemberController {
         memberService.join(memberJoinDTO);
 
         return ResponseEntity.ok().build();
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/list")
+    public ResponseEntity<List<Member>> getAllMembers() {
+
+        List<Member> members = memberRepository.findAll();
+        return ResponseEntity.ok(members);
     }
 
 
@@ -242,5 +231,20 @@ public class MemberController {
 
         return claims;
     }
+    private final MemberSecurityDTO entityToDTO(Member member){
 
+        MemberSecurityDTO dto = new MemberSecurityDTO(
+                member.getEmail(),
+                member.getPw(),
+                member.getName(),
+                member.getNumber(),
+                member.getNickname(),
+                member.getStreetAddress(),
+                member.getDetailAddress(),
+                member.getMemberRoleList()
+                        .stream()
+                        .map(memberRole -> memberRole.name()).collect(Collectors.toList()),
+                member.getAddressCode());
+        return dto;
+    }
 }

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import InfoComponent from "./InfoComponent";
 import { useSelector } from "react-redux";
+import MemberListComponent from "./MemberListComponent";
 
 const AdminComponent = () => {
-  const [selectedTab, setSelectedTab] = useState("profile"); // 선택된 탭 상태
+  const [selectedTab, setSelectedTab] = useState("members"); // 선택된 탭 상태
   
   const loginInfo = useSelector((state) => state.loginSlice);
 
-  const isAdmin = loginInfo.memberRoleList.includes("ADMIN");
   // 탭을 클릭했을 때 호출되는 함수
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -17,7 +17,7 @@ const AdminComponent = () => {
   const renderTabContent = () => {
     switch (selectedTab) {
       case "members":
-        return <div>멤버관리페이지</div>;
+        return <div><MemberListComponent/></div>;
       case "write":
         return <div>글</div>;
       case "orders":
@@ -35,9 +35,9 @@ const AdminComponent = () => {
 
         <div className="flex flex-row w-full">
           <button
-            onClick={() => handleTabClick("profile")}
+            onClick={() => handleTabClick("members")}
             className={`p-3 cursor-pointer ${
-              selectedTab === "profile"
+              selectedTab === "members"
                 ? "bg-gray-300 hover:bg-gray-400 transition duration-200"
                 : "transition duration-200 hover:bg-gray-400"
             }`}

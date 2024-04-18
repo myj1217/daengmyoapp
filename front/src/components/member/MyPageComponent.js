@@ -8,7 +8,7 @@ const MyPageComponent = () => {
   
   const loginInfo = useSelector((state) => state.loginSlice);
 
-  const isAdmin = loginInfo.memberRoleList.includes("ADMIN");
+  const isAdmin = loginInfo.roleNames.includes("ADMIN");
   // 탭을 클릭했을 때 호출되는 함수
   const handleTabClick = (tab) => {
     setSelectedTab(tab);

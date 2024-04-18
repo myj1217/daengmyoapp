@@ -34,17 +34,17 @@ public class MemberSecurityDTO extends User {
 
     private String detailAddress;		// 상세 주소(직접 입력하는값 ex. 3층)
 
-    private List<String> memberRoleList = new ArrayList<>();
+    private List<String> roleNames = new ArrayList<>();
 
     private String addressCode;				// 우편 번호
 
 
 
-    public MemberSecurityDTO(String email, String pw, String name, String number, String nickname, String streetAddress, String detailAddress, List<String> memberRoleList, String addressCode) {
+    public MemberSecurityDTO(String email, String pw, String name, String number, String nickname, String streetAddress, String detailAddress, List<String> roleNames, String addressCode) {
         super(
                 email,
                 pw,
-                memberRoleList.stream().map(str -> new SimpleGrantedAuthority("ROLE_"+str)).collect(Collectors.toList()));
+                roleNames.stream().map(str -> new SimpleGrantedAuthority("ROLE_"+str)).collect(Collectors.toList()));
 
         this.email = email;
         this.pw = pw;
@@ -53,7 +53,7 @@ public class MemberSecurityDTO extends User {
         this.nickname = nickname;
         this.streetAddress = streetAddress;
         this.detailAddress = detailAddress;
-        this.memberRoleList = memberRoleList;
+        this.roleNames = roleNames;
         this.addressCode = addressCode;
     }
 
@@ -70,7 +70,7 @@ public class MemberSecurityDTO extends User {
             dataMap.put("nickname", nickname);
             dataMap.put("streetAddress", streetAddress);
             dataMap.put("detailAddress", detailAddress);
-            dataMap.put("memberRoleList", memberRoleList);
+            dataMap.put("roleNames", roleNames);
             dataMap.put("addressCode", addressCode);
             return dataMap;
         }
