@@ -1,12 +1,16 @@
 import React from "react";
 import { replyDel } from "../../api/productReplyApi";
+import { useNavigate } from "react-router-dom";
 
 const ReviewItemComponent = ({
   prno,
   productReplyer,
   productReplyText,
   regDate,
+  reviewRedirect,
+  pno,
 }) => {
+  const navigate = useNavigate();
   // 리뷰 삭제 핸들러
   const reviewDeleteHandler = () => {
     if (window.confirm("해당 리뷰를 정말로 삭제하시겠습니까?") === false) {
@@ -17,6 +21,9 @@ const ReviewItemComponent = ({
       // setResult("Deleted");
       //   setFetching(false);
     });
+
+    navigate(`/products/read/${pno}`);
+    reviewRedirect();
   };
 
   return (

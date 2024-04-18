@@ -98,7 +98,12 @@ const ReviewListComponent = ({ pno }) => {
           <div id="review list">
             <ul>
               {review.dtoList.map((item) => (
-                <ReviewItemComponent {...item} key={item.prno} />
+                <ReviewItemComponent
+                  {...item}
+                  key={item.prno}
+                  reviewRedirect={reviewRedirect}
+                  pno={pno}
+                />
               ))}
             </ul>
           </div>

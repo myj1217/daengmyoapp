@@ -23,7 +23,7 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
   const [fetching, setFetching] = useState(false);
   const [result, setResult] = useState(null);
   const { moveToList } = useCustomMove(); //이동을 위한 함수
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // 작성한 내용 반응
   const handleChangeReview = (e) => {
@@ -71,7 +71,9 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
     window.alert("리뷰가 성공적으로 추가되었습니다.");
 
     handleCloseModal();
-    // navigate(`/products/read/${pno}`);
+
+    // useEffect 트리거
+    navigate(`/products/read/${pno}`);
     reviewRedirect();
   };
 
