@@ -14,11 +14,11 @@ const BasicMenu = () => {
     moveToPath("/");
   };
 
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     refreshCart();
-  //   }
-  // }, [isLogin]);
+  useEffect(() => {
+    if (isLogin) {
+      refreshCart();
+    }
+  }, [isLogin]);
 
   const isMyPage = location.pathname === "/member/mypage";
 

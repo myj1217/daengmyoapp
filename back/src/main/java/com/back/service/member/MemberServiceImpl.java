@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
 
     //일반 회원가입 부분
     @Override
-    public void join(MemberJoinDTO memberJoinDTO){
+    public void join(MemberJoinDTO memberJoinDTO) {
 
         Member member = Member.builder()
                 .email(memberJoinDTO.getEmail())
@@ -70,12 +70,12 @@ public class MemberServiceImpl implements MemberService {
 
         String email = getEmailFromKakaoAccessToken(accessToken);
 
-        log.info("email: " + email );
+        log.info("email: " + email);
 
         Optional<Member> result = memberRepository.findById(email);
 
         // 기존의 회원
-        if(result.isPresent()){
+        if (result.isPresent()) {
             MemberSecurityDTO memberSecurityDTO = entityToDTO(result.get());
 
             return memberSecurityDTO;
@@ -93,19 +93,18 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
-
-    private String getEmailFromKakaoAccessToken(String accessToken){
+    private String getEmailFromKakaoAccessToken(String accessToken) {
 
         String kakaoGetUserURL = "https://kapi.kakao.com/v2/user/me";
 
-        if(accessToken == null){
+        if (accessToken == null) {
             throw new RuntimeException("Access Token is null");
         }
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
-        headers.add("Content-Type","application/x-www-form-urlencoded");
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         UriComponents uriBuilder = UriComponentsBuilder.fromHttpUrl(kakaoGetUserURL).build();
@@ -206,7 +205,9 @@ public class MemberServiceImpl implements MemberService {
         Map<String, String> validatorResult = new HashMap<>();
         /* 유효성 및 중복 검사에 실패한 필드 목록을 받음 */
         for (FieldError error : errors.getFieldErrors()) {
-            String validKeyName = String.format("valid_%s", error.getField());validatorResult.put(validKeyName, error.getDefaultMessage());}
+            String validKeyName = String.format("valid_%s", error.getField());
+            validatorResult.put(validKeyName, error.getDefaultMessage());
+        }
         return validatorResult;
     }
 
@@ -218,17 +219,27 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public boolean checkNickname(String nickname) {
-        log.info("Auth Service's Service Layer :: Call checkNickname Method!");
-
         return memberRepository.existsByNickname(nickname);
     }
 
     @Transactional
     @Override
     public boolean checkEmail(String email) {
-        log.info("Auth Service's Service Layer :: Call checkEmail Method!");
-
         return memberRepository.existsByEmail(email);
     }
-}
 
+    @Override
+    public void changeRole(String email, String newRole) {
+        Member member = memberRepository.findByEmail(email);
+        if (member != null) {
+            member.clearRole();
+            if ("USER".equals(newRole)) {
+                member.addRole(MemberRole.USER);
+            } else if ("ADMIN".equals(newRole)) {
+                member.addRole(MemberRole.ADMIN);
+            }
+            // 변경된 역할을 데이터베이스에 저장
+            memberRepository.save(member);
+        }
+    }
+}

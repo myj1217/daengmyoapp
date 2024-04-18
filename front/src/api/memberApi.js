@@ -147,3 +147,14 @@ export const registerMember = async (register) => {
     throw error.response.data; // 오류 응답 반환
   }
 };
+
+
+export const changeRole = async (data) => {
+  try {
+    const response = await jwtAxios.post(`${host}/changeRole?email=${data.email}&newRole=${data.newRole}`);
+    return response.data;
+  } catch (error) {
+    console.error("에러:", error);
+    throw error.response.data;
+  }
+};
