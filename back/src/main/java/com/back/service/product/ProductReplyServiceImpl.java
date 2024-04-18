@@ -65,7 +65,7 @@ public class ProductReplyServiceImpl implements ProductReplyService{
         Pageable pageable = PageRequest.of(pageRequestDTO.getPage() <=0?
                         0: pageRequestDTO.getPage() -1,
                 pageRequestDTO.getSize(),
-                Sort.by("prno").ascending());
+                Sort.by("prno").descending());
         Page<ProductReply> result = productReplyRepository.listOfProduct(pno, pageable);
         List<ProductReplyDTO> dtoList = result.getContent().stream()
                 .map(productReply -> modelMapper.map(productReply, ProductReplyDTO.class))
