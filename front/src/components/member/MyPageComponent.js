@@ -34,7 +34,7 @@ const MyPageComponent = () => {
   return (
     <div className="flex w-full max-h-screen-24">
       {/* 왼쪽에 탭 메뉴 */}
-      <div className="w-1/4">
+      <div className="min-w-40">
 
         <div className="flex flex-col">
           <button
@@ -82,7 +82,7 @@ const MyPageComponent = () => {
         </div>
       </div>
       {/* 오른쪽에 선택된 탭 컨텐츠 */}
-      <div className="w-4/5">{renderTabContent()}</div>
+      <div className="w-full">{renderTabContent()}</div>
     </div>
   );
 };
