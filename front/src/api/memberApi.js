@@ -57,7 +57,7 @@ export const modifyPassword = async (member) => {
   form.append("newPw", member.newPw);
 
   try {
-    const res = await axios.post(`${host}/modifyPw`, form);
+    const res = await jwtAxios.post(`${host}/modifyPw`, form);
   } catch (error) {
     throw error.response.data;
   }
