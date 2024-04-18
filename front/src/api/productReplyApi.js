@@ -5,23 +5,32 @@ import jwtAxios from "../utils/jwtUtil";
 const host = `${API_SERVER_HOST}/products/replies`;
 
 export const replyAdd = async (review) => {
-  const header = { headers: { "Content-Type": "multipart/form-data" } };
+  // const header = { headers: { "Content-Type": "multipart/form-data" } };
 
   // 경로 뒤 '/' 주의
-  const res = await jwtAxios.post(`${host}/`, review, header);
+  // const res = await jwtAxios.post(`${host}/`, review, header);
+  const res = await jwtAxios.post(`${host}/`);
 
   return res.data;
 };
 
-export const replyList = async (pno, pageParam) => {
-  const { page, size } = pageParam;
+export const replyList = async (pno) => {
+  // const { page, size } = pageParam;
 
-  const res = await axios.get(`${host}/list/${pno}`, {
-    params: { page: page, size: size },
-  });
+  const res = await axios.get(`${host}/list/${pno}`);
 
   return res.data;
 };
+
+// export const replyList = async (pno, pageParam) => {
+//   const { page, size } = pageParam;
+
+//   const res = await axios.get(`${host}/list/${pno}`, {
+//     params: { page: page, size: size },
+//   });
+
+//   return res.data;
+// };
 
 export const replyGet = async (pno) => {
   const res = await axios.get(`${host}/list/${pno}`);

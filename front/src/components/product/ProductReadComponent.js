@@ -116,7 +116,7 @@ const ProductReadComponent = ({ pno }) => {
     });
 
     // 상품 리뷰
-    replyList(pno, { page, size }).then((data) => {
+    replyList(pno).then((data) => {
       console.log(data);
       setReview(data);
       setFetching(false);
