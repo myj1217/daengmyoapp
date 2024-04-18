@@ -33,22 +33,22 @@ export const replyList = async (pno) => {
 //   return res.data;
 // };
 
-export const replyGet = async (pno) => {
-  const res = await axios.get(`${host}/list/${pno}`);
+// export const replyGet = async (pno) => {
+//   const res = await axios.get(`${host}/list/${pno}`);
 
-  return res.data;
-};
+//   return res.data;
+// };
 
-export const replyPut = async (pno, product) => {
+export const replyPut = async (prno, product) => {
   const header = { headers: { "Content-Type": "multipart/form-data" } };
 
-  const res = await jwtAxios.put(`${host}/${pno}`, product, header);
+  const res = await jwtAxios.put(`${host}/${prno}`, product, header);
 
   return res.data;
 };
 
-export const replyDel = async (pno) => {
-  const res = await jwtAxios.delete(`${host}/${pno}`);
+export const replyDel = async (prno) => {
+  const res = await jwtAxios.delete(`${host}/${prno}`);
 
   return res.data;
 };

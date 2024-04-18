@@ -161,6 +161,7 @@ const CartComponent = () => {
               ))}
             </ul>
           </div>
+
           {/* 전체 수량과 전체 금액 표시 */}
           <div className="flex justify-between border-b border-gray-300">
             <div className="flex w-1/12 justify-center items-center">
