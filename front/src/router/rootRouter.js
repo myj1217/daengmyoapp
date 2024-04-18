@@ -5,7 +5,7 @@ import memberRouter from "./memberRouter";
 import cartRouter from "./cartRouter";
 import LoadingSpinner from "./LoadingSpninner";
 import communityRouter from "./communityRouter";
-// import communityRouter from "./communityRouter";
+import noticeRouter from "./noticeRouter";
 
 const Main = lazy(() => import("../pages/etc/MainPage"));
 const Product = lazy(() => import("../pages/product/ProductListPage"));
@@ -14,6 +14,7 @@ const Cart = lazy(() => import("../pages/cart/CartPage"));
 // const InquiryForm = lazy(() => import("../components/InquiryForm"));
 // const MonthArtistPage = lazy(() => import("../pages/MonthArtistPage"));
 const Community = lazy(() => import("../pages/community/ListCommunityPage"));
+const Notice = lazy(() => import("../pages/notice/ListNoticePage"));
 const ErrorPage = lazy(() => import("../pages/etc/ErrorPage"));
 
 const rootRouter = createBrowserRouter([
@@ -72,6 +73,11 @@ const rootRouter = createBrowserRouter([
     //   </Suspense>
     // ),
     children: communityRouter(),
+  },
+  {
+    path: "notice",
+
+    children: noticeRouter(),
   },
 
   {

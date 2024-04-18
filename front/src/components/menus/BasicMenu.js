@@ -60,7 +60,7 @@ const BasicMenu = () => {
             </li>
             <li>
               <Link
-                to="/"
+                to="/notice"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 공지
