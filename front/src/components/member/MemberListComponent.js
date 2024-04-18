@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getMemberList, changeRole, deleteMembers } from '../../api/memberApi';
+import { getMemberList, changeRole, deleteUsers } from '../../api/memberApi';
 import { useSelector } from "react-redux";
 
 
@@ -63,6 +63,12 @@ const MemberListComponent = () => {
   };
 
   const handleDeleteMembers = async () => {
+
+    if (selectedMembers.length === 0) {
+      alert("선택된 회원이 없습니다.");
+      return;
+    }
+
     const isConfirmed = window.confirm(
       "선택한 회원을 탈퇴 처리 하시겠습니까?"
     );
@@ -70,7 +76,7 @@ const MemberListComponent = () => {
     try {
       if (isConfirmed) {
         for (const email of selectedMembers) {
-          await deleteMembers([email]); // deleteMembers 함수를 순차적으로 실행
+          await deleteUsers([email]); // deleteMembers 함수를 순차적으로 실행
           console.log("삭제된 회원 : " + email);
         }
   

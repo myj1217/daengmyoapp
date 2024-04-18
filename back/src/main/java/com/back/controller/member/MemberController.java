@@ -191,6 +191,8 @@ public class MemberController {
 
         }
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping("/deleteUsers")
     public ResponseEntity<String> delete(@RequestParam("email") String email) {
 

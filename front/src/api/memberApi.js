@@ -102,7 +102,7 @@ export const deleteId = async (member) => {
   }
 };
 
-export const deleteMembers = async (email) => {
+export const deleteUsers = async (email) => {
   const form = new FormData();
   form.append("email", email);
   try {
