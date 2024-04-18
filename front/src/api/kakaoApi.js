@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { API_SERVER_HOST } from "./rootApi";
 
-const rest_api_key = `a5a056ea6c3d041bcc4ad8c2a732b010`; //REST키값
+const rest_api_key = `5b43743612584c26ae38167a0ce8a017`; //REST키값
 
 const redirect_uri = `http://localhost:3000/member/kakao`;
 
@@ -38,7 +38,7 @@ export const getAccessToken = async (authCode) => {
 
 export const getMemberWithAccessToken = async (accessToken) => {
   const res = await axios.get(
-    `${API_SERVER_HOST}/member/kakao?accessToken=${accessToken}`
+    `${API_SERVER_HOST}/api/member/kakao?accessToken=${accessToken}`
   );
 
   return res.data;

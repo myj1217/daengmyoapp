@@ -22,14 +22,15 @@ const KakaoRedirectPage = () => {
         console.log("------------------");
         console.log(memberInfo);
         dispatch(login(memberInfo));
-        moveToPath("/");
+          moveToPath("/");
       });
     });
   }, [authCode]);
   return (
     <div>
-      <div>Kakao Login Redirect</div>
-      <div>{authCode}</div>
+      <div className="font-extrabold">
+          카카오 로그인 중...
+        </div>
     </div>
   );
 };

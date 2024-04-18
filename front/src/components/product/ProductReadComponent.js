@@ -7,6 +7,7 @@ import FetchingModal from "../common/FetchingModal";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
+import ReviewAddComponent from "../product/ReviewAddComponent";
 
 const initState = {
   pno: 0,
@@ -62,6 +63,23 @@ const ProductReadComponent = ({ pno }) => {
       changeCart({ email: loginState.email, pno: pno, qty: qty });
       window.alert("장바구니에 성공적으로 추가되었습니다.");
     }
+    // let qty = 1;
+
+    // const addedItem = cartItems.filter((item) => item.pno === parseInt(pno))[0];
+
+    // if (addedItem) {
+    //   if (
+    //     window.confirm(
+    //       "장바구니에 이미 추가된 상품입니다. 추가하시겠습니까? "
+    //     ) === false
+    //   ) {
+    //     return;
+    //   }
+    //   qty = addedItem.qty + 1;
+    // }
+
+    // changeCart({ email: loginState.email, pno: pno, qty: qty });
+    // window.alert("장바구니에 성공적으로 추가되었습니다.");
   };
 
   // 목록으로 돌아가기 핸들러
@@ -83,6 +101,10 @@ const ProductReadComponent = ({ pno }) => {
     setReviewModal(true); // 모달 열기
   };
 
+  const handleCloseModal = () => {
+    setReviewModal(false); // 모달 닫기;
+  };
+
   useEffect(() => {
     setFetching(true);
 
@@ -94,7 +116,7 @@ const ProductReadComponent = ({ pno }) => {
     });
 
     // 상품 리뷰
-    replyList(pno, { page, size }).then((data) => {
+    replyList(pno).then((data) => {
       console.log(data);
       setReview(data);
       setFetching(false);
@@ -221,7 +243,44 @@ const ProductReadComponent = ({ pno }) => {
                   height: "100%",
                 }}
               >
+                {/* <div id="anc modal">
                 <h1>리뷰모달입니다.</h1>
+                <div id="review writting zone"></div>
+                <button
+                  onClick={handleCloseModal}
+                  className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
+                  style={{
+                    width: "200px",
+                    height: "35px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  작성완료
+                </button>
+                <button
+                  onClick={handleCloseModal}
+                  className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
+                  style={{
+                    width: "200px",
+                    height: "35px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  닫기
+                </button>
+                </div> */}
+                <div id="comp modal">
+                  <ReviewAddComponent
+                    handleCloseModal={handleCloseModal}
+                    pno={pno}
+                  />
+                </div>
               </div>
             </div>
           </div>

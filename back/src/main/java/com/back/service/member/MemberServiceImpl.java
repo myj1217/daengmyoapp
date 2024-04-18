@@ -70,19 +70,19 @@ public class MemberServiceImpl implements MemberService {
 
         String email = getEmailFromKakaoAccessToken(accessToken);
 
-        log.info("email: " + email);
+        log.info("email: " + email );
 
         Optional<Member> result = memberRepository.findById(email);
 
         // 기존의 회원
-        if (result.isPresent()) {
+        if(result.isPresent()){
             MemberSecurityDTO memberSecurityDTO = entityToDTO(result.get());
 
             return memberSecurityDTO;
         }
 
         // 회원이 아니었다면
-        // 닉네임은 '카카오#~~~'으로
+        // 닉네임은 '소셜회원'으로
         // 패스워드는 임의로 생성
         Member socialMember = makeSocialMember(email);
         memberRepository.save(socialMember);
@@ -93,18 +93,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
-    private String getEmailFromKakaoAccessToken(String accessToken) {
+
+    private String getEmailFromKakaoAccessToken(String accessToken){
 
         String kakaoGetUserURL = "https://kapi.kakao.com/v2/user/me";
 
-        if (accessToken == null) {
+        if(accessToken == null){
             throw new RuntimeException("Access Token is null");
         }
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
-        headers.add("Content-Type", "application/x-www-form-urlencoded");
+        headers.add("Content-Type","application/x-www-form-urlencoded");
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         UriComponents uriBuilder = UriComponentsBuilder.fromHttpUrl(kakaoGetUserURL).build();
@@ -124,7 +125,6 @@ public class MemberServiceImpl implements MemberService {
         log.info(bodyMap);
 
         LinkedHashMap<String, String> kakaoAccount = bodyMap.get("kakao_account");
-
         log.info("kakaoAccount: " + kakaoAccount);
 
         return kakaoAccount.get("email");
@@ -161,9 +161,9 @@ public class MemberServiceImpl implements MemberService {
                 .name(name)
                 .nickname("카카오#" + randomString) // 랜덤 문자열을 닉네임에 추가.
                 .number("전화번호를 수정 해주세요.")
-                .addressCode("")
                 .streetAddress("")
                 .detailAddress("")
+                .addressCode("")
                 .build();
 
         member.addRole(MemberRole.USER);
@@ -186,9 +186,6 @@ public class MemberServiceImpl implements MemberService {
     public void modifyMember(MemberModifyDTO memberModifyDTO) {
 
         Member member = memberRepository.findByEmail(memberModifyDTO.getEmail());
-
-
-
 
         member.changeName(memberModifyDTO.getName());
         member.changeNumber(memberModifyDTO.getNumber());

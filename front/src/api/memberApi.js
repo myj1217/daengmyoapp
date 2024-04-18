@@ -7,7 +7,7 @@ const header = {
   headers: { "Content-Type": "application/x-www-form-urlencoded" },
 };
 
-const host = `${API_SERVER_HOST}/member`
+const host = `${API_SERVER_HOST}/api/member`
 
 export const loginPost = async (loginParam) => {
   const form = new FormData();
@@ -19,14 +19,16 @@ export const loginPost = async (loginParam) => {
   return res.data;
 };
 
-// export const getMember = async (email) => {
-//   try {
-//     const response = await jwtAxios.get(`${host}/info?email=${email}`);
-//     return response.data;
-//   } catch (error) {
-//     return null;
-//   }
-// };
+export const getMemberList = async () => {
+  try {
+    const response = await jwtAxios.get(`${host}/list`);
+    console.log(response.data);
+    return response.data;
+    
+  } catch (error) {
+    return null;
+  }
+};
 
 export const modifyMember = async (member) => {
   const form = new FormData();
@@ -55,7 +57,7 @@ export const modifyPassword = async (member) => {
   form.append("newPw", member.newPw);
 
   try {
-    const res = await axios.post(`${host}/modifyPw`, form);
+    const res = await jwtAxios.post(`${host}/modifyPw`, form);
   } catch (error) {
     throw error.response.data;
   }

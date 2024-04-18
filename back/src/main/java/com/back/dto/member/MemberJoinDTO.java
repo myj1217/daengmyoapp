@@ -42,7 +42,4 @@ public class MemberJoinDTO {
     private String detailAddress;		// 상세 주소(직접 입력하는값 ex. 3층)
 
 
-    private List<MemberRole> memberRoleList = new ArrayList<>();
-
-    private String profileImage;
 }
