@@ -92,10 +92,21 @@ export const resetPw = async (resetData) => {
 export const deleteId = async (member) => {
   const form = new FormData();
   form.append("email", member.email);
-  form.append("password", member.pw);
+  form.append("pw", member.pw);
 
   try {
     const res = await jwtAxios.post(`${host}/delete`, form);
+    return res.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const deleteMembers = async (email) => {
+  const form = new FormData();
+  form.append("email", email);
+  try {
+    const res = await jwtAxios.post(`${host}/deleteUsers`, form);
     return res.data;
   } catch (error) {
     throw error.response.data;

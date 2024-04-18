@@ -33,7 +33,7 @@ public class CartController {
         return cartService.addOrModify(itemDTO);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER','ROLE_USER',)")
     @GetMapping("/items")
     public List<CartItemListDTO> getCartItems(Principal principal){
 
@@ -43,7 +43,7 @@ public class CartController {
 
         return cartService.getCartItems(email);
     }
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER','ROLE_USER',)")
     @DeleteMapping("/{cino}")// 장바구니에서 상훔을 제거하고 그 결과로 장바구니 목록을 반환.
     public List<CartItemListDTO> removeFromCart(@PathVariable("cino") Long cino){
         log.info("cart item no: "+ cino);

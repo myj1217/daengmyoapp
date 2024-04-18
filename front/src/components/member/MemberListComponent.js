@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getMemberList, changeRole, deleteMembers } from '../../api/memberApi';
+import { useSelector } from "react-redux";
+
 
 const MemberListComponent = () => {
   const [members, setMembers] = useState([]);
@@ -9,12 +11,21 @@ const MemberListComponent = () => {
   const [searchBy, setSearchBy] = useState('email');
   const [sortOrder, setSortOrder] = useState('ASC');
   const [selectedMembers, setSelectedMembers] = useState([]); // 선택된 회원들의 이메일을 추적하는 상태
+  const [selectAll, setSelectAll] = useState(false); // 모든 회원을 선택하는 상태
+  const loginInfo = useSelector((state) => state.loginSlice);
+
+  const isAdmin = loginInfo.roleNames.includes("ADMIN");
 
   const fetchMembers = async () => {
     try {
       const memberData = await getMemberList();
-      setMembers(memberData);
-      setFilteredMembers(memberData);
+      // ADMIN, MANAGER, USER 순으로 정렬
+      const sortedMembers = memberData.sort((a, b) => {
+        const roleOrder = { 'ADMIN': 0, 'MANAGER': 1, 'USER': 2 };
+        return roleOrder[a.memberRoleList[0]] - roleOrder[b.memberRoleList[0]];
+      });
+      setMembers(sortedMembers);
+      setFilteredMembers(sortedMembers);
     } catch (error) {
       console.error('Error fetching member list:', error);
     }
@@ -32,22 +43,42 @@ const MemberListComponent = () => {
   };
 
   const handleCheckboxChange = (email) => {
-    // 선택된 회원 목록에 이미 있는지 확인하여 추가 또는 제거
-    setSelectedMembers(prevSelected => {
-      if (prevSelected.includes(email)) {
-        return prevSelected.filter(member => member !== email);
-      } else {
-        return [...prevSelected, email];
-      }
-    });
+    if (selectedMembers.includes(email)) {
+      setSelectedMembers(selectedMembers.filter(member => member !== email));
+    } else {
+      setSelectedMembers([...selectedMembers, email]);
+    }
+  };
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedMembers([]);
+    } else {
+      setSelectedMembers(filteredMembers
+        .filter(member => !member.memberRoleList.includes('ADMIN')) // ADMIN 권한을 가진 회원을 필터링
+        .map(member => member.email)
+      );
+    }
+    setSelectAll(prevState => !prevState);
   };
 
   const handleDeleteMembers = async () => {
+    const isConfirmed = window.confirm(
+      "선택한 회원을 탈퇴 처리 하시겠습니까?"
+    );
+  
     try {
-      // await deleteMembers(selectedMembers); // 선택된 회원들의 이메일을 백엔드로 전송하여 삭제
-      fetchMembers(); // 회원 목록 다시 불러오기
-      setSelectedMembers([]); // 선택된 회원 목록 초기화
-      alert('선택된 회원이 삭제되었습니다.');
+      if (isConfirmed) {
+        for (const email of selectedMembers) {
+          await deleteMembers([email]); // deleteMembers 함수를 순차적으로 실행
+          console.log("삭제된 회원 : " + email);
+        }
+  
+        fetchMembers(); // 회원 목록 다시 불러오기
+        setSelectedMembers([]); // 선택된 회원 목록 초기화
+        setSelectAll(false); // 모든 회원 선택 해제
+        alert('선택된 회원이 삭제되었습니다.');
+      }
     } catch (error) {
       console.error('회원 삭제 중 오류 발생:', error);
     }
@@ -89,11 +120,8 @@ const MemberListComponent = () => {
     const order = sortOrder === 'ASC' ? 'DESC' : 'ASC';
     setSortOrder(order);
     const sortedMembers = [...filteredMembers].sort((a, b) => {
-      if (order === 'ASC') {
-        return a.memberRoleList.includes('ADMIN') ? -1 : 1;
-      } else {
-        return a.memberRoleList.includes('ADMIN') ? 1 : -1;
-      }
+      const roleOrder = { 'ADMIN': 0, 'MANAGER': 1, 'USER': 2 };
+      return (order === 'ASC' ? roleOrder[a.memberRoleList[0]] - roleOrder[b.memberRoleList[0]] : roleOrder[b.memberRoleList[0]] - roleOrder[a.memberRoleList[0]]);
     });
     setFilteredMembers(sortedMembers);
   };
@@ -108,7 +136,7 @@ const MemberListComponent = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="p-2 border-b-2 w-full text-center">전체 회원 목록</div>
+      <div className=""></div>
       <div className="flex justify-center items-center mt-4">
         <input
           type="text"
@@ -135,6 +163,13 @@ const MemberListComponent = () => {
         <table className="w-full">
           <thead>
             <tr className="bg-gray-200">
+              <th className="px-4 py-2">
+                <input
+                  type="checkbox"
+                  checked={selectAll}
+                  onChange={handleSelectAll}
+                />
+              </th>
               <th className="px-4 py-2">이메일</th>
               <th className="px-4 py-2">이름</th>
               <th className="px-4 py-2">닉네임</th>
@@ -143,44 +178,48 @@ const MemberListComponent = () => {
                 권한 {getArrowDirection()}
               </th>
               <th className="px-4 py-2">권한 변경</th>
-              <th className="px-4 py-2">삭제</th> {/* 삭제 버튼 열 */}
             </tr>
           </thead>
           <tbody>
-            {filteredMembers && filteredMembers.map((member) => (
-              <tr key={member.email} className="border-b">
-                <td className="px-4 py-2 text-center">{member.email}</td>
-                <td className="px-4 py-2 text-center">{member.name}</td>
-                <td className="px-4 py-2 text-center">{member.nickname}</td>
-                <td className="px-4 py-2 text-center">{member.number}</td>
-                <td className="px-4 py-2 text-center">{member.memberRoleList.join(', ')}</td>
-                <td className="px-4 py-2 text-center">
-                  <select
-                    value={roleChanges[member.email] || ''}
-                    onChange={(e) => handleRoleChange(member.email, e.target.value)}
-                  >
-                    <option value="">선택</option>
-                    <option value="USER">USER</option>
-                    <option value="ADMIN">ADMIN</option>
-                  </select>
-                </td>
-                <td className="px-4 py-2 text-center">
-                  <input
-                    type="checkbox"
-                    checked={selectedMembers.includes(member.email)} // 해당 회원이 선택되었는지 확인
-                    onChange={() => handleCheckboxChange(member.email)} // 체크박스 변경 이벤트
-                  />
-                </td>
-              </tr>
-            ))}
+          {filteredMembers && filteredMembers.map((member) => (
+  <tr key={member.email} className="border-b">
+    <td className="px-4 py-2 text-center">
+    {!member.memberRoleList.includes('ADMIN') && ( // ADMIN 권한이 아닌 경우에만 렌더링
+      <input
+        type="checkbox"
+        checked={selectedMembers.includes(member.email)}
+        onChange={() => handleCheckboxChange(member.email)}
+      />)}
+    </td>
+    <td className="px-4 py-2 text-center">{member.email}</td>
+    <td className="px-4 py-2 text-center">{member.name}</td>
+    <td className="px-4 py-2 text-center">{member.nickname}</td>
+    <td className="px-4 py-2 text-center">{member.number}</td>
+    <td className="px-4 py-2 text-center">{member.memberRoleList.join(', ')}</td>
+    {!member.memberRoleList.includes('ADMIN') && ( // ADMIN 권한이 아닌 경우에만 렌더링
+      <td className="px-4 py-2 text-center">
+        <select
+          value={roleChanges[member.email] || ''}
+          onChange={(e) => handleRoleChange(member.email, e.target.value)}
+        >
+          <option value="">선택</option>
+          <option value="USER">USER</option>
+          <option value="MANAGER">MANAGER</option>
+          {isAdmin && <option value="ADMIN">ADMIN</option>}
+        </select>
+      </td>
+    )}
+  </tr>
+))}
+
           </tbody>
         </table>
       </div>
       <div className="flex justify-end w-full mt-4">
-        <button className="mr-4 px-4 py-2 bg-red-500 text-white rounded" onClick={handleDeleteMembers}>
-          회원 삭제
+        <button className="mr-auto ml-2 px-4 py-2 bg-red-500 text-white rounded" onClick={handleDeleteMembers}>
+          선택 회원 탈퇴
         </button>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={handleSubmit}>
+        <button className="ml-auto mr-2 px-4 py-2 bg-blue-500 text-white rounded" onClick={handleSubmit}>
           변경 사항 저장
         </button>
       </div>
