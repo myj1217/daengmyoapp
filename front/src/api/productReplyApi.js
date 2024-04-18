@@ -6,10 +6,11 @@ const host = `${API_SERVER_HOST}/products/replies`;
 
 export const replyAdd = async (review) => {
   // const header = { headers: { "Content-Type": "multipart/form-data" } };
+  const header = { headers: { "Content-Type": "application/json" } };
 
   // 경로 뒤 '/' 주의
-  // const res = await jwtAxios.post(`${host}/`, review, header);
-  const res = await jwtAxios.post(`${host}/`);
+  const res = await jwtAxios.post(`${host}/`, review, header);
+  // const res = await jwtAxios.post(`${host}/`);
 
   return res.data;
 };
