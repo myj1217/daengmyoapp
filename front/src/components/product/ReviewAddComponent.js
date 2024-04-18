@@ -4,6 +4,7 @@ import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
 import useCustomMove from "../../hooks/useCustomMove";
 import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 const initState = {
   prno: 0,
@@ -13,7 +14,7 @@ const initState = {
   regDate: "",
 };
 
-const ReviewAddComponent = ({ handleCloseModal, pno }) => {
+const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
   const loginState = useSelector((state) => state.loginSlice);
 
   const [review, setReview] = useState({ ...initState });
@@ -22,6 +23,7 @@ const ReviewAddComponent = ({ handleCloseModal, pno }) => {
   const [fetching, setFetching] = useState(false);
   const [result, setResult] = useState(null);
   const { moveToList } = useCustomMove(); //이동을 위한 함수
+  // const navigate = useNavigate();
 
   // 작성한 내용 반응
   const handleChangeReview = (e) => {
@@ -40,19 +42,37 @@ const ReviewAddComponent = ({ handleCloseModal, pno }) => {
     // }
 
     //other data
+    // console.log(pno);
+    // console.log(review.productReplyText);
+    // console.log(loginState.nickname);
+    console.log(formData);
+
     formData.append("pno", pno);
+
     formData.append("productReplyText", review.productReplyText);
     // formData.append("regDate", review.regDate);
+
     formData.append("productReplyer", loginState.nickname);
 
-    console.log(formData);
+    // console.log("formData");
+    // console.log(formData);
 
     setFetching(true);
 
     replyAdd(formData).then((data) => {
+      console.log("formData");
+      console.log(data);
+
       setFetching(false);
       setResult(data.result);
+      console.log(result);
     });
+
+    window.alert("리뷰가 성공적으로 추가되었습니다.");
+
+    handleCloseModal();
+    // navigate(`/products/read/${pno}`);
+    reviewRedirect();
   };
 
   const closeModal = () => {
@@ -123,17 +143,19 @@ const ReviewAddComponent = ({ handleCloseModal, pno }) => {
           ></input>
         </div>
       </div> */}
-      <div className="flex justify-end">
-        <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
-          <button
-            type="button"
-            className="rounded p-4 w-36 bg-gray-800 text-xl  text-white "
-            onClick={handleClickAdd}
-          >
-            추가하기
-          </button>
+      <Link to={`/products/read/${pno}`}>
+        <div className="flex justify-end">
+          <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
+            <button
+              type="button"
+              className="rounded p-4 w-36 bg-gray-800 text-xl  text-white "
+              onClick={handleClickAdd}
+            >
+              추가하기
+            </button>
+          </div>
         </div>
-      </div>
+      </Link>
       <div className="flex justify-end">
         <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
           <button

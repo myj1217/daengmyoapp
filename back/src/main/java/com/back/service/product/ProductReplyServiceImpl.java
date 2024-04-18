@@ -1,5 +1,6 @@
 package com.back.service.product;
 
+import com.back.domain.product.Product;
 import com.back.domain.product.ProductReply;
 import com.back.dto.PageRequestDTO;
 import com.back.dto.PageResponseDTO;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,9 +28,20 @@ public class ProductReplyServiceImpl implements ProductReplyService{
     private final ModelMapper modelMapper;
     @Override
     public Long register(ProductReplyDTO productReplyDTO){
-        ProductReply productReply = modelMapper.map(productReplyDTO, ProductReply.class);
-        Long prno = productReplyRepository.save(productReply).getPrno();
-        return  prno;
+//        ProductReply productReply = modelMapper.map(productReplyDTO, ProductReply.class);
+//        Long prno = productReplyRepository.save(productReply).getPrno();
+//        return  prno;
+        ProductReply productReply = ProductReply.builder()
+                .product(Product.builder().pno(productReplyDTO.getPno()).build()) // pno 설정
+                .productReplyer(productReplyDTO.getProductReplyer())
+                .productReplyText(productReplyDTO.getProductReplyText())
+//                .regDate(LocalDateTime.now())
+//                .modDate(LocalDateTime.now())
+                .build();
+
+        ProductReply result = productReplyRepository.save(productReply);
+
+        return result.getPrno();
     }
     @Override
     public ProductReplyDTO read(Long prno){
