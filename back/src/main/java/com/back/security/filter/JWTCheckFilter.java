@@ -35,6 +35,8 @@ public class JWTCheckFilter extends OncePerRequestFilter{
         log.info("check uri......................."+path);
 
         //경로의 호출은 체크하지 않음
+
+        //MEMBER -------------------------------------------------
         if(path.startsWith("/api/member/login")) {
             return true;
         }
@@ -50,12 +52,15 @@ public class JWTCheckFilter extends OncePerRequestFilter{
         if(path.startsWith("/api/member/check/")) {
             return true;
         }
-
+        //--------------------------------------------------------
 
         if(path.startsWith("/api/products/")) {
             return true;
         }
         if(path.startsWith("/products/list")) {
+            return true;
+        }
+        if(path.startsWith("/products/replies/")) {
             return true;
         }
         if(path.startsWith("/community/")) {

@@ -2,6 +2,7 @@ package com.back.controller.member;
 
 
 import com.back.domain.cart.Cart;
+import com.back.domain.member.MemberRole;
 import com.back.dto.cart.CartItemListDTO;
 import com.back.repository.cart.CartItemRepository;
 import com.back.repository.cart.CartRepository;
@@ -98,7 +99,7 @@ public class MemberController {
 
         Member member = memberRepository.findByEmail(memberModifyDTO.getEmail());
 
-        MemberSecurityDTO memberSecurityDTO = entityToDTO(member);
+        MemberSecurityDTO memberSecurityDTO = memberService.entityToDTO(member);
 
         Map<String, Object> claims = memberSecurityDTO.getClaims();
 
@@ -231,20 +232,13 @@ public class MemberController {
 
         return claims;
     }
-    private final MemberSecurityDTO entityToDTO(Member member){
 
-        MemberSecurityDTO dto = new MemberSecurityDTO(
-                member.getEmail(),
-                member.getPw(),
-                member.getName(),
-                member.getNumber(),
-                member.getNickname(),
-                member.getStreetAddress(),
-                member.getDetailAddress(),
-                member.getMemberRoleList()
-                        .stream()
-                        .map(memberRole -> memberRole.name()).collect(Collectors.toList()),
-                member.getAddressCode());
-        return dto;
+    @PostMapping("/changeRole")
+    public ResponseEntity<?> changeRole(@RequestParam("email") String email,
+                                        @RequestParam("newRole") String newRole) {
+
+        memberService.changeRole(email,newRole);
+
+            return ResponseEntity.ok(true);
     }
 }

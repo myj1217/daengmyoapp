@@ -44,14 +44,17 @@ const ProductAddComponent = () => {
     formData.append("price", product.price);
     formData.append("artist", loginState.nickname);
 
-    console.log("formData");
-    console.log(formData);
+    // console.log("formData");
+    // console.log(formData);
 
     setFetching(true);
 
     postAdd(formData).then((data) => {
+      console.log("formData");
+      console.log(data);
       setFetching(false);
       setResult(data.result);
+      console.log(result);
     });
   };
 

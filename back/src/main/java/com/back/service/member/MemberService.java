@@ -22,6 +22,7 @@ public interface MemberService {
 
     void modifyMember(MemberModifyDTO memberModifyDTO); // 추가되었음
 
+    void changeRole(String email,String newRole);
     default MemberSecurityDTO entityToDTO(Member member){
 
         MemberSecurityDTO dto = new MemberSecurityDTO(

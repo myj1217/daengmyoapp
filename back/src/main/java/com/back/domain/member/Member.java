@@ -47,6 +47,9 @@ public class Member {
     }
     private String addressCode;				// 우편 번호
 
+    public void clearRole(){
+        memberRoleList.clear();
+    }
 
     public void changeNickname(String nickname) {this.nickname = nickname; }
 
@@ -73,9 +76,6 @@ public class Member {
 
     public void changeDetailAddress(String detailAddress) {this.detailAddress = detailAddress;}
 
-//    public void changeSocial(boolean social) {
-//        this.social = social;
-//    }
 
     public void changeVerificationCode(String verificationCode) {this.verificationCode = verificationCode;}
 

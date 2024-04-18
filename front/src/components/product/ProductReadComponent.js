@@ -36,6 +36,7 @@ const ProductReadComponent = ({ pno }) => {
   const { isLogin, loginState } = useCustomLogin();
   const navigate = useNavigate();
   const [reviewModal, setReviewModal] = useState(false); // 모달 상태 추가
+  const [reviewListener, setReviewListener] = useState(false);
 
   // 장바구니 담기 핸들러
   const handleClickAddCart = () => {
@@ -102,11 +103,18 @@ const ProductReadComponent = ({ pno }) => {
   };
 
   const handleCloseModal = () => {
+    console.log("handleCloseModal");
     setReviewModal(false); // 모달 닫기;
+  };
+
+  const reviewRedirect = () => {
+    console.log("setReviewListener true");
+    setReviewListener(true);
   };
 
   useEffect(() => {
     setFetching(true);
+    setReviewListener(false);
 
     // 상품 정보
     getOne(pno).then((data) => {
@@ -121,7 +129,7 @@ const ProductReadComponent = ({ pno }) => {
       setReview(data);
       setFetching(false);
     });
-  }, [pno]);
+  }, [pno, reviewListener]);
 
   return (
     <>
@@ -193,10 +201,19 @@ const ProductReadComponent = ({ pno }) => {
           </div>
         </div>
       </div>
+      <div className="my-10 text-5xl">상품리뷰</div>
       <div
         id="review zone"
         className="w-full border-2 border-gray-300 mt-4 m-2 p-4"
       >
+        <div>
+          {" "}
+          <div className="flex text-lg p-4 justify-between">
+            <div className="w-1/6 text-center p-1">작성자</div>
+            <div className="w-4/6 text-center p-1">내용</div>
+            <div className="w-1/6 text-center p-1">등록시간</div>
+          </div>
+        </div>
         <div className="flex flex-col">
           {review.dtoList ? (
             review.dtoList.map((product) => (
@@ -205,13 +222,13 @@ const ProductReadComponent = ({ pno }) => {
                 className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
               >
                 <div className="flex text-lg p-4 justify-between">
-                  <div className="w-1/4 text-center p-1">
+                  <div className="w-1/6 text-center p-1">
                     {product.productReplyer}
                   </div>
-                  <div className="w-2/4 text-center p-1">
+                  <div className="w-4/6 text-center p-1">
                     {product.productReplyText}
                   </div>
-                  <div className="w-1/4 text-center p-1">{product.regDate}</div>
+                  <div className="w-1/6 text-center p-1">{product.regDate}</div>
                 </div>
               </div>
             ))
@@ -279,6 +296,7 @@ const ProductReadComponent = ({ pno }) => {
                   <ReviewAddComponent
                     handleCloseModal={handleCloseModal}
                     pno={pno}
+                    reviewRedirect={reviewRedirect}
                   />
                 </div>
               </div>
