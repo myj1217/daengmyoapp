@@ -29,14 +29,14 @@ const AdminComponent = () => {
   };
 
   return (
-    <div className="flex w-full h-full flex-col">
+    <div className="flex w-full h-full flex-col rounded-lg shadow-xl min-h-screen">
       {/* 위쪽 탭 메뉴 */}
-      <div className="w-full border-b-2">
+      <div className="w-full border-b">
 
         <div className="flex flex-row w-full">
           <button
             onClick={() => handleTabClick("members")}
-            className={`p-3 cursor-pointer ${
+            className={`border-r border-gray-300 p-3 cursor-pointer ${
               selectedTab === "members"
                 ? "bg-gray-300 hover:bg-gray-400 transition duration-200"
                 : "transition duration-200 hover:bg-gray-400"
@@ -46,7 +46,7 @@ const AdminComponent = () => {
           </button>
           <button
             onClick={() => handleTabClick("write")}
-            className={`p-3 cursor-pointer ${
+            className={`border-r border-gray-300 p-3 cursor-pointer ${
               selectedTab === "write"
                 ? "bg-gray-300 hover:bg-gray-400 transition duration-200"
                 : "transition duration-200 hover:bg-gray-400"
@@ -56,7 +56,7 @@ const AdminComponent = () => {
           </button>
           <button
             onClick={() => handleTabClick("orders")}
-            className={`p-3 cursor-pointer ${
+            className={`border-r border-gray-300 p-3 cursor-pointer ${
               selectedTab === "orders"
                 ? "bg-gray-300 hover:bg-gray-400 transition duration-200"
                 : "transition duration-200 hover:bg-gray-400"

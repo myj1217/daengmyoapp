@@ -75,7 +75,7 @@ public class MemberController {
     }
 
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     @GetMapping("/list")
     public ResponseEntity<List<Member>> getAllMembers() {
 
@@ -113,6 +113,24 @@ public class MemberController {
 
     }
 
+    @PostMapping("/modifyPw")
+    @ResponseBody
+    public ResponseEntity<String> modifyPw(@RequestParam("email")String email,
+                                           @RequestParam("pw")String pw,
+                                           @RequestParam("newPw")String newPw) {
+        // 이메일과 일치하는 회원이 존재하는지 확인
+        Member member = memberRepository.findByEmail(email);
+        // 비밀번호 검사하기
+        if (passwordEncoder.matches(pw,member.getPw())) {
+            member.changePw(passwordEncoder.encode(newPw));
+            memberRepository.save(member);
+            log.info(email + "의 비밀번호가 변경되었습니다.");
+            return ResponseEntity.ok("비밀번호가 성공적으로 재설정되었습니다.");
+        } else {
+            log.info(email + "의 비밀번호 변경 실패.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("기존 비밀번호가 일치하지 않습니다.");
+        }
+    }
 
     @PostMapping("/sendCode")
     public ResponseEntity<String> checkMember(@RequestParam("email") String email) {
@@ -151,13 +169,11 @@ public class MemberController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<String> delete(@RequestParam("email") String email, @RequestParam("password") String password) {
-        boolean emailAndPw = memberRepository.existsByEmailAndPw(email, password);
-        if (emailAndPw) {
-            Member member = memberRepository.findByEmail(email);
+    public ResponseEntity<String> delete(@RequestParam("email") String email, @RequestParam("pw") String pw) {
+
+        Member member = memberRepository.findByEmail(email);
+        if (passwordEncoder.matches(pw,member.getPw())) {
             Cart cart = cartRepository.findByOwner(member);
-            log.info("-----------------------------------------------------");
-            log.info(cart);
 
             if(cart != null) {
                 // 1. 해당 회원의 장바구니에 연결된 모든 장바구니 항목을 삭제
@@ -166,14 +182,31 @@ public class MemberController {
                 // 2. 회원의 장바구니를 삭제
                 cartRepository.delete(cart);
             }
-
             // 3. 회원을 삭제
             memberRepository.delete(member);
 
             return ResponseEntity.ok("회원 탈퇴되었습니다.");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("비밀번호가 올바르지 않습니다.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("비밀번호가 올바르지 않습니다!");
+
         }
+    }
+    @PostMapping("/deleteUsers")
+    public ResponseEntity<String> delete(@RequestParam("email") String email) {
+
+        Member member = memberRepository.findByEmail(email);
+            Cart cart = cartRepository.findByOwner(member);
+            if (cart != null) {
+                // 1. 해당 회원의 장바구니에 연결된 모든 장바구니 항목을 삭제
+                cartItemRepository.deleteAllByCart(cart);
+
+                // 2. 회원의 장바구니를 삭제
+                cartRepository.delete(cart);
+            }
+            // 3. 회원을 삭제
+            memberRepository.delete(member);
+
+            return ResponseEntity.ok("회원 탈퇴되었습니다.");
     }
 
 
@@ -233,11 +266,14 @@ public class MemberController {
         return claims;
     }
 
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
     @PostMapping("/changeRole")
     public ResponseEntity<?> changeRole(@RequestParam("email") String email,
                                         @RequestParam("newRole") String newRole) {
 
         memberService.changeRole(email,newRole);
+
 
             return ResponseEntity.ok(true);
     }

@@ -26,8 +26,6 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     //이메일과 인증코드를 사용해서 회원찾기.
     Member findByEmailAndVerificationCode(@Param("email") String email, @Param("verificationCode") String verificationCode);
 
-    //탈퇴를 위한 이메일과 비밀번호 조회
-    boolean existsByEmailAndPw(@Param("email")String email, @Param("pw")String pw);
 
 
     boolean existsByEmail(@Param("email")String email);

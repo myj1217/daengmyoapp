@@ -235,6 +235,8 @@ public class MemberServiceImpl implements MemberService {
             member.clearRole();
             if ("USER".equals(newRole)) {
                 member.addRole(MemberRole.USER);
+            } else if ("MANAGER".equals(newRole)) {
+                member.addRole(MemberRole.MANAGER);
             } else if ("ADMIN".equals(newRole)) {
                 member.addRole(MemberRole.ADMIN);
             }
