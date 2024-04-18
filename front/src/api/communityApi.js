@@ -52,8 +52,13 @@ export const delCommunity = async (communityBno) => {
 //******** Reply  *************/
 
 // 댓글 리스트
-export const replyList = async (communityBno) => {
-  const res = await axios.get(`${host}/reply/list/${communityBno}`);
+export const getReplies = async (communityBno, page, size) => {
+  const res = await axios.get(`${host}/reply/list/${communityBno}`, {
+    params: {
+      page: page,
+      size: size,
+    },
+  });
   return res.data;
 };
 
