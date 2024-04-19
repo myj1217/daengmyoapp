@@ -58,76 +58,64 @@ const InfoComponent = () => {
   };
 
   return (
-    <div className="flex h-full min-h-screen justify-center">
+    <div className="flex flex-col items-center justify-center h-full min-h-screen">
       {isModify ? (
         <ModifyComponent setIsModify={setIsModify} />
       ) : (
-        <div className="w-full p-8 bg-white rounded-lg shadow-xl">
+        <div className="w-full max-w-4xl mb-auto mt-20 p-8 bg-white rounded-lg shadow-lg">
           <div className="grid grid-cols-2 gap-8">
             {/* Left column */}
-            <div>
+            <div className="pl-8 text-center">
+              <p className="text-lg font-semibold mb-8">개인 정보</p>
               <div className="mb-4">
-                <label htmlFor="email">이메일</label>
-                <div className="text-lg border border-gray-300 p-2 rounded-md">
-                  {member.email}
-                </div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">이메일</label>
+                <div className="text-lg border-b border-gray-300 py-2">{member.email}</div>
               </div>
               <div className="mb-4">
-                <label htmlFor="name">이름(실제 이름)</label>
-                <div className="text-lg border border-gray-300 p-2 rounded-md">
-                  {member.name}
-                </div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">이름(실제 이름)</label>
+                <div className="text-lg border-b border-gray-300 py-2">{member.name}</div>
               </div>
               <div className="mb-4">
-                <label htmlFor="nickname">닉네임</label>
-                <div className="text-lg border border-gray-300 p-2 rounded-md">
-                  {member.nickname}
-                </div>
+                <label htmlFor="nickname" className="block text-sm font-medium text-gray-700">닉네임</label>
+                <div className="text-lg border-b border-gray-300 py-2">{member.nickname}</div>
               </div>
               <div>
-                <label htmlFor="number">휴대폰 번호</label>
-                <div className="text-lg border border-gray-300 p-2 rounded-md">
-                  {member.number}
-                </div>
+                <label htmlFor="number" className="block text-sm font-medium text-gray-700">휴대폰 번호</label>
+                <div className="text-lg border-b border-gray-300 py-2">{member.number}</div>
               </div>
             </div>
             {/* Right column */}
-            <div className="border-l pl-8">
+            <div className="pl-8 text-center border-l">
+              <p className="text-lg font-semibold mb-8">주소지</p>
               <div className="mb-4">
-                <label htmlFor="addressCode">우편번호</label>
-                <div className="text-lg border border-gray-300 p-2 rounded-md">
-                  {member.addressCode || "저장된 우편번호가 없습니다."}
-                </div>
+                <label htmlFor="addressCode" className="block text-sm font-medium text-gray-700">우편번호</label>
+                <div className="text-lg border-b border-gray-300 py-2">{member.addressCode || "저장된 우편번호가 없습니다."}</div>
               </div>
               <div className="mb-4">
-                <label htmlFor="streetAddress">주소</label>
-                <div className="text-lg border border-gray-300 p-2 rounded-md">
-                  {member.streetAddress || "저장된 주소가 없습니다."}
-                </div>
+                <label htmlFor="streetAddress" className="block text-sm font-medium text-gray-700">주소</label>
+                <div className="text-lg border-b border-gray-300 py-2">{member.streetAddress || "저장된 주소가 없습니다."}</div>
               </div>
               <div>
-                <label htmlFor="detailAddress">상세 주소</label>
-                <div className="text-lg border border-gray-300 p-2 rounded-md">
-                  {member.detailAddress || "저장된 상세 주소가 없습니다."}
-                </div>
+                <label htmlFor="detailAddress" className="block text-sm font-medium text-gray-700">상세 주소</label>
+                <div className="text-lg border-b border-gray-300 py-2">{member.detailAddress || "저장된 상세 주소가 없습니다."}</div>
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center w-full mt-8">
-          <button
-            className="w-full max-w-2xl bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-4"
-            onClick={goModify}
-          >
-            정보 수정하기
-          </button>
-          <button
-            className="w-full max-w-2xl bg-red-400 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-2"
-            onClick={remove}
-          >
-            회원탈퇴
-          </button>
+          <div className="mt-8">
+            <button
+              className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-md transition duration-200"
+              onClick={goModify}
+            >
+              내 정보 수정하기
+            </button>
+            <button
+              className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-md mt-2 transition duration-200"
+              onClick={remove}
+            >
+              회원탈퇴
+            </button>
+          </div>
         </div>
-      </div>
       )}
       {showModal && (
         <div className="fixed z-10 inset-0 overflow-y-auto">

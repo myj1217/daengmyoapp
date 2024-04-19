@@ -83,7 +83,7 @@ const MyPageComponent = () => {
         </div>
       </div>
       {/* 오른쪽에 선택된 탭 컨텐츠 */}
-      <div className="w-full">{renderTabContent()}</div>
+      <div className="w-full shadow-lg">{renderTabContent()}</div>
     </div>
   );
 };
