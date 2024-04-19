@@ -96,36 +96,38 @@ const InfoComponent = () => {
               <div className="mb-4">
                 <label htmlFor="addressCode">우편번호</label>
                 <div className="text-lg border border-gray-300 p-2 rounded-md">
-                  {member.addressCode}
+                  {member.addressCode || "저장된 우편번호가 없습니다."}
                 </div>
               </div>
               <div className="mb-4">
                 <label htmlFor="streetAddress">주소</label>
                 <div className="text-lg border border-gray-300 p-2 rounded-md">
-                  {member.streetAddress}
+                  {member.streetAddress || "저장된 주소가 없습니다."}
                 </div>
               </div>
               <div>
                 <label htmlFor="detailAddress">상세 주소</label>
                 <div className="text-lg border border-gray-300 p-2 rounded-md">
-                  {member.detailAddress}
+                  {member.detailAddress || "저장된 상세 주소가 없습니다."}
                 </div>
               </div>
             </div>
           </div>
+          <div className="flex flex-col items-center justify-center w-full mt-8">
           <button
-            className="w-full bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-4"
+            className="w-full max-w-2xl bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-4"
             onClick={goModify}
           >
             정보 수정하기
           </button>
           <button
-            className="w-full bg-red-400 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-2"
+            className="w-full max-w-2xl bg-red-400 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-2"
             onClick={remove}
           >
             회원탈퇴
           </button>
         </div>
+      </div>
       )}
       {showModal && (
         <div className="fixed z-10 inset-0 overflow-y-auto">

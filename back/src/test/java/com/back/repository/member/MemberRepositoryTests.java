@@ -20,7 +20,7 @@ public class MemberRepositoryTests {
 
     @Test
     public void testInsertUser(){  // Create regular users
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 10; i++) {
             String email = "user" + i + "@aaa.com";
             String nickname = "유저" + i;
             Member member = Member.builder()
@@ -40,7 +40,7 @@ public class MemberRepositoryTests {
 
     @Test
     public void testInsertManager(){   // Create managers
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 10; i++) {
             String email = "manager" + i + "@aaa.com";
             String nickname = "매니저" + i;
             Member member = Member.builder()

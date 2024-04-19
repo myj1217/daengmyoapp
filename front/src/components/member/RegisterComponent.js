@@ -18,15 +18,10 @@ const RegisterComponent = () => {
     profileImage: "",
   });
 
-
-
   const [errors, setErrors] = useState({});
-
   const [passwordMatch, setPasswordMatch] = useState(true);
-
   const navigate = useNavigate();
 
-  //비밀번호 확인에 대한 처리
   useEffect(() => {
     if (formValues.pw !== formValues.confirmPassword) {
       setErrors((prevErrors) => ({
@@ -42,7 +37,6 @@ const RegisterComponent = () => {
       setPasswordMatch(true);
     }
 
-    // 비밀번호 길이 확인
     if (
       (formValues.pw !== "" && formValues.pw.length < 4) ||
       formValues.pw.length > 16
@@ -59,7 +53,6 @@ const RegisterComponent = () => {
     }
   }, [formValues.pw, formValues.confirmPassword]);
 
-  // 이름 길이 확인
   useEffect(() => {
     if (formValues.name !== "") {
       if (formValues.name.length < 2 || formValues.name.length > 16) {
@@ -76,7 +69,6 @@ const RegisterComponent = () => {
     }
   }, [formValues.name]);
 
-  // 전화번호 확인
   useEffect(() => {
     const phoneNumberPattern = /^\d+$/;
     if (formValues.number !== "") {
@@ -103,13 +95,9 @@ const RegisterComponent = () => {
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
-
-
-  // 닉네임,이메일 실시간 중복 체크 부분
   useEffect(() => {
     const checkNicknameAndEmail = async () => {
       if (formValues.nickname !== "") {
-        // 닉네임이 사용 가능한 경우에만 길이 확인을 수행합니다.
         const nicknameAvailable = await checkNickname(formValues.nickname);
         if (!nicknameAvailable) {
           setErrors((prevErrors) => ({
@@ -185,21 +173,18 @@ const RegisterComponent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 'confirmPassword'는 백엔드로 전송할 필요가 없으므로 제외
     const { confirmPassword, ...registrationData } = formValues;
 
     try {
       if (!passwordMatch) {
         return;
       }
-      // API 호출을 통해 회원가입 요청
       const data = await registerMember(registrationData);
       console.log("회원가입 성공:", data);
       alert("정상적으로 회원가입 되었습니다.");
-      navigate("/member/login", { replace: true }); // 성공 후 로그인으로, 이전기록남기지않음
+      navigate("/member/login", { replace: true });
     } catch (error) {
       console.error("회원가입 실패:", error);
-      // 실패한 필드에 대한 에러 메시지를 설정
       if (error) {
         setErrors(error);
       } else {
@@ -209,17 +194,19 @@ const RegisterComponent = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center  bg-green-50 flex-col w-full">
+    <div className="h-full min-h-screen flex justify-center items-center bg-green-50 flex-col w-full">
       <div className="w-full h-24 flex justify-center items-center">
-      <Link to="/" className="text-lg font-bold">
+        <Link to="/" className="text-lg font-bold">
           <img src={image} alt="logo" className="w-44 h-auto"></img>
         </Link>
-        </div>
+      </div>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-2xl bg-green-50 rounded-lg mb-16"
+        className="grid grid-cols-2 border max-w-4xl w-full bg-green-50 rounded-lg"
       >
-        {/* 이메일 입력 필드 */}
+        {/* 왼쪽 컬럼 */}
+        <div className="col-span-1 p-6">
+          <p className="text-center mb-8">필수 입력 항목</p>
         <label htmlFor="email">이메일</label>
         {errors.valid_email && (
           <p className="text-red-500">*{errors.valid_email}</p>
@@ -289,8 +276,25 @@ const RegisterComponent = () => {
           onChange={handleChange}
           placeholder="닉네임"
         />
-        {/* 주소 입력 필드 */}
-        <label htmlFor="addressCode">우편번호 (선택)</label>
+         <label htmlFor="number">휴대폰 번호</label>
+        {errors.valid_number && (
+          <p className="text-red-500">*{errors.valid_number}</p>
+        )}
+        <input
+          className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          type="text"
+          name="number"
+          id="number"
+          value={formValues.number}
+          onChange={handleChange}
+          placeholder="휴대폰 번호"
+        />
+          {/* 다른 입력 필드들도 동일하게 구현 */}
+        </div>
+        {/* 오른쪽 컬럼 */}
+        <div className="col-span-1 p-6">
+        <p className="text-center mb-8">선택 입력 항목</p>
+        <label htmlFor="addressCode">우편번호</label>
         {errors.valid_addressCode && (
           <p className="text-red-500">*{errors.valid_addressCode}</p>
         )}
@@ -314,7 +318,7 @@ const RegisterComponent = () => {
             주소 찾기
           </button>
         </div>
-        <label htmlFor="streetAddress">주소 (선택)</label>
+        <label htmlFor="streetAddress">주소</label>
         {errors.valid_streetAddress && (
           <p className="text-red-500">*{errors.valid_streetAddress}</p>
         )}
@@ -330,7 +334,7 @@ const RegisterComponent = () => {
           />
         </div>
         {/* 상세 주소 입력 필드 */}
-        <label htmlFor="detailAddress">상세 주소 (선택)</label>
+        <label htmlFor="detailAddress">상세 주소</label>
         <input
           className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
           type="text"
@@ -341,34 +345,25 @@ const RegisterComponent = () => {
           placeholder="상세 주소"
         />
         {/* 전화번호 입력 필드 */}
-        <label htmlFor="number">휴대폰 번호</label>
-        {errors.valid_number && (
-          <p className="text-red-500">*{errors.valid_number}</p>
-        )}
-        <input
-          className="w-full p-3 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
-          type="text"
-          name="number"
-          id="number"
-          value={formValues.number}
-          onChange={handleChange}
-          placeholder="휴대폰 번호"
-        />
+       
         {/* 회원가입 버튼 */}
+        </div>
+      </form>
+      <div className="flex flex-col w-full justify-center items-center">
         {Object.values(errors).some((error) => error !== "") && (
-          <p className="text-red-500 mb-4">
+          <p className="text-red-500 mt-2">
             가입 정보를 양식에 맞게 수정해주세요!
           </p>
         )}
         <button
-          className="w-full bg-black hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-md transition duration-200"
+          className="w-72 mt-2 mb-2 bg-black hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-md transition duration-200"
           type="submit"
         >
           가입하기
         </button>
-      </form>
+        </div>
     </div>
+  
   );
 };
-
 export default RegisterComponent;
