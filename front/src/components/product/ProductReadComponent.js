@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { getOne } from "../../api/productApi";
-import { replyList } from "../../api/productReplyApi";
+// import { replyDel, replyList } from "../../api/productReplyApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
-import ReviewAddComponent from "../product/ReviewAddComponent";
+// import ReviewAddComponent from "../product/ReviewAddComponent";
+import ReviewListComponent from "./ReviewListComponent";
 
 const initState = {
   pno: 0,
@@ -17,26 +18,26 @@ const initState = {
   uploadFileNames: [],
 };
 
-const iniState = {
-  prno: 0,
-  pno: 0,
-  productReplyText: "",
-  productReplyer: "",
-  regDate: "",
-};
+// const iniState = {
+//   prno: 0,
+//   pno: 0,
+//   productReplyText: "",
+//   productReplyer: "",
+//   regDate: "",
+// };
 
 const host = API_SERVER_HOST;
 
 const ProductReadComponent = ({ pno }) => {
   const [product, setProduct] = useState(initState);
-  const [review, setReview] = useState(iniState);
+  // const [review, setReview] = useState(iniState);
   const { page, size, moveToList, moveToModify } = useCustomMove();
   const [fetching, setFetching] = useState(false);
   const { changeCart, cartItems } = useCustomCart();
   const { isLogin, loginState } = useCustomLogin();
   const navigate = useNavigate();
-  const [reviewModal, setReviewModal] = useState(false); // 모달 상태 추가
-  const [reviewListener, setReviewListener] = useState(false);
+  // const [reviewModal, setReviewModal] = useState(false); // 모달 상태 추가
+  // const [reviewListener, setReviewListener] = useState(false);
 
   // 장바구니 담기 핸들러
   const handleClickAddCart = () => {
@@ -64,23 +65,6 @@ const ProductReadComponent = ({ pno }) => {
       changeCart({ email: loginState.email, pno: pno, qty: qty });
       window.alert("장바구니에 성공적으로 추가되었습니다.");
     }
-    // let qty = 1;
-
-    // const addedItem = cartItems.filter((item) => item.pno === parseInt(pno))[0];
-
-    // if (addedItem) {
-    //   if (
-    //     window.confirm(
-    //       "장바구니에 이미 추가된 상품입니다. 추가하시겠습니까? "
-    //     ) === false
-    //   ) {
-    //     return;
-    //   }
-    //   qty = addedItem.qty + 1;
-    // }
-
-    // changeCart({ email: loginState.email, pno: pno, qty: qty });
-    // window.alert("장바구니에 성공적으로 추가되었습니다.");
   };
 
   // 목록으로 돌아가기 핸들러
@@ -88,33 +72,45 @@ const ProductReadComponent = ({ pno }) => {
     navigate("/products/list");
   };
 
-  const reviewHandler = () => {
-    if (!isLogin) {
-      if (
-        window.confirm(
-          "로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?"
-        ) === false
-      ) {
-        return;
-      }
-      navigate("/member/login");
-    }
-    setReviewModal(true); // 모달 열기
-  };
+  // // 리뷰 작성하기 핸들러
+  // const reviewHandler = () => {
+  //   if (!isLogin) {
+  //     if (
+  //       window.confirm(
+  //         "로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?"
+  //       ) === false
+  //     ) {
+  //       return;
+  //     }
+  //     navigate("/member/login");
+  //   }
+  //   setReviewModal(true); // 모달 열기
+  // };
 
-  const handleCloseModal = () => {
-    console.log("handleCloseModal");
-    setReviewModal(false); // 모달 닫기;
-  };
+  // // 리뷰창 닫기 핸들러
+  // const handleCloseModal = () => {
+  //   console.log("handleCloseModal");
+  //   setReviewModal(false); // 모달 닫기;
+  // };
 
-  const reviewRedirect = () => {
-    console.log("setReviewListener true");
-    setReviewListener(true);
-  };
+  // // 리뷰 완료 후 상품정보창으로 리다이렉트 핸들러
+  // const reviewRedirect = () => {
+  //   console.log("setReviewListener true");
+  //   setReviewListener(true);
+  // };
+
+  // // 리뷰 삭제 핸들러
+  // const reviewDeleteHandler = () => {
+  //   setFetching(true);
+  //   replyDel(pno).then((data) => {
+  //     // setResult("Deleted");
+  //     setFetching(false);
+  //   });
+  // };
 
   useEffect(() => {
     setFetching(true);
-    setReviewListener(false);
+    // setReviewListener(false);
 
     // 상품 정보
     getOne(pno).then((data) => {
@@ -124,12 +120,12 @@ const ProductReadComponent = ({ pno }) => {
     });
 
     // 상품 리뷰
-    replyList(pno).then((data) => {
-      console.log(data);
-      setReview(data);
-      setFetching(false);
-    });
-  }, [pno, reviewListener]);
+    // replyList(pno).then((data) => {
+    //   console.log(data);
+    //   setReview(data);
+    //   setFetching(false);
+    // });
+  }, [pno]);
 
   return (
     <>
@@ -201,109 +197,7 @@ const ProductReadComponent = ({ pno }) => {
           </div>
         </div>
       </div>
-      <div className="my-10 text-5xl">상품리뷰</div>
-      <div
-        id="review zone"
-        className="w-full border-2 border-gray-300 mt-4 m-2 p-4"
-      >
-        <div>
-          {" "}
-          <div className="flex text-lg p-4 justify-between">
-            <div className="w-1/6 text-center p-1">작성자</div>
-            <div className="w-4/6 text-center p-1">내용</div>
-            <div className="w-1/6 text-center p-1">등록시간</div>
-          </div>
-        </div>
-        <div className="flex flex-col">
-          {review.dtoList ? (
-            review.dtoList.map((product) => (
-              <div
-                key={product.prno}
-                className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
-              >
-                <div className="flex text-lg p-4 justify-between">
-                  <div className="w-1/6 text-center p-1">
-                    {product.productReplyer}
-                  </div>
-                  <div className="w-4/6 text-center p-1">
-                    {product.productReplyText}
-                  </div>
-                  <div className="w-1/6 text-center p-1">{product.regDate}</div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div>No reviews available</div>
-          )}
-        </div>
-        <button
-          type="button"
-          className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600 text-white"
-          onClick={reviewHandler}
-        >
-          리뷰 작성하기
-        </button>
-        {reviewModal && ( // 모달 표시 조건 추가
-          <div
-            className="fixed top-0 left-0 w-full h-full flex justify-center items-center overflow-y-auto bg-black bg-opacity-80"
-            style={{ zIndex: 9999 }}
-          >
-            <div
-              className="bg-white p-8 rounded-lg"
-              style={{ width: "400px", height: "600px", zIndex: 9999999 }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100%",
-                }}
-              >
-                {/* <div id="anc modal">
-                <h1>리뷰모달입니다.</h1>
-                <div id="review writting zone"></div>
-                <button
-                  onClick={handleCloseModal}
-                  className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
-                  style={{
-                    width: "200px",
-                    height: "35px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  작성완료
-                </button>
-                <button
-                  onClick={handleCloseModal}
-                  className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
-                  style={{
-                    width: "200px",
-                    height: "35px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  닫기
-                </button>
-                </div> */}
-                <div id="comp modal">
-                  <ReviewAddComponent
-                    handleCloseModal={handleCloseModal}
-                    pno={pno}
-                    reviewRedirect={reviewRedirect}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      <ReviewListComponent pno={pno} />
     </>
   );
 };
