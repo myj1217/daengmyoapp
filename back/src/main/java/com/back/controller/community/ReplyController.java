@@ -4,13 +4,17 @@ package com.back.controller.community;
 import com.back.dto.PageRequestDTO;
 import com.back.dto.PageResponseDTO;
 import com.back.dto.community.ReplyDTO;
+import com.back.dto.product.ProductReplyDTO;
 import com.back.service.community.ReplyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @Log4j2
@@ -36,10 +40,12 @@ public class ReplyController {
         return responseDTO;
     }
 
-    @PostMapping("/register/{communityBno}")
-    public Long regReply(@Valid @RequestBody ReplyDTO replyDTO) {
-
-        return replyService.regReply(replyDTO);
+    @PostMapping(value="/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Long> regReply(@Valid @RequestBody ReplyDTO replyDTO) {
+        Map<String, Long> resultMap = new HashMap<>();
+        Long replyRno = replyService.regReply(replyDTO);
+        resultMap.put("replyRno", replyRno);
+        return resultMap;
     }
 
     @PutMapping("/{replyRno}")
