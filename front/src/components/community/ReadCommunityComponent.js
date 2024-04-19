@@ -3,8 +3,9 @@ import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { API_SERVER_HOST } from "../../api/rootApi";
-import { getCommunity, getReplies } from "../../api/communityApi";
-import ReplyComponent from "./ReplyComponent";
+import { getCommunity } from "../../api/communityApi";
+import ReplyListComponent from "./ReplyListComponent";
+import { listReply } from "../../api/communityReplyApi";
 
 const initState = {
   communityBno: 0,
@@ -29,15 +30,6 @@ const ReadCommunityComponent = ({ communityBno }) => {
   // 로그인 정보
   const { loginState } = useCustomLogin();
 
-  const fetchReplies = async (communityBno, page, size) => {
-    try {
-      const data = await getReplies(communityBno, page, size);
-      setReplies(data);
-    } catch (error) {
-      console.error("Error fetching replies:", error);
-    }
-  };
-
   useEffect(() => {
     setFetching(true);
     getCommunity(communityBno)
@@ -49,8 +41,23 @@ const ReadCommunityComponent = ({ communityBno }) => {
         console.error("Error fetching community:", error);
         setFetching(false);
       });
+  }, [communityBno]);
 
-    fetchReplies(communityBno, 1, 10); // 예를 들어, 페이지는 1이고 사이즈는 10으로 지정
+  useEffect(() => {
+    if (communityBno) {
+      // communityBno가 정의되어 있는 경우에만 실행
+
+      setFetching(true);
+      listReply(communityBno)
+        .then((data) => {
+          setReplies(data);
+          setFetching(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching replies:", error);
+          setFetching(false);
+        });
+    }
   }, [communityBno]);
 
   return (
@@ -117,13 +124,8 @@ const ReadCommunityComponent = ({ communityBno }) => {
           돌아가기
         </button>
       </div>
-      {/* 댓글 컴포넌트 추가 */}
-      <ReplyComponent
-        communityBno={communityBno}
-        replies={replies}
-        setReplies={setReplies}
-        fetchReplies={fetchReplies}
-      />
+      <ReplyListComponent replies={replies} communityBno={communityBno} />{" "}
+      {/* ReplyListComponent 추가 */}
     </div>
   );
 };
