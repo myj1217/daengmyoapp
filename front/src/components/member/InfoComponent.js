@@ -48,91 +48,112 @@ const InfoComponent = () => {
         };
 
         await deleteId(data);
-          alert("정상적으로 회원탈퇴 되었습니다.");
-          doLogout();
-          navigate({ pathname: "/" }, { replace: true });
-        } catch (error) {
+        alert("정상적으로 회원탈퇴 되었습니다.");
+        doLogout();
+        navigate({ pathname: "/" }, { replace: true });
+      } catch (error) {
         alert(error);
       }
-      // 사용자 확인이 실패한 경우에 대한 처리
     }
   };
 
   return (
-    <div className="flex justify-center items-center bg-gray-100">
+    <div className="flex h-full min-h-screen justify-center">
       {isModify ? (
         <ModifyComponent setIsModify={setIsModify} />
       ) : (
         <div className="w-full p-8 bg-white rounded-lg shadow-xl">
-          <label>이메일</label>
-          <input
-            className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
-            type="text"
-            id="email"
-            value={member.email}
-            readOnly
-          />
-          <label htmlFor="name">이름(실제 이름)</label>
-          <input
-            className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
-            type="text"
-            id="name"
-            name="name"
-            value={member.name}
-            readOnly
-          />
-          <label htmlFor="nickname">닉네임</label>
-          <input
-            className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
-            type="text"
-            id="nickname"
-            name="nickname"
-            value={member.nickname}
-            readOnly
-          />
-          <label htmlFor="addressCode">우편번호</label>
-          <input
-            className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
-            type="text"
-            id="addressCode"
-            name="addressCode"
-            value={member.addressCode}
-            readOnly
-          />
-          <label htmlFor="streetAddress">주소</label>
-          <input
-            className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
-            type="text"
-            id="streetAddress"
-            value={member.streetAddress}
-            readOnly
-          />
-          <label htmlFor="detailAddress">상세 주소</label>
-          <input
-            className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
-            type="text"
-            id="detailAddress"
-            name="detailAddress"
-            value={member.detailAddress}
-            readOnly
-          />
-          <label htmlFor="number">휴대폰 번호</label>
-          <input
-            className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
-            type="text"
-            id="number"
-            name="number"
-            value={member.number}
-            readOnly
-          />
+          <div className="grid grid-cols-2 gap-8">
+            {/* 왼쪽 열 */}
+            <div>
+              <div className="mb-4">
+                <label htmlFor="email">이메일</label>
+                <input
+                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
+                  type="text"
+                  id="email"
+                  value={member.email}
+                  readOnly
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="name">이름(실제 이름)</label>
+                <input
+                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={member.name}
+                  readOnly
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="nickname">닉네임</label>
+                <input
+                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
+                  type="text"
+                  id="nickname"
+                  name="nickname"
+                  value={member.nickname}
+                  readOnly
+                />
+              </div>
+              <div>
+                <label htmlFor="number">휴대폰 번호</label>
+                <input
+                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
+                  type="text"
+                  id="number"
+                  name="number"
+                  value={member.number}
+                  readOnly
+                />
+              </div>
+            </div>
+            {/* 오른쪽 열 */}
+            <div>
+              <div className="mb-4">
+                <label htmlFor="addressCode">우편번호</label>
+                <input
+                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
+                  type="text"
+                  id="addressCode"
+                  name="addressCode"
+                  value={member.addressCode}
+                  readOnly
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="streetAddress">주소</label>
+                <input
+                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
+                  type="text"
+                  id="streetAddress"
+                  value={member.streetAddress}
+                  readOnly
+                />
+              </div>
+              <div>
+                <label htmlFor="detailAddress">상세 주소</label>
+                <input
+                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
+                  type="text"
+                  id="detailAddress"
+                  name="detailAddress"
+                  value={member.detailAddress}
+                  readOnly
+                />
+              </div>
+            </div>
+          </div>
           <button
-            className="w-full bg-gray-400 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-1"
+            className="w-full bg-gray-400 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-4"
             onClick={goModify}
           >
             정보 수정하기
           </button>
           <button
-            className="w-full bg-red-400 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-1"
+            className="w-full bg-red-400 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-2"
             onClick={remove}
           >
             회원탈퇴
@@ -141,6 +162,7 @@ const InfoComponent = () => {
       )}
       {showModal && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
+          <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div className="fixed inset-0 transition-opacity">
               <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -191,6 +213,7 @@ const InfoComponent = () => {
               </div>
             </div>
           </div>
+        </div>
         </div>
       )}
     </div>

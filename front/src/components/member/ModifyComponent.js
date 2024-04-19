@@ -210,7 +210,7 @@ const ModifyComponent = ({ setIsModify }) => {
           <p className="text-red-500">*{errors.valid_email}</p>
         )}
         <input
-          className="appearance-none cursor-not-allowed w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 bg-gray-200 mb-4"
+          className="appearance-none cursor-not-allowed w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500 bg-gray-200 mb-4"
           type="text"
           id="email"
           value={member.email}
@@ -218,8 +218,9 @@ const ModifyComponent = ({ setIsModify }) => {
           placeholder="이메일"
           readOnly
         />
+        <label>비밀번호</label>
         <button
-          className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-md transition duration-200 mb-4"
+          className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 rounded-md transition duration-200 mb-4"
           onClick={openModal}
         >
           비밀번호 변경하기
@@ -231,7 +232,7 @@ const ModifyComponent = ({ setIsModify }) => {
           <p className="text-red-500">*{errors.valid_name}</p>
         )}
         <input
-          className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
           type="text"
           id="name"
           name="name"
@@ -245,7 +246,7 @@ const ModifyComponent = ({ setIsModify }) => {
           <p className="text-red-500">*{errors.valid_nickname}</p>
         )}
         <input
-          className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
           type="text"
           id="nickname"
           name="nickname"
@@ -253,6 +254,20 @@ const ModifyComponent = ({ setIsModify }) => {
           onChange={handleChange}
           placeholder="닉네임"
         />
+         <label htmlFor="number">휴대폰 번호</label>
+        {errors.valid_number && (
+          <p className="text-red-500">*{errors.valid_number}</p>
+        )}
+        <input
+          className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          type="text"
+          id="number"
+          name="number"
+          value={member.number}
+          onChange={handleChange}
+          placeholder="휴대폰 번호"
+        />
+        
         {/* 주소 입력 필드 */}
         <label htmlFor="addressCode">우편번호</label>
         {errors.valid_addressCode && (
@@ -260,7 +275,7 @@ const ModifyComponent = ({ setIsModify }) => {
         )}
         <div className="flex mb-4">
           <input
-            className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500"
+            className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
             type="text"
             id="addressCode"
             name="addressCode"
@@ -273,7 +288,7 @@ const ModifyComponent = ({ setIsModify }) => {
           <button
             type="button"
             onClick={openPostcode}
-            className="ml-2 bg-orange-500 hover:bg-orange-600 text-white font-bold p-4 rounded-md"
+            className="ml-2 bg-orange-500 hover:bg-orange-600 text-white font-bold p-2 rounded-md"
             style={{ width: "150px" }}
           >
             주소 찾기
@@ -285,7 +300,7 @@ const ModifyComponent = ({ setIsModify }) => {
         )}
         <div className="flex mb-4">
           <input
-            className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500"
+            className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
             type="text"
             id="streetAddress"
             value={member.streetAddress}
@@ -297,7 +312,7 @@ const ModifyComponent = ({ setIsModify }) => {
         {/* 상세 주소 입력 필드 */}
         <label htmlFor="detailAddress">상세 주소</label>
         <input
-          className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
+          className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
           type="text"
           id="detailAddress"
           name="detailAddress"
@@ -306,29 +321,17 @@ const ModifyComponent = ({ setIsModify }) => {
           placeholder="상세 주소"
         />
         {/* 전화번호 입력 필드 */}
-        <label htmlFor="number">휴대폰 번호</label>
-        {errors.valid_number && (
-          <p className="text-red-500">*{errors.valid_number}</p>
-        )}
-        <input
-          className="w-full p-4 text-lg rounded-md border border-gray-300 focus:border-orange-500 mb-4"
-          type="text"
-          id="number"
-          name="number"
-          value={member.number}
-          onChange={handleChange}
-          placeholder="휴대폰 번호"
-        />
-        {/* 버튼 */}
+       
+        
 
         <button
-          className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-md transition duration-200"
+          className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 rounded-md transition duration-200"
           onClick={handleSubmit}
         >
           정보 수정 완료
         </button>
         <button
-          className="w-full bg-gray-400 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-1"
+          className="w-full bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 rounded-md transition duration-200 mt-1"
           onClick={goBack}
         >
           취소
