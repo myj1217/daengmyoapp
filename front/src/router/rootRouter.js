@@ -6,6 +6,7 @@ import cartRouter from "./cartRouter";
 import LoadingSpinner from "./LoadingSpninner";
 import communityRouter from "./communityRouter";
 import noticeRouter from "./noticeRouter";
+import communityReplyRouter from "./communityReplyRouter";
 
 const Main = lazy(() => import("../pages/etc/MainPage"));
 const Product = lazy(() => import("../pages/product/ProductListPage"));
@@ -73,6 +74,11 @@ const rootRouter = createBrowserRouter([
     //   </Suspense>
     // ),
     children: communityRouter(),
+  },
+  {
+    path: "communityReply",
+
+    children: communityReplyRouter(),
   },
   {
     path: "notice",
