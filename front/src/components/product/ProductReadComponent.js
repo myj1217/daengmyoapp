@@ -18,26 +18,15 @@ const initState = {
   uploadFileNames: [],
 };
 
-// const iniState = {
-//   prno: 0,
-//   pno: 0,
-//   productReplyText: "",
-//   productReplyer: "",
-//   regDate: "",
-// };
-
 const host = API_SERVER_HOST;
 
 const ProductReadComponent = ({ pno }) => {
   const [product, setProduct] = useState(initState);
-  // const [review, setReview] = useState(iniState);
   const { page, size, moveToList, moveToModify } = useCustomMove();
   const [fetching, setFetching] = useState(false);
   const { changeCart, cartItems } = useCustomCart();
   const { isLogin, loginState } = useCustomLogin();
   const navigate = useNavigate();
-  // const [reviewModal, setReviewModal] = useState(false); // 모달 상태 추가
-  // const [reviewListener, setReviewListener] = useState(false);
 
   // 장바구니 담기 핸들러
   const handleClickAddCart = () => {
@@ -72,45 +61,8 @@ const ProductReadComponent = ({ pno }) => {
     navigate("/products/list");
   };
 
-  // // 리뷰 작성하기 핸들러
-  // const reviewHandler = () => {
-  //   if (!isLogin) {
-  //     if (
-  //       window.confirm(
-  //         "로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?"
-  //       ) === false
-  //     ) {
-  //       return;
-  //     }
-  //     navigate("/member/login");
-  //   }
-  //   setReviewModal(true); // 모달 열기
-  // };
-
-  // // 리뷰창 닫기 핸들러
-  // const handleCloseModal = () => {
-  //   console.log("handleCloseModal");
-  //   setReviewModal(false); // 모달 닫기;
-  // };
-
-  // // 리뷰 완료 후 상품정보창으로 리다이렉트 핸들러
-  // const reviewRedirect = () => {
-  //   console.log("setReviewListener true");
-  //   setReviewListener(true);
-  // };
-
-  // // 리뷰 삭제 핸들러
-  // const reviewDeleteHandler = () => {
-  //   setFetching(true);
-  //   replyDel(pno).then((data) => {
-  //     // setResult("Deleted");
-  //     setFetching(false);
-  //   });
-  // };
-
   useEffect(() => {
     setFetching(true);
-    // setReviewListener(false);
 
     // 상품 정보
     getOne(pno).then((data) => {
@@ -118,13 +70,6 @@ const ProductReadComponent = ({ pno }) => {
       console.log(data);
       setFetching(false);
     });
-
-    // 상품 리뷰
-    // replyList(pno).then((data) => {
-    //   console.log(data);
-    //   setReview(data);
-    //   setFetching(false);
-    // });
   }, [pno]);
 
   return (

@@ -50,11 +50,11 @@ const ProductAddComponent = () => {
     setFetching(true);
 
     postAdd(formData).then((data) => {
-      console.log("formData");
-      console.log(data);
+      // console.log("formData");
+      // console.log(data);
       setFetching(false);
       setResult(data.result);
-      console.log(result);
+      // console.log(result);
     });
   };
 

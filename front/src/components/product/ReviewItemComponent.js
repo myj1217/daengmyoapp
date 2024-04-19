@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { replyDel } from "../../api/productReplyApi";
 import { useNavigate } from "react-router-dom";
+import FetchingModal from "../common/FetchingModal";
+// import ResultModal from "../common/ResultModal";
 
 const ReviewItemComponent = ({
   prno,
@@ -10,20 +12,40 @@ const ReviewItemComponent = ({
   reviewRedirect,
   pno,
 }) => {
-  const navigate = useNavigate();
+  const [fetching, setFetching] = useState(false);
+  // const navigate = useNavigate();
+  // const [result, setResult] = useState(null);
+
   // 리뷰 삭제 핸들러
   const reviewDeleteHandler = () => {
     if (window.confirm("해당 리뷰를 정말로 삭제하시겠습니까?") === false) {
       return;
     }
-    // setFetching(true);
-    replyDel(prno).then((data) => {
-      // setResult("Deleted");
-      //   setFetching(false);
-    });
 
-    reviewRedirect();
+    setFetching(true);
+
+    replyDel(prno)
+      .then((data) => {
+        // setResult(true);
+        // setResult("Deleted");
+        // setFetching(false);
+        reviewRedirect();
+      })
+      .catch((error) => {
+        console.error("리뷰 삭제 중 오류 발생:", error);
+      })
+      .finally(() => {
+        setFetching(false);
+      });
+
+    window.alert("해당 리뷰가 성공적으로 삭제되었습니다.");
   };
+
+  // const closeModal = () => {
+  //   //ResultModal 종료
+  //   setResult(null);
+  //   navigate({ pathname: "../" });
+  // };
 
   return (
     <li
@@ -32,6 +54,17 @@ const ReviewItemComponent = ({
         "border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
       }
     >
+      {fetching ? <FetchingModal /> : <></>}
+      {/* {result ? (
+        <ResultModal
+          title={"리뷰 삭제"}
+          // content={`${result}번째 상품으로 등록되었습니다!`}
+          content={"성공적으로 리뷰가 삭제되었습니다."}
+          callbackFn={closeModal}
+        />
+      ) : (
+        <></>
+      )} */}
       <div className="flex text-lg p-4 justify-between">
         <div className="w-1/6 text-center p-1">{productReplyer}</div>
         <div className="w-3/6 text-center p-1">{productReplyText}</div>
@@ -40,6 +73,7 @@ const ReviewItemComponent = ({
           <button
             className="bg-gray-700 hover:bg-gray-900 m-1 p-1 text-base text-white w-12 rounded-lg"
             onClick={reviewDeleteHandler}
+            disabled={fetching} // 요청 중일 때 버튼 비활성화
           >
             삭제
           </button>
