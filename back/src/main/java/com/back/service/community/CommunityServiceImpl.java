@@ -3,6 +3,7 @@ package com.back.service.community;
 
 import com.back.domain.community.Community;
 import com.back.domain.community.CommunityImage;
+import com.back.domain.product.ProductImage;
 import com.back.dto.PageRequestDTO;
 import com.back.dto.PageResponseDTO;
 import com.back.dto.community.CommunityDTO;
@@ -120,6 +121,17 @@ public class CommunityServiceImpl implements CommunityService {
                 .communityContent(community.getCommunityContent())
                 .communityWriter(community.getCommunityWriter())
                 .build();
+
+        List<CommunityImage> imageList = community.getImageList();
+
+        if(imageList == null || imageList.size() == 0 ){
+            return communityDTO;
+        }
+
+        List<String> fileNameList = imageList.stream().map(communityImage ->
+                communityImage.getFileName()).toList();
+
+        communityDTO.setUploadFileNames(fileNameList);
         return communityDTO;
     }
 

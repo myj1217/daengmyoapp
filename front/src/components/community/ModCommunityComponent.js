@@ -8,6 +8,7 @@ import {
   modCommunity,
 } from "../../api/communityApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
+import { useNavigate } from "react-router-dom";
 
 const initState = {
   communityBno: 0,
@@ -21,6 +22,8 @@ const ModCommunityComponent = ({ communityBno }) => {
   const [community, setCommunity] = useState(initState);
   const [result, setResult] = useState(null);
   const { moveToRead, moveToList } = useCustomMove();
+  const navigate = useNavigate(); // useNavigate 훅 추가
+
   const [fetching, setFetching] = useState(false);
   const uploadRef = useRef();
 
@@ -33,21 +36,17 @@ const ModCommunityComponent = ({ communityBno }) => {
   }, [communityBno]);
 
   const handleChangeCommunity = (e) => {
-    community[e.target.name] = e.target.value;
-
-    setCommunity({ ...community });
+    setCommunity({ ...community, [e.target.name]: e.target.value });
   };
 
   const deleteOldImages = (imageName) => {
-    const resultFileNames = community.uploadFileNames.filter(
-      (fileName) => fileName !== imageName
-    );
-
-    community.uploadFileNames = resultFileNames;
-
-    setCommunity({ ...community });
+    setCommunity({
+      ...community,
+      uploadFileNames: community.uploadFileNames.filter(
+        (fileName) => fileName !== imageName
+      ),
+    });
   };
-
   const handleClickModify = () => {
     const files = uploadRef.current.files;
     const formData = new FormData();
@@ -76,15 +75,7 @@ const ModCommunityComponent = ({ communityBno }) => {
     delCommunity(communityBno).then(() => {
       setResult("Deleted");
       setFetching(false);
-    });
-  };
-  const handleDeleteImage = (imageName) => {
-    // 이미지 삭제 기능 추가
-    setCommunity({
-      ...community,
-      uploadFileNames: community.uploadFileNames.filter(
-        (name) => name !== imageName
-      ),
+      moveToList({ page: 1 });
     });
   };
 
@@ -96,6 +87,10 @@ const ModCommunityComponent = ({ communityBno }) => {
     }
 
     setResult(null);
+  };
+
+  const handleClickList = () => {
+    navigate("/community/list");
   };
 
   return (
@@ -155,15 +150,21 @@ const ModCommunityComponent = ({ communityBno }) => {
             name="communityWriter"
             type="text"
             value={community.communityWriter}
-            // onChange={handleChangeCommunity}
+            onChange={handleChangeCommunity}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
 
         {/* More inputs similar to the above */}
         <div>
-          <label htmlFor="files">파일 수정:</label>
-          <input type="file" id="files" name="files" ref={uploadRef} multiple />
+          <label htmlFor="files">파일 첨부:</label>
+          <input
+            type={"file"}
+            id="files"
+            name="files"
+            ref={uploadRef}
+            multiple={true}
+          />
         </div>
 
         <div>
@@ -171,11 +172,11 @@ const ModCommunityComponent = ({ communityBno }) => {
           {community.uploadFileNames.map((imageName) => (
             <div key={imageName}>
               <img
-                src={`${API_SERVER_HOST}/community/file/${imageName}`}
+                src={`${API_SERVER_HOST}/community/view/${imageName}`}
                 alt={imageName}
                 className="w-32 h-32 object-cover"
               />
-              <button onClick={() => handleDeleteImage(imageName)}>
+              <button onClick={() => deleteOldImages(imageName)}>
                 이미지 삭제
               </button>
             </div>
@@ -196,7 +197,7 @@ const ModCommunityComponent = ({ communityBno }) => {
             삭제
           </button>
           <button
-            onClick={() => moveToList({ page: 1 })}
+            onClick={handleClickList}
             className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded"
           >
             목록

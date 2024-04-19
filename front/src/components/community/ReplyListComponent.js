@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { API_SERVER_HOST } from "../../api/rootApi";
-import { listReply } from "../../api/communityReplyApi";
+import { listReply, regReply } from "../../api/communityReplyApi";
+import ReplyRegComponent from "./ReplyRegComponent";
 
 const host = API_SERVER_HOST;
 
@@ -34,6 +35,24 @@ const ReplyListComponent = ({ communityBno }) => {
       .catch((err) => exceptionHandle(err));
   }, [refresh]);
 
+  const handleReplySubmit = (replyContent) => {
+    const replyData = {
+      communityBno: communityBno,
+      replyContent: replyContent,
+    };
+
+    regReply(replyData)
+      .then(() => {
+        // 댓글 작성 후, 댓글 목록 다시 불러오기
+        listReply(communityBno).then((data) => {
+          setServerData(data);
+        });
+      })
+      .catch((err) => {
+        exceptionHandle(err);
+      });
+  };
+
   return (
     <div>
       {/* 댓글 목록 */}
@@ -52,6 +71,11 @@ const ReplyListComponent = ({ communityBno }) => {
           ))
         )}
       </div>
+
+      <ReplyRegComponent
+        onSubmit={handleReplySubmit}
+        communityBno={communityBno}
+      />
 
       {/* 페이지 목록 렌더링 */}
       {serverData.pageNumList && serverData.pageNumList.length > 0 && (
