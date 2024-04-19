@@ -18,10 +18,12 @@ const AdminComponent = () => {
     switch (selectedTab) {
       case "members":
         return <div><MemberListComponent/></div>;
-      case "write":
-        return <div>글</div>;
+      case "report":
+        return <div>신고 목록</div>;
       case "orders":
-        return <div>문의목록페이지</div>;
+        return <div>주문 처리</div>;
+        case "faq":
+        return <div>문의 처리</div>;
       // 다른 탭에 대한 렌더링을 추가할 수 있음
       default:
         return;
@@ -45,9 +47,9 @@ const AdminComponent = () => {
             회원 관리
           </button>
           <button
-            onClick={() => handleTabClick("write")}
+            onClick={() => handleTabClick("report")}
             className={`border-r border-gray-300 p-3 cursor-pointer ${
-              selectedTab === "write"
+              selectedTab === "report"
                 ? "bg-gray-300 hover:bg-gray-400 transition duration-200"
                 : "transition duration-200 hover:bg-gray-400"
             }`}
@@ -62,7 +64,17 @@ const AdminComponent = () => {
                 : "transition duration-200 hover:bg-gray-400"
             }`}
           >
-            주문 목록
+            주문 처리
+          </button>
+          <button
+            onClick={() => handleTabClick("faq")}
+            className={`border-r border-gray-300 p-3 cursor-pointer ${
+              selectedTab === "faq"
+                ? "bg-gray-300 hover:bg-gray-400 transition duration-200"
+                : "transition duration-200 hover:bg-gray-400"
+            }`}
+          >
+            문의 처리
           </button>
           {/* 다른 탭을 추가할 수 있음 */}
         </div>

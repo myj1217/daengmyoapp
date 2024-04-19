@@ -82,21 +82,19 @@ const BasicMenu = () => {
                 문의하기
               </Link>
             </li>
-            {isLogin ? (
-              <>
-                <Link
-                  to="/cart"
-                  className="hover:text-amber-200 transition-colors duration-300"
-                >
-                  장바구니
-                </Link>
-                <div className="text-xs pl-1 ml-1 rounded-full bg-red-500 w-4 h-4">
-                  <Link to={"/cart"}>{cartItems.length}</Link>
-                </div>
-              </>
-            ) : (
-              <></>
-            )}
+            {isLogin && (
+            <div className="flex items-center">
+            <Link
+            to="/cart"
+            className="hover:text-amber-200 transition-colors duration-300 flex items-center"
+                  >
+            <span className="mr-1">장바구니</span>
+            <div className="text-xs rounded-full bg-red-500 w-4 h-4 flex items-center justify-center text-white">
+            {cartItems.length}
+            </div>
+        </Link>
+  </div>
+)}
             {isLogin ? (
               <li
                 onClick={clickLogout}
