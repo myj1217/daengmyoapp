@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
+// import { useRef, useState } from "react";
 import { replyAdd } from "../../api/productReplyApi";
 import FetchingModal from "../common/FetchingModal";
-import ResultModal from "../common/ResultModal";
-import useCustomMove from "../../hooks/useCustomMove";
+// import ResultModal from "../common/ResultModal";
+// import useCustomMove from "../../hooks/useCustomMove";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 
 const initState = {
   prno: 0,
@@ -16,14 +17,10 @@ const initState = {
 
 const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
   const loginState = useSelector((state) => state.loginSlice);
-
   const [review, setReview] = useState({ ...initState });
-  //   const uploadRef = useRef();
-
   const [fetching, setFetching] = useState(false);
-  const [result, setResult] = useState(null);
-  const { moveToList } = useCustomMove(); //이동을 위한 함수
-  const navigate = useNavigate();
+  // const { moveToList } = useCustomMove();
+  // const navigate = useNavigate();
 
   // 작성한 내용 반응
   const handleChangeReview = (e) => {
@@ -33,68 +30,44 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
 
   // 추가 버튼 클릭 시 작동
   const handleClickAdd = (e) => {
-    // const files = uploadRef.current.files;
-
     const formData = new FormData();
 
-    // for (let i = 0; i < files.length; i++) {
-    //   formData.append("files", files[i]);
-    // }
-
-    //other data
-    // console.log(pno);
-    // console.log(review.productReplyText);
-    // console.log(loginState.nickname);
-    console.log(formData);
-
+    // 입력받은 데이터
     formData.append("pno", pno);
-
     formData.append("productReplyText", review.productReplyText);
-    // formData.append("regDate", review.regDate);
-
     formData.append("productReplyer", loginState.nickname);
-
-    // console.log("formData");
-    // console.log(formData);
 
     setFetching(true);
 
-    replyAdd(formData).then((data) => {
-      console.log("formData");
-      console.log(data);
+    replyAdd(formData)
+      .then((data) => {
+        reviewRedirect();
+      })
+      .catch((error) => {
+        console.error("리뷰 등록 중 오류 발생:", error);
+      })
+      .finally(() => {
+        setFetching(false);
+      });
 
-      setFetching(false);
-      setResult(data.result);
-      console.log(result);
-    });
-    reviewRedirect();
-    window.alert("리뷰가 성공적으로 추가되었습니다.");
+    window.alert("리뷰가 성공적으로 등록되었습니다.");
 
     handleCloseModal();
-
-    // useEffect 트리거
-    
-  };
-
-  const closeModal = () => {
-    //ResultModal 종료
-    setResult(null);
-    moveToList({ page: 1 }); //모달 창이 닫히면 이동
   };
 
   return (
     <div className="border-2 border-gray-300 mt-10 m-2 p-4">
       {fetching ? <FetchingModal /> : <></>}
-      {result ? (
+      {/* {result ? (
         <ResultModal
-          title={"상품 등록"}
+          title={"리뷰 등록"}
           // content={`${result}번째 상품으로 등록되었습니다!`}
-          content={"성공적으로 상품이 등록되었습니다."}
+          content={"성공적으로 리뷰가 등록되었습니다."}
           callbackFn={closeModal}
         />
       ) : (
         <></>
-      )}
+      )} */}
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">작성자</div>
@@ -121,42 +94,17 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
           </textarea>
         </div>
       </div>
-      {/* <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">가격</div>
-          <input
-            className="w-4/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
-            name="regDate"
-            type={"number"}
-            value={review.regDate}
-            onChange={handleChangeReview}
-          ></input>
+      <div className="flex justify-end">
+        <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
+          <button
+            type="button"
+            className="rounded p-4 w-36 bg-gray-800 text-xl  text-white "
+            onClick={handleClickAdd}
+          >
+            추가하기
+          </button>
         </div>
-      </div> */}
-      {/* <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">파일</div>
-          <input
-            ref={uploadRef}
-            className="w-4/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
-            type={"file"}
-            multiple={true}
-          ></input>
-        </div>
-      </div> */}
-      {/* <Link to={`/products/read/${pno}`}> */}
-        <div className="flex justify-end">
-          <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
-            <button
-              type="button"
-              className="rounded p-4 w-36 bg-gray-800 text-xl  text-white "
-              onClick={handleClickAdd}
-            >
-              추가하기
-            </button>
-          </div>
-        </div>
-      {/* </Link> */}
+      </div>
       <div className="flex justify-end">
         <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
           <button

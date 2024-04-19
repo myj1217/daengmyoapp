@@ -9,6 +9,7 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
 import ReviewAddComponent from "./ReviewAddComponent";
 import ReviewItemComponent from "./ReviewItemComponent";
+import ResultModal from "../common/ResultModal";
 
 const iniState = {
   prno: 0,
@@ -23,10 +24,11 @@ const ReviewListComponent = ({ pno }) => {
   //   const { page, size, moveToList, moveToModify } = useCustomMove();
   const [fetching, setFetching] = useState(false);
   //   const { changeCart, cartItems } = useCustomCart();
-  const { isLogin, loginState } = useCustomLogin();
+  const { isLogin, loginState, exceptionHandle } = useCustomLogin();
   const navigate = useNavigate();
   const [reviewModal, setReviewModal] = useState(false); // 모달 상태 추가
   const [reviewListener, setReviewListener] = useState(false);
+  // const [result, setResult] = useState(null);
 
   // 리뷰 작성하기 핸들러
   const reviewHandler = () => {
@@ -45,34 +47,50 @@ const ReviewListComponent = ({ pno }) => {
 
   // 리뷰창 닫기 핸들러
   const handleCloseModal = () => {
-    console.log("handleCloseModal");
     setReviewModal(false); // 모달 닫기;
   };
 
   // 리뷰 완료 후 상품정보창으로 리다이렉트 핸들러
-  const reviewRedirect = async () => {
-  console.log("setReviewListener true");
-  await replyList(pno).then((data) => {
-    setReview(data);
-    setReviewListener(true);
-  });
-};
+  //   const reviewRedirect = async () => {
+  //   console.log("setReviewListener true");
+  //   await replyList(pno).then((data) => {
+  //     setReview(data);
+  //     setReviewListener(true);
+  //   });
+  // };
+
+  // 리뷰 완료 후 상품정보창으로 리다이렉트 핸들러
+  const reviewRedirect = () => {
+    setReviewListener(!reviewListener);
+  };
+
+  // const closeModal = () => {
+  //   setResult(null);
+  //   reviewRedirect();
+  // };
 
   useEffect(() => {
-    setFetching(true);
-    setReviewListener(false);
-
     // 상품 리뷰
-    replyList(pno).then((data) => {
-      console.log(data);
-      setReview(data);
-      setFetching(false);
-    });
-  }, [pno, reviewListener]);
+    replyList(pno)
+      .then((data) => {
+        setReview(data);
+      })
+      .catch((err) => exceptionHandle(err));
+  }, [reviewListener]);
 
   return (
     <div className="w-full border-2 border-gray-300 mt-4 m-2 p-4">
       {fetching ? <FetchingModal /> : <></>}
+      {/* {result ? (
+        <ResultModal
+          title={"리뷰 등록"}
+          // content={`${result}번째 상품으로 등록되었습니다!`}
+          content={"성공적으로 리뷰가 등록되었습니다."}
+          callbackFn={closeModal}
+        />
+      ) : (
+        <></>
+      )} */}
       <div className="my-10 text-5xl">상품리뷰</div>
 
       <button
