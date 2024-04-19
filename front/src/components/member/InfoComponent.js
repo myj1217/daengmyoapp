@@ -66,7 +66,7 @@ const InfoComponent = () => {
           <div className="grid grid-cols-2 gap-8">
             {/* Left column */}
             <div className="pl-8 text-center">
-              <p className="text-lg font-semibold mb-8">개인 정보</p>
+              <p className="text-lg font-semibold mb-8 bg-gray-100 rounded-lg pt-2 pb-2">개인 정보</p>
               <div className="mb-4">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">이메일</label>
                 <div className="text-lg border-b border-gray-300 py-2">{member.email}</div>
@@ -86,7 +86,7 @@ const InfoComponent = () => {
             </div>
             {/* Right column */}
             <div className="pl-8 text-center border-l">
-              <p className="text-lg font-semibold mb-8">주소지</p>
+            <p className="text-lg font-semibold mb-8 bg-gray-100 rounded-lg pt-2 pb-2">주소지</p>
               <div className="mb-4">
                 <label htmlFor="addressCode" className="block text-sm font-medium text-gray-700">우편번호</label>
                 <div className="text-lg border-b border-gray-300 py-2">{member.addressCode || "저장된 우편번호가 없습니다."}</div>
