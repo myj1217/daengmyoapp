@@ -63,7 +63,6 @@ const MemberListComponent = () => {
   };
 
   const handleDeleteMembers = async () => {
-
     if (selectedMembers.length === 0) {
       alert("선택된 회원이 없습니다.");
       return;
@@ -88,6 +87,10 @@ const MemberListComponent = () => {
     } catch (error) {
       console.error('회원 삭제 중 오류 발생:', error);
     }
+  };
+
+  const handleCancelChanges = () => {
+    setRoleChanges({});
   };
 
   const handleSubmit = async () => {
@@ -141,9 +144,9 @@ const MemberListComponent = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center mb-4 w-full h-full">
       <div className=""></div>
-      <div className="flex justify-center items-center mt-4">
+      <div className="flex justify-center items-center mt-4 w-full h-full">
         <input
           type="text"
           placeholder={`검색할 ${searchBy === 'email' ? '이메일' : searchBy === 'nickname' ? '닉네임' : searchBy === 'name' ? '이름' : '전화번호'} 입력`}
@@ -167,7 +170,7 @@ const MemberListComponent = () => {
       </div>
       <div className="w-full overflow-x-auto mt-4">
         <table className="w-full">
-          <thead>
+          <thead className=''>
             <tr className="bg-gray-200">
               <th className="px-4 py-2">
                 <input
@@ -222,12 +225,17 @@ const MemberListComponent = () => {
         </table>
       </div>
       <div className="flex justify-end w-full mt-4">
-        <button className="mr-auto ml-2 px-4 py-2 bg-red-500 text-white rounded" onClick={handleDeleteMembers}>
+        <button className="mr-auto ml-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded" onClick={handleDeleteMembers}>
           선택 회원 탈퇴
         </button>
-        <button className="ml-auto mr-2 px-4 py-2 bg-blue-500 text-white rounded" onClick={handleSubmit}>
-          변경 사항 저장
-        </button>
+        <div className="ml-auto flex space-x-2">
+          <button className="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded" onClick={handleCancelChanges}>
+            선택 전체 취소
+          </button>
+          <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded" onClick={handleSubmit}>
+            선택 사항 저장
+          </button>
+        </div>
       </div>
     </div>
   );

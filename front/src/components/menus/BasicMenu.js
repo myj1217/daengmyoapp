@@ -102,13 +102,24 @@ const BasicMenu = () => {
               >
                 로그아웃
               </li>
-            ) : (
+            ) : (<>
+              <li>
               <Link
                 to="/member/login"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 로그인
               </Link>
+              </li>
+               <li>
+               <Link
+                 to="/member/register"
+                 className="hover:text-amber-200 transition-colors duration-300"
+               >
+                 회원가입
+               </Link>
+               </li>
+               </>
             )}
           </ul>
         </nav>

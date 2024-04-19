@@ -64,156 +64,125 @@ const InfoComponent = () => {
       ) : (
         <div className="w-full p-8 bg-white rounded-lg shadow-xl">
           <div className="grid grid-cols-2 gap-8">
-            {/* 왼쪽 열 */}
+            {/* Left column */}
             <div>
               <div className="mb-4">
                 <label htmlFor="email">이메일</label>
-                <input
-                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
-                  type="text"
-                  id="email"
-                  value={member.email}
-                  readOnly
-                />
+                <div className="text-lg border border-gray-300 p-2 rounded-md">
+                  {member.email}
+                </div>
               </div>
               <div className="mb-4">
                 <label htmlFor="name">이름(실제 이름)</label>
-                <input
-                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={member.name}
-                  readOnly
-                />
+                <div className="text-lg border border-gray-300 p-2 rounded-md">
+                  {member.name}
+                </div>
               </div>
               <div className="mb-4">
                 <label htmlFor="nickname">닉네임</label>
-                <input
-                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
-                  type="text"
-                  id="nickname"
-                  name="nickname"
-                  value={member.nickname}
-                  readOnly
-                />
+                <div className="text-lg border border-gray-300 p-2 rounded-md">
+                  {member.nickname}
+                </div>
               </div>
               <div>
                 <label htmlFor="number">휴대폰 번호</label>
-                <input
-                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
-                  type="text"
-                  id="number"
-                  name="number"
-                  value={member.number}
-                  readOnly
-                />
+                <div className="text-lg border border-gray-300 p-2 rounded-md">
+                  {member.number}
+                </div>
               </div>
             </div>
-            {/* 오른쪽 열 */}
-            <div>
+            {/* Right column */}
+            <div className="border-l pl-8">
               <div className="mb-4">
                 <label htmlFor="addressCode">우편번호</label>
-                <input
-                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
-                  type="text"
-                  id="addressCode"
-                  name="addressCode"
-                  value={member.addressCode}
-                  readOnly
-                />
+                <div className="text-lg border border-gray-300 p-2 rounded-md">
+                  {member.addressCode || "저장된 우편번호가 없습니다."}
+                </div>
               </div>
               <div className="mb-4">
                 <label htmlFor="streetAddress">주소</label>
-                <input
-                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
-                  type="text"
-                  id="streetAddress"
-                  value={member.streetAddress}
-                  readOnly
-                />
+                <div className="text-lg border border-gray-300 p-2 rounded-md">
+                  {member.streetAddress || "저장된 주소가 없습니다."}
+                </div>
               </div>
               <div>
                 <label htmlFor="detailAddress">상세 주소</label>
-                <input
-                  className="w-full p-2 text-lg rounded-md border border-gray-300 focus:border-orange-500"
-                  type="text"
-                  id="detailAddress"
-                  name="detailAddress"
-                  value={member.detailAddress}
-                  readOnly
-                />
+                <div className="text-lg border border-gray-300 p-2 rounded-md">
+                  {member.detailAddress || "저장된 상세 주소가 없습니다."}
+                </div>
               </div>
             </div>
           </div>
+          <div className="flex flex-col items-center justify-center w-full mt-8">
           <button
-            className="w-full bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-4"
+            className="w-full max-w-2xl bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-4"
             onClick={goModify}
           >
             정보 수정하기
           </button>
           <button
-            className="w-full bg-red-400 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-2"
+            className="w-full max-w-2xl bg-red-400 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-2"
             onClick={remove}
           >
             회원탈퇴
           </button>
         </div>
+      </div>
       )}
       {showModal && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="fixed z-10 inset-0 overflow-y-auto">
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity">
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
-            <div
-              className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="modal-headline"
-            >
-              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="sm:flex sm:items-start">
-                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    <h3
-                      className="text-lg leading-6 font-medium text-gray-900"
-                      id="modal-headline"
-                    >
-                      비밀번호 확인
-                    </h3>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        회원탈퇴를 진행하려면 비밀번호를 입력하세요.
-                      </p>
-                      <input
-                        type="password"
-                        className="mt-2 p-2 w-full border border-gray-300"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
+            <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+              <div className="fixed inset-0 transition-opacity">
+                <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+              </div>
+              <span className="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
+              <div
+                className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modal-headline"
+              >
+                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                  <div className="sm:flex sm:items-start">
+                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                      <h3
+                        className="text-lg leading-6 font-medium text-gray-900"
+                        id="modal-headline"
+                      >
+                        비밀번호 확인
+                      </h3>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          회원탈퇴를 진행하려면 비밀번호를 입력하세요.
+                        </p>
+                        <input
+                          type="password"
+                          className="mt-2 p-2 w-full border border-gray-300"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button
-                  onClick={handleWithdrawal}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                >
-                  확인
-                </button>
-                <button
-                  onClick={() => setShowModal(false)}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                >
-                  취소
-                </button>
+                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                  <button
+                    onClick={handleWithdrawal}
+                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  >
+                    확인
+                  </button>
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  >
+                    취소
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
       )}
     </div>

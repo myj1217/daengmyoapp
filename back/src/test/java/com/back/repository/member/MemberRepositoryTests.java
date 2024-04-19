@@ -1,6 +1,5 @@
 package com.back.repository.member;
 
-
 import com.back.repository.MemberRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
@@ -20,52 +19,62 @@ public class MemberRepositoryTests {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    public void testInsertUser(){  // 일반유저 생성
-        Member member = Member.builder()
-                .email("111@aaa.com")
-                .pw(passwordEncoder.encode("1111"))
-                .name("홍길동")
-                .nickname("일반유저")
-                .number("01012345678")
-                .addressCode("1234")
-                .streetAddress("12-34번지")
-                .detailAddress("1층")
-                .build();
-        member.addRole(MemberRole.USER);
-        memberRepository.save(member);
+    public void testInsertUser(){  // Create regular users
+        for (int i = 1; i <= 10; i++) {
+            String email = "user" + i + "@aaa.com";
+            String nickname = "유저" + i;
+            Member member = Member.builder()
+                    .email(email)
+                    .pw(passwordEncoder.encode("1111"))
+                    .name("홍길동")
+                    .nickname(nickname)
+                    .number("01012345678")
+                    .addressCode("1234")
+                    .streetAddress("12-34번지")
+                    .detailAddress("1층")
+                    .build();
+            member.addRole(MemberRole.USER);
+            memberRepository.save(member);
+        }
     }
 
     @Test
-    public void testInsertManager(){   // 매니저 생성
-        Member member = Member.builder()
-                .email("222@aaa.com")
-                .pw(passwordEncoder.encode("1111"))
-                .name("홍길동")
-                .nickname("매니저")
-                .number("01012345678")
-                .addressCode("1234")
-                .streetAddress("12-34번지")
-                .detailAddress("1층")
-                .build();
-        member.addRole(MemberRole.MANAGER);
-        memberRepository.save(member);
+    public void testInsertManager(){   // Create managers
+        for (int i = 1; i <= 10; i++) {
+            String email = "manager" + i + "@aaa.com";
+            String nickname = "매니저" + i;
+            Member member = Member.builder()
+                    .email(email)
+                    .pw(passwordEncoder.encode("1111"))
+                    .name("홍길동")
+                    .nickname(nickname)
+                    .number("01012345678")
+                    .addressCode("1234")
+                    .streetAddress("12-34번지")
+                    .detailAddress("1층")
+                    .build();
+            member.addRole(MemberRole.MANAGER);
+            memberRepository.save(member);
+        }
     }
+
     @Test
-    public void testInsertAdmin(){  // 어드민 생성
-        Member member = Member.builder()
-                .email("333@aaa.com")
-                .pw(passwordEncoder.encode("1111"))
-                .name("홍길동")
-                .nickname("어드민")
-                .number("01012345678")
-                .addressCode("1234")
-                .streetAddress("12-34번지")
-                .detailAddress("1층")
-                .build();
-        member.addRole(MemberRole.ADMIN);
-        memberRepository.save(member);
+    public void testInsertAdmin(){  // Create admins
+        for (int i = 1; i <= 3; i++) {
+            String email = "admin" + i + "@aaa.com";
+            String nickname = "어드민" + i;
+            Member member = Member.builder()
+                    .email(email)
+                    .pw(passwordEncoder.encode("1111"))
+                    .name("홍길동")
+                    .nickname(nickname)
+                    .number("01012345678")
+                    .addressCode("1234")
+                    .streetAddress("12-34번지")
+                    .detailAddress("1층")
+                    .build();
+            member.addRole(MemberRole.ADMIN);
+            memberRepository.save(member);
+        }
     }
-
-
-
 }
