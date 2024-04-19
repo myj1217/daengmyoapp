@@ -33,7 +33,7 @@ const MyPageComponent = () => {
   };
 
   return (
-    <div className="flex w-full max-h-screen-24">
+    <div className="flex w-full max-h-screen-24 ">
       {/* 왼쪽에 탭 메뉴 */}
       <div className="min-w-40">
 
@@ -77,13 +77,13 @@ const MyPageComponent = () => {
               : "transition duration-200 hover:bg-gray-400"
           }`}
         >
-          관리자 페이지
+          관리자 페이지
         </button>)}
           {/* 다른 탭을 추가할 수 있음 */}
         </div>
       </div>
       {/* 오른쪽에 선택된 탭 컨텐츠 */}
-      <div className="w-full shadow-lg">{renderTabContent()}</div>
+      <div className="w-full shadow-lg rounded-lg">{renderTabContent()}</div>
     </div>
   );
 };
