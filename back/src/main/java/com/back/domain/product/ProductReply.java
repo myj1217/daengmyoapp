@@ -42,4 +42,6 @@ public class ProductReply {
     public void changeText(String text){
         this.productReplyText = text;
     }
+
+    private int star;
 }

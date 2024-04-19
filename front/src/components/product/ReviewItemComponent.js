@@ -11,6 +11,7 @@ const ReviewItemComponent = ({
   regDate,
   reviewRedirect,
   pno,
+  star,
 }) => {
   const [fetching, setFetching] = useState(false);
   // const navigate = useNavigate();
@@ -66,10 +67,26 @@ const ReviewItemComponent = ({
         <></>
       )} */}
       <div className="flex text-lg p-4 justify-between">
-        <div className="w-1/6 text-center p-1">{productReplyer}</div>
-        <div className="w-3/6 text-center p-1">{productReplyText}</div>
-        <div className="w-1/6 text-center p-1">{regDate}</div>
-        <div className="w-1/6 text-center p-1">
+        <div className="w-2/12 text-center p-1">
+          <div>
+            {[1, 2, 3, 4, 5].map((value) => (
+              <span
+                name="star"
+                key={value}
+                style={{
+                  cursor: "pointer",
+                  color: value <= star ? "gold" : "gray",
+                }}
+              >
+                &#9733;
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="w-6/12 text-center p-1">{productReplyText}</div>
+        <div className="w-1/12 text-center p-1">{productReplyer}</div>
+        <div className="w-1/12 text-center p-1">{regDate}</div>
+        <div className="w-2/12 text-center p-1">
           <button
             className="bg-gray-700 hover:bg-gray-900 m-1 p-1 text-base text-white w-12 rounded-lg"
             onClick={reviewDeleteHandler}

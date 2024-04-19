@@ -108,10 +108,11 @@ const ReviewListComponent = ({ pno }) => {
         <div id="review title">
           {" "}
           <div className="flex text-lg p-4 justify-between">
-            <div className="w-1/6 text-center p-1">작성자</div>
-            <div className="w-3/6 text-center p-1">내용</div>
-            <div className="w-1/6 text-center p-1">등록시간</div>
-            <div className="w-1/6 text-center p-1">삭제</div>
+            <div className="w-2/12 text-center p-1">별점</div>
+            <div className="w-6/12 text-center p-1">내용</div>
+            <div className="w-1/12 text-center p-1">작성자</div>
+            <div className="w-1/12 text-center p-1">등록시간</div>
+            <div className="w-2/12 text-center p-1">수정</div>
           </div>
         </div>
 

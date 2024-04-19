@@ -35,8 +35,7 @@ public class ProductReplyServiceImpl implements ProductReplyService{
                 .product(Product.builder().pno(productReplyDTO.getPno()).build()) // pno 설정
                 .productReplyer(productReplyDTO.getProductReplyer())
                 .productReplyText(productReplyDTO.getProductReplyText())
-//                .regDate(LocalDateTime.now())
-//                .modDate(LocalDateTime.now())
+                .star(productReplyDTO.getStar())
                 .build();
 
         ProductReply result = productReplyRepository.save(productReply);

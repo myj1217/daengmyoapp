@@ -13,12 +13,14 @@ const initState = {
   productReplyText: "",
   productReplyer: "",
   regDate: "",
+  star: 1,
 };
 
 const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
   const loginState = useSelector((state) => state.loginSlice);
   const [review, setReview] = useState({ ...initState });
   const [fetching, setFetching] = useState(false);
+  const [rating, setRating] = useState(3);
   // const { moveToList } = useCustomMove();
   // const navigate = useNavigate();
 
@@ -36,6 +38,7 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
     formData.append("pno", pno);
     formData.append("productReplyText", review.productReplyText);
     formData.append("productReplyer", loginState.nickname);
+    formData.append("star", review.star);
 
     setFetching(true);
 
@@ -55,6 +58,10 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
     handleCloseModal();
   };
 
+  const starHandler = (value) => {
+    setRating(value);
+  };
+
   return (
     <div className="border-2 border-gray-300 mt-10 m-2 p-4">
       {fetching ? <FetchingModal /> : <></>}
@@ -68,6 +75,22 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
       ) : (
         <></>
       )} */}
+      <div>
+        {[1, 2, 3, 4, 5].map((value) => (
+          <span
+            name="star"
+            key={value}
+            onClick={() => starHandler(value)}
+            onChange={handleChangeReview}
+            style={{
+              cursor: "pointer",
+              color: value <= rating ? "gold" : "gray",
+            }}
+          >
+            &#9733;
+          </span>
+        ))}
+      </div>
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">작성자</div>
