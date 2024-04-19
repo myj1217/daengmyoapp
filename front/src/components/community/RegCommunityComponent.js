@@ -63,7 +63,7 @@ const RegCommunityComponent = () => {
 
   const closeModal = () => {
     setResult(null);
-    moveToList({ page: 1 });
+    moveToList();
   };
 
   return (

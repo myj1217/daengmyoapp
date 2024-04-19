@@ -41,7 +41,7 @@ const useCustomMove = () => {
     }
 
     navigate({
-      pathname: ``,
+      pathname: `../list`,
       search: queryStr,
     });
     setRefresh(!refresh);
