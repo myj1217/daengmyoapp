@@ -147,13 +147,13 @@ const InfoComponent = () => {
             </div>
           </div>
           <button
-            className="w-full bg-gray-400 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-4"
+            className="w-full bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-4"
             onClick={goModify}
           >
             정보 수정하기
           </button>
           <button
-            className="w-full bg-red-400 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-2"
+            className="w-full bg-red-400 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-md transition duration-200 mt-2"
             onClick={remove}
           >
             회원탈퇴

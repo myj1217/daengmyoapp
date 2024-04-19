@@ -220,7 +220,7 @@ const ModifyComponent = ({ setIsModify }) => {
         />
         <label>비밀번호</label>
         <button
-          className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 rounded-md transition duration-200 mb-4"
+          className="w-full bg-green-400 hover:bg-green-500 text-white font-bold py-2 rounded-md transition duration-200 mb-4"
           onClick={openModal}
         >
           비밀번호 변경하기
@@ -267,7 +267,7 @@ const ModifyComponent = ({ setIsModify }) => {
           onChange={handleChange}
           placeholder="휴대폰 번호"
         />
-        
+
         {/* 주소 입력 필드 */}
         <label htmlFor="addressCode">우편번호</label>
         {errors.valid_addressCode && (
@@ -325,13 +325,13 @@ const ModifyComponent = ({ setIsModify }) => {
         
 
         <button
-          className="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 rounded-md transition duration-200"
+          className="w-full bg-green-400 hover:bg-green-500 text-white font-bold py-2 rounded-md transition duration-200"
           onClick={handleSubmit}
         >
           정보 수정 완료
         </button>
         <button
-          className="w-full bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 rounded-md transition duration-200 mt-1"
+          className="w-full bg-red-400 hover:bg-red-500 text-white font-bold py-2 rounded-md transition duration-200 mt-1"
           onClick={goBack}
         >
           취소
