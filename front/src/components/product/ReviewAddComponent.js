@@ -67,14 +67,13 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
       setResult(data.result);
       console.log(result);
     });
-
+    reviewRedirect();
     window.alert("리뷰가 성공적으로 추가되었습니다.");
 
     handleCloseModal();
 
     // useEffect 트리거
-    navigate(`/products/read/${pno}`);
-    reviewRedirect();
+    
   };
 
   const closeModal = () => {
@@ -145,7 +144,7 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
           ></input>
         </div>
       </div> */}
-      <Link to={`/products/read/${pno}`}>
+      {/* <Link to={`/products/read/${pno}`}> */}
         <div className="flex justify-end">
           <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
             <button
@@ -157,7 +156,7 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
             </button>
           </div>
         </div>
-      </Link>
+      {/* </Link> */}
       <div className="flex justify-end">
         <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
           <button

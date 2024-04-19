@@ -50,10 +50,13 @@ const ReviewListComponent = ({ pno }) => {
   };
 
   // 리뷰 완료 후 상품정보창으로 리다이렉트 핸들러
-  const reviewRedirect = () => {
-    console.log("setReviewListener true");
+  const reviewRedirect = async () => {
+  console.log("setReviewListener true");
+  await replyList(pno).then((data) => {
+    setReview(data);
     setReviewListener(true);
-  };
+  });
+};
 
   useEffect(() => {
     setFetching(true);

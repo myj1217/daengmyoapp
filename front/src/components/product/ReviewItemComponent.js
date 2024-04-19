@@ -22,7 +22,6 @@ const ReviewItemComponent = ({
       //   setFetching(false);
     });
 
-    navigate(`/products/read/${pno}`);
     reviewRedirect();
   };
 

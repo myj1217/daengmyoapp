@@ -20,12 +20,12 @@ const BasicMenu = () => {
     }
   }, [isLogin]);
 
-  const isMyPage = location.pathname === "/member/mypage";
+  const isMainPage = location.pathname === "/";
 
   return (
     <header
       className={`flex bg-green-50 text-green-800 p-4 w-full h-20 top-0 z-50 ${
-        isMyPage ? "" : "sticky shadow-md"
+        !isMainPage ? "" : "sticky shadow-md"
       }`}
     >
       <div className="container mx-auto flex justify-between items-center h-full w-full">
