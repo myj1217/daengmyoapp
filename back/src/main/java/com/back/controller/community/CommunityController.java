@@ -108,5 +108,4 @@ public class CommunityController {
         return Map.of("RESULT", "SUCCESS");
     }
 
-
 }

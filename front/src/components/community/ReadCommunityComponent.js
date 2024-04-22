@@ -6,6 +6,7 @@ import { API_SERVER_HOST } from "../../api/rootApi";
 import { getCommunity } from "../../api/communityApi";
 import ReplyListComponent from "./ReplyListComponent";
 import { listReply } from "../../api/communityReplyApi";
+import { useNavigate } from "react-router-dom";
 
 const initState = {
   communityBno: 0,
@@ -23,7 +24,9 @@ const ReadCommunityComponent = ({ communityBno }) => {
   // 댓글 상태 추가
   const [replies, setReplies] = useState([]);
   //화면 이동용 함수
-  const { moveToList, moveToModify } = useCustomMove();
+  const { moveToModify } = useCustomMove();
+  const navigate = useNavigate(); // useNavigate 훅 추가
+
   //fetching
   const [fetching, setFetching] = useState(false);
 
@@ -60,25 +63,16 @@ const ReadCommunityComponent = ({ communityBno }) => {
     }
   }, [communityBno]);
 
+  const handleClickList = () => {
+    navigate("/community/list");
+  };
+
   return (
     <div className="border-2 border-gray-300 mt-10 m-2 p-4">
       {fetching ? <FetchingModal /> : <></>}
-      <div
-        id="community_image_zone"
-        className="w-full justify-center flex  flex-col m-auto items-center"
-      >
-        {community.uploadFileNames &&
-          community.uploadFileNames.map((fileName, i) => (
-            <img
-              alt="community"
-              key={i}
-              className="p-4 w-1/2"
-              src={`${host}/community/view/${fileName}`}
-            />
-          ))}
-      </div>
-      <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+      <div className="w-full justify-center flex flex-col items-center"></div>
+      <div className="flex justify-center mb-4">
+        <div className="relative flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">제목</div>
           <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
             {community.communityTitle}
@@ -86,15 +80,32 @@ const ReadCommunityComponent = ({ communityBno }) => {
         </div>
       </div>
       <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+        <div className="relative flex w-full flex-wrap items-stretch">
+          <div className="w-1/5 p-6 text-right font-bold">이미지</div>
+          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
+            {community.uploadFileNames.map((fileName, i) => (
+              <img
+                key={i}
+                className="p-4 max-w-full h-auto"
+                src={`${host}/community/view/${fileName}`}
+                alt="community"
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      {console.log("이미지:", community.uploadFileNames)}
+      {console.log(community)}
+      <div className="flex justify-center mb-4">
+        <div className="relative flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">내용</div>
           <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
             {community.communityContent}
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+      <div className="flex justify-center mb-4">
+        <div className="relative flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">작성자</div>
           <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
             {community.communityWriter}
@@ -117,17 +128,15 @@ const ReadCommunityComponent = ({ communityBno }) => {
         <button
           type="button"
           className="rounded p-4 m-2 w-32 bg-gray-800"
-          onClick={moveToList}
+          onClick={handleClickList}
         >
           목록으로
           <br />
           돌아가기
         </button>
       </div>
-      <ReplyListComponent replies={replies} communityBno={communityBno} />{" "}
-      {/* ReplyListComponent 추가 */}
+      <ReplyListComponent replies={replies} communityBno={communityBno} />
     </div>
   );
 };
-
 export default ReadCommunityComponent;
