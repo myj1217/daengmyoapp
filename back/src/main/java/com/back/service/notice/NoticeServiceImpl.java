@@ -1,6 +1,7 @@
 package com.back.service.notice;
 
 import com.back.domain.notice.Notice;
+import com.back.domain.notice.NoticeImage;
 import com.back.dto.PageRequestDTO;
 import com.back.dto.PageResponseDTO;
 import com.back.dto.notice.NoticeDTO;
@@ -20,7 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 @Log4j2
 
@@ -28,11 +29,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     private final NoticeRepository noticeRepository;
 
-    @Autowired
-    public NoticeServiceImpl(NoticeRepository noticeRepository) {
-        this.noticeRepository = noticeRepository;
-    }
-
+    // 공지 등록
     @Override
     public Long regNotice(NoticeDTO noticeDTO) {
         Notice notice = dtoToEntity(noticeDTO);
@@ -40,26 +37,44 @@ public class NoticeServiceImpl implements NoticeService {
         return result.getNoticeBno();
     }
 
+    // 공지 수정
     @Override
     public void modNotice(NoticeDTO noticeDTO) {
         Optional<Notice> optionalNotice = noticeRepository.findById(noticeDTO.getNoticeBno());
         Notice notice = optionalNotice.orElseThrow(() -> new IllegalArgumentException("해당 공지사항이 존재하지 않습니다."));
         notice.changeTitle(noticeDTO.getNoticeTitle());
         notice.changeContent(noticeDTO.getNoticeContent());
+
+        // 업로드 파일을 초기화
+        notice.clearList();
+
+        // 업로드 파일을 추가
+        List<String> uploadFileNames = noticeDTO.getUploadFileNames();
+
+        if (uploadFileNames != null && uploadFileNames.size() > 0) {
+            uploadFileNames.stream().forEach(uploadName -> {
+                notice.addImageString(uploadName);
+            });
+            log.info(notice + "수정이 완료 되었습니다.");
+            // 변경된 게시글 정보를 저장합니다.
+        }
         noticeRepository.save(notice);
     }
 
+    // 공지 삭제
     @Override
     public void delNotice(Long noticeBno) {
-        noticeRepository.deleteByNoticeBno(noticeBno);
+        noticeRepository.deleteByNoticeBno(noticeBno, true);
     }
 
+    // 공지 상세보기
     @Override
     public NoticeDTO getNotice(Long noticeBno) {
         Optional<Notice> result = noticeRepository.findById(noticeBno);
-        Notice notice = result.orElseThrow(() -> new IllegalArgumentException("해당 공지사항이 존재하지 않습니다."));
-        return entityToDTO(notice);
+        Notice notice = result.orElseThrow();
+        NoticeDTO noticeDTO = entityToDTO(notice);
 
+        return noticeDTO;
     }
 
     @Override
@@ -70,33 +85,83 @@ public class NoticeServiceImpl implements NoticeService {
                 Sort.by("noticeBno").descending()
         );
 
-        Page<Notice> result = noticeRepository.findAll(pageable);
-        List<NoticeDTO> dtoList = result.getContent().stream()
-                .map(notice -> entityToDTO(notice))
-                .collect(Collectors.toList());
+
+        Page<Object[]> result = noticeRepository.selectList(pageable);
+
+        log.info("공지사항 리스트입니다. " + result);
+
+
+        List<NoticeDTO> dtoList = result.get().map(arr -> {
+            Notice notice = (Notice) arr[0];
+            NoticeImage noticeImage = (NoticeImage) arr[1];
+
+            NoticeDTO noticeDTO =NoticeDTO.builder()
+                    .noticeBno(notice.getNoticeBno())
+                    .noticeTitle(notice.getNoticeTitle())
+                    .noticeContent(notice.getNoticeContent())
+                    .noticeWriter(notice.getNoticeWriter())
+                    .delFlag(notice.isDelFlag())
+                    .build();
+
+            if (noticeImage != null) {
+                String imageStr = noticeImage.getFileName();
+                noticeDTO.setUploadFileNames(List.of(imageStr));
+            }
+
+            return noticeDTO;
+        }).collect(Collectors.toList());
+
+        long totalCount = result.getTotalElements();
 
         return PageResponseDTO.<NoticeDTO>withAll()
                 .dtoList(dtoList)
-                .totalCount(result.getTotalElements())
+                .totalCount(totalCount)
                 .pageRequestDTO(pageRequestDTO)
                 .build();
     }
 
     private Notice dtoToEntity(NoticeDTO noticeDTO) {
-        return Notice.builder()
+       Notice notice = Notice.builder()
                 .noticeBno(noticeDTO.getNoticeBno())
                 .noticeTitle(noticeDTO.getNoticeTitle())
                 .noticeContent(noticeDTO.getNoticeContent())
                 .noticeWriter(noticeDTO.getNoticeWriter())
                 .build();
+        //업로드 처리가 끝난 파일들의 이름 리스트
+        List<String> uploadFileNames = noticeDTO.getUploadFileNames();
+
+        if (uploadFileNames == null) {
+            return notice;
+        }
+
+        uploadFileNames.stream().forEach(uploadName -> {
+            notice.addImageString(uploadName);
+        });
+
+        return notice;
+
+
     }
 
     private NoticeDTO entityToDTO(Notice notice) {
-        return NoticeDTO.builder()
+        NoticeDTO noticeDTO = NoticeDTO.builder()
                 .noticeBno(notice.getNoticeBno())
                 .noticeTitle(notice.getNoticeTitle())
                 .noticeContent(notice.getNoticeContent())
                 .noticeWriter(notice.getNoticeWriter())
                 .build();
+
+        List<NoticeImage> imageList = notice.getImageList();
+
+        if(imageList == null || imageList.size() == 0 ){
+            return noticeDTO;
+        }
+
+        List<String> fileNameList = imageList.stream().map(noticeImage ->
+                noticeImage.getFileName()).toList();
+
+        noticeDTO.setUploadFileNames(fileNameList);
+        return noticeDTO;
     }
+
 }

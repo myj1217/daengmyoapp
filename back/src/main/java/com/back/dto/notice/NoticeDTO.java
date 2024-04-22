@@ -21,13 +21,15 @@ public class NoticeDTO {
     private String noticeTitle;
     private String noticeContent;
     private String noticeWriter;
+    private boolean delFlag;
+
 
     private LocalDateTime regDate;
 
-//    @Builder.Default
-//    private List<MultipartFile> files = new ArrayList<>();
-//
-//    @Builder.Default
-//    private List<String> uploadFileNames = new ArrayList<>();
+    @Builder.Default
+    private List<MultipartFile> files = new ArrayList<>();
+
+    @Builder.Default
+    private List<String> uploadFileNames = new ArrayList<>();
 
 }

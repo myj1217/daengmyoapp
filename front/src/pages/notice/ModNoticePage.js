@@ -1,6 +1,7 @@
 import { Navigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ModNoticeComponent from "../../components/notice/ModNoticeComponent";
+import BasicMenu from "../../components/menus/BasicMenu";
 
 const ModNoticePage = () => {
   const { noticeBno } = useParams();
@@ -10,7 +11,8 @@ const ModNoticePage = () => {
   }
   return (
     <div className="p-4 w-full bg-white">
-      <div className="text-3xl font-extrabold">게시글 수정하기</div>
+      <BasicMenu />
+      <div className="text-3xl font-extrabold">공지사항 수정하기</div>
 
       <ModNoticeComponent noticeBno={noticeBno} />
     </div>

@@ -3,7 +3,6 @@ package com.back.service.community;
 
 import com.back.domain.community.Community;
 import com.back.domain.community.CommunityImage;
-import com.back.domain.product.ProductImage;
 import com.back.dto.PageRequestDTO;
 import com.back.dto.PageResponseDTO;
 import com.back.dto.community.CommunityDTO;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,6 +52,7 @@ public class CommunityServiceImpl implements CommunityService {
                     .communityTitle(community.getCommunityTitle())
                     .communityContent(community.getCommunityContent())
                     .communityWriter(community.getCommunityWriter())
+                    .delFlag(community.isDelFlag())
                     .build();
 
             // CommunityImage 객체가 null이 아닌 경우에만 이미지 파일명을 설정합니다.
@@ -136,7 +135,6 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    @Transactional
     public void modCommunity(CommunityDTO communityDTO) {
         // 게시글 번호로 게시글 정보 조회
         Optional<Community> optionalCommunity = communityRepository.findById(communityDTO.getCommunityBno());
@@ -156,17 +154,15 @@ public class CommunityServiceImpl implements CommunityService {
             uploadFileNames.stream().forEach(uploadName -> {
                 community.addImageString(uploadName);
             });
-
             log.info(community + "수정이 완료 되었습니다.");
-
             // 변경된 게시글 정보를 저장합니다.
-            communityRepository.save(community);
         }
+        communityRepository.save(community);
     }
 
     @Override
     public void delCommunity(Long communityBno) {
-        communityRepository.updateToDelete(communityBno);
+        communityRepository.updateToDelete(communityBno, true);
     }
 
 

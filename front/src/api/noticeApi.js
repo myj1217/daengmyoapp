@@ -4,7 +4,7 @@ import axios from "axios";
 
 const host = `${API_SERVER_HOST}/notice`;
 
-// 게시글 리스트
+// 공지사항 리스트
 export const noticeList = async (pageParam) => {
   const { page, size } = pageParam;
   const res = await axios.get(`${host}/list`, {
@@ -14,7 +14,7 @@ export const noticeList = async (pageParam) => {
   return res.data;
 };
 
-// 게시글 등록
+// 공지사항 등록
 export const regNotice = async (notice) => {
   const header = { headers: { "Content-Type": "multipart/form-data" } };
   const res = await jwtAxios.post(`${host}/register`, notice, header);
@@ -22,7 +22,7 @@ export const regNotice = async (notice) => {
   return res.data;
 };
 
-// 게시글 상세보기
+// 공지사항 상세보기
 export const getNotice = async (noticeBno, page, size) => {
   const res = await jwtAxios.get(`${host}/read/${noticeBno}`, {
     params: {
@@ -34,7 +34,7 @@ export const getNotice = async (noticeBno, page, size) => {
   return res.data;
 };
 
-// 게시글 수정
+// 공지사항 수정
 export const modNotice = async (noticeBno, data) => {
   const header = { headers: { "Content-Type": "multipart/form-data" } };
   const res = await jwtAxios.put(`${host}/${noticeBno}`, data, header);
@@ -42,7 +42,7 @@ export const modNotice = async (noticeBno, data) => {
   return res.data;
 };
 
-// 게시글 삭제
+// 공지사항 삭제
 export const delNotice = async (noticeBno) => {
   const res = await jwtAxios.delete(`${host}/${noticeBno}`);
 

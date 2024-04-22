@@ -38,6 +38,8 @@ const ReadCommunityComponent = ({ communityBno }) => {
     getCommunity(communityBno)
       .then((data) => {
         setCommunity(data);
+        console.log(data);
+
         setFetching(false);
       })
       .catch((error) => {
@@ -94,8 +96,6 @@ const ReadCommunityComponent = ({ communityBno }) => {
           </div>
         </div>
       </div>
-      {console.log("이미지:", community.uploadFileNames)}
-      {console.log(community)}
       <div className="flex justify-center mb-4">
         <div className="relative flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">내용</div>

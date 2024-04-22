@@ -78,19 +78,19 @@ const RegNoticeComponent = () => {
       )}
       <form className="space-y-6 bg-white p-8">
         {/* 이미지 미리보기 추가 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <label className="md:col-span-1 flex items-center justify-end text-lg font-medium text-gray-700">
-            작성자
-          </label>
-          <input
-            className="md:col-span-2 form-input rounded-md border-gray-300 shadow-sm"
-            name="noticedWriter"
-            type="text"
-            value={loginState.nickname}
-            onChange={handleChangeNotice}
-            readOnly
-          />
-        </div>
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6"> */}
+        <label className="md:col-span-1 flex items-center justify-end text-lg font-medium text-gray-700">
+          작성자
+        </label>
+        <input
+          className="md:col-span-2 form-input rounded-md border-gray-300 shadow-sm"
+          name="noticedWriter"
+          type="text"
+          value={loginState.nickname}
+          onChange={handleChangeNotice}
+          readOnly
+        />
+        {/* </div> */}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <label className="md:col-span-1 flex items-center justify-end text-lg font-medium text-gray-700">

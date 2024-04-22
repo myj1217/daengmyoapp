@@ -85,7 +85,7 @@ const RegCommunityComponent = () => {
           <input
             className="md:col-span-2 form-input rounded-md border-gray-300 shadow-sm"
             name="communitydWriter"
-            type="text"
+            type={"text"}
             value={loginState.nickname}
             onChange={handleChangeCommunity}
             readOnly
@@ -99,7 +99,7 @@ const RegCommunityComponent = () => {
           <textarea
             className="md:col-span-2 form-textarea rounded-md border-gray-300 shadow-sm resize-none"
             name="communityTitle"
-            type="text"
+            type={"text"}
             value={community.communityTitle}
             onChange={handleChangeCommunity}
           />
@@ -112,7 +112,7 @@ const RegCommunityComponent = () => {
           <input
             className="md:col-span-2 form-input rounded-md border-gray-300 shadow-sm"
             name="communityContent"
-            type="text"
+            type={"text"}
             value={community.communityContent}
             onChange={handleChangeCommunity}
           />
