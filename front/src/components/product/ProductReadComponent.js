@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import { getOne } from "../../api/productApi";
-// import { replyDel, replyList } from "../../api/productReplyApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
-// import ReviewAddComponent from "../product/ReviewAddComponent";
-import ReviewListComponent from "./ReviewListComponent";
 
 const initState = {
   pno: 0,
@@ -57,8 +54,16 @@ const ProductReadComponent = ({ pno }) => {
   };
 
   // 목록으로 돌아가기 핸들러
-  const handleClickList = () => {
+  const clickListHandler = () => {
     navigate("/products/list");
+  };
+
+  const clickModifyHandler = () => {
+    if (loginState.nickname !== product.artist) {
+      window.alert("수정권한이 없습니다.");
+      return;
+    }
+    navigate(`/products/modify/${pno}`);
   };
 
   useEffect(() => {
@@ -115,7 +120,7 @@ const ProductReadComponent = ({ pno }) => {
             >
               <button
                 type="button"
-                className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600"
+                className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900"
                 onClick={handleClickAddCart}
               >
                 장바구니에 담기
@@ -123,8 +128,8 @@ const ProductReadComponent = ({ pno }) => {
               {isLogin ? (
                 <button
                   type="button"
-                  className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600"
-                  onClick={() => moveToModify(pno)}
+                  className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900"
+                  onClick={clickModifyHandler}
                 >
                   상품정보 수정
                 </button>
@@ -133,8 +138,8 @@ const ProductReadComponent = ({ pno }) => {
               )}
               <button
                 type="button"
-                className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600"
-                onClick={handleClickList}
+                className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900"
+                onClick={clickListHandler}
               >
                 목록으로 돌아가기
               </button>
@@ -142,7 +147,6 @@ const ProductReadComponent = ({ pno }) => {
           </div>
         </div>
       </div>
-      <ReviewListComponent pno={pno} />
     </>
   );
 };

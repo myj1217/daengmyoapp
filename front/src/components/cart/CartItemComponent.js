@@ -31,7 +31,7 @@ const CartItemComponent = ({
       key={cino}
       className={
         "w-full py-8 border-b border-gray-300 " +
-        (checkList.includes(cino) ? "bg-gray-200" : "")
+        (checkList.includes(cino) ? "bg-green-100" : "")
       }
     >
       {/* <div className="w-full border-2"> */}
@@ -42,7 +42,7 @@ const CartItemComponent = ({
             {/* 개별 체크박스 */}
             <input
               type="checkbox"
-              className="w-4 h-4 accent-gray-700"
+              className="w-4 h-4 accent-green-700"
               onChange={(event) => changeSingleBox(event.target.checked, cino)}
               checked={checkList.includes(cino) ? true : false}
             />
@@ -75,7 +75,7 @@ const CartItemComponent = ({
           <div className="w-1/12">
             {" "}
             <button
-              className="bg-gray-700 hover:bg-gray-900 m-1 p-1 text-base text-white w-12 rounded-lg"
+              className="bg-green-700 hover:bg-green-900 m-1 p-1 text-base text-white w-12 rounded-lg"
               onClick={() => handleClickQty(-1 * qty)}
             >
               삭제

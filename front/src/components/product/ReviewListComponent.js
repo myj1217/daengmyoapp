@@ -66,14 +66,14 @@ const ReviewListComponent = ({ pno }) => {
       {/* {fetching ? <FetchingModal /> : <></>} */}
 
       {review.dtoList && review.dtoList.length > 0 ? (
-        <div className="my-10 text-5xl">상품리뷰({review.dtoList.length})</div>
+        <div className="my-10 text-4xl">상품리뷰({review.dtoList.length})</div>
       ) : (
-        <div className="my-10 text-5xl">상품리뷰(0)</div>
+        <div className="my-10 text-4xl">상품리뷰(0)</div>
       )}
 
       <button
         type="button"
-        className="inline-block rounded p-4 m-2 w-full bg-gray-800 hover:bg-gray-600 text-white"
+        className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900 text-white"
         onClick={reviewHandler}
       >
         리뷰 작성하기
@@ -86,12 +86,12 @@ const ReviewListComponent = ({ pno }) => {
         {/* 리뷰 타이틀 */}
         <div id="review title">
           {" "}
-          <div className="flex text-lg p-4 justify-between">
+          <div className="flex text-sm font-bold p-4 justify-between">
             <div className="w-2/12 text-center p-1">별점</div>
             <div className="w-5/12 text-center p-1">내용</div>
             <div className="w-2/12 text-center p-1">작성자</div>
             <div className="w-2/12 text-center p-1">등록시간</div>
-            <div className="w-1/12 text-center p-1">수정</div>
+            <div className="w-1/12 text-center p-1">{""}</div>
           </div>
         </div>
 

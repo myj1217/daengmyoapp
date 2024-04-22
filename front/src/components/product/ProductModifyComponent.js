@@ -102,8 +102,9 @@ const ProductModifyComponent = ({ pno }) => {
       {fetching ? <FetchingModal /> : <></>}
       {result ? (
         <ResultModal
-          title={`${result}`}
-          content={"정상적으로 처리되었습니다."} //결과 모달창
+          // title={`${result}`}
+          title={"상품 수정"}
+          content={"상품 수정이 완료되었습니다."} //결과 모달창
           callbackFn={closeModal}
         />
       ) : (

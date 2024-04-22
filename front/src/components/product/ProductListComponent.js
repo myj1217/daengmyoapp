@@ -70,7 +70,7 @@ const ProductListComponent = () => {
       <PageComponent serverData={serverData} movePage={moveToList} />
       <div
         // className="m-1 p-2 w-30 font-extrabold text-center underline"
-        className="block w-1/3 py-2 bg-gray-900 text-white text-center mt-4 hover:bg-gray-700 transition duration-200 ease-in-out mx-auto cursor-pointer"
+        className="block w-1/3 py-2 text-white text-center mt-4 transition duration-200 ease-in-out mx-auto bg-green-700 hover:bg-green-900 cursor-pointer"
         onClick={handleClickAdd}
       >
         상품 추가
