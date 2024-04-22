@@ -16,7 +16,7 @@ const PageComponent = ({ serverData, movePage }) => {
         <div
           key={pageNum}
           className={`m-2 p-2 w-12  text-center rounded shadow-md text-white ${
-            serverData.current === pageNum ? "bg-gray-800" : "bg-gray-300"
+            serverData.current === pageNum ? "bg-green-700" : "bg-green-500"
           }`}
           onClick={() => movePage({ page: pageNum })}
         >

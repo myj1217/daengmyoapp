@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { replyDel, replyPut } from "../../api/productReplyApi";
 import FetchingModal from "../common/FetchingModal";
+import useCustomLogin from "../../hooks/useCustomLogin";
 // import { useSelector } from "react-redux";
 
 const ReviewItemComponent = ({
@@ -16,9 +17,14 @@ const ReviewItemComponent = ({
   const [modifyMode, setModifyMode] = useState(false);
   const [text, setText] = useState(productReplyText);
   const [score, setScore] = useState(star);
+  const { loginState } = useCustomLogin();
 
   // 수정버튼 클릭 시 수정 모드로 전환 핸들러
   const modifyClickHandler = () => {
+    if (loginState.nickname !== productReplyer) {
+      window.alert("수정권한이 없습니다.");
+      return;
+    }
     setModifyMode(true); // 수정 모드로 전환
   };
 
@@ -26,11 +32,6 @@ const ReviewItemComponent = ({
   const handleChangeText = (e) => {
     setText(e.target.value);
   };
-
-  // 별점 수정 반응 핸들러
-  // const handleChangeScore = (e) => {
-  //   setScore(e.target.value);
-  // };
 
   // 별점 핸들러
   const scoreHandler = (value) => {
@@ -41,9 +42,7 @@ const ReviewItemComponent = ({
   const reviewModifyHandler = () => {
     const formData = new FormData();
 
-    // formData.append("pno", pno);
     formData.append("productReplyText", text);
-    // formData.append("productReplyer", loginState.nickname);
     formData.append("star", score);
 
     if (!text) {
@@ -100,7 +99,7 @@ const ReviewItemComponent = ({
     >
       {fetching ? <FetchingModal /> : <></>}
 
-      <div className="flex text-lg p-4 justify-between items-center">
+      <div className="flex text-sm p-4 justify-between items-center">
         {modifyMode ? (
           <div className="w-2/12 text-center p-1">
             <div>
@@ -108,7 +107,6 @@ const ReviewItemComponent = ({
                 <span
                   name="star"
                   key={value}
-                  // onChange={handleChangeScore}
                   onClick={() => scoreHandler(value)}
                   style={{
                     cursor: "pointer",
@@ -140,7 +138,7 @@ const ReviewItemComponent = ({
         )}
         {modifyMode ? (
           <textarea
-            className="w-4/5 p-2 rounded-r border border-solid border-neutral-300 shadow-md resize-y"
+            className="w-5/12 p-2 rounded-r border border-solid border-neutral-300 shadow-md resize-y"
             name="productReplyText"
             rows="4"
             onChange={handleChangeText}
@@ -153,32 +151,34 @@ const ReviewItemComponent = ({
         )}
         <div className="w-2/12 text-center p-1">{productReplyer}</div>
         <div className="w-2/12 text-center p-1">{regDate}</div>
-        <div className="w-1/12 text-center p-1">
-          {modifyMode ? (
+        {modifyMode ? (
+          <div className="w-1/12 text-center p-1">
             <button
-              className="bg-gray-700 hover:bg-gray-900 m-1 p-1 text-base text-white w-12 rounded-lg"
+              className="bg-green-700 hover:bg-green-900 m-1 p-1 text-white w-12 rounded-lg"
               onClick={reviewModifyHandler}
               disabled={fetching} // 요청 중일 때 버튼 비활성화
             >
               수정완료
             </button>
-          ) : (
             <button
-              className="bg-gray-700 hover:bg-gray-900 m-1 p-1 text-base text-white w-12 rounded-lg"
+              className="bg-green-700 hover:bg-green-900 m-1 p-1 text-white w-12 rounded-lg"
+              onClick={reviewDeleteHandler}
+              disabled={fetching} // 요청 중일 때 버튼 비활성화
+            >
+              삭제하기
+            </button>
+          </div>
+        ) : (
+          <div className="w-1/12 text-center p-1">
+            <button
+              className="bg-green-700 hover:bg-green-900 m-1 p-1 text-white w-12 rounded-lg"
               onClick={modifyClickHandler}
               disabled={fetching} // 요청 중일 때 버튼 비활성화
             >
               수정
             </button>
-          )}
-          <button
-            className="bg-gray-700 hover:bg-gray-900 m-1 p-1 text-base text-white w-12 rounded-lg"
-            onClick={reviewDeleteHandler}
-            disabled={fetching} // 요청 중일 때 버튼 비활성화
-          >
-            삭제
-          </button>
-        </div>
+          </div>
+        )}
       </div>
     </li>
   );

@@ -122,7 +122,7 @@ const CartComponent = () => {
         <div className="flex flex-col">
           <div className="w-full flex justify-end">
             {/* <div className="font-extrabold text-2xl w-4/5">장바구니</div> */}
-            <div className="bg-gray-800 text-center text-white font-bold w-1/6 rounded-full py-1">
+            <div className="bg-green-800 text-center text-white font-bold w-1/6 rounded-full py-1">
               상품 종류: {cartItems.length}개
             </div>
           </div>
@@ -133,7 +133,7 @@ const CartComponent = () => {
                 {/* 전체 체크박스 */}
                 <input
                   type="checkbox"
-                  className="w-4 h-4 accent-gray-700"
+                  className="w-4 h-4 accent-green-700"
                   onChange={(event) => changeAllBox(event.target.checked)}
                   checked={checkList.length === cartItems.length ? true : false}
                 />
@@ -167,7 +167,7 @@ const CartComponent = () => {
             <div className="flex w-1/12 justify-center items-center">
               <button
                 onClick={clearCart}
-                className="h-1/2 bg-gray-700 hover:bg-gray-900 text-white text-xs font-bold px-2 rounded"
+                className="h-1/2 bg-green-700 hover:bg-green-900 text-white text-xs font-bold px-2 rounded"
                 // style={{
                 //   width: "100px",
                 //   height: "35px",
@@ -200,7 +200,7 @@ const CartComponent = () => {
           >
             <button
               onClick={handleCheckout}
-              className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
+              className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded mt-4"
               style={{
                 width: "200px",
                 height: "35px",
@@ -276,7 +276,7 @@ const CartComponent = () => {
               <Link to={"/"}>
                 <button
                   onClick={handleCloseModal}
-                  className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
+                  className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded mt-4"
                   style={{
                     width: "200px",
                     height: "35px",
