@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import RegCommunityComponent from "../../components/community/RegCommunityComponent";
 import { Navigate } from "react-router-dom";
+import BasicMenu from "../../components/menus/BasicMenu";
 
 const RegCommunityPage = () => {
   const loginState = useSelector((state) => state.loginSlice);
@@ -10,6 +11,7 @@ const RegCommunityPage = () => {
   }
   return (
     <div className="p-4 w-full bg-white">
+      <BasicMenu />
       <div className="text-3xl font-extrabold">게시물 추가하기</div>
 
       <RegCommunityComponent />

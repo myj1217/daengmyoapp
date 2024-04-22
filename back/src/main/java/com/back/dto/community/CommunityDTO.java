@@ -22,6 +22,8 @@ public class CommunityDTO {
     private String communityTitle;
     private String communityContent;
     private String communityWriter;
+    private boolean delFlag;
+
 
     private LocalDateTime regDate;
 

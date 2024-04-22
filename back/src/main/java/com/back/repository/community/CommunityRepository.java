@@ -20,11 +20,11 @@ public interface CommunityRepository  extends JpaRepository <Community, Long> {
 
 
     @Modifying
-    @Query("UPDATE Community b SET b.deleted = true WHERE b.communityBno = :communityBno")
-    void updateToDelete(@Param("communityBno") Long communityBno);
+    @Query("UPDATE Community b SET b.delFlag = :flag WHERE b.communityBno = :communityBno")
+    void updateToDelete(@Param("communityBno") Long communityBno, @Param("flag") boolean flag);
 
 
     // 이미지가 포함된 목록 처리
-    @Query("SELECT b, bi FROM Community b LEFT JOIN b.imageList bi WHERE bi.cin = 0 OR bi IS NULL")
+    @Query("SELECT b, bi FROM Community b LEFT JOIN b.imageList bi ON bi.cin = 0 WHERE b.delFlag = false OR bi IS NULL")
     Page<Object[]> selectList(Pageable pageable);
 }

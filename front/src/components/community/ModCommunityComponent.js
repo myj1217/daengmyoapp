@@ -15,6 +15,7 @@ const initState = {
   communityTitle: "",
   communityContent: "",
   communityWriter: "",
+  delFlag: false,
   uploadFileNames: [],
 };
 
@@ -47,6 +48,8 @@ const ModCommunityComponent = ({ communityBno }) => {
       ),
     });
   };
+
+  // 수정
   const handleClickModify = () => {
     const files = uploadRef.current.files;
     const formData = new FormData();
@@ -57,6 +60,7 @@ const ModCommunityComponent = ({ communityBno }) => {
 
     formData.append("communityTitle", community.communityTitle);
     formData.append("communityContent", community.communityContent);
+    formData.append("delFlag", community.delFlag);
 
     for (let i = 0; i < community.uploadFileNames.length; i++) {
       formData.append("uploadFileNames", community.uploadFileNames[i]);
@@ -70,12 +74,12 @@ const ModCommunityComponent = ({ communityBno }) => {
     });
   };
 
+  // 삭제
   const handleClickDelete = () => {
     setFetching(true);
     delCommunity(communityBno).then(() => {
       setResult("Deleted");
       setFetching(false);
-      moveToList({ page: 1 });
     });
   };
 
@@ -114,9 +118,8 @@ const ModCommunityComponent = ({ communityBno }) => {
             제목
           </label>
           <input
-            id="communityTitle"
             name="communityTitle"
-            type="text"
+            type={"text"}
             value={community.communityTitle}
             onChange={handleChangeCommunity}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -130,9 +133,8 @@ const ModCommunityComponent = ({ communityBno }) => {
             내용
           </label>
           <input
-            id="communityContent"
             name="communityContent"
-            type="text"
+            type={"text"}
             value={community.communityContent}
             onChange={handleChangeCommunity}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -148,7 +150,7 @@ const ModCommunityComponent = ({ communityBno }) => {
           <input
             id="communityWriter"
             name="communityWriter"
-            type="text"
+            type={"text"}
             value={community.communityWriter}
             onChange={handleChangeCommunity}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -158,13 +160,7 @@ const ModCommunityComponent = ({ communityBno }) => {
         {/* More inputs similar to the above */}
         <div>
           <label htmlFor="files">파일 첨부:</label>
-          <input
-            type={"file"}
-            id="files"
-            name="files"
-            ref={uploadRef}
-            multiple={true}
-          />
+          <input type={"file"} name="files" ref={uploadRef} multiple={true} />
         </div>
 
         <div>
@@ -173,7 +169,7 @@ const ModCommunityComponent = ({ communityBno }) => {
             <div key={imageName}>
               <img
                 src={`${API_SERVER_HOST}/community/view/${imageName}`}
-                alt={imageName}
+                alt="img"
                 className="w-32 h-32 object-cover"
               />
               <button onClick={() => deleteOldImages(imageName)}>

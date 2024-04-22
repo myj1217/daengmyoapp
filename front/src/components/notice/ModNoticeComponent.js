@@ -4,12 +4,14 @@ import useCustomMove from "../../hooks/useCustomMove";
 import ResultModal from "../common/ResultModal";
 import { delNotice, getNotice, modNotice } from "../../api/noticeApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
+import { Navigate } from "react-router-dom";
 
 const initState = {
   noticeBno: 0,
   noticeTitle: "",
   noticeContent: "",
   noticeWriter: "",
+  delFlag: false,
   uploadFileNames: [],
 };
 
@@ -54,6 +56,7 @@ const ModNoticeComponent = ({ noticeBno }) => {
 
     formData.append("noticeTitle", notice.noticeTitle);
     formData.append("noticeContent", notice.noticeContent);
+    formData.append("delFlag", notice.delFlag);
 
     for (let i = 0; i < notice.uploadFileNames.length; i++) {
       formData.append("uploadFileNames", notice.uploadFileNames[i]);
@@ -74,15 +77,6 @@ const ModNoticeComponent = ({ noticeBno }) => {
       setFetching(false);
     });
   };
-  const handleDeleteImage = (imageName) => {
-    // 이미지 삭제 기능 추가
-    setNotice({
-      ...notice,
-      uploadFileNames: notice.uploadFileNames.filter(
-        (name) => name !== imageName
-      ),
-    });
-  };
 
   const closeModal = () => {
     if (result === "Modified") {
@@ -92,6 +86,9 @@ const ModNoticeComponent = ({ noticeBno }) => {
     }
 
     setResult(null);
+  };
+  const handleClickList = () => {
+    Navigate("/notice/list");
   };
 
   return (
@@ -115,9 +112,8 @@ const ModNoticeComponent = ({ noticeBno }) => {
             제목
           </label>
           <input
-            id="noticeTitle"
             name="noticeTitle"
-            type="text"
+            type={"text"}
             value={notice.noticeTitle}
             onChange={handleChangeNotice}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -131,9 +127,8 @@ const ModNoticeComponent = ({ noticeBno }) => {
             내용
           </label>
           <input
-            id="noticeContent"
             name="noticeContent"
-            type="text"
+            type={"text"}
             value={notice.noticeContent}
             onChange={handleChangeNotice}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -147,9 +142,8 @@ const ModNoticeComponent = ({ noticeBno }) => {
             작성자
           </label>
           <input
-            id="noticeWriter"
             name="noticeWriter"
-            type="text"
+            type={"text"}
             value={notice.noticeWriter}
             // onChange={handleChangenotice}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -159,7 +153,7 @@ const ModNoticeComponent = ({ noticeBno }) => {
         {/* More inputs similar to the above */}
         <div>
           <label htmlFor="files">파일 수정:</label>
-          <input type="file" id="files" name="files" ref={uploadRef} multiple />
+          <input type={"file"} name="files" ref={uploadRef} multiple={true} />
         </div>
 
         <div>
@@ -171,7 +165,7 @@ const ModNoticeComponent = ({ noticeBno }) => {
                 alt={imageName}
                 className="w-32 h-32 object-cover"
               />
-              <button onClick={() => handleDeleteImage(imageName)}>
+              <button onClick={() => deleteOldImages(imageName)}>
                 이미지 삭제
               </button>
             </div>
@@ -192,7 +186,7 @@ const ModNoticeComponent = ({ noticeBno }) => {
             삭제
           </button>
           <button
-            onClick={() => moveToList({ page: 1 })}
+            onClick={handleClickList}
             className="bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded"
           >
             목록

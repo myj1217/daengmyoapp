@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import RegNoticeComponent from "../../components/notice/RegNoticeComponent";
+import BasicMenu from "../../components/menus/BasicMenu";
 
 const RegNoticePage = () => {
   const loginState = useSelector((state) => state.loginSlice);
@@ -10,7 +11,8 @@ const RegNoticePage = () => {
   }
   return (
     <div className="p-4 w-full bg-white">
-      <div className="text-3xl font-extrabold">게시물 추가하기</div>
+      <BasicMenu />
+      <div className="text-3xl font-extrabold">공지사항 등록하기</div>
 
       <RegNoticeComponent />
     </div>

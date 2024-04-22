@@ -14,7 +14,7 @@ public interface CommunityService {
 
     void delCommunity(Long communityBno);
 
-    CommunityDTO getCommunity (Long communityBno);
+    CommunityDTO getCommunity(Long communityBno);
 
     PageResponseDTO<CommunityDTO> getCommunityList(PageRequestDTO pageRequestDTO);
 
