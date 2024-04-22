@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { getOne } from "../../api/productApi";
+// import { getOne } from "../../api/productApi";
 import { replyDel, replyList } from "../../api/productReplyApi";
-import { API_SERVER_HOST } from "../../api/rootApi";
-import useCustomMove from "../../hooks/useCustomMove";
-import FetchingModal from "../common/FetchingModal";
+// import { API_SERVER_HOST } from "../../api/rootApi";
+// import useCustomMove from "../../hooks/useCustomMove";
+// import FetchingModal from "../common/FetchingModal";
 // import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
 import ReviewAddComponent from "./ReviewAddComponent";
 import ReviewItemComponent from "./ReviewItemComponent";
-import ResultModal from "../common/ResultModal";
+// import ResultModal from "../common/ResultModal";
 
 const iniState = {
   prno: 0,
@@ -21,14 +21,11 @@ const iniState = {
 
 const ReviewListComponent = ({ pno }) => {
   const [review, setReview] = useState(iniState);
-  //   const { page, size, moveToList, moveToModify } = useCustomMove();
-  const [fetching, setFetching] = useState(false);
-  //   const { changeCart, cartItems } = useCustomCart();
+  // const [fetching, setFetching] = useState(false);
   const { isLogin, loginState, exceptionHandle } = useCustomLogin();
   const navigate = useNavigate();
-  const [reviewModal, setReviewModal] = useState(false); // 모달 상태 추가
+  const [reviewAddModal, setReviewAddModal] = useState(false); // 모달 상태 추가
   const [reviewListener, setReviewListener] = useState(false);
-  // const [result, setResult] = useState(null);
 
   // 리뷰 작성하기 핸들러
   const reviewHandler = () => {
@@ -42,32 +39,18 @@ const ReviewListComponent = ({ pno }) => {
       }
       navigate("/member/login");
     }
-    setReviewModal(true); // 모달 열기
+    setReviewAddModal(true); // 모달 열기
   };
 
   // 리뷰창 닫기 핸들러
-  const handleCloseModal = () => {
-    setReviewModal(false); // 모달 닫기;
+  const closeAddReview = () => {
+    setReviewAddModal(false); // 모달 닫기;
   };
-
-  // 리뷰 완료 후 상품정보창으로 리다이렉트 핸들러
-  //   const reviewRedirect = async () => {
-  //   console.log("setReviewListener true");
-  //   await replyList(pno).then((data) => {
-  //     setReview(data);
-  //     setReviewListener(true);
-  //   });
-  // };
 
   // 리뷰 완료 후 상품정보창으로 리다이렉트 핸들러
   const reviewRedirect = () => {
     setReviewListener(!reviewListener);
   };
-
-  // const closeModal = () => {
-  //   setResult(null);
-  //   reviewRedirect();
-  // };
 
   useEffect(() => {
     // 상품 리뷰
@@ -80,18 +63,13 @@ const ReviewListComponent = ({ pno }) => {
 
   return (
     <div className="w-full border-2 border-gray-300 mt-4 m-2 p-4">
-      {fetching ? <FetchingModal /> : <></>}
-      {/* {result ? (
-        <ResultModal
-          title={"리뷰 등록"}
-          // content={`${result}번째 상품으로 등록되었습니다!`}
-          content={"성공적으로 리뷰가 등록되었습니다."}
-          callbackFn={closeModal}
-        />
+      {/* {fetching ? <FetchingModal /> : <></>} */}
+
+      {review.dtoList && review.dtoList.length > 0 ? (
+        <div className="my-10 text-5xl">상품리뷰({review.dtoList.length})</div>
       ) : (
-        <></>
-      )} */}
-      <div className="my-10 text-5xl">상품리뷰</div>
+        <div className="my-10 text-5xl">상품리뷰(0)</div>
+      )}
 
       <button
         type="button"
@@ -105,16 +83,19 @@ const ReviewListComponent = ({ pno }) => {
         id="review zone"
         className="w-full border-2 border-gray-300 mt-4 m-2 p-4"
       >
+        {/* 리뷰 타이틀 */}
         <div id="review title">
           {" "}
           <div className="flex text-lg p-4 justify-between">
-            <div className="w-1/6 text-center p-1">작성자</div>
-            <div className="w-3/6 text-center p-1">내용</div>
-            <div className="w-1/6 text-center p-1">등록시간</div>
-            <div className="w-1/6 text-center p-1">삭제</div>
+            <div className="w-2/12 text-center p-1">별점</div>
+            <div className="w-5/12 text-center p-1">내용</div>
+            <div className="w-2/12 text-center p-1">작성자</div>
+            <div className="w-2/12 text-center p-1">등록시간</div>
+            <div className="w-1/12 text-center p-1">수정</div>
           </div>
         </div>
 
+        {/* 리뷰 목록 */}
         {review.dtoList ? (
           <div id="review list">
             <ul>
@@ -132,45 +113,15 @@ const ReviewListComponent = ({ pno }) => {
           <div>리뷰를 불러올 수 없습니다.</div>
         )}
 
-        {/* <div className="flex flex-col">
-          {review.dtoList ? (
-            review.dtoList.map((item) => (
-              <div
-                key={item.prno}
-                className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
-              >
-                <div className="flex text-lg p-4 justify-between">
-                  <div className="w-1/6 text-center p-1">
-                    {item.productReplyer}
-                  </div>
-                  <div className="w-3/6 text-center p-1">
-                    {item.productReplyText}
-                  </div>
-                  <div className="w-1/6 text-center p-1">{item.regDate}</div>
-                  <div className="w-1/6 text-center p-1">
-                    <button
-                      className="bg-gray-700 hover:bg-gray-900 m-1 p-1 text-base text-white w-12 rounded-lg"
-                      onClick={reviewDeleteHandler}
-                    >
-                      삭제
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div>No reviews available</div>
-          )}
-        </div> */}
-
-        {reviewModal && ( // 모달 표시 조건 추가
+        {/* reviewAdd 모달 */}
+        {reviewAddModal && (
           <div
             className="fixed top-0 left-0 w-full h-full flex justify-center items-center overflow-y-auto bg-black bg-opacity-80"
             style={{ zIndex: 9999 }}
           >
             <div
               className="bg-white p-8 rounded-lg"
-              style={{ width: "400px", height: "600px", zIndex: 9999999 }}
+              style={{ width: "300px", height: "300px", zIndex: 9999999 }}
             >
               <div
                 style={{
@@ -182,7 +133,7 @@ const ReviewListComponent = ({ pno }) => {
               >
                 <div id="comp modal">
                   <ReviewAddComponent
-                    handleCloseModal={handleCloseModal}
+                    closeAddReview={closeAddReview}
                     pno={pno}
                     reviewRedirect={reviewRedirect}
                   />

@@ -42,4 +42,9 @@ public class ProductReply {
     public void changeText(String text){
         this.productReplyText = text;
     }
+    public void changeStar(int star){
+        this.star = star;
+    }
+
+    private int star;
 }
