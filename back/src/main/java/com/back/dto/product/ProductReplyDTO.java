@@ -29,7 +29,7 @@ public class ProductReplyDTO {
     @NotEmpty
     private String productReplyer;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yy.MM.dd")
     private LocalDateTime regDate;
 
     @JsonIgnore// 댓글 수정 시간의 경우 화면에 출력할일이 없으므로 json으로 변환할때 제외.

@@ -52,7 +52,8 @@ public class ProductReplyServiceImpl implements ProductReplyService{
     public void modify(ProductReplyDTO productReplyDTO){
         Optional<ProductReply> replyOptional = productReplyRepository.findById(productReplyDTO.getPrno());
         ProductReply productReply = replyOptional.orElseThrow();
-        productReply.changeText(productReplyDTO.getProductReplyText());// 댓글의 내용만 수정 가능
+        productReply.changeText(productReplyDTO.getProductReplyText()); // 내용 수정
+        productReply.changeStar(productReplyDTO.getStar()); // 별점 수정
         productReplyRepository.save(productReply);
     }
     @Override

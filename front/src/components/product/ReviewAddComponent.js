@@ -1,11 +1,7 @@
 import { useState } from "react";
-// import { useRef, useState } from "react";
 import { replyAdd } from "../../api/productReplyApi";
 import FetchingModal from "../common/FetchingModal";
-// import ResultModal from "../common/ResultModal";
-// import useCustomMove from "../../hooks/useCustomMove";
 import { useSelector } from "react-redux";
-// import { Link, useNavigate } from "react-router-dom";
 
 const initState = {
   prno: 0,
@@ -16,18 +12,21 @@ const initState = {
   star: 1,
 };
 
-const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
+const ReviewAddComponent = ({ closeAddReview, pno, reviewRedirect }) => {
   const loginState = useSelector((state) => state.loginSlice);
   const [review, setReview] = useState({ ...initState });
   const [fetching, setFetching] = useState(false);
-  const [rating, setRating] = useState(3);
-  // const { moveToList } = useCustomMove();
-  // const navigate = useNavigate();
+  const [star, setStar] = useState(3);
 
-  // 작성한 내용 반응
+  // 리뷰 작성한 내용 반응 핸들러
   const handleChangeReview = (e) => {
     review[e.target.name] = e.target.value;
     setReview({ ...review });
+  };
+
+  // 별점 핸들러
+  const starHandler = (value) => {
+    setStar(value);
   };
 
   // 추가 버튼 클릭 시 작동
@@ -38,7 +37,12 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
     formData.append("pno", pno);
     formData.append("productReplyText", review.productReplyText);
     formData.append("productReplyer", loginState.nickname);
-    formData.append("star", review.star);
+    formData.append("star", star);
+
+    if (!review.productReplyText) {
+      window.alert("내용을 입력해주세요.");
+      return;
+    }
 
     setFetching(true);
 
@@ -55,15 +59,11 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
 
     window.alert("리뷰가 성공적으로 등록되었습니다.");
 
-    handleCloseModal();
-  };
-
-  const starHandler = (value) => {
-    setRating(value);
+    closeAddReview();
   };
 
   return (
-    <div className="border-2 border-gray-300 mt-10 m-2 p-4">
+    <div className="border-2 border-gray-300 p-2 text-sm">
       {fetching ? <FetchingModal /> : <></>}
       {/* {result ? (
         <ResultModal
@@ -75,23 +75,26 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
       ) : (
         <></>
       )} */}
-      <div>
-        {[1, 2, 3, 4, 5].map((value) => (
-          <span
-            name="star"
-            key={value}
-            onClick={() => starHandler(value)}
-            onChange={handleChangeReview}
-            style={{
-              cursor: "pointer",
-              color: value <= rating ? "gold" : "gray",
-            }}
-          >
-            &#9733;
-          </span>
-        ))}
+      <div className="flex mb-4 w-full items-center">
+        <div className="w-1/5 font-bold text-center">별점</div>
+        <div>
+          {[1, 2, 3, 4, 5].map((value) => (
+            <span
+              name="star"
+              key={value}
+              onClick={() => starHandler(value)}
+              onChange={handleChangeReview}
+              style={{
+                cursor: "pointer",
+                color: value <= star ? "gold" : "gray",
+              }}
+            >
+              &#9733;
+            </span>
+          ))}
+        </div>
       </div>
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">작성자</div>
           <input
@@ -102,12 +105,13 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
             onChange={handleChangeReview}
           ></input>
         </div>
-      </div>
+      </div> */}
+
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">내용</div>
+          <div className="w-1/5 font-bold text-center">내용</div>
           <textarea
-            className="w-4/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md resize-y"
+            className="w-4/5 p-2 rounded-r border border-solid border-neutral-300 shadow-md resize-y"
             name="productReplyText"
             rows="4"
             onChange={handleChangeReview}
@@ -117,23 +121,20 @@ const ReviewAddComponent = ({ handleCloseModal, pno, reviewRedirect }) => {
           </textarea>
         </div>
       </div>
-      <div className="flex justify-end">
-        <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
+
+      <div className="">
+        <div className="flex flex-row justify-around">
           <button
             type="button"
-            className="rounded p-4 w-36 bg-gray-800 text-xl  text-white "
+            className="rounded p-4 w-20 bg-gray-800 text-xs text-white"
             onClick={handleClickAdd}
           >
             추가하기
           </button>
-        </div>
-      </div>
-      <div className="flex justify-end">
-        <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
           <button
             type="button"
-            className="rounded p-4 w-36 bg-gray-800 text-xl  text-white "
-            onClick={handleCloseModal}
+            className="rounded p-4 w-20 bg-gray-800 text-xs text-white"
+            onClick={closeAddReview}
           >
             닫기
           </button>

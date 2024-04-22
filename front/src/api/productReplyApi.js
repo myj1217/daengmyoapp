@@ -39,10 +39,11 @@ export const replyList = async (pno) => {
 //   return res.data;
 // };
 
-export const replyPut = async (prno, product) => {
-  const header = { headers: { "Content-Type": "multipart/form-data" } };
+export const replyPut = async (prno, review) => {
+  // const header = { headers: { "Content-Type": "multipart/form-data" } };
+  const header = { headers: { "Content-Type": "application/json" } };
 
-  const res = await jwtAxios.put(`${host}/${prno}`, product, header);
+  const res = await jwtAxios.put(`${host}/${prno}`, review, header);
 
   return res.data;
 };
