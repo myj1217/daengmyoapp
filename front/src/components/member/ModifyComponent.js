@@ -179,7 +179,7 @@ const ModifyComponent = ({ setIsModify }) => {
   }, [member.nickname]);
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       {/* 비밀번호 변경 모달 */}
       {isOpen && (
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -202,7 +202,7 @@ const ModifyComponent = ({ setIsModify }) => {
         onSubmit={(e) => {
           e.preventDefault(); // 폼의 기본 동작 중지
         }}
-        className="w-full p-8 bg-white rounded-lg shadow-xl"
+        className="w-full p-8 bg-white"
       >
         {/* 이메일 입력 필드 */}
         <label>이메일</label>

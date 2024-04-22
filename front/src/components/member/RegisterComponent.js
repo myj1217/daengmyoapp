@@ -202,9 +202,10 @@ const RegisterComponent = () => {
       </div>
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-2 border max-w-4xl w-full bg-green-50 rounded-lg"
+        className=""
       >
         {/* 왼쪽 컬럼 */}
+        <div className="grid grid-cols-2 border max-w-4xl w-full bg-green-50 rounded-lg">
         <div className="col-span-1 p-6">
           <p className="text-center mb-8">필수 입력 항목</p>
         <label htmlFor="email">이메일</label>
@@ -344,12 +345,9 @@ const RegisterComponent = () => {
           onChange={handleChange}
           placeholder="상세 주소"
         />
-        {/* 전화번호 입력 필드 */}
-       
-        {/* 회원가입 버튼 */}
+       </div>
         </div>
-      </form>
-      <div className="flex flex-col w-full justify-center items-center">
+        <div className="flex flex-col w-full justify-center items-center">
         {Object.values(errors).some((error) => error !== "") && (
           <p className="text-red-500 mt-2">
             가입 정보를 양식에 맞게 수정해주세요!
@@ -362,6 +360,7 @@ const RegisterComponent = () => {
           가입하기
         </button>
         </div>
+      </form>
     </div>
   
   );
