@@ -224,16 +224,16 @@ const MemberListComponent = () => {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-end w-full mt-4">
-        <button className="mr-auto ml-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded" onClick={handleDeleteMembers}>
+      <div className="flex items-center w-full mt-4">
+        <button className="mr-auto ml-2 mb-auto px-4 py-3 bg-red-500 hover:bg-red-600 text-white rounded" onClick={handleDeleteMembers}>
           선택 회원 탈퇴
         </button>
-        <div className="ml-auto flex space-x-2">
-          <button className="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded" onClick={handleCancelChanges}>
-            선택 전체 취소
-          </button>
+        <div className="ml-auto flex flex-col mr-2">
           <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded" onClick={handleSubmit}>
-            선택 사항 저장
+            권한 저장
+          </button>
+          <button className="mt-2 px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded" onClick={handleCancelChanges}>
+            권한 선택 취소
           </button>
         </div>
       </div>
