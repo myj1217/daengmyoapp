@@ -4,6 +4,9 @@ import com.back.dto.PageRequestDTO;
 import com.back.dto.PageResponseDTO;
 import com.back.dto.community.CommunityDTO;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Transactional
 public interface CommunityService {

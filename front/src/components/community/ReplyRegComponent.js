@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { regReply, listReply } from "../../api/communityReplyApi";
+import { regReply } from "../../api/communityReplyApi";
 
 const initState = {
   replyRno: 0,

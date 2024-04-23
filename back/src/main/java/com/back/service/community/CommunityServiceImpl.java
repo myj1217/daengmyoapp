@@ -7,15 +7,19 @@ import com.back.dto.PageRequestDTO;
 import com.back.dto.PageResponseDTO;
 import com.back.dto.community.CommunityDTO;
 import com.back.repository.community.CommunityRepository;
+import com.back.util.CustomFileUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +32,9 @@ import java.util.stream.Collectors;
 public class CommunityServiceImpl implements CommunityService {
 
     private final CommunityRepository communityRepository;
+    private  final ModelMapper modelMapper;
+
+//    private final CustomFileUtil fileUtil;
 
     @Override
     public PageResponseDTO<CommunityDTO> getCommunityList(PageRequestDTO pageRequestDTO) {
@@ -75,24 +82,24 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public Long regCommunity(CommunityDTO communityDTO) {
-        Community community = dtoToEnity(communityDTO);
+        // DTO를 Entity로 변환
+        Community community = dtoToEntity(communityDTO);
         Community result = communityRepository.save(community);
+
         return result.getCommunityBno();
-
     }
-
-    private Community dtoToEnity(CommunityDTO communityDTO) {
-
+    private Community dtoToEntity(CommunityDTO communityDTO){
         Community community = Community.builder()
                 .communityBno(communityDTO.getCommunityBno())
-                .communityTitle(communityDTO.getCommunityTitle())
-                .communityContent(communityDTO.getCommunityContent())
                 .communityWriter(communityDTO.getCommunityWriter())
+                .communityContent(communityDTO.getCommunityContent())
+                .communityTitle(communityDTO.getCommunityTitle())
                 .build();
+
         //업로드 처리가 끝난 파일들의 이름 리스트
         List<String> uploadFileNames = communityDTO.getUploadFileNames();
 
-        if (uploadFileNames == null) {
+        if(uploadFileNames == null){
             return community;
         }
 
@@ -102,6 +109,7 @@ public class CommunityServiceImpl implements CommunityService {
 
         return community;
     }
+
 
     @Override
     public CommunityDTO getCommunity(Long communityBno) {

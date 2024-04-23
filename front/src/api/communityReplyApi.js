@@ -23,7 +23,8 @@ export const regReply = async (reply) => {
 
 // 댓글 수정
 export const modReply = async (replyRno, reply) => {
-  const res = await jwtAxios.put(`${host}/${replyRno}`, reply);
+  const header = { headers: { "Content-Type": "application/json" } };
+  const res = await jwtAxios.put(`${host}/${replyRno}`, reply, header);
   return res.data;
 };
 

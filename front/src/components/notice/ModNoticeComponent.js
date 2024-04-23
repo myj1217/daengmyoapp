@@ -4,7 +4,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import ResultModal from "../common/ResultModal";
 import { delNotice, getNotice, modNotice } from "../../api/noticeApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const initState = {
   noticeBno: 0,
@@ -19,6 +19,8 @@ const ModNoticeComponent = ({ noticeBno }) => {
   const [notice, setNotice] = useState(initState);
   const [result, setResult] = useState(null);
   const { moveToRead, moveToList } = useCustomMove();
+  const navigate = useNavigate(); // useNavigate 훅 추가
+
   const [fetching, setFetching] = useState(false);
   const uploadRef = useRef();
 
@@ -88,7 +90,7 @@ const ModNoticeComponent = ({ noticeBno }) => {
     setResult(null);
   };
   const handleClickList = () => {
-    Navigate("/notice/list");
+    navigate("/notice/list");
   };
 
   return (
@@ -161,7 +163,7 @@ const ModNoticeComponent = ({ noticeBno }) => {
           {notice.uploadFileNames.map((imageName) => (
             <div key={imageName}>
               <img
-                src={`${API_SERVER_HOST}/notice/file/${imageName}`}
+                src={`${API_SERVER_HOST}/notice/view/${imageName}`}
                 alt={imageName}
                 className="w-32 h-32 object-cover"
               />

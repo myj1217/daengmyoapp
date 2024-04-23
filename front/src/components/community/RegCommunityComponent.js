@@ -8,6 +8,8 @@ import { regCommunity } from "../../api/communityApi";
 const initState = {
   communityTitle: "",
   communityContent: "",
+  communityWriter: "",
+  files: [],
   imagesPreview: [], // 업로드한 이미지 미리보기 배열
 };
 
@@ -22,8 +24,8 @@ const RegCommunityComponent = () => {
   const { moveToList } = useCustomMove();
 
   const handleChangeCommunity = (e) => {
-    const { name, value } = e.target;
-    setCommunity({ ...community, [name]: value });
+    community[e.target.name] = e.target.value;
+    setCommunity({ ...community });
   };
 
   // 이미지 미리보기 업데이트 함수
@@ -34,11 +36,10 @@ const RegCommunityComponent = () => {
     for (let i = 0; i < files.length; i++) {
       previewImages.push(URL.createObjectURL(files[i]));
     }
-
     setCommunity({ ...community, imagesPreview: previewImages });
   };
 
-  const handleClickReg = async () => {
+  const handleClickReg = async (e) => {
     const files = uploadRef.current.files;
     const formData = new FormData();
 
@@ -50,15 +51,20 @@ const RegCommunityComponent = () => {
     formData.append("communityContent", community.communityContent);
     formData.append("communityWriter", loginState.nickname);
 
+    // 이미지를 첨부한 경우에만 FormData에 이미지 추가
+    // if (uploadRef.current.files.length > 0) {
+    //   const files = uploadRef.current.files;
+    //   for (let i = 0; i < files.length; i++) {
+    //     formData.append("files", files[i]);
+    //   }
+    // }
+
     setFetching(true);
-    try {
-      const data = await regCommunity(formData);
-      setResult(data.result);
-    } catch (error) {
-      console.error(error);
-    } finally {
+
+    regCommunity(formData).then((data) => {
       setFetching(false);
-    }
+      setResult(data.result);
+    });
   };
 
   const closeModal = () => {
@@ -77,7 +83,6 @@ const RegCommunityComponent = () => {
         />
       )}
       <form className="space-y-6 bg-white p-8">
-        {/* 이미지 미리보기 추가 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <label className="md:col-span-1 flex items-center justify-end text-lg font-medium text-gray-700">
             작성자
@@ -112,7 +117,8 @@ const RegCommunityComponent = () => {
           <input
             className="md:col-span-2 form-input rounded-md border-gray-300 shadow-sm"
             name="communityContent"
-            type={"text"}
+            // type={"text"}
+            rows="4"
             value={community.communityContent}
             onChange={handleChangeCommunity}
           />
@@ -127,7 +133,21 @@ const RegCommunityComponent = () => {
             className="md:col-span-2 form-input rounded-md border-gray-300 shadow-sm"
             type={"file"}
             multiple={true}
+            onChange={updatePreviewImages}
           />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="md:col-span-1"></div>
+          <div className="md:col-span-2 grid grid-cols-3 gap-2">
+            {community.imagesPreview.map((preview, index) => (
+              <img
+                key={index}
+                src={preview}
+                alt={`Preview ${index}`}
+                className="rounded-md"
+              />
+            ))}
+          </div>
         </div>
 
         <div className="flex justify-end mt-4">

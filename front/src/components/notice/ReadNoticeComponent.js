@@ -4,6 +4,7 @@ import FetchingModal from "../common/FetchingModal";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import { getNotice } from "../../api/noticeApi";
+import { useNavigate } from "react-router-dom";
 
 const initState = {
   noticeBno: 0,
@@ -19,10 +20,11 @@ const ReadNoticeComponent = ({ noticeBno }) => {
   const [notice, setNotice] = useState(initState);
 
   //화면 이동용 함수
-  const { moveToList, moveToModify } = useCustomMove();
+  const { moveToModify } = useCustomMove();
+  const navigate = useNavigate(); // useNavigate 훅 추가
+
   //fetching
   const [fetching, setFetching] = useState(false);
-
   // 로그인 정보
   const { loginState } = useCustomLogin();
 
@@ -31,6 +33,8 @@ const ReadNoticeComponent = ({ noticeBno }) => {
     getNotice(noticeBno)
       .then((data) => {
         setNotice(data);
+        console.log(data);
+
         setFetching(false);
       })
       .catch((error) => {
@@ -38,6 +42,10 @@ const ReadNoticeComponent = ({ noticeBno }) => {
         setFetching(false);
       });
   }, [noticeBno]);
+
+  const handleClickList = () => {
+    navigate("/notice/list");
+  };
 
   return (
     <div className="border-2 border-gray-300 mt-10 m-2 p-4">
@@ -96,7 +104,7 @@ const ReadNoticeComponent = ({ noticeBno }) => {
         <button
           type="button"
           className="rounded p-4 m-2 w-32 bg-gray-800"
-          onClick={moveToList}
+          onClick={handleClickList}
         >
           목록으로
           <br />

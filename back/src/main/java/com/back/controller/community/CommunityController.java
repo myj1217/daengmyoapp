@@ -28,9 +28,10 @@ public class CommunityController {
 
 
     @PostMapping("/register")
-    public Map<String, Long> regCommunity(CommunityDTO communityDTO, @RequestParam("files") List<MultipartFile> files) {
+    public Map<String, Long> regCommunity(CommunityDTO communityDTO) {
         log.info("register: " + communityDTO);
 
+        List<MultipartFile> files = communityDTO.getFiles();
         List<String> uploadFileNames = fileUtil.saveFiles(files);
         communityDTO.setUploadFileNames(uploadFileNames);
 

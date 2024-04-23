@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "notice")
 @Getter
-@ToString
+@ToString(exclude = "imageList")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

@@ -20,7 +20,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
     Optional<Notice> findById(@Param("noticeBno") Long noticeBno);
 
     @Modifying
-    @Transactional
     @Query("UPDATE Notice n SET n.delFlag = :flag WHERE n.noticeBno = :noticeBno")
     void deleteByNoticeBno(@Param("noticeBno") Long noticeBno,@Param("flag") boolean flag);
 
