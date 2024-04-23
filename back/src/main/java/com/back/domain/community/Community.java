@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "community")
 @Getter
-@ToString
+@ToString(exclude = "imageList")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,8 +37,6 @@ public class Community {
 //    public void changeDel(boolean delFlag) {
 //        this.delFlag = delFlag;
 //    }
-
-
 
 
     public void changeTitle(String communityTitle) {

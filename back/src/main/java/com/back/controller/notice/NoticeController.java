@@ -29,8 +29,9 @@ public class NoticeController {
     private final CustomFileUtil fileUtil;
 
     @PostMapping("/register")
-    public Map<String, Long> regNotice(NoticeDTO noticeDTO, @RequestParam("files") List<MultipartFile> files) {
+    public Map<String, Long> regNotice(NoticeDTO noticeDTO) {
 
+        List<MultipartFile> files = noticeDTO.getFiles();
         List<String> uploadFileNames = fileUtil.saveFiles(files);
         noticeDTO.setUploadFileNames(uploadFileNames);
 
@@ -88,6 +89,7 @@ public class NoticeController {
                     .filter(fileName -> uploadedFileNames.indexOf(fileName) == -1).collect(Collectors.toList());
             //실제 파일 삭제
             fileUtil.deleteFiles(removeFiles);
+
         }
         return Map.of("RESULT", "SUCCESS");
 

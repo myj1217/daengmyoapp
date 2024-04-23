@@ -25,6 +25,6 @@ public interface CommunityRepository  extends JpaRepository <Community, Long> {
 
 
     // 이미지가 포함된 목록 처리
-    @Query("SELECT b, bi FROM Community b LEFT JOIN b.imageList bi ON bi.cin = 0 WHERE b.delFlag = false OR bi IS NULL")
+    @Query("SELECT b, bi FROM Community b LEFT JOIN b.imageList bi on bi.cin = 0 WHERE b.delFlag = false or bi is null")
     Page<Object[]> selectList(Pageable pageable);
 }

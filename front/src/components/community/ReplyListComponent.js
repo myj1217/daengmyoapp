@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { API_SERVER_HOST } from "../../api/rootApi";
-import { listReply, regReply } from "../../api/communityReplyApi";
+import { listReply, regReply, delReply } from "../../api/communityReplyApi";
 import ReplyRegComponent from "./ReplyRegComponent";
+import ReplyModComponent from "./ReplyModComponent";
 
 const host = API_SERVER_HOST;
 
@@ -22,8 +23,9 @@ const initState = {
 const ReplyListComponent = ({ communityBno }) => {
   const { exceptionHandle } = useCustomLogin();
   const { refresh, moveToList } = useCustomMove();
+  const [deletingReplyRno, setDeletingReplyRno] = useState(null);
 
-  //serverData는 나중에 사용
+  // 댓글 목록 및 기타 데이터 저장
   const [serverData, setServerData] = useState(initState);
 
   useEffect(() => {
@@ -35,6 +37,7 @@ const ReplyListComponent = ({ communityBno }) => {
       .catch((err) => exceptionHandle(err));
   }, [refresh]);
 
+  // 댓글 등록
   const handleReplySubmit = (replyContent) => {
     const replyData = {
       communityBno: communityBno,
@@ -53,6 +56,39 @@ const ReplyListComponent = ({ communityBno }) => {
       });
   };
 
+  // // 수정 모드로 변경하는 함수
+  // const handleEditReply = (replyRno) => {
+  //   setServerData((prevState) => {
+  //     const updatedDtoList = prevState.dtoList.map((item) => {
+  //       if (item.replyRno === replyRno) {
+  //         return { ...item, editing: true }; // 수정 모드로 변경
+  //       }
+  //       return item;
+  //     });
+  //     return { ...prevState, dtoList: updatedDtoList };
+  //   });
+  // };
+
+  // // 댓글 수정 취소를 처리하는 함수
+  // const cancelEditReply = () => {
+  //   setServerData((prevState) => {
+  //     const updatedDtoList = prevState.dtoList.map((item) => {
+  //       return { ...item, editing: false }; // 수정 모드에서 일반 모드로 변경
+  //     });
+  //     return { ...prevState, dtoList: updatedDtoList };
+  //   });
+  // };
+
+  // // 댓글 삭제를 시작하는 함수
+  // const handleDeleteReply = (replyRno) => {
+  //   setDeletingReplyRno(replyRno);
+  // };
+
+  // // 댓글 삭제 취소를 처리하는 함수
+  // const cancelDeleteReply = () => {
+  //   setDeletingReplyRno(null);
+  // };
+
   return (
     <div>
       {/* 댓글 목록 */}
@@ -62,12 +98,20 @@ const ReplyListComponent = ({ communityBno }) => {
           <div>댓글이 없습니다.</div>
         ) : (
           serverData.dtoList.map((reply) => (
-            <div key={reply.replyRno} className="border-b py-2">
-              <div className="flex justify-between">
-                <div>{reply.replyWriter}</div>
-              </div>
-              <div>{reply.replyContent}</div>
-            </div>
+            <ReplyModComponent
+              key={reply.replyRno}
+              communityBno={communityBno}
+              replyRno={reply.replyRno}
+              replyContent={reply.replyContent}
+              replyWriter={reply.replyWriter}
+              regDate={reply.regDate}
+              listReplyRedirect={() => {
+                // 댓글 수정 또는 삭제 후 리다이렉트하는 함수
+                listReply(communityBno).then((data) => {
+                  setServerData(data);
+                });
+              }}
+            />
           ))
         )}
       </div>

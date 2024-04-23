@@ -3,6 +3,9 @@ package com.back.service.notice;
 import com.back.dto.PageRequestDTO;
 import com.back.dto.PageResponseDTO;
 import com.back.dto.notice.NoticeDTO;
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
 
 public interface NoticeService {
     Long regNotice(NoticeDTO noticeDTO);

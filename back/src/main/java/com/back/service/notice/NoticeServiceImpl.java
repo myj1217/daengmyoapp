@@ -9,7 +9,7 @@ import com.back.repository.notice.NoticeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 public class NoticeServiceImpl implements NoticeService {
 
     private final NoticeRepository noticeRepository;
+    private final ModelMapper modelMapper;
 
     // 공지 등록
     @Override
@@ -42,6 +43,7 @@ public class NoticeServiceImpl implements NoticeService {
     public void modNotice(NoticeDTO noticeDTO) {
         Optional<Notice> optionalNotice = noticeRepository.findById(noticeDTO.getNoticeBno());
         Notice notice = optionalNotice.orElseThrow(() -> new IllegalArgumentException("해당 공지사항이 존재하지 않습니다."));
+        // 게시글 정보 변경
         notice.changeTitle(noticeDTO.getNoticeTitle());
         notice.changeContent(noticeDTO.getNoticeContent());
 
@@ -73,7 +75,6 @@ public class NoticeServiceImpl implements NoticeService {
         Optional<Notice> result = noticeRepository.findById(noticeBno);
         Notice notice = result.orElseThrow();
         NoticeDTO noticeDTO = entityToDTO(notice);
-
         return noticeDTO;
     }
 
@@ -82,14 +83,10 @@ public class NoticeServiceImpl implements NoticeService {
         Pageable pageable = PageRequest.of(
                 pageRequestDTO.getPage() - 1,  // 페이지 시작 번호가 0부터 시작하므로
                 pageRequestDTO.getSize(),
-                Sort.by("noticeBno").descending()
-        );
-
-
+                Sort.by("noticeBno").descending());
         Page<Object[]> result = noticeRepository.selectList(pageable);
 
         log.info("공지사항 리스트입니다. " + result);
-
 
         List<NoticeDTO> dtoList = result.get().map(arr -> {
             Notice notice = (Notice) arr[0];
@@ -139,8 +136,6 @@ public class NoticeServiceImpl implements NoticeService {
         });
 
         return notice;
-
-
     }
 
     private NoticeDTO entityToDTO(Notice notice) {
