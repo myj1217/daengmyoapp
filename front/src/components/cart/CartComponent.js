@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import useCustomCart from "../../hooks/useCustomCart";
 import CartItemComponent from "./CartItemComponent";
-import Payment from "./Payment";
-import OrderComplete from "./OrderComplete";
-import { Link } from "react-router-dom";
-import { Navigate, useNavigate } from "react-router-dom";
+// import Payment from "./Payment";
+// import OrderComplete from "./OrderComplete";
+// import { Link } from "react-router-dom";
+// import { Navigate, useNavigate } from "react-router-dom";
+import PaymentTest from "./PaymentTest";
 
 const CartComponent = () => {
   const { isLogin, loginState } = useCustomLogin();
   const { refreshCart, cartItems, changeCart } = useCustomCart();
-  const [showModal, setShowModal] = useState(false); // 모달 상태 추가
-  const [showNewModal, setShowNewModal] = useState(false); // 새 모달 상태 추가
+  // const [paymentModal, setPaymentModal] = useState(false); // 모달 상태 추가
+  // const [showNewModal, setShowNewModal] = useState(false); // 새 모달 상태 추가
   const [checkList, setCheckList] = useState([]); // 체크 여부
   const [selectedQty, setSelectedQty] = useState(0); // 선택 물품 수량
   const [selectedPrice, setSelectedPrice] = useState(0); // 선택 물품 총 금액
@@ -89,32 +90,32 @@ const CartComponent = () => {
 
   // ********* 모달 *********
 
-  // 선택상품 주문하기 모달
-  const handleCheckout = () => {
-    // 선택한 상품의 개수가 0인 경우에는 아무 작업도 수행하지 않음
-    if (selectedQty === 0) {
-      window.alert("주문할 상품을 선택해주세요.");
-      return;
-    }
-    setShowModal(true); // 모달 열기
-  };
+  // // 선택상품 주문하기 모달
+  // const handleCheckout = () => {
+  //   // 선택한 상품의 개수가 0인 경우에는 아무 작업도 수행하지 않음
+  //   if (selectedQty === 0) {
+  //     window.alert("주문할 상품을 선택해주세요.");
+  //     return;
+  //   }
+  //   setPaymentModal(true); // 모달 열기
+  // };
 
-  // 주문정보 모달 닫은 후
-  const closeModalAndOpenNewModal = () => {
-    setShowModal(false); // 기존 모달 닫기
-    // 새로운 모달을 열기 위해 showModal 상태를 true로 업데이트
-    setShowNewModal(true);
-  };
+  // // 주문정보 모달 닫은 후
+  // const closeModalAndOpenNewModal = () => {
+  //   setPaymentModal(false); // 기존 모달 닫기
+  //   // 새로운 모달을 열기 위해 paymentModal 상태를 true로 업데이트
+  //   setShowNewModal(true);
+  // };
 
-  const handleCloseModal = () => {
-    setShowNewModal(false); // 새 모달 닫기
-    clearCart(); // 장바구니 비우기
-    return <Navigate to="/" />;
-  };
+  // const handleCloseModal = () => {
+  //   setShowNewModal(false); // 새 모달 닫기
+  //   clearCart(); // 장바구니 비우기
+  //   return <Navigate to="/" />;
+  // };
 
-  const redirectToCart = () => {
-    setShowModal(false); // 기존 모달 닫기
-  };
+  // const redirectToCart = () => {
+  //   setPaymentModal(false); // 기존 모달 닫기
+  // };
 
   return (
     <div className="w-full">
@@ -192,59 +193,12 @@ const CartComponent = () => {
               </div>
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <button
-              onClick={handleCheckout}
-              className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
-              style={{
-                width: "200px",
-                height: "35px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              선택 상품 주문하기
-            </button>
-          </div>
-          {showModal && ( // 모달 표시 조건 추가
-            <div
-              className="fixed top-0 left-0 w-full h-full flex justify-center items-center overflow-y-auto bg-black bg-opacity-80"
-              style={{ zIndex: 9999 }}
-            >
-              <div
-                className="bg-white p-8 rounded-lg"
-                style={{ width: "400px", height: "600px", zIndex: 9999999 }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100%",
-                  }}
-                >
-                  <Payment
-                    totalPrice={selectedPrice}
-                    closeModal={closeModalAndOpenNewModal}
-                    redirectToCart={redirectToCart}
-                  />{" "}
-                  {/* Payment 컴포넌트 렌더링 */}
-                </div>
-              </div>
-            </div>
-          )}
+          <PaymentTest totalPrice={selectedPrice} clearCart={clearCart} />
         </div>
       ) : (
         <></>
       )}
-      {showNewModal && (
+      {/* {showNewModal && (
         <div
           className="fixed top-0 left-0 w-full h-full flex justify-center items-center overflow-y-auto bg-black bg-opacity-80"
           style={{ zIndex: 9999 }}
@@ -292,7 +246,7 @@ const CartComponent = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
