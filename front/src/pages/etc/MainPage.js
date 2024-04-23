@@ -33,9 +33,6 @@ import {
 } from "react-icons/fa";
 import { CiLogin } from "react-icons/ci";
 
-
-
-  
 // **** Main Banner ****
 const settings = {
   dots: true,
@@ -100,82 +97,90 @@ const PetCard = ({ pet }) => {
   );
 };
 
-
 const MainPage = () => {
   const loginInfo = useSelector((state) => state.loginSlice);
   const [nickname, setNickname] = useState("");
   const { isLogin } = useCustomLogin();
 
-
   useEffect(() => {
-    if(isLogin){
-    setNickname(loginInfo.nickname);
-  };
-},[isLogin]);
+    if (isLogin) {
+      setNickname(loginInfo.nickname);
+    }
+  }, [isLogin]);
 
-  
   return (
     <div>
       <BasicMenu />
 
       {/* <MainBanner /> */}
       <div className="flex w-full h-full border border-bottom-2">
-      <div className="main-banner relative overflow-hidden w-3/4 m-2 h-full rounded-lg shadow-lg">
-        <Slider {...settings}>
-          <Link to="/community">
-            <div className="slide-item">
-              <img src={dog1} alt="Banner 1" className="w-full h-auto block" />
+        <div className="main-banner relative overflow-hidden w-3/4 m-2 h-full rounded-lg shadow-lg">
+          <Slider {...settings}>
+            <Link to="/community">
+              <div className="slide-item">
+                <img
+                  src={dog1}
+                  alt="Banner 1"
+                  className="w-full h-auto block"
+                />
+              </div>
+            </Link>
+            <Link to="/animal">
+              <div className="slide-item">
+                <img
+                  src={dog2}
+                  alt="Banner 2"
+                  className="w-full h-auto block"
+                />
+              </div>
+            </Link>
+            <Link to="/products/">
+              <div className="slide-item">
+                <img
+                  src={dog3}
+                  alt="Banner 3"
+                  className="w-full h-auto block"
+                />
+              </div>
+            </Link>
+          </Slider>
+          <div className="h-7" />
+        </div>
+
+        <div className="w-1/4 min-h-40 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
+          <div className="w-full flex items-center justify-center mb-auto mt-2 border-b-2 pb-2">
+            <FaUser className="text-3xl mr-2 mt-1 w-5 f-5" />
+            <p className="text-xl font-bold">프로필</p>
+          </div>
+
+          {!isLogin ? (
+            <>
+              <div className="text-gray-600 text-sm flex flex-col items-center justify-center h-full">
+                <div className="w-full text-center">
+                  로그인이 필요한 서비스입니다.
+                </div>
+              </div>
+              <div className="w-4/5 mb-24">
+                <Link to="member/login">
+                  <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer h-full">
+                    로그인하기
+                    <CiLogin className="inline-block ml-2" />
+                  </button>
+                </Link>
+              </div>
+            </>
+          ) : (
+            <div className="w-full h-full items-center flex flex-col">
+              <div>{nickname} 님</div>
+
+              <Link to="member/mypage">
+                <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer h-full top-0">
+                  마이페이지
+                </button>
+              </Link>
             </div>
-          </Link>
-          <Link to="/adopt">
-            <div className="slide-item">
-              <img src={dog2} alt="Banner 2" className="w-full h-auto block" />
-            </div>
-          </Link>
-          <Link to="/products/">
-            <div className="slide-item">
-              <img src={dog3} alt="Banner 3" className="w-full h-auto block" />
-            </div>
-          </Link>
-        </Slider>
-        <div className="h-7"/>
-      </div>
-
-      <div className="w-1/4 min-h-40 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
-  <div className="w-full flex items-center justify-center mb-auto mt-2 border-b-2 pb-2">
-    <FaUser className="text-3xl mr-2 mt-1 w-5 f-5" />
-    <p className="text-xl font-bold">프로필</p>
-  </div>
-
-  {!isLogin ? (
-    <>
-      <div className="text-gray-600 text-sm flex flex-col items-center justify-center h-full">
-        <div className="w-full text-center">로그인이 필요한 서비스입니다.</div>
-      </div>
-      <div className="w-4/5 mb-24">
-        <Link to="member/login">
-          <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer h-full">
-            로그인하기
-            <CiLogin className="inline-block ml-2"/>
-          </button>
-        </Link>
-      </div>
-    </>
-  ) : (
-    <div className="w-full h-full items-center flex flex-col">
-
-      <div>{nickname} 님</div>
-
-      <Link to="member/mypage">
-          <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer h-full top-0">
-            마이페이지
-          </button>
-        </Link>
-    </div>
-    
-  )}
-</div>
-
+          )}
+        </div>
       </div>
       <div className="py-8">
         <div className="text-center text-4xl font-bold mb-6">
@@ -187,9 +192,11 @@ const MainPage = () => {
           ))}
         </div>
         <div className="text-center mt-6">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer">
-            더보기
-          </button>
+          <Link to="animal/list">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer">
+              더보기
+            </button>
+          </Link>
         </div>
       </div>
       <div className="text-center text-4xl font-bold mb-6">
@@ -197,7 +204,6 @@ const MainPage = () => {
       </div>
 
       <MissingPet />
-   
 
       {/* <Footer /> */}
       <footer className="bg-gray-200 text-gray-800 text-center p-4">
@@ -265,4 +271,3 @@ const MainPage = () => {
 };
 
 export default MainPage;
-
