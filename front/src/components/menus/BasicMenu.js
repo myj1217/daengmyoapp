@@ -36,7 +36,7 @@ const BasicMenu = () => {
           <ul className="flex gap-8">
             <li>
               <Link
-                to="/adopt"
+                to="/animal"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 분양 받기
@@ -83,18 +83,18 @@ const BasicMenu = () => {
               </Link>
             </li>
             {isLogin && (
-            <div className="flex items-center">
-            <Link
-            to="/cart"
-            className="hover:text-amber-200 transition-colors duration-300 flex items-center"
-                  >
-            <span className="mr-1">장바구니</span>
-            <div className="text-xs rounded-full bg-red-500 w-4 h-4 flex items-center justify-center text-white">
-            {cartItems.length}
-            </div>
-        </Link>
-  </div>
-)}
+              <div className="flex items-center">
+                <Link
+                  to="/cart"
+                  className="hover:text-amber-200 transition-colors duration-300 flex items-center"
+                >
+                  <span className="mr-1">장바구니</span>
+                  <div className="text-xs rounded-full bg-red-500 w-4 h-4 flex items-center justify-center text-white">
+                    {cartItems.length}
+                  </div>
+                </Link>
+              </div>
+            )}
             {isLogin ? (
               <li
                 onClick={clickLogout}
