@@ -27,7 +27,7 @@ function ChatList({  }) {
                 const otherUserEmail = chatRoom.userEmail1 === loginState.email ? chatRoom.userEmail2 : chatRoom.userEmail1;
                 return (
                     <div key={chatRoom.id}>
-                        <button onClick={() => handleChatRoomClick(chatRoom.id)}>Chat with {otherUserEmail}</button>
+                        <button onClick={() => handleChatRoomClick(chatRoom.id)}>"{otherUserEmail}"님과의 채팅방</button>
                     </div>
                 );
             })}

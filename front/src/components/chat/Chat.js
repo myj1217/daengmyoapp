@@ -111,7 +111,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { Stomp } from "@stomp/stompjs";
 import jwtAxios from '../../utils/jwtUtil';
-function ChatRoom({ userEmail, chatRoomId }) {
+
+
+
+function Chat({ userEmail, chatRoomId }) {
   // URL에서 채팅방 ID를 가져옴
   // 채팅 메시지 상태
   const [messages, setMessages] = useState([]);
@@ -186,18 +189,41 @@ function ChatRoom({ userEmail, chatRoomId }) {
   };
 
   return (
-    <div>
+    <div className="flex flex-col h-screen p-4">
+      <div className="flex-grow overflow-auto p-4 ">
       {messages.length > 0 && messages.map(chatMessage => (
-        <div key={chatMessage.id}>
-          <div>{chatMessage.senderEmail}</div>
-          <div>{chatMessage.messageContent}</div>
-          <div>{chatMessage.sentAt}</div>
-        </div>
-      ))}
-      <input type="text" value={message} onChange={e => setMessage(e.target.value)} />
-      <button onClick={handleSendMessage}>Send</button>
+  !isNaN(new Date(chatMessage.sentAt).getTime()) && (
+    <div key={chatMessage.id} className={`p-2 my-2 w-2/5 rounded shadow ${chatMessage.senderEmail === userEmail ? 'bg-blue-100 ml-auto' : 'bg-white mr-auto'}`}>
+      <div className="font-bold text-indigo-500">{chatMessage.senderEmail}</div>
+      <p className="text-gray-800">{chatMessage.messageContent}</p>
+      <div className="text-sm text-gray-500">
+        {new Date(chatMessage.sentAt).toLocaleString('ko-KR')}
+      </div>
+    </div>
+  )
+))}
+
+
+
+        <div ref={messagesEndRef} />
+      </div>
+      <div className="flex-none">
+        <input
+          type="text"
+          value={message}
+          onChange={e => setMessage(e.target.value)}
+          className="w-full p-2 border-2 border-gray-200 rounded focus:outline-none focus:border-indigo-500"
+          placeholder="메시지를 입력하세요..."
+        />
+        <button
+          onClick={handleSendMessage}
+          className="w-full p-2 mt-2 text-white bg-indigo-500 rounded hover:bg-indigo-600 focus:outline-none"
+        >
+          보내기
+        </button>
+      </div>
     </div>
   );
 }
 
-export default ChatRoom;
+export default Chat;

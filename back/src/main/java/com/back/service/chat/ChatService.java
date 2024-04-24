@@ -25,7 +25,9 @@ public class ChatService {
 
 
     public List<ChatMessage> getChatHistory(Long chatRoomId) {
-        return chatMessageRepository.findByChatRoomIdOrderBySentAtDesc(chatRoomId);
+        List<ChatMessage> chatMessage = chatMessageRepository.findByChatRoomId(chatRoomId);
+
+        return chatMessage;
     }
 
     public ChatRoom createChatRoom(String userEmail1, String userEmail2) {

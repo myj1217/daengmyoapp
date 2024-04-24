@@ -1,5 +1,6 @@
 package com.back.domain.chat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class ChatMessage {
 
     @ManyToOne
     @JoinColumn(name = "chat_room_id")
+    @JsonIgnore
     private ChatRoom chatRoom;
 
     @Column(nullable = false)
