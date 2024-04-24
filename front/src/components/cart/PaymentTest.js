@@ -125,8 +125,15 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
 
   // 결제 창 호출
   const onClickPayment = () => {
+    // 배송지 주소를 입력하지 않았을 경우 return
     if (!payment.buyerAddress) {
       window.alert("배송지 주소를 입력해주세요.");
+      return;
+    }
+
+    // 배송 요청사항을 선택하지 않았을 경우 return
+    if (!payment.deliveryRequest) {
+      window.alert("배송 요청사항을 선택해주세요.");
       return;
     }
 
