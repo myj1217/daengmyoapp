@@ -8,6 +8,7 @@ import communityRouter from "./communityRouter";
 import noticeRouter from "./noticeRouter";
 import communityReplyRouter from "./communityReplyRouter";
 import animalRouter from "./animalRouter";
+import qnaRouter from "./qnaRouter";
 
 const Main = lazy(() => import("../pages/etc/MainPage"));
 const Product = lazy(() => import("../pages/product/ProductListPage"));
@@ -97,6 +98,11 @@ const rootRouter = createBrowserRouter([
     children: noticeRouter(),
   },
 
+  {
+    path: "qna",
+
+    children: qnaRouter(),
+  },
   {
     path: "/*",
     element: (

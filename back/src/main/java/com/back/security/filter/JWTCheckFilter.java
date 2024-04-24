@@ -89,6 +89,9 @@ public class JWTCheckFilter extends OncePerRequestFilter{
         if(path.startsWith("/notice/")) {
             return true;
         }
+        if(path.startsWith("/qna/")) {
+            return true;
+        }
       
         return false;
 
