@@ -28,7 +28,7 @@ const OrderComponent = () => {
         setOrder(data);
       })
       .catch((err) => exceptionHandle(err));
-  }, []);
+  }, [isLogin]);
 
   return (
     <div>
@@ -39,18 +39,22 @@ const OrderComponent = () => {
       )}
 
       {/* 주문 목록 */}
-      <div id="order list">
-        <ul>
-          {order.dtoList.map((item) => (
-            <OrderItemComponent
-              {...item}
-              key={item.ono}
-              // reviewRedirect={reviewRedirect}
-              // pno={pno}
-            />
-          ))}
-        </ul>
-      </div>
+      {order.dtoList ? (
+        <div id="order list">
+          <ul>
+            {order.dtoList.map((item) => (
+              <OrderItemComponent
+                {...item}
+                key={item.ono}
+                // reviewRedirect={reviewRedirect}
+                // pno={pno}
+              />
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <div>주문 목록을 불러올 수 없습니다.</div>
+      )}
     </div>
   );
 };

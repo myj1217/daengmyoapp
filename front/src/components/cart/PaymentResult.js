@@ -8,7 +8,7 @@ const PaymentResult = ({
   buyer_tel,
   buyer_email,
   buyer_addr,
-  buyer_postcode,
+  // buyer_postcode,
 }) => {
   const navigate = useNavigate();
 
@@ -48,10 +48,10 @@ const PaymentResult = ({
           <span>주소: </span>
           <span>{buyer_addr}</span>
         </li>
-        <li>
+        {/* <li>
           <span>우편번호: </span>
           <span>{buyer_postcode}</span>
-        </li>
+        </li> */}
       </ul>
       <button onClick={redirectToMain}>돌아가기</button>
     </div>

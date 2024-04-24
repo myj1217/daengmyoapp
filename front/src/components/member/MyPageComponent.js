@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import InfoComponent from "./InfoComponent";
 import { useSelector } from "react-redux";
 import AdminComponent from "./AdminComponent";
+import OrderComponent from "../order/OrderComponent";
 
 const MyPageComponent = () => {
   const [selectedTab, setSelectedTab] = useState("profile"); // 선택된 탭 상태
-  
+
   const loginInfo = useSelector((state) => state.loginSlice);
 
-  const isAdmin = loginInfo.roleNames.includes("MANAGER") || loginInfo.roleNames.includes("ADMIN");
+  const isAdmin =
+    loginInfo.roleNames.includes("MANAGER") ||
+    loginInfo.roleNames.includes("ADMIN");
 
   // 탭을 클릭했을 때 호출되는 함수
   const handleTabClick = (tab) => {
@@ -23,7 +26,7 @@ const MyPageComponent = () => {
       case "write":
         return <div>글</div>;
       case "orders":
-        return <div>주문</div>;
+        return <OrderComponent />;
       case "admin":
         return <AdminComponent />;
       // 다른 탭에 대한 렌더링을 추가할 수 있음
@@ -36,7 +39,6 @@ const MyPageComponent = () => {
     <div className="flex w-full max-h-screen-24 ">
       {/* 왼쪽에 탭 메뉴 */}
       <div className="min-w-40">
-
         <div className="flex flex-col">
           <button
             onClick={() => handleTabClick("profile")}
@@ -69,16 +71,17 @@ const MyPageComponent = () => {
             주문
           </button>
           {isAdmin && (
-          <button
-          onClick={() => handleTabClick("admin")}
-          className={`p-3 cursor-pointer ${
-            selectedTab === "admin"
-              ? "bg-gray-300 hover:bg-gray-400 transition duration-200"
-              : "transition duration-200 hover:bg-gray-400"
-          }`}
-        >
-          관리자 페이지
-        </button>)}
+            <button
+              onClick={() => handleTabClick("admin")}
+              className={`p-3 cursor-pointer ${
+                selectedTab === "admin"
+                  ? "bg-gray-300 hover:bg-gray-400 transition duration-200"
+                  : "transition duration-200 hover:bg-gray-400"
+              }`}
+            >
+              관리자 페이지
+            </button>
+          )}
           {/* 다른 탭을 추가할 수 있음 */}
         </div>
       </div>

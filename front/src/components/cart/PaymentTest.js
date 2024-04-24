@@ -186,8 +186,8 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
                   buyer_name={info.buyer_name}
                   buyer_tel={info.buyer_tel}
                   buyer_email={info.buyer_email}
-                  buyer_addr={info.buyer_addr}
-                  buyer_postcode={info.buyer_postcode}
+                  buyer_addr={payment.buyerAddress}
+                  // buyer_postcode={info.buyer_postcode}
                 />
               </div>
             </div>
