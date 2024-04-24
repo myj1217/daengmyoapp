@@ -19,6 +19,9 @@ const Animal = lazy(() => import("../pages/animal/AnimalListPage"));
 const Community = lazy(() => import("../pages/community/ListCommunityPage"));
 const Notice = lazy(() => import("../pages/notice/ListNoticePage"));
 const ErrorPage = lazy(() => import("../pages/etc/ErrorPage"));
+const MissingPetReport = lazy(() =>
+  import("../pages/missing/MissingPetReportPage")
+);
 
 const rootRouter = createBrowserRouter([
   {
@@ -46,6 +49,14 @@ const rootRouter = createBrowserRouter([
     //   </Suspense>
     // ),
     children: animalRouter(),
+  },
+  {
+    path: "missing",
+    element: (
+      <Suspense fallback={<LoadingSpinner />}>
+        <MissingPetReport />
+      </Suspense>
+    ),
   },
   {
     path: "member",
