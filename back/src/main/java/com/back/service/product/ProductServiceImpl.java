@@ -26,13 +26,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Log4j2
 @RequiredArgsConstructor
 @Transactional
-
 public class ProductServiceImpl implements ProductService{
   private final ProductRepository productRepository;
   private final ModelMapper modelMapper;
   @Override
   public PageResponseDTO<ProductDTO> getList(PageRequestDTO pageRequestDTO) {
-    log.info("getList......");
+    log.info("getList product......");
 
     Pageable pageable = PageRequest.of(
             pageRequestDTO.getPage() - 1,
