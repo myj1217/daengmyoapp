@@ -52,8 +52,11 @@ public class OrderServiceImpl implements OrderService{
                 .orderName(orderDTO.getOrderName())
                 .totalPrice(orderDTO.getTotalPrice())
                 .buyerName(orderDTO.getBuyerName())
+                .buyerTel(orderDTO.getBuyerTel())
                 .buyerEmail(orderDTO.getBuyerEmail())
                 .buyerAddress(orderDTO.getBuyerAddress())
+                .buyerAddressCode(orderDTO.getBuyerAddressCode())
+                .buyerDetailAddress(orderDTO.getBuyerDetailAddress())
                 .orderStatus(orderDTO.getOrderStatus())
                 .deliveryRequest(orderDTO.getDeliveryRequest())
                 .build();

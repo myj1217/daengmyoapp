@@ -8,7 +8,8 @@ const PaymentResult = ({
   buyer_tel,
   buyer_email,
   buyer_addr,
-  // buyer_postcode,
+  buyer_postcode,
+  buyer_detailaddr,
 }) => {
   const navigate = useNavigate();
 
@@ -16,9 +17,13 @@ const PaymentResult = ({
     navigate("/");
   };
 
+  const redirectToOrderList = () => {
+    navigate("/member/mypage?order");
+  };
+
   return (
     <div>
-      <p>주문 완료</p>
+      <p>주문이 완료되었습니다!</p>
       <ul>
         <li>
           <span>주문번호: </span>
@@ -48,12 +53,19 @@ const PaymentResult = ({
           <span>주소: </span>
           <span>{buyer_addr}</span>
         </li>
-        {/* <li>
+        <li>
+          <span>상세주소: </span>
+          <span>{buyer_detailaddr}</span>
+        </li>
+        <li>
           <span>우편번호: </span>
           <span>{buyer_postcode}</span>
-        </li> */}
+        </li>
       </ul>
-      <button onClick={redirectToMain}>돌아가기</button>
+      <div className="flex flex-col">
+        <button onClick={redirectToMain}>메인페이지로 돌아가기</button>
+        <button onClick={redirectToOrderList}>주문내역 확인하기</button>
+      </div>
     </div>
   );
 };

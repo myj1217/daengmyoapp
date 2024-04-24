@@ -13,6 +13,8 @@ const iniState = {
   buyerTel: "",
   buyerEmail: "",
   buyerAddress: "",
+  buyerAddressCode: 0,
+  buyerDetailAddress: "",
   orderStatus: "",
   deliveryRequest: "",
 };
@@ -31,11 +33,15 @@ const OrderComponent = () => {
   }, [isLogin]);
 
   return (
-    <div>
+    <div className="p-8">
       {order.dtoList && order.dtoList.length > 0 ? (
-        <div className="my-10 text-5xl">주문내역({order.dtoList.length})</div>
+        <div className="py-8 text-5xl border-b border-gray-300">
+          주문내역({order.dtoList.length})
+        </div>
       ) : (
-        <div className="my-10 text-5xl">주문내역(0)</div>
+        <div className="py-8 text-5xl border-b border-gray-300">
+          주문내역(0)
+        </div>
       )}
 
       {/* 주문 목록 */}
@@ -43,12 +49,7 @@ const OrderComponent = () => {
         <div id="order list">
           <ul>
             {order.dtoList.map((item) => (
-              <OrderItemComponent
-                {...item}
-                key={item.ono}
-                // reviewRedirect={reviewRedirect}
-                // pno={pno}
-              />
+              <OrderItemComponent {...item} key={item.ono} />
             ))}
           </ul>
         </div>

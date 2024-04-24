@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InfoComponent from "./InfoComponent";
 import { useSelector } from "react-redux";
 import AdminComponent from "./AdminComponent";
@@ -6,12 +6,19 @@ import OrderComponent from "../order/OrderComponent";
 
 const MyPageComponent = () => {
   const [selectedTab, setSelectedTab] = useState("profile"); // 선택된 탭 상태
-
   const loginInfo = useSelector((state) => state.loginSlice);
-
   const isAdmin =
     loginInfo.roleNames.includes("MANAGER") ||
     loginInfo.roleNames.includes("ADMIN");
+
+  useEffect(() => {
+    // URL에서 쿼리 매개변수 가져오기
+    const urlParams = new URLSearchParams(window.location.search);
+    // "order" 쿼리 매개변수가 있는지 확인하고, 있다면 해당하는 탭으로 설정
+    if (urlParams.has("order")) {
+      setSelectedTab("orders");
+    }
+  }, []);
 
   // 탭을 클릭했을 때 호출되는 함수
   const handleTabClick = (tab) => {
@@ -68,7 +75,7 @@ const MyPageComponent = () => {
                 : "transition duration-200 hover:bg-gray-400"
             }`}
           >
-            주문
+            주문내역
           </button>
           {isAdmin && (
             <button
