@@ -6,7 +6,7 @@ import com.back.domain.member.MemberRole;
 import com.back.dto.member.MemberJoinDTO;
 import com.back.dto.member.MemberModifyDTO;
 import com.back.dto.member.MemberSecurityDTO;
-import com.back.repository.MemberRepository;
+import com.back.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpEntity;

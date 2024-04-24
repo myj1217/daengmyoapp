@@ -8,6 +8,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@react-google-maps/api": "^2.19.3",
     "@reduxjs/toolkit": "^2.2.1",
+    "@stomp/stompjs": "^7.0.0",
     "@tensorflow-models/mobilenet": "^2.1.1",
     "@tensorflow/tfjs": "^4.17.0",
     "@testing-library/jest-dom": "^5.17.0",
@@ -15,6 +16,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.7",
     "google-translate-api": "^2.3.0",
+    "http-proxy-middleware": "^3.0.0",
     "keen-slider": "^6.8.6",
     "react": "^18.2.0",
     "react-cookie": "^7.1.0",
@@ -25,6 +27,7 @@
     "react-scripts": "5.0.1",
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
+    "sockjs-client": "^1.6.1",
     "tailwindcss": "^3.4.1",
     "web-vitals": "^2.1.4"
   },
@@ -52,4 +55,6 @@
       "last 1 safari version"
     ]
   }
+  
 }
+

@@ -9,6 +9,8 @@ import noticeRouter from "./noticeRouter";
 import communityReplyRouter from "./communityReplyRouter";
 import animalRouter from "./animalRouter";
 import qnaRouter from "./qnaRouter";
+import ChatList from "../components/chat/ChatList";
+import Chat from "../components/chat/Chat";
 
 const Main = lazy(() => import("../pages/etc/MainPage"));
 const Product = lazy(() => import("../pages/product/ProductListPage"));
@@ -96,6 +98,18 @@ const rootRouter = createBrowserRouter([
     path: "notice",
 
     children: noticeRouter(),
+  },
+  {
+    path: "chatList",
+    element: (
+        <ChatList />
+    ),
+  },
+  {
+    path: "chat",
+    element: (
+        <Chat />
+    ),
   },
 
   {
