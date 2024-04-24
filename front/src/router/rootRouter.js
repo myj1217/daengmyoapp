@@ -7,6 +7,8 @@ import LoadingSpinner from "./LoadingSpninner";
 import communityRouter from "./communityRouter";
 import noticeRouter from "./noticeRouter";
 import communityReplyRouter from "./communityReplyRouter";
+import ChatList from "../components/chat/ChatList";
+import Chat from "../components/chat/Chat";
 
 const Main = lazy(() => import("../pages/etc/MainPage"));
 const Product = lazy(() => import("../pages/product/ProductListPage"));
@@ -84,6 +86,18 @@ const rootRouter = createBrowserRouter([
     path: "notice",
 
     children: noticeRouter(),
+  },
+  {
+    path: "chatList",
+    element: (
+        <ChatList />
+    ),
+  },
+  {
+    path: "chat",
+    element: (
+        <Chat />
+    ),
   },
 
   {

@@ -2,7 +2,7 @@ package com.back.service.member;
 
 import com.back.domain.member.Member;
 import com.back.dto.member.MailDTO;
-import com.back.repository.MemberRepository;
+import com.back.repository.member.MemberRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;

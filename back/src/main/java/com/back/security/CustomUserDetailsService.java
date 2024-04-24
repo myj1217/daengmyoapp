@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.back.domain.member.Member;
 import com.back.dto.member.MemberSecurityDTO;
-import com.back.repository.MemberRepository;
+import com.back.repository.member.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

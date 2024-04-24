@@ -13,7 +13,7 @@ import com.back.dto.member.MailDTO;
 import com.back.dto.member.MemberJoinDTO;
 import com.back.dto.member.MemberModifyDTO;
 import com.back.dto.member.MemberSecurityDTO;
-import com.back.repository.MemberRepository;
+import com.back.repository.member.MemberRepository;
 import com.back.service.member.MailService;
 import com.back.service.member.MemberService;
 import com.back.util.JWTUtil;

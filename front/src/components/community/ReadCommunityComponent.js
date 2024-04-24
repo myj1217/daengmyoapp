@@ -7,6 +7,7 @@ import { getCommunity } from "../../api/communityApi";
 import ReplyListComponent from "./ReplyListComponent";
 import { listReply } from "../../api/communityReplyApi";
 import { useNavigate } from "react-router-dom";
+import jwtAxios from "../../utils/jwtUtil";
 
 const initState = {
   communityBno: 0,
@@ -69,6 +70,14 @@ const ReadCommunityComponent = ({ communityBno }) => {
     navigate("/community/list");
   };
 
+  const createChatRoom = () => {
+    jwtAxios.post(`${API_SERVER_HOST}/api/chat`, {
+      userEmail1: loginState.email,  // 사용자의 이메일
+      userEmail2: 'km221k@naver.com'  // 게시글 작성자의 이메일
+    });
+  };
+
+
   return (
     <div className="border-2 border-gray-300 mt-10 m-2 p-4">
       {fetching ? <FetchingModal /> : <></>}
@@ -116,6 +125,13 @@ const ReadCommunityComponent = ({ communityBno }) => {
         id="community_read_buttons"
         className="flex justify-end p-4 text-sm text-white"
       >
+        <button
+          type="button"
+          className="inline-block rounded p-4 m-2 w-32 bg-gray-800"
+          onClick={createChatRoom}  // "채팅하기" 버튼 클릭 시 createChatRoom 함수 호출
+        >
+          채팅하기
+        </button>
         <button
           type="button"
           className="inline-block rounded p-4 m-2 w-32 bg-gray-800"

@@ -1,4 +1,4 @@
-package com.back.repository;
+package com.back.repository.member;
 
 import com.back.dto.member.MemberModifyDTO;
 import org.springframework.data.jpa.repository.*;
