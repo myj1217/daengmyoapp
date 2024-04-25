@@ -9,6 +9,11 @@ const QnaForm = () => {
     message: "",
   });
 
+  // 모달 상태 추가
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const [loading, setLoading] = useState(false); // 로딩 상태 추가
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -19,16 +24,53 @@ const QnaForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // 제출 시 로딩 상태 변경
+
     try {
       const response = await sendQna(formData);
       // Handle response as needed
+      // 제출 후 모달 열기
+      setModalOpen(true);
+      // 폼 데이터 초기화
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
     } catch (error) {
       console.error("Error submitting form:", error);
+    } finally {
+      setLoading(false); // 이메일 발송 완료 후 로딩 상태 변경
     }
   };
 
   return (
     <div>
+      {/* 로딩 화면 */}
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
+          <div className="bg-white p-8 rounded shadow-lg">
+            <h2 className="text-xl font-bold mb-4">이메일 발송 중...</h2>
+            <p>잠시만 기다려주세요.</p>
+          </div>
+        </div>
+      )}
+      {/* 모달 */}
+      {modalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
+          <div className="bg-white p-8 rounded shadow-lg">
+            <h2 className="text-xl font-bold mb-4">확인</h2>
+            <p>문의가 성공적으로 제출되었습니다.</p>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+              onClick={() => setModalOpen(false)}
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="flex items-center justify-center mb-4">
         <FaInfoCircle className="text-gray-600 h-6 w-6 mr-2" />
         <span className="text-gray-600">
