@@ -41,24 +41,41 @@ const ListCommunityComponent = () => {
           serverData.dtoList.map((community) => (
             <div
               key={community.communityBno}
-              className="rounded shadow-md border-2 mb-4 p-4 bg-white"
+              className="flex items-center rounded shadow-md border-2 mb-4 bg-white p-4 justify-between"
+              style={{ minHeight: "80px" }}
               onClick={() => moveToRead(community.communityBno)}
             >
               {community.uploadFileNames &&
                 community.uploadFileNames.length > 0 && (
-                  <div className="w-full overflow-hidden my-4">
+                  <div
+                    className="my-2 mr-4"
+                    style={{ width: "80px", height: "80px" }}
+                  >
                     <img
                       alt="community"
-                      className="m-auto rounded-md"
-                      style={{ maxWidth: "200px", maxHeight: "200px" }}
+                      className="rounded-md"
+                      style={{ maxWidth: "80px", maxHeight: "80px" }}
                       src={`${host}/community/view/${community.uploadFileNames[0]}`}
                     />
                   </div>
                 )}
-              <div className="font-bold text-xl mb-2">
-                {community.communityTitle}
+              <div
+                className="flex-grow flex items-center"
+                style={{ width: "900px" }}
+              >
+                <div
+                  className="font-bold text-xl mb-2"
+                  style={{ width: "600px" }}
+                >
+                  {community.communityTitle}
+                </div>
+                <div
+                  className="font-bold text-xl mb-2 flex-grow justify-end"
+                  style={{ width: "400px" }}
+                >
+                  {community.communityWriter}
+                </div>
               </div>
-              <p>{community.communityWriter}</p>
             </div>
           ))}
       </div>
@@ -81,6 +98,7 @@ const ListCommunityComponent = () => {
           ))}
         </div>
       )}
+
       <Link
         to="/community/register"
         className="block w-1/3 py-2 bg-black text-white text-center mt-4 hover:bg-gray-700 transition duration-200 ease-in-out mx-auto cursor-pointer"

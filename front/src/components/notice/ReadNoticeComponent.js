@@ -50,7 +50,15 @@ const ReadNoticeComponent = ({ noticeBno }) => {
   return (
     <div className="border-2 border-gray-300 mt-10 m-2 p-4">
       {fetching ? <FetchingModal /> : <></>}
-      <div
+      <div className="flex justify-center">
+        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+          <div className="w-1/5 p-6 text-right font-bold">제목</div>
+          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
+            {notice.noticeTitle}
+          </div>
+        </div>
+      </div>
+      {/* <div
         id="notice_image_zone"
         className="w-full justify-center flex  flex-col m-auto items-center"
       >
@@ -63,23 +71,33 @@ const ReadNoticeComponent = ({ noticeBno }) => {
               src={`${host}/notice/view/${fileName}`}
             />
           ))}
-      </div>
-      <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">제목</div>
-          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
-            {notice.noticeTitle}
-          </div>
-        </div>
-      </div>
+      </div> */}
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">내용</div>
           <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
+            <div
+              id="notice_image_zone"
+              className="w-full justify-center flex  flex-col m-auto items-center"
+            >
+              {notice.uploadFileNames &&
+                notice.uploadFileNames.map((fileName, i) => (
+                  <img
+                    alt="notice"
+                    key={i}
+                    className="p-4 w-1/2"
+                    src={`${host}/notice/view/${fileName}`}
+                  />
+                ))}
+            </div>
+            <div style={{ marginBottom: "2rem" }}></div>
+
             {notice.noticeContent}
           </div>
         </div>
       </div>
+
+      {/* 작성자 부분 */}
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">작성자</div>
