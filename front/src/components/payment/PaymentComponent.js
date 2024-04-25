@@ -241,7 +241,100 @@ const PaymentComponent = ({ totalPrice, clearCart }) => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-center">
+              {payment.buyerAddressCode ? (
+                <>
+                  <div className="flex justify-center">
+                    <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                      <div className="w-1/5 p-6 text-right font-bold">
+                        우편번호
+                      </div>
+                      <div className="w-1/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md bg-gray-200">
+                        {payment.buyerAddressCode}
+                      </div>
+                      <div
+                        onClick={openPostcode}
+                        className="ml-2 p-6 bg-green-300 hover:bg-green-500 text-white font-bold rounded-md cursor-pointer"
+                      >
+                        주소 찾기
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-center">
+                    <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                      <div className="w-1/5 p-6 text-right font-bold">
+                        배송지 주소
+                      </div>
+                      <div className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md bg-gray-200">
+                        {payment.buyerAddress}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-center">
+                    <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                      <div className="w-1/5 p-6 text-right font-bold">
+                        상세주소
+                      </div>
+                      <input
+                        className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
+                        name="buyerDetailAddress"
+                        type={"text"}
+                        value={payment.buyerDetailAddress}
+                        onChange={handleChange}
+                      ></input>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex justify-center">
+                    <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                      <div className="w-1/5 p-6 text-right font-bold">
+                        우편번호
+                      </div>
+                      <div
+                        onClick={openPostcode}
+                        className="w-1/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md cursor-pointer"
+                      >
+                        {/* {payment.buyerAddressCode} */}
+                      </div>
+                      <div
+                        onClick={openPostcode}
+                        className="ml-2 p-6 bg-green-300 hover:bg-green-500 text-white font-bold rounded-md cursor-pointer"
+                      >
+                        주소 찾기
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-center">
+                    <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                      <div
+                        onClick={openPostcode}
+                        className="w-1/5 p-6 text-right font-bold"
+                      >
+                        배송지 주소
+                      </div>
+                      <div className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md cursor-pointer">
+                        {payment.buyerAddress}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-center">
+                    <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                      <div className="w-1/5 p-6 text-right font-bold">
+                        상세주소
+                      </div>
+                      <input
+                        className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
+                        name="buyerDetailAddress"
+                        type={"text"}
+                        value={payment.buyerDetailAddress}
+                        onChange={handleChange}
+                      ></input>
+                    </div>
+                  </div>
+                </>
+              )}
+              {/* <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
                   <div className="w-1/5 p-6 text-right font-bold">우편번호</div>
                   <div
@@ -279,7 +372,7 @@ const PaymentComponent = ({ totalPrice, clearCart }) => {
                     onChange={handleChange}
                   ></input>
                 </div>
-              </div>
+              </div> */}
               <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
                   <div className="w-1/5 p-6 text-right font-bold">
