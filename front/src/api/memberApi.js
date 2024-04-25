@@ -169,3 +169,17 @@ export const changeRole = async (data) => {
     throw error.response.data;
   }
 };
+
+
+  export const getNick = async (email) => {
+    try {
+      const response = await jwtAxios.get(`${host}/getNick?email=${email}`);
+      return response.data;
+      console.log(response.data);
+    } catch (error) {
+      console.error("에러:", error);
+      throw error.response.data;
+    }
+
+  };
+

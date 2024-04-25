@@ -61,7 +61,11 @@ public class ChatService {
                 .sentAt(sentAt)
                 .build();
 
-        return chatMessageRepository.save(chatMessage);
+        chatMessage = chatMessageRepository.save(chatMessage);
+        chatRoom.setLastMessage(messageContent); // 마지막 메시지 업데이트
+        chatRoomRepository.save(chatRoom); // 변경사항 저장
+
+        return chatMessage;
     }
 
     public List<ChatRoom> getChatRooms(String userEmail) {

@@ -1,3 +1,4 @@
+// ChatMessage.java
 package com.back.domain.chat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
+
 @AllArgsConstructor
 public class ChatMessage {
     @Id
@@ -29,5 +30,9 @@ public class ChatMessage {
     private String messageContent;
 
     @Column(nullable = false)
-    private LocalDateTime sentAt = LocalDateTime.now();
+    private LocalDateTime sentAt;
+
+    public ChatMessage() {
+        this.sentAt = LocalDateTime.now();
+    }
 }

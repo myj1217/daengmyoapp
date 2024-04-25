@@ -58,7 +58,6 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
 
 
-
     @PostMapping("/join")
     public ResponseEntity<Map<String, String>> join(@Valid MemberJoinDTO memberJoinDTO, Errors errors) {
         if (errors.hasErrors()) {
@@ -115,13 +114,13 @@ public class MemberController {
 
     @PostMapping("/modifyPw")
     @ResponseBody
-    public ResponseEntity<String> modifyPw(@RequestParam("email")String email,
-                                           @RequestParam("pw")String pw,
-                                           @RequestParam("newPw")String newPw) {
+    public ResponseEntity<String> modifyPw(@RequestParam("email") String email,
+                                           @RequestParam("pw") String pw,
+                                           @RequestParam("newPw") String newPw) {
         // 이메일과 일치하는 회원이 존재하는지 확인
         Member member = memberRepository.findByEmail(email);
         // 비밀번호 검사하기
-        if (passwordEncoder.matches(pw,member.getPw())) {
+        if (passwordEncoder.matches(pw, member.getPw())) {
             member.changePw(passwordEncoder.encode(newPw));
             memberRepository.save(member);
             log.info(email + "의 비밀번호가 변경되었습니다.");
@@ -172,10 +171,10 @@ public class MemberController {
     public ResponseEntity<String> delete(@RequestParam("email") String email, @RequestParam("pw") String pw) {
 
         Member member = memberRepository.findByEmail(email);
-        if (passwordEncoder.matches(pw,member.getPw())) {
+        if (passwordEncoder.matches(pw, member.getPw())) {
             Cart cart = cartRepository.findByOwner(member);
 
-            if(cart != null) {
+            if (cart != null) {
                 // 1. 해당 회원의 장바구니에 연결된 모든 장바구니 항목을 삭제
                 cartItemRepository.deleteAllByCart(cart);
 
@@ -197,24 +196,19 @@ public class MemberController {
     public ResponseEntity<String> delete(@RequestParam("email") String email) {
 
         Member member = memberRepository.findByEmail(email);
-            Cart cart = cartRepository.findByOwner(member);
-            if (cart != null) {
-                // 1. 해당 회원의 장바구니에 연결된 모든 장바구니 항목을 삭제
-                cartItemRepository.deleteAllByCart(cart);
+        Cart cart = cartRepository.findByOwner(member);
+        if (cart != null) {
+            // 1. 해당 회원의 장바구니에 연결된 모든 장바구니 항목을 삭제
+            cartItemRepository.deleteAllByCart(cart);
 
-                // 2. 회원의 장바구니를 삭제
-                cartRepository.delete(cart);
-            }
-            // 3. 회원을 삭제
-            memberRepository.delete(member);
+            // 2. 회원의 장바구니를 삭제
+            cartRepository.delete(cart);
+        }
+        // 3. 회원을 삭제
+        memberRepository.delete(member);
 
-            return ResponseEntity.ok("회원 탈퇴되었습니다.");
+        return ResponseEntity.ok("회원 탈퇴되었습니다.");
     }
-
-
-
-
-
 
 
     @GetMapping("/check/nickname/{nickname}")
@@ -260,7 +254,7 @@ public class MemberController {
         Map<String, Object> claims = memberSecurityDTO.getClaims();
 
         String jwtAccessToken = JWTUtil.generateToken(claims, 30);
-        String jwtRefreshToken = JWTUtil.generateToken(claims, 60*24);
+        String jwtRefreshToken = JWTUtil.generateToken(claims, 60 * 24);
 
         claims.put("accessToken", jwtAccessToken);
         claims.put("refreshToken", jwtRefreshToken);
@@ -274,9 +268,20 @@ public class MemberController {
     public ResponseEntity<?> changeRole(@RequestParam("email") String email,
                                         @RequestParam("newRole") String newRole) {
 
-        memberService.changeRole(email,newRole);
+        memberService.changeRole(email, newRole);
 
 
-            return ResponseEntity.ok(true);
+        return ResponseEntity.ok(true);
+    }
+
+    @GetMapping("/getNick")
+    public ResponseEntity<String> getNick(@RequestParam("email") String email) {
+        Member member = memberService.getMemberInfo(email);
+
+        if (!memberService.checkEmail(email)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("회원이 존재하지 않습니다.");
+        }
+
+        return ResponseEntity.ok(member.getNickname());
     }
 }

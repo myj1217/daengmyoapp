@@ -1,3 +1,4 @@
+// ChatRoom.java
 package com.back.domain.chat;
 
 import jakarta.persistence.*;
@@ -6,8 +7,6 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-// ChatRoom.java
 
 @Entity
 @Builder
@@ -27,6 +26,10 @@ public class ChatRoom {
     private String userEmail2;
 
     @OneToMany(mappedBy = "chatRoom")
+    @Builder.Default
     private List<ChatMessage> messages = new ArrayList<>();
-}
 
+
+    private String lastMessage;
+
+}

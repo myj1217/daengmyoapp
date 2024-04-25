@@ -67,6 +67,9 @@ public class JWTCheckFilter extends OncePerRequestFilter{
         if(path.startsWith("/ws")) {
             return true;
         }
+        if(path.startsWith("/api/chat/")) {
+            return true;
+        }
 
         //--------------------------------------------------------
 

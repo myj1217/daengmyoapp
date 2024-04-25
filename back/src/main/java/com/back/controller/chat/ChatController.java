@@ -37,7 +37,6 @@ public class ChatController {
 
     @GetMapping("/api/chat/{userEmail}")
     public ResponseEntity<List<ChatRoom>> getChatRooms(@PathVariable String userEmail) {
-        log.info(userEmail+"adadadadadadadadadadadadadadada");
         List<ChatRoom> chatRooms = chatService.getChatRooms(userEmail);
         return ResponseEntity.ok(chatRooms);
     }
@@ -50,12 +49,13 @@ public class ChatController {
 
 
     @MessageMapping("/chat/{chatRoomId}")
-//    @SendTo("/topic/chat/{chatRoomId}")
     public ResponseEntity<String> sendMessage(@DestinationVariable Long chatRoomId, ChatMessage chatMessage) {
         ChatMessage chatmessage = chatService.sendMessage(chatRoomId, chatMessage.getSenderEmail(), chatMessage.getMessageContent(), chatMessage.getSentAt());
         simpMessagingTemplate.convertAndSend("/topic/chat/" +chatRoomId, chatMessage);
         log.info(chatMessage+";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
         return ResponseEntity.ok("메시지 전송 완료");
     }
+
+
 
 }
