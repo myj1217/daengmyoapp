@@ -116,7 +116,8 @@ const ProductReadComponent = ({ pno }) => {
             </div>
             <div
               id="product_read_buttons"
-              className="flex-col justify-center p-4 text-sm text-white"
+              // className="flex-col justify-center p-4 text-sm text-white"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-1 text-white"
             >
               <button
                 type="button"

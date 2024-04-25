@@ -65,16 +65,6 @@ const ReviewAddComponent = ({ closeAddReview, pno, reviewRedirect }) => {
   return (
     <div className="border-2 border-gray-300 p-2 text-sm">
       {fetching ? <FetchingModal /> : <></>}
-      {/* {result ? (
-        <ResultModal
-          title={"리뷰 등록"}
-          // content={`${result}번째 상품으로 등록되었습니다!`}
-          content={"성공적으로 리뷰가 등록되었습니다."}
-          callbackFn={closeModal}
-        />
-      ) : (
-        <></>
-      )} */}
       <div className="flex mb-4 w-full items-center">
         <div className="w-1/5 font-bold text-center">별점</div>
         <div>
@@ -94,18 +84,6 @@ const ReviewAddComponent = ({ closeAddReview, pno, reviewRedirect }) => {
           ))}
         </div>
       </div>
-      {/* <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">작성자</div>
-          <input
-            className="w-4/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
-            name="productReplyer"
-            type={"text"}
-            value={loginState.nickname}
-            onChange={handleChangeReview}
-          ></input>
-        </div>
-      </div> */}
 
       <div className="flex justify-center">
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -126,14 +104,14 @@ const ReviewAddComponent = ({ closeAddReview, pno, reviewRedirect }) => {
         <div className="flex flex-row justify-around">
           <button
             type="button"
-            className="rounded p-4 w-20 bg-gray-800 text-xs text-white"
+            className="rounded p-4 w-20 bg-green-300 hover:bg-green-500 text-xs text-white"
             onClick={handleClickAdd}
           >
             추가하기
           </button>
           <button
             type="button"
-            className="rounded p-4 w-20 bg-gray-800 text-xs text-white"
+            className="rounded p-4 w-20 bg-green-300 hover:bg-green-500 text-xs text-white"
             onClick={closeAddReview}
           >
             닫기

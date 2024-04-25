@@ -91,12 +91,7 @@ const ReviewItemComponent = ({
   };
 
   return (
-    <li
-      key={prno}
-      className={
-        "rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
-      }
-    >
+    <li key={prno} className={"border-b border-gray-300"}>
       {fetching ? <FetchingModal /> : <></>}
 
       <div className="flex text-sm p-4 justify-between items-center">

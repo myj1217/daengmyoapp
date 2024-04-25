@@ -252,7 +252,7 @@ const PaymentComponent = ({ totalPrice, clearCart }) => {
                   </div>
                   <div
                     onClick={openPostcode}
-                    className="ml-2 p-6 bg-green-300 hover:bg-green-500 text-white font-bold rounded-md"
+                    className="ml-2 p-6 bg-green-300 hover:bg-green-500 text-white font-bold rounded-md cursor-pointer"
                   >
                     주소 찾기
                   </div>

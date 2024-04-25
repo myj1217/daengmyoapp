@@ -134,14 +134,14 @@ const ProductAddComponent = () => {
         <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
           <button
             type="button"
-            className="rounded mx-2 p-4 w-36 bg-gray-800 text-xl  text-white "
+            className="rounded mx-2 p-4 w-36 bg-green-300 hover:bg-green-500 text-xl text-white"
             onClick={handleClickAdd}
           >
             추가하기
           </button>
           <button
             type="button"
-            className="rounded mx-2 p-4 w-36 bg-gray-800 text-xl  text-white "
+            className="rounded mx-2 p-4 w-36 bg-green-300 hover:bg-green-500 text-xl text-white"
             onClick={handleClickList}
           >
             목록으로

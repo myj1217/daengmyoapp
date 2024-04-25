@@ -34,10 +34,8 @@ const CartItemComponent = ({
         (checkList.includes(cino) ? "bg-green-100" : "")
       }
     >
-      {/* <div className="w-full border-2"> */}
       <div>
         <div className="flex justify-evenly text-base text-center items-center">
-          {/* <div className="w-1/12">{cino}</div> */}
           <div className="w-1/12">
             {/* 개별 체크박스 */}
             <input
@@ -51,7 +49,7 @@ const CartItemComponent = ({
             <img
               alt="img"
               src={`${host}/api/products/view/s_${imageFile}`}
-              className="w-24 h-24 object-cover transform transition duration-300 ease-in-out hover:scale-110"
+              className="w-24 h-24 object-cover"
             />
           </div>
           <div className="w-2/12">{pname}</div>

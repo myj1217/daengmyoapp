@@ -181,7 +181,7 @@ const ProductModifyComponent = ({ pno }) => {
       <div className="flex justify-end p-4">
         <button
           type="button"
-          className="inline-block rounded p-4 m-2 text-xl w-32  text-white bg-gray-800"
+          className="inline-block rounded p-4 m-2 text-xl w-32  text-white bg-green-300 hover:bg-green-500"
           onClick={handleClickModify}
         >
           수정완료
@@ -189,7 +189,7 @@ const ProductModifyComponent = ({ pno }) => {
 
         <button
           type="button"
-          className="rounded p-4 m-2 text-xl w-32 text-white bg-gray-800"
+          className="rounded p-4 m-2 text-xl w-32 text-white bg-green-300 hover:bg-green-500"
           onClick={handleClickDelete}
         >
           삭제
@@ -197,7 +197,7 @@ const ProductModifyComponent = ({ pno }) => {
 
         <button
           type="button"
-          className="rounded p-4 m-2 text-xl w-32 text-white bg-gray-800"
+          className="rounded p-4 m-2 text-xl w-32 text-white bg-green-300 hover:bg-green-500"
           onClick={moveToList}
         >
           목록
