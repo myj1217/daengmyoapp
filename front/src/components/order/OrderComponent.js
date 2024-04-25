@@ -366,6 +366,7 @@ const OrderComponent = ({ totalPrice }) => {
           </div>
         </div>
         <div
+          className="mb-10"
           style={{
             display: "flex",
             justifyContent: "center",
