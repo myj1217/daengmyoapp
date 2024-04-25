@@ -59,7 +59,7 @@ const ProductReadComponent = ({ pno }) => {
   };
 
   const clickModifyHandler = () => {
-    if (loginState.nickname !== product.artist) {
+    if (loginState.email !== product.email) {
       window.alert("수정권한이 없습니다.");
       return;
     }
@@ -126,7 +126,14 @@ const ProductReadComponent = ({ pno }) => {
               >
                 장바구니에 담기
               </button>
-              {isLogin ? (
+              <button
+                type="button"
+                className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
+                onClick={clickListHandler}
+              >
+                목록으로 돌아가기
+              </button>
+              {loginState.email === product.email ? (
                 <button
                   type="button"
                   className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
@@ -137,13 +144,6 @@ const ProductReadComponent = ({ pno }) => {
               ) : (
                 <></>
               )}
-              <button
-                type="button"
-                className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
-                onClick={clickListHandler}
-              >
-                목록으로 돌아가기
-              </button>
             </div>
           </div>
         </div>

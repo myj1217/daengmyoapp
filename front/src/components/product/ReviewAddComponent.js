@@ -38,6 +38,7 @@ const ReviewAddComponent = ({ closeAddReview, pno, reviewRedirect }) => {
     formData.append("productReplyText", review.productReplyText);
     formData.append("productReplyer", loginState.nickname);
     formData.append("star", star);
+    formData.append("email", loginState.email);
 
     if (!review.productReplyText) {
       window.alert("내용을 입력해주세요.");

@@ -12,6 +12,7 @@ const ReviewItemComponent = ({
   reviewRedirect,
   pno,
   star,
+  email,
 }) => {
   const [fetching, setFetching] = useState(false);
   const [modifyMode, setModifyMode] = useState(false);
@@ -21,7 +22,7 @@ const ReviewItemComponent = ({
 
   // 수정버튼 클릭 시 수정 모드로 전환 핸들러
   const modifyClickHandler = () => {
-    if (loginState.nickname !== productReplyer) {
+    if (loginState.email !== email) {
       window.alert("수정권한이 없습니다.");
       return;
     }
@@ -146,33 +147,39 @@ const ReviewItemComponent = ({
         )}
         <div className="w-2/12 text-center p-1">{productReplyer}</div>
         <div className="w-2/12 text-center p-1">{regDate}</div>
-        {modifyMode ? (
-          <div className="w-1/12 text-center p-1">
-            <button
-              className="bg-green-300 hover:bg-green-500 m-1 p-1 text-white w-12 rounded-lg"
-              onClick={reviewModifyHandler}
-              disabled={fetching} // 요청 중일 때 버튼 비활성화
-            >
-              수정완료
-            </button>
-            <button
-              className="bg-green-300 hover:bg-green-500 m-1 p-1 text-white w-12 rounded-lg"
-              onClick={reviewDeleteHandler}
-              disabled={fetching} // 요청 중일 때 버튼 비활성화
-            >
-              삭제하기
-            </button>
-          </div>
+        {loginState.email === email ? (
+          <>
+            {modifyMode ? (
+              <div className="w-1/12 text-center p-1">
+                <button
+                  className="bg-green-300 hover:bg-green-500 m-1 p-1 text-white w-12 rounded-lg"
+                  onClick={reviewModifyHandler}
+                  disabled={fetching} // 요청 중일 때 버튼 비활성화
+                >
+                  수정완료
+                </button>
+                <button
+                  className="bg-green-300 hover:bg-green-500 m-1 p-1 text-white w-12 rounded-lg"
+                  onClick={reviewDeleteHandler}
+                  disabled={fetching} // 요청 중일 때 버튼 비활성화
+                >
+                  삭제하기
+                </button>
+              </div>
+            ) : (
+              <div className="w-1/12 text-center p-1">
+                <button
+                  className="bg-green-300 hover:bg-green-500 m-1 p-1 text-white w-12 rounded-lg"
+                  onClick={modifyClickHandler}
+                  disabled={fetching} // 요청 중일 때 버튼 비활성화
+                >
+                  수정
+                </button>
+              </div>
+            )}
+          </>
         ) : (
-          <div className="w-1/12 text-center p-1">
-            <button
-              className="bg-green-300 hover:bg-green-500 m-1 p-1 text-white w-12 rounded-lg"
-              onClick={modifyClickHandler}
-              disabled={fetching} // 요청 중일 때 버튼 비활성화
-            >
-              수정
-            </button>
-          </div>
+          <div className="w-1/12 text-center p-1">{""}</div>
         )}
       </div>
     </li>

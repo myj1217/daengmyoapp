@@ -38,23 +38,17 @@ const ProductAddComponent = () => {
       formData.append("files", files[i]);
     }
 
-    //other data
     formData.append("pname", product.pname);
     formData.append("pdesc", product.pdesc);
     formData.append("price", product.price);
     formData.append("artist", loginState.nickname);
-
-    // console.log("formData");
-    // console.log(formData);
+    formData.append("email", loginState.email);
 
     setFetching(true);
 
     postAdd(formData).then((data) => {
-      // console.log("formData");
-      // console.log(data);
       setFetching(false);
       setResult(data.result);
-      // console.log(result);
     });
   };
 

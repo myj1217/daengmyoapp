@@ -29,6 +29,8 @@ public class ProductReplyDTO {
     @NotEmpty
     private String productReplyer;
 
+    private String email;
+
     @JsonFormat(pattern = "yy.MM.dd")
     private LocalDateTime regDate;
 
