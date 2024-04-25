@@ -1,4 +1,4 @@
-package com.back.repository;
+package com.back.repository.notice;
 
 
 import com.back.domain.notice.Notice;

@@ -72,11 +72,10 @@ const ReadCommunityComponent = ({ communityBno }) => {
 
   const createChatRoom = () => {
     jwtAxios.post(`${API_SERVER_HOST}/api/chat`, {
-      userEmail1: loginState.email,  // 사용자의 이메일
-      userEmail2: 'km221k@naver.com'  // 게시글 작성자의 이메일
+      userEmail1: loginState.email, // 사용자의 이메일
+      userEmail2: "user1@aaa.com", // 게시글 작성자의 이메일
     });
   };
-
 
   return (
     <div className="border-2 border-gray-300 mt-10 m-2 p-4">
@@ -128,7 +127,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
         <button
           type="button"
           className="inline-block rounded p-4 m-2 w-32 bg-gray-800"
-          onClick={createChatRoom}  // "채팅하기" 버튼 클릭 시 createChatRoom 함수 호출
+          onClick={createChatRoom} // "채팅하기" 버튼 클릭 시 createChatRoom 함수 호출
         >
           채팅하기
         </button>
