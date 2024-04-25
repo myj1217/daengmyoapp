@@ -27,6 +27,7 @@ const ProductReadComponent = ({ pno }) => {
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState(0); // 총 금액
   const [quantity, setQuantity] = useState(1);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   // 장바구니 담기 핸들러
   const handleClickAddCart = () => {
@@ -106,20 +107,45 @@ const ProductReadComponent = ({ pno }) => {
       <div className="w-full border-2 border-gray-300 mt-4 m-2 p-4">
         {fetching ? <FetchingModal /> : <></>}
         <div id="product_zone" className="flex">
-          <div
-            id="product_image_zone"
-            // className="w-1/2 justify-center flex  flex-col m-auto items-center"
-            className="w-1/2"
-          >
-            {product.uploadFileNames.map((imgFile, i) => (
-              <img
-                alt="product"
-                key={i}
-                className="w-full object-cover"
-                src={`${host}/api/products/view/${imgFile}`}
-              />
-            ))}
+          <div id="product_image_zone" className="flex flex-col w-1/2">
+            <img
+              className="object-cover w-full h-52 sm:h-64 md:h-80 lg:h-96"
+              src={`${host}/api/products/view/${product.uploadFileNames[selectedImageIndex]}`}
+              alt="selected product"
+            />
+
+            {/* <div
+              id="product_first_image_zone"
+              // className="w-1/2 justify-center flex  flex-col m-auto items-center"
+              className="w-1/2"
+            >
+              {product.uploadFileNames.map((imgFile, i) => (
+                <img
+                  alt="product"
+                  key={i}
+                  className="w-full object-cover"
+                  src={`${host}/api/products/view/${imgFile}`}
+                />
+              ))}
+            </div> */}
+            <div
+              id="product_image_list_zone"
+              // className="w-1/2 justify-center flex  flex-col m-auto items-center"
+              className="flex flex-row"
+            >
+              {product.uploadFileNames.map((imgFile, i) => (
+                <img
+                  alt="product"
+                  key={i}
+                  // className="w-full object-cover"
+                  className="w-24 h-24 object-cover hover:border hover:border-black cursor-pointer"
+                  src={`${host}/api/products/view/${imgFile}`}
+                  onClick={() => setSelectedImageIndex(i)}
+                />
+              ))}
+            </div>
           </div>
+
           <div id="product_text_zone" className="w-1/2">
             <div className="flex justify-center">
               <div className="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -152,7 +178,7 @@ const ProductReadComponent = ({ pno }) => {
               </div>
             </div>
 
-            <div className="flex justify-between w-full p-4 m-2 text-lg text-red-500">
+            <div className="flex justify-between w-full p-4 m-2 text-lg text-red-500 border-b-2 border-red-500">
               <div className="">상품금액 합계</div>
               <div>{totalPrice.toLocaleString("ko-KR")}원</div>
             </div>
@@ -165,16 +191,16 @@ const ProductReadComponent = ({ pno }) => {
               <button
                 type="button"
                 className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
-                onClick={handleClickAddCart}
-              >
-                장바구니에 담기
-              </button>
-              <button
-                type="button"
-                className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
                 onClick={directOrder}
               >
                 바로 주문하기
+              </button>
+              <button
+                type="button"
+                className="inline-block rounded p-4 m-2 w-full text-green-300 hover:text-white hover:bg-green-500 border border-green-300"
+                onClick={handleClickAddCart}
+              >
+                장바구니에 담기
               </button>
               <button
                 type="button"
