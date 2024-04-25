@@ -11,6 +11,7 @@ import animalRouter from "./animalRouter";
 import qnaRouter from "./qnaRouter";
 import ChatList from "../components/chat/ChatList";
 import Chat from "../components/chat/Chat";
+import missingRouter from "./missingRouter";
 
 const Main = lazy(() => import("../pages/etc/MainPage"));
 const Product = lazy(() => import("../pages/product/ProductListPage"));
@@ -22,6 +23,9 @@ const Animal = lazy(() => import("../pages/animal/AnimalListPage"));
 const Community = lazy(() => import("../pages/community/ListCommunityPage"));
 const Notice = lazy(() => import("../pages/notice/ListNoticePage"));
 const ErrorPage = lazy(() => import("../pages/etc/ErrorPage"));
+const MissingPetReport = lazy(() =>
+  import("../pages/missing/MissingPetReportPage")
+);
 
 const rootRouter = createBrowserRouter([
   {
@@ -49,6 +53,15 @@ const rootRouter = createBrowserRouter([
     //   </Suspense>
     // ),
     children: animalRouter(),
+  },
+  {
+    path: "missing",
+    // element: (
+    //   <Suspense fallback={<LoadingSpinner />}>
+    //     <MissingPetReport />
+    //   </Suspense>
+    // ),
+    children: missingRouter(),
   },
   {
     path: "member",
@@ -101,15 +114,11 @@ const rootRouter = createBrowserRouter([
   },
   {
     path: "chatList",
-    element: (
-        <ChatList />
-    ),
+    element: <ChatList />,
   },
   {
     path: "chat",
-    element: (
-        <Chat />
-    ),
+    element: <Chat />,
   },
 
   {
