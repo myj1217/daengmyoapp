@@ -68,12 +68,21 @@ const ProductListComponent = () => {
         ))}
       </div>
       <PageComponent serverData={serverData} movePage={moveToList} />
-      <div
+      {/* <div
         // className="m-1 p-2 w-30 font-extrabold text-center underline"
-        className="block w-1/3 py-2 text-white text-center mt-4 transition duration-200 ease-in-out mx-auto bg-green-700 hover:bg-green-900 cursor-pointer"
+        className="block w-1/3 py-2 text-white text-center mt-4 transition duration-200 ease-in-out mx-auto bg-green-300 hover:bg-green-500 cursor-pointer"
         onClick={handleClickAdd}
       >
-        상품 추가
+        <button>상품 추가</button>
+      </div> */}
+      <div className="flex justify-center">
+        <button
+          type="button"
+          className="inline-block rounded p-4 m-2 bg-green-300 hover:bg-green-500 text-white"
+          onClick={handleClickAdd}
+        >
+          상품 추가
+        </button>
       </div>
     </div>
   );

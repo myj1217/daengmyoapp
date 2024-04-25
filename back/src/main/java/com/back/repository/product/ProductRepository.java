@@ -32,8 +32,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
     // Page<Object[]> selectList(Pageable pageable);
 
     // 상품 검색
-     @Query("select p, pi from Product p left join p.imageList pi " +
-            "where (p.artist like %:artist% or :artist is null) and (p.pname like %:pname% or :pname is null)")
-     Page<Object[]> searchList(@Param("artist") String artist, @Param("pname") String pname, Pageable pageable);
+//     @Query("select p, pi from Product p left join p.imageList pi " +
+//            "where (p.artist like %:artist% or :artist is null) and (p.pname like %:pname% or :pname is null)")
+//     Page<Object[]> searchList(@Param("artist") String artist, @Param("pname") String pname, Pageable pageable);
 
 }

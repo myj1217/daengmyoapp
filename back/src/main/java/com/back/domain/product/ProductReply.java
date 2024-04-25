@@ -29,6 +29,8 @@ public class ProductReply {
     private String productReplyText;
     private String productReplyer;
 
+    private String email;
+
     // 등록날짜
     @CreatedDate
     @Column(name = "regdate", updatable = false)

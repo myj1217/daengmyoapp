@@ -10,44 +10,52 @@ const OrderItemComponent = ({
   buyerTel,
   buyerEmail,
   buyerAddress,
+  buyerAddressCode,
+  buyerDetailAddress,
   orderStatus,
   deliveryRequest,
 }) => {
   return (
-    <div>
-      <div>
-        <div>주문 번호: </div>
-        <div>{impUid}</div>
+    <li key={ono} className="w-full py-8 border-b border-gray-300">
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="flex w-full py-1">
+          <div className="w-1/4">주문 번호</div>
+          <div className="w-3/4">{impUid}</div>
+        </div>
+        <div className="flex w-full py-1">
+          <div className="w-1/4">주문명</div>
+          <div className="w-3/4">{orderName}</div>
+        </div>
+        <div className="flex w-full py-1">
+          <div className="w-1/4">수령인</div>
+          <div className="w-3/4">{buyerName}</div>
+        </div>
+        <div className="flex w-full py-1">
+          <div className="w-1/4">연락처</div>
+          <div className="w-3/4">{buyerTel}</div>
+        </div>
+        <div className="flex w-full py-1">
+          <div className="w-1/4">결제 금액</div>
+          <div className="w-3/4">{totalPrice.toLocaleString("ko-KR")}원</div>
+        </div>
+        <div className="flex w-full py-1">
+          <div className="w-1/4">결제 상태</div>
+          <div className="w-3/4">{orderStatus}</div>
+        </div>
+        <div className="flex w-full py-1">
+          <div className="w-1/4">배송지 주소</div>
+          <div>
+            <div className="w-3/4">{buyerAddressCode}</div>
+            <div className="w-3/4">{buyerAddress}</div>
+            <div className="w-3/4">{buyerDetailAddress}</div>
+          </div>
+        </div>
+        <div className="flex w-full py-1">
+          <div className="w-1/4">배송 요청사항</div>
+          <div className="w-3/4">{deliveryRequest}</div>
+        </div>
       </div>
-      <div>
-        <div>주문자 이름: </div>
-        <div>{buyerName}</div>
-      </div>
-      <div>
-        <div>주문명: </div>
-        <div>{orderName}</div>
-      </div>
-      <div>
-        <div>주문자 전화번호: </div>
-        <div>{buyerTel}</div>
-      </div>
-      <div>
-        <div>결제 금액: </div>
-        <div>{totalPrice}</div>
-      </div>
-      <div>
-        <div>결제 상태: </div>
-        <div>{orderStatus}</div>
-      </div>
-      <div>
-        <div>배송지 주소: </div>
-        <div>{buyerAddress}</div>
-      </div>
-      <div>
-        <div>배송 요청사항: </div>
-        <div>{deliveryRequest}</div>
-      </div>
-    </div>
+    </li>
   );
 };
 

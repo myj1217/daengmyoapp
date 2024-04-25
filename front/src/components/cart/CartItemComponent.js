@@ -34,10 +34,8 @@ const CartItemComponent = ({
         (checkList.includes(cino) ? "bg-green-100" : "")
       }
     >
-      {/* <div className="w-full border-2"> */}
       <div>
         <div className="flex justify-evenly text-base text-center items-center">
-          {/* <div className="w-1/12">{cino}</div> */}
           <div className="w-1/12">
             {/* 개별 체크박스 */}
             <input
@@ -51,31 +49,30 @@ const CartItemComponent = ({
             <img
               alt="img"
               src={`${host}/api/products/view/s_${imageFile}`}
-              className="w-24 h-24 object-cover transform transition duration-300 ease-in-out hover:scale-110"
+              className="w-24 h-24 object-cover"
             />
           </div>
           <div className="w-2/12">{pname}</div>
           <div className="w-2/12">{price.toLocaleString("ko-KR")}</div>
           <div className="w-2/12">
-            {qty}
             <button
-              className="bg-white rounded-lg mx-2"
-              onClick={() => handleClickQty(1)}
-            >
-              <FaPlusCircle />
-            </button>
-            <button
-              className="bg-white rounded-lg"
+              className="bg-white rounded-lg mr-2"
               onClick={() => handleClickQty(-1)}
             >
               <FaMinusCircle />
             </button>
+            {qty}
+            <button
+              className="bg-white rounded-lg ml-2"
+              onClick={() => handleClickQty(1)}
+            >
+              <FaPlusCircle />
+            </button>
           </div>
           <div className="w-2/12">{(qty * price).toLocaleString("ko-KR")}</div>
           <div className="w-1/12">
-            {" "}
             <button
-              className="bg-green-700 hover:bg-green-900 m-1 p-1 text-base text-white w-12 rounded-lg"
+              className="bg-green-300 hover:bg-green-500 m-1 p-1 text-base text-white w-12 rounded-lg"
               onClick={() => handleClickQty(-1 * qty)}
             >
               삭제

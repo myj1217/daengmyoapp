@@ -59,7 +59,7 @@ const ProductReadComponent = ({ pno }) => {
   };
 
   const clickModifyHandler = () => {
-    if (loginState.nickname !== product.artist) {
+    if (loginState.email !== product.email) {
       window.alert("수정권한이 없습니다.");
       return;
     }
@@ -116,19 +116,27 @@ const ProductReadComponent = ({ pno }) => {
             </div>
             <div
               id="product_read_buttons"
-              className="flex-col justify-center p-4 text-sm text-white"
+              // className="flex-col justify-center p-4 text-sm text-white"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-1 text-white"
             >
               <button
                 type="button"
-                className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900"
+                className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
                 onClick={handleClickAddCart}
               >
                 장바구니에 담기
               </button>
-              {isLogin ? (
+              <button
+                type="button"
+                className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
+                onClick={clickListHandler}
+              >
+                목록으로 돌아가기
+              </button>
+              {loginState.email === product.email ? (
                 <button
                   type="button"
-                  className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900"
+                  className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
                   onClick={clickModifyHandler}
                 >
                   상품정보 수정
@@ -136,13 +144,6 @@ const ProductReadComponent = ({ pno }) => {
               ) : (
                 <></>
               )}
-              <button
-                type="button"
-                className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900"
-                onClick={clickListHandler}
-              >
-                목록으로 돌아가기
-              </button>
             </div>
           </div>
         </div>

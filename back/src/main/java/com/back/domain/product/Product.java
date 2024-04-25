@@ -23,6 +23,7 @@ public class Product {
     private int price;
     private String pdesc;
     private boolean delFlag;
+    private String email;
 
     public void changeDel(boolean delFlag) {
         this.delFlag = delFlag;
@@ -41,9 +42,9 @@ public class Product {
     public void changeName(String name){
         this.pname = name;
     }
-    public void changeArtist(String name){
-        this.artist = artist;
-    }
+//    public void changeArtist(String name){
+//        this.artist = artist;
+//    }
 
 
     public void addImage(ProductImage image) {

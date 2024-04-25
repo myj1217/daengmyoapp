@@ -15,8 +15,8 @@ const PageComponent = ({ serverData, movePage }) => {
       {serverData.pageNumList.map((pageNum) => (
         <div
           key={pageNum}
-          className={`m-2 p-2 w-12  text-center rounded shadow-md text-white ${
-            serverData.current === pageNum ? "bg-green-700" : "bg-green-500"
+          className={`m-2 p-2 w-12  text-center rounded shadow-md text-white cursor-pointer ${
+            serverData.current === pageNum ? "bg-green-500" : "bg-green-300"
           }`}
           onClick={() => movePage({ page: pageNum })}
         >

@@ -17,6 +17,7 @@ public class ProductDTO {
     private int price;
     private String pdesc;
     private boolean delFlag;
+    private String email;
 
     private LocalDateTime regDate;
     private LocalDateTime modDate;

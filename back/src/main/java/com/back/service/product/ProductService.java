@@ -13,5 +13,5 @@ public interface ProductService {
     ProductDTO get(Long pno);
     void modify(ProductDTO productDTO);
     void remove(Long pno);
-    PageResponseDTO<ProductDTO> productSearch(String artist, String pname, PageRequestDTO pageRequestDTO);
+//    PageResponseDTO<ProductDTO> productSearch(String artist, String pname, PageRequestDTO pageRequestDTO);
 }

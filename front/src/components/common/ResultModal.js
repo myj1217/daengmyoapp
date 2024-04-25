@@ -5,10 +5,12 @@ const ResultModal = ({ title, content, callbackFn }) => {
         <div className="bg-warning-400 py-6 text-center text-2xl border-b border-gray-500">
           {title}
         </div>
-        <div className="p-6 text-4xl border-b border-gray-500">{content}</div>
+        <div className="flex justify-center p-6 text-4xl border-b border-gray-500">
+          <p>{content}</p>
+        </div>
         <div className="flex justify-end">
           <button
-            className="bg-gray-800 text-white text-lg px-6 py-4 rounded mt-4 mr-4 mb-4"
+            className="text-white text-lg px-6 py-4 rounded mt-4 mr-4 mb-4 bg-green-300 hover:bg-green-500"
             onClick={() => {
               if (callbackFn) {
                 callbackFn();

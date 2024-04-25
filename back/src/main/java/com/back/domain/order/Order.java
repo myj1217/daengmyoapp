@@ -22,6 +22,8 @@ public class Order {
     private String buyerTel;
     private String buyerEmail;
     private String buyerAddress;
+    private String buyerDetailAddress;
+    private int buyerAddressCode;
     private String orderStatus;
     private String deliveryRequest;
 }

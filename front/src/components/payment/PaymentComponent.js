@@ -14,11 +14,13 @@ const iniState = {
   buyerTel: "",
   buyerEmail: "",
   buyerAddress: "",
-  orderStatus: "",
+  buyerAddressCode: 0,
+  buyerDetailAddress: "",
+  orderStatus: "결제 실패",
   deliveryRequest: "",
 };
 
-const PaymentTest = ({ totalPrice, clearCart }) => {
+const PaymentComponent = ({ totalPrice, clearCart }) => {
   const [payment, setPayment] = useState(iniState);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [showOrder, setShowOrder] = useState(false);
@@ -52,7 +54,6 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
 
   const handleChange = (e) => {
     payment[e.target.name] = e.target.value;
-
     setPayment({ ...payment });
   };
 
@@ -68,13 +69,10 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
     formData.append("buyerTel", user.number);
     formData.append("buyerEmail", user.email);
     formData.append("buyerAddress", payment.buyerAddress);
-    formData.append("orderStatus", payment.orderStatus);
+    formData.append("buyerAddressCode", payment.buyerAddressCode);
+    formData.append("buyerDetailAddress", payment.buyerDetailAddress);
+    formData.append("orderStatus", "결제 성공");
     formData.append("deliveryRequest", payment.deliveryRequest);
-
-    // if (!text) {
-    //   window.alert("내용을 입력해주세요.");
-    //   return;
-    // }
 
     setFetching(true);
 
@@ -90,14 +88,13 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
       });
 
     console.log("주문정보가 성공적으로 저장되었습니다.");
-
-    // setModifyMode(false); // 읽기 모드로 전환
   };
 
+  // 카카오 주소찾기 API 불러오기
   const openPostcode = () => {
     new window.daum.Postcode({
       oncomplete: function (data) {
-        // let code = data.zonecode;
+        let code = data.zonecode;
         let fullAddress = data.address;
         let extraAddress = "";
 
@@ -117,7 +114,7 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
         setPayment({
           ...payment,
           buyerAddress: fullAddress,
-          // addressCode: code,
+          buyerAddressCode: code,
         });
       },
     }).open();
@@ -151,6 +148,10 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
 
     if (success) {
       window.alert("결제 성공");
+      //   setPayment({
+      //     ...payment,
+      //     orderStatus: "결제 성공",
+      //   });
       orderSaveHandler();
       setPaymentSuccess(true);
       clearCart();
@@ -187,7 +188,8 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
                   buyer_tel={info.buyer_tel}
                   buyer_email={info.buyer_email}
                   buyer_addr={payment.buyerAddress}
-                  // buyer_postcode={info.buyer_postcode}
+                  buyer_postcode={payment.buyerAddressCode}
+                  buyer_detailaddr={payment.buyerDetailAddress}
                 />
               </div>
             </div>
@@ -200,10 +202,11 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
           display: "flex",
           justifyContent: "center",
         }}
+        className="border-b border-gray-300"
       >
         <button
           onClick={onClickOrder}
-          className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
+          className="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded my-6"
           style={{
             width: "200px",
             height: "35px",
@@ -240,28 +243,41 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
               </div>
               <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                  <div className="w-1/5 p-6 text-right font-bold">
-                    배송지 주소
-                  </div>
-                  {/* <input
-                    className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
-                    name="deliveryRequest"
-                    type={"text"}
-                    value={payment.buyerAddress}
-                    onChange={handleChangeOrder}
-                  ></input> */}
+                  <div className="w-1/5 p-6 text-right font-bold">우편번호</div>
                   <div
                     onClick={openPostcode}
-                    className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
+                    className="w-1/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
                   >
-                    {payment.buyerAddress}
+                    {payment.buyerAddressCode}
                   </div>
                   <div
                     onClick={openPostcode}
-                    className="ml-2 bg-green-500 hover:bg-green-600 text-white font-bold p-3 rounded-md"
+                    className="ml-2 p-6 bg-green-300 hover:bg-green-500 text-white font-bold rounded-md cursor-pointer"
                   >
                     주소 찾기
                   </div>
+                </div>
+              </div>
+              <div className="flex justify-center">
+                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                  <div className="w-1/5 p-6 text-right font-bold">
+                    배송지 주소
+                  </div>
+                  <div className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md bg-gray-200">
+                    {payment.buyerAddress}
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-center">
+                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                  <div className="w-1/5 p-6 text-right font-bold">상세주소</div>
+                  <input
+                    className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
+                    name="buyerDetailAddress"
+                    type={"text"}
+                    value={payment.buyerDetailAddress}
+                    onChange={handleChange}
+                  ></input>
                 </div>
               </div>
               <div className="flex justify-center">
@@ -279,13 +295,6 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
                   <div className="w-1/5 p-6 text-right font-bold">
                     배송 요청사항
                   </div>
-                  {/* <input
-                    className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
-                    name="deliveryRequest"
-                    type={"text"}
-                    value={payment.deliveryRequest}
-                    onChange={handleChangeOrder}
-                  ></input> */}
                   <select
                     className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
                     name="deliveryRequest"
@@ -317,7 +326,7 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
             {" "}
             <button
               onClick={onClickPayment}
-              className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
+              className="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mt-4"
               style={{
                 width: "200px",
                 height: "35px",
@@ -336,4 +345,4 @@ const PaymentTest = ({ totalPrice, clearCart }) => {
   );
 };
 
-export default PaymentTest;
+export default PaymentComponent;

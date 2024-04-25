@@ -52,6 +52,7 @@ public class ProductServiceImpl implements ProductService{
               .price(product.getPrice())
               .delFlag(product.isDelFlag())
               .artist(product.getArtist())
+              .email(product.getEmail())
               .build();
 
       if (productImage != null) {
@@ -86,6 +87,7 @@ public class ProductServiceImpl implements ProductService{
             .pdesc(productDTO.getPdesc())
             .price(productDTO.getPrice())
             .artist(productDTO.getArtist())
+            .email(productDTO.getEmail())
             .build();
 
     //업로드 처리가 끝난 파일들의 이름 리스트
@@ -119,6 +121,7 @@ public class ProductServiceImpl implements ProductService{
             .pdesc(product.getPdesc())
             .price(product.getPrice())
             .artist(product.getArtist())
+            .email(product.getEmail())
             .build();
 
     List<ProductImage> imageList = product.getImageList();
@@ -145,7 +148,7 @@ public class ProductServiceImpl implements ProductService{
     product.changeName(productDTO.getPname());
     product.changeDesc(productDTO.getPdesc());
     product.changePrice(productDTO.getPrice());
-    product.changeArtist(productDTO.getArtist());
+//    product.changeArtist(productDTO.getArtist());
 
     //3. upload File -- clear first
     product.clearList();
@@ -164,53 +167,53 @@ public class ProductServiceImpl implements ProductService{
     productRepository.updateToDelete(pno, true);
   }
 
-  @Override
-  public PageResponseDTO<ProductDTO> productSearch(String artist, String pname, PageRequestDTO pageRequestDTO) {
-    Pageable pageable = PageRequest.of(
-            pageRequestDTO.getPage() - 1,
-            pageRequestDTO.getSize(),
-            Sort.by("pno").descending());
-
-    Page<Object[]> result = productRepository.searchList(artist, pname, pageable);
-
-    Map<Long, ProductDTO> productDTOMap = new HashMap<>();
-
-    result.getContent().forEach(arr -> {
-      Product product = (Product) arr[0];
-      ProductImage productImage = (ProductImage) arr[1];
-
-      Long pno = product.getPno();
-
-      ProductDTO dto = productDTOMap.get(pno);
-      if (dto == null) {
-        dto = ProductDTO.builder()
-                .pno(product.getPno())
-                .pname(product.getPname())
-                .artist(product.getArtist())
-                .price(product.getPrice())
-                .pdesc(product.getPdesc())
-                .delFlag(product.isDelFlag())
-                .build();
-        productDTOMap.put(pno, dto);
-      }
-
-      List<String> uploadFileNames = dto.getUploadFileNames();
-      if (uploadFileNames == null) {
-        uploadFileNames = new ArrayList<>();
-      }
-      if (productImage != null) {
-        uploadFileNames.add(productImage.getFileName());
-        dto.setUploadFileNames(uploadFileNames);
-      }
-    });
-
-    List<ProductDTO> dtoList = new ArrayList<>(productDTOMap.values());
-
-    return PageResponseDTO.<ProductDTO>withAll()
-            .pageRequestDTO(pageRequestDTO)
-            .dtoList(dtoList)
-            .totalCount((int) result.getTotalElements())
-            .build();
-  }
+//  @Override
+//  public PageResponseDTO<ProductDTO> productSearch(String artist, String pname, PageRequestDTO pageRequestDTO) {
+//    Pageable pageable = PageRequest.of(
+//            pageRequestDTO.getPage() - 1,
+//            pageRequestDTO.getSize(),
+//            Sort.by("pno").descending());
+//
+//    Page<Object[]> result = productRepository.searchList(artist, pname, pageable);
+//
+//    Map<Long, ProductDTO> productDTOMap = new HashMap<>();
+//
+//    result.getContent().forEach(arr -> {
+//      Product product = (Product) arr[0];
+//      ProductImage productImage = (ProductImage) arr[1];
+//
+//      Long pno = product.getPno();
+//
+//      ProductDTO dto = productDTOMap.get(pno);
+//      if (dto == null) {
+//        dto = ProductDTO.builder()
+//                .pno(product.getPno())
+//                .pname(product.getPname())
+//                .artist(product.getArtist())
+//                .price(product.getPrice())
+//                .pdesc(product.getPdesc())
+//                .delFlag(product.isDelFlag())
+//                .build();
+//        productDTOMap.put(pno, dto);
+//      }
+//
+//      List<String> uploadFileNames = dto.getUploadFileNames();
+//      if (uploadFileNames == null) {
+//        uploadFileNames = new ArrayList<>();
+//      }
+//      if (productImage != null) {
+//        uploadFileNames.add(productImage.getFileName());
+//        dto.setUploadFileNames(uploadFileNames);
+//      }
+//    });
+//
+//    List<ProductDTO> dtoList = new ArrayList<>(productDTOMap.values());
+//
+//    return PageResponseDTO.<ProductDTO>withAll()
+//            .pageRequestDTO(pageRequestDTO)
+//            .dtoList(dtoList)
+//            .totalCount((int) result.getTotalElements())
+//            .build();
+//  }
 
 }

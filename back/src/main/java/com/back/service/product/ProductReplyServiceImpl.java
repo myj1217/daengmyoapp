@@ -28,14 +28,12 @@ public class ProductReplyServiceImpl implements ProductReplyService{
     private final ModelMapper modelMapper;
     @Override
     public Long register(ProductReplyDTO productReplyDTO){
-//        ProductReply productReply = modelMapper.map(productReplyDTO, ProductReply.class);
-//        Long prno = productReplyRepository.save(productReply).getPrno();
-//        return  prno;
         ProductReply productReply = ProductReply.builder()
                 .product(Product.builder().pno(productReplyDTO.getPno()).build()) // pno 설정
                 .productReplyer(productReplyDTO.getProductReplyer())
                 .productReplyText(productReplyDTO.getProductReplyText())
                 .star(productReplyDTO.getStar())
+                .email(productReplyDTO.getEmail())
                 .build();
 
         ProductReply result = productReplyRepository.save(productReply);

@@ -113,12 +113,12 @@ public class ProductController {
     return Map.of("RESULT", "SUCCESS");
   }
 
-  @GetMapping("/search")
-  public PageResponseDTO<ProductDTO> searchProducts(String artist, String pname,
-                                                    PageRequestDTO pageRequestDTO) {
-    // return productService.productSearch(artist, pname, pageRequestDTO);
-    PageResponseDTO<ProductDTO> responseDTO = productService.productSearch(artist, pname, pageRequestDTO);
-
-    return responseDTO;
-  }
+//  @GetMapping("/search")
+//  public PageResponseDTO<ProductDTO> searchProducts(String artist, String pname,
+//                                                    PageRequestDTO pageRequestDTO) {
+//    // return productService.productSearch(artist, pname, pageRequestDTO);
+//    PageResponseDTO<ProductDTO> responseDTO = productService.productSearch(artist, pname, pageRequestDTO);
+//
+//    return responseDTO;
+//  }
 }

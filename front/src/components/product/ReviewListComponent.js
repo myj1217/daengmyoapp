@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
-// import { getOne } from "../../api/productApi";
-import { replyDel, replyList } from "../../api/productReplyApi";
-// import { API_SERVER_HOST } from "../../api/rootApi";
-// import useCustomMove from "../../hooks/useCustomMove";
-// import FetchingModal from "../common/FetchingModal";
-// import useCustomCart from "../../hooks/useCustomCart";
+import { replyList } from "../../api/productReplyApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
 import ReviewAddComponent from "./ReviewAddComponent";
 import ReviewItemComponent from "./ReviewItemComponent";
-// import ResultModal from "../common/ResultModal";
 
 const iniState = {
   prno: 0,
@@ -71,21 +65,23 @@ const ReviewListComponent = ({ pno }) => {
         <div className="my-10 text-4xl">상품리뷰(0)</div>
       )}
 
-      <button
-        type="button"
-        className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900 text-white"
-        onClick={reviewHandler}
-      >
-        리뷰 작성하기
-      </button>
+      <div className="flex justify-start">
+        <button
+          type="button"
+          className="inline-block rounded p-4 m-2 bg-green-300 hover:bg-green-500 text-white"
+          onClick={reviewHandler}
+        >
+          리뷰 작성하기
+        </button>
+      </div>
 
       <div
         id="review zone"
-        className="w-full border-2 border-gray-300 mt-4 m-2 p-4"
+        // className="w-full border-2 border-gray-300 mt-4 m-2 p-4"
+        className="w-full mt-4 m-2 p-4"
       >
         {/* 리뷰 타이틀 */}
-        <div id="review title">
-          {" "}
+        <div id="review title" className="border-b border-gray-300">
           <div className="flex text-sm font-bold p-4 justify-between">
             <div className="w-2/12 text-center p-1">별점</div>
             <div className="w-5/12 text-center p-1">내용</div>

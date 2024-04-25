@@ -75,7 +75,7 @@ const MyPageComponent = () => {
                 : "transition duration-200 hover:bg-gray-400"
             }`}
           >
-            주문
+            주문내역
           </button>
           {isAdmin && (
             <button
