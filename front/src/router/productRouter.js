@@ -8,6 +8,7 @@ const ProductAdd = lazy(() => import("../pages/product/ProductAddPage"));
 const ProductRead = lazy(() => import("../pages/product/ProductReadPage"));
 const ProductModify = lazy(() => import("../pages/product/ProductModifyPage"));
 const ProductSearch = lazy(() => import("../pages/product/ProductSearchPage"));
+const ProductOrder = lazy(() => import("../pages/order/OrderPage"));
 
 const productRouter = () => {
   return [
@@ -52,6 +53,14 @@ const productRouter = () => {
       element: (
         <Suspense fallback={<LoadingSpinner />}>
           <ProductSearch />
+        </Suspense>
+      ),
+    },
+    {
+      path: "order/:totalPrice",
+      element: (
+        <Suspense fallback={<LoadingSpinner />}>
+          <ProductOrder />
         </Suspense>
       ),
     },
