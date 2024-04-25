@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import MissingPetReport from "../../components/missing/MissingPetReport";
 import { Navigate, useNavigate } from "react-router-dom";
+import BasicMenu from "../../components/menus/BasicMenu";
+import join from "../../asset/images/join.jpg"; // 이미지 임포트 확인
 
 const MissingPetReportPage = () => {
   const loginState = useSelector((state) => state.loginSlice);
@@ -11,10 +13,18 @@ const MissingPetReportPage = () => {
     return <Navigate to="/member/login" />;
   }
 
-  return (
-    <div className="p-4 w-full bg-white flex flex-col items-center">
-      <div className="text-3xl font-extrabold text-center">실종 신고하기</div>
+  const backgroundStyle = {
+    backgroundImage: `url(${join})`, // 이미지를 url 함수 내에 삽입
+    backgroundSize: "cover", // 배경 이미지가 div를 꽉 채우도록 설정
+    backgroundPosition: "center", // 배경 이미지가 중앙에 위치하도록 설정
+  };
 
+  return (
+    <div
+      style={backgroundStyle}
+      className="p-4 w-full bg-white flex flex-col items-center"
+    >
+      <BasicMenu />
       <MissingPetReport />
     </div>
   );

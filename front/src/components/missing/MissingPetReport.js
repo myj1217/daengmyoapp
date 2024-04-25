@@ -3,24 +3,28 @@ import { postAdd } from "../../api/missingApi";
 import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+const initState = {
+  mname: "",
+  age: "",
+  gender: "",
+  description: "",
+  latitude: "",
+  longitude: "",
+  files: [],
+};
 
 const MissingPetReport = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    age: "",
-    gender: "",
-    description: "",
-    latitude: "",
-    longitude: "",
-    images: [],
-  });
-
+  const loginState = useSelector((state) => state.loginSlice);
+  const navigate = useNavigate();
+  const [missing, setMissing] = useState({ ...initState });
+  const uploadRef = useRef();
   const [fetching, setFetching] = useState(false);
   const [result, setResult] = useState(null);
-  const navigate = useNavigate();
+
   const mapContainer = useRef(null);
   const marker = useRef(null);
-  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const center = new window.kakao.maps.LatLng(37.5665, 126.978);
@@ -34,10 +38,10 @@ const MissingPetReport = () => {
     window.kakao.maps.event.addListener(map, "click", function (mouseEvent) {
       const latlng = mouseEvent.latLng;
 
-      setFormData((formData) => ({
-        ...formData,
-        latitude: latlng.getLat(),
-        longitude: latlng.getLng(),
+      setMissing((prevData) => ({
+        ...prevData,
+        latitude: latlng.getLat().toFixed(6),
+        longitude: latlng.getLng().toFixed(6),
       }));
 
       if (marker.current) {
@@ -52,76 +56,55 @@ const MissingPetReport = () => {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (files) {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: files,
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
+    missing[e.target.name] = e.target.value;
+    setMissing({ ...missing });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formDataToSend = new FormData();
-    Array.from(formData.images).forEach((image) => {
-      formDataToSend.append("images", image);
-    });
-
-    formDataToSend.append("name", formData.name);
-    formDataToSend.append("age", formData.age);
-    formDataToSend.append("gender", formData.gender);
-    formDataToSend.append("description", formData.description);
-    formDataToSend.append("latitude", formData.latitude.toString());
-    formDataToSend.append("longitude", formData.longitude.toString());
+    const files = uploadRef.current.files;
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i]);
+    }
+    formData.append("mname", missing.mname);
+    formData.append("age", missing.age);
+    formData.append("gender", missing.gender);
+    formData.append("description", missing.description);
+    formData.append("latitude", missing.latitude.toString());
+    formData.append("longitude", missing.longitude.toString());
 
     setFetching(true);
-    try {
-      const response = await postAdd(formDataToSend);
-      setResult(response.data);
-      setFetching(false);
-
-      if (response.data.success) {
-        alert("Report submitted successfully");
-        navigate("/");
-      } else {
-        alert("Failed to submit report");
-      }
-    } catch (error) {
-      setResult({
-        success: false,
-        message: "Failed to connect to the server: " + error.message,
-      });
-      setFetching(false);
-    }
+    await postAdd(formData);
+    setFetching(false);
+    navigate("/missing/list");
+  };
+  const closeModal = () => {
+    setResult(null);
+    navigate({ page: "/" });
   };
 
   return (
     <div className="max-w-4xl mx-auto p-4 shadow-lg rounded-lg bg-white">
-      {fetching && <FetchingModal />}
+      {fetching ? <FetchingModal /> : null}
       {result && (
         <ResultModal
-          title="Report Status"
-          content={result.message}
-          callbackFn={() => setResult(null)}
+          title={"성공"}
+          content={"신고가 정상적으로 접수되였습니다"}
+          callbackFn={closeModal}
         />
       )}
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex flex-col">
-            <label htmlFor="name" className="font-bold text-gray-700">
+            <label htmlFor="mname" className="font-bold text-gray-700">
               이름:
             </label>
             <input
               type="text"
-              name="name"
-              id="name"
-              value={formData.name}
+              name="mname"
+              id="mname"
+              value={missing.mname}
               onChange={handleChange}
               className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -134,7 +117,8 @@ const MissingPetReport = () => {
               type="number"
               name="age"
               id="age"
-              value={formData.age}
+              value={missing.age}
+              min="0"
               onChange={handleChange}
               className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -146,11 +130,11 @@ const MissingPetReport = () => {
             <select
               name="gender"
               id="gender"
-              value={formData.gender}
+              value={missing.gender}
               onChange={handleChange}
               className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <option value="">성별</option>
+              <option value="">성별 선택</option>
               <option value="male">수컷</option>
               <option value="female">암컷</option>
             </select>
@@ -162,7 +146,7 @@ const MissingPetReport = () => {
             <textarea
               name="description"
               id="description"
-              value={formData.description}
+              value={missing.description}
               onChange={handleChange}
               className="mt-1 block w-full p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -176,13 +160,13 @@ const MissingPetReport = () => {
             type="file"
             name="images"
             id="images"
-            ref={fileInputRef}
+            ref={uploadRef}
             multiple
             onChange={handleChange}
             className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
           />
         </div>
-        <h2>실종위치</h2>
+        <h2 className="font-bold text-gray-700">실종위치:</h2>
         <div
           ref={mapContainer}
           style={{ width: "100%", height: "300px" }}

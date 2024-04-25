@@ -8,6 +8,7 @@ import communityRouter from "./communityRouter";
 import noticeRouter from "./noticeRouter";
 import communityReplyRouter from "./communityReplyRouter";
 import animalRouter from "./animalRouter";
+import missingRouter from "./missingRouter";
 
 const Main = lazy(() => import("../pages/etc/MainPage"));
 const Product = lazy(() => import("../pages/product/ProductListPage"));
@@ -52,11 +53,12 @@ const rootRouter = createBrowserRouter([
   },
   {
     path: "missing",
-    element: (
-      <Suspense fallback={<LoadingSpinner />}>
-        <MissingPetReport />
-      </Suspense>
-    ),
+    // element: (
+    //   <Suspense fallback={<LoadingSpinner />}>
+    //     <MissingPetReport />
+    //   </Suspense>
+    // ),
+    children: missingRouter(),
   },
   {
     path: "member",
