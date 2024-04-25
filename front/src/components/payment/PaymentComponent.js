@@ -202,10 +202,11 @@ const PaymentComponent = ({ totalPrice, clearCart }) => {
           display: "flex",
           justifyContent: "center",
         }}
+        className="border-b border-gray-300"
       >
         <button
           onClick={onClickOrder}
-          className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
+          className="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded my-6"
           style={{
             width: "200px",
             height: "35px",
@@ -245,13 +246,13 @@ const PaymentComponent = ({ totalPrice, clearCart }) => {
                   <div className="w-1/5 p-6 text-right font-bold">우편번호</div>
                   <div
                     onClick={openPostcode}
-                    className="w-1/12 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
+                    className="w-1/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
                   >
                     {payment.buyerAddressCode}
                   </div>
                   <div
                     onClick={openPostcode}
-                    className="ml-2 bg-green-500 hover:bg-green-600 text-white font-bold p-3 rounded-md"
+                    className="ml-2 p-6 bg-green-300 hover:bg-green-500 text-white font-bold rounded-md"
                   >
                     주소 찾기
                   </div>
@@ -325,7 +326,7 @@ const PaymentComponent = ({ totalPrice, clearCart }) => {
             {" "}
             <button
               onClick={onClickPayment}
-              className="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded mt-4"
+              className="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mt-4"
               style={{
                 width: "200px",
                 height: "35px",

@@ -57,25 +57,24 @@ const CartItemComponent = ({
           <div className="w-2/12">{pname}</div>
           <div className="w-2/12">{price.toLocaleString("ko-KR")}</div>
           <div className="w-2/12">
-            {qty}
             <button
-              className="bg-white rounded-lg mx-2"
-              onClick={() => handleClickQty(1)}
-            >
-              <FaPlusCircle />
-            </button>
-            <button
-              className="bg-white rounded-lg"
+              className="bg-white rounded-lg mr-2"
               onClick={() => handleClickQty(-1)}
             >
               <FaMinusCircle />
             </button>
+            {qty}
+            <button
+              className="bg-white rounded-lg ml-2"
+              onClick={() => handleClickQty(1)}
+            >
+              <FaPlusCircle />
+            </button>
           </div>
           <div className="w-2/12">{(qty * price).toLocaleString("ko-KR")}</div>
           <div className="w-1/12">
-            {" "}
             <button
-              className="bg-green-700 hover:bg-green-900 m-1 p-1 text-base text-white w-12 rounded-lg"
+              className="bg-green-300 hover:bg-green-500 m-1 p-1 text-base text-white w-12 rounded-lg"
               onClick={() => handleClickQty(-1 * qty)}
             >
               삭제

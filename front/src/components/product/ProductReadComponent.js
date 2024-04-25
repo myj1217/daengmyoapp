@@ -120,7 +120,7 @@ const ProductReadComponent = ({ pno }) => {
             >
               <button
                 type="button"
-                className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900"
+                className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
                 onClick={handleClickAddCart}
               >
                 장바구니에 담기
@@ -128,7 +128,7 @@ const ProductReadComponent = ({ pno }) => {
               {isLogin ? (
                 <button
                   type="button"
-                  className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900"
+                  className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
                   onClick={clickModifyHandler}
                 >
                   상품정보 수정
@@ -138,7 +138,7 @@ const ProductReadComponent = ({ pno }) => {
               )}
               <button
                 type="button"
-                className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900"
+                className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
                 onClick={clickListHandler}
               >
                 목록으로 돌아가기

@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
-// import { getOne } from "../../api/productApi";
-import { replyDel, replyList } from "../../api/productReplyApi";
-// import { API_SERVER_HOST } from "../../api/rootApi";
-// import useCustomMove from "../../hooks/useCustomMove";
-// import FetchingModal from "../common/FetchingModal";
-// import useCustomCart from "../../hooks/useCustomCart";
+import { replyList } from "../../api/productReplyApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
 import ReviewAddComponent from "./ReviewAddComponent";
 import ReviewItemComponent from "./ReviewItemComponent";
-// import ResultModal from "../common/ResultModal";
 
 const iniState = {
   prno: 0,
@@ -73,7 +67,7 @@ const ReviewListComponent = ({ pno }) => {
 
       <button
         type="button"
-        className="inline-block rounded p-4 m-2 w-full bg-green-700 hover:bg-green-900 text-white"
+        className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500 text-white"
         onClick={reviewHandler}
       >
         리뷰 작성하기

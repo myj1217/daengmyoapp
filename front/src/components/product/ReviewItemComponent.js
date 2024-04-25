@@ -154,14 +154,14 @@ const ReviewItemComponent = ({
         {modifyMode ? (
           <div className="w-1/12 text-center p-1">
             <button
-              className="bg-green-700 hover:bg-green-900 m-1 p-1 text-white w-12 rounded-lg"
+              className="bg-green-300 hover:bg-green-500 m-1 p-1 text-white w-12 rounded-lg"
               onClick={reviewModifyHandler}
               disabled={fetching} // 요청 중일 때 버튼 비활성화
             >
               수정완료
             </button>
             <button
-              className="bg-green-700 hover:bg-green-900 m-1 p-1 text-white w-12 rounded-lg"
+              className="bg-green-300 hover:bg-green-500 m-1 p-1 text-white w-12 rounded-lg"
               onClick={reviewDeleteHandler}
               disabled={fetching} // 요청 중일 때 버튼 비활성화
             >
@@ -171,7 +171,7 @@ const ReviewItemComponent = ({
         ) : (
           <div className="w-1/12 text-center p-1">
             <button
-              className="bg-green-700 hover:bg-green-900 m-1 p-1 text-white w-12 rounded-lg"
+              className="bg-green-300 hover:bg-green-500 m-1 p-1 text-white w-12 rounded-lg"
               onClick={modifyClickHandler}
               disabled={fetching} // 요청 중일 때 버튼 비활성화
             >
