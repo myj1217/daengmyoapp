@@ -109,7 +109,7 @@ const ProductReadComponent = ({ pno }) => {
         <div id="product_zone" className="flex">
           <div id="product_image_zone" className="flex flex-col w-1/2">
             <img
-              className="object-cover w-full h-52 sm:h-64 md:h-80 lg:h-96"
+              className="border border-gray-300 object-cover w-full h-52 sm:h-64 md:h-80 lg:h-96"
               src={`${host}/api/products/view/${product.uploadFileNames[selectedImageIndex]}`}
               alt="selected product"
             />
@@ -138,7 +138,7 @@ const ProductReadComponent = ({ pno }) => {
                   alt="product"
                   key={i}
                   // className="w-full object-cover"
-                  className="w-24 h-24 object-cover hover:border hover:border-black cursor-pointer"
+                  className="w-24 h-24 object-cover hover:border hover:border-gray-300 cursor-pointer"
                   src={`${host}/api/products/view/${imgFile}`}
                   onClick={() => setSelectedImageIndex(i)}
                 />
