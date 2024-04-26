@@ -77,11 +77,12 @@ const MissingPetReport = () => {
     setFetching(true);
     await postAdd(formData);
     setFetching(false);
-    navigate("/missing/list");
+    setResult({ title: "성공", content: "신고가 정상적으로 접수되었습니다." });
   };
+
   const closeModal = () => {
     setResult(null);
-    navigate({ page: "/" });
+    navigate("/missing/list");
   };
 
   return (
@@ -89,8 +90,8 @@ const MissingPetReport = () => {
       {fetching ? <FetchingModal /> : null}
       {result && (
         <ResultModal
-          title={"성공"}
-          content={"신고가 정상적으로 접수되였습니다"}
+          title={result.title}
+          content={result.content}
           callbackFn={closeModal}
         />
       )}
@@ -179,6 +180,14 @@ const MissingPetReport = () => {
           신고하기
         </button>
       </form>
+      <div className="text-center mt-4">
+        <button
+          onClick={() => navigate("/missing/list")}
+          className="mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          실종목록으로
+        </button>
+      </div>
     </div>
   );
 };
