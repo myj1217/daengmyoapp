@@ -20,12 +20,15 @@ const iniState = {
   deliveryRequest: "",
 };
 
-const OrderComponent = ({ totalPrice }) => {
+const OrderComponent = () => {
   const [payment, setPayment] = useState(iniState);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   // const [showOrder, setShowOrder] = useState(false);
   const user = useSelector((state) => state.loginSlice);
   const [fetching, setFetching] = useState(false);
+  const totalPrice = useSelector(
+    (state) => state.productSlice?.totalOrderAmount
+  );
 
   // 결제 데이터 정의
   const info = {

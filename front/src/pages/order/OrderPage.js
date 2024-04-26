@@ -5,7 +5,7 @@ import BasicMenu from "../../components/menus/BasicMenu";
 import { FaGift } from "react-icons/fa";
 
 const OrderPage = () => {
-  const { totalPrice } = useParams();
+  // const { totalPrice } = useParams();
   //   const { param } = useParams();
   //   const totalPrice = parseInt(param);
 
@@ -16,7 +16,7 @@ const OrderPage = () => {
         <FaGift className="w-6 h-6 mr-2" />
         주문하기
       </div>
-      <OrderComponent totalPrice={totalPrice} />
+      <OrderComponent />
     </div>
   );
 };

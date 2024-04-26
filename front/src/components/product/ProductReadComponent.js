@@ -7,6 +7,7 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
 import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 import useCustomProduct from "../../hooks/useCustomProduct";
+import { useSelector } from "react-redux";
 
 const initState = {
   pno: 0,
@@ -31,14 +32,15 @@ const ProductReadComponent = ({ pno }) => {
   // const { totalPrice } = useCustomProduct();
   // const price = useSelector((state) => state.cartSlice.price);
   const { updateOrderAmount } = useCustomProduct();
+  // const test = useSelector((state) => state.productSlice?.totalOrderAmount);
 
-  const handleOrder = () => {
-    // 주문 처리 로직 후
-    // const totalAmount = calculateTotalOrderAmount(); // 주문 총 금액 계산
-    updateOrderAmount(totalPrice); // Redux를 통해 전역 상태 업데이트
-    console.log("Save totalPrice");
-    console.log(`totalPrice의 값: ${totalPrice}`);
-  };
+  // const handleOrder = () => {
+  //   // 주문 처리 로직 후
+  //   // const totalAmount = calculateTotalOrderAmount(); // 주문 총 금액 계산
+  //   updateOrderAmount(totalPrice); // Redux를 통해 전역 상태 업데이트
+  //   console.log("Save totalPrice");
+  //   console.log(`totalPrice의 값: ${totalPrice}`);
+  // };
 
   // 장바구니 담기 핸들러
   const handleClickAddCart = () => {
@@ -70,8 +72,13 @@ const ProductReadComponent = ({ pno }) => {
 
   // 바로 주문하기 핸들러
   const directOrder = () => {
-    // navigate(`../order/${price}`);
-    handleOrder();
+    // console.log(`B.. dispatch 전 test: ${test}`);
+
+    updateOrderAmount(totalPrice);
+
+    // console.log(`B.. dispatch 후 test: ${test}`);
+
+    navigate("../order");
   };
 
   // 목록으로 돌아가기 핸들러
@@ -114,6 +121,16 @@ const ProductReadComponent = ({ pno }) => {
   useEffect(() => {
     setTotalPrice(product.price * quantity);
   }, [quantity]);
+
+  // useEffect(() => {
+  //   console.log(`dispatch 전 totalPrice: ${totalPrice}`);
+  //   console.log(`dispatch 전 test: ${test}`);
+
+  //   // updateOrderAmount(totalPrice);
+
+  //   console.log(`dispatch 후 totalPrice: ${totalPrice}`);
+  //   console.log(`dispatch 후 test: ${test}`);
+  // }, [test]);
 
   return (
     <>

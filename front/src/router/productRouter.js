@@ -57,7 +57,7 @@ const productRouter = () => {
     //   ),
     // },
     {
-      path: "order/:totalPrice",
+      path: "order",
       element: (
         <Suspense fallback={<LoadingSpinner />}>
           <ProductOrder />

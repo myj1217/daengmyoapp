@@ -1,3 +1,23 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  totalOrderAmount: 0,
+};
+
+export const productSlice = createSlice({
+  name: "productSlice",
+  initialState: initialState,
+  reducers: {
+    updateTotalOrderAmount: (state, action) => {
+      state.totalOrderAmount = action.payload;
+    },
+  },
+});
+
+export const { updateTotalOrderAmount } = productSlice.actions;
+
+export default productSlice.reducer;
+
 // import { createSlice } from "@reduxjs/toolkit";
 
 // const productSlice = createSlice({
@@ -16,23 +36,3 @@
 // export const { setTotalPrice } = productSlice.actions;
 
 // export default productSlice.reducer;
-
-import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-  totalOrderAmount: 0,
-};
-
-export const productSlice = createSlice({
-  name: "product",
-  initialState,
-  reducers: {
-    updateTotalOrderAmount: (state, action) => {
-      state.totalOrderAmount = action.payload;
-    },
-  },
-});
-
-export const { updateTotalOrderAmount } = productSlice.actions;
-
-export default productSlice.reducer;
