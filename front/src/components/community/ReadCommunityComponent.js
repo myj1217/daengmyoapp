@@ -72,10 +72,12 @@ const ReadCommunityComponent = ({ communityBno }) => {
   };
 
   const createChatRoom = () => {
+    if(loginState.email !== community.communityWriterEmail){
     jwtAxios.post(`${API_SERVER_HOST}/api/chat`, {
       userEmail1: loginState.email, // 사용자의 이메일
       userEmail2: community.communityWriterEmail, // 게시글 작성자의 이메일
     });
+  }
   };
 
   return (

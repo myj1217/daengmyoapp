@@ -18,10 +18,8 @@ function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose}) {
   const stompClient = useRef(null);
   useEffect(() => {
     fetchMessages();
-
-   connect();
-
-
+    connect();
+    scrollToBottom(); // 페이지가 로드될 때마다 스크롤을 가장 아래로 이동합니다.
 
     return () => {
       if (stompClient) {
@@ -32,21 +30,22 @@ function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose}) {
 
 
   useEffect(() => {
-    scrollToBottom();
+    scrollToBottom(); // 메시지가 추가될 때마다 스크롤을 가장 아래로 이동합니다.
   }, [messages]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-     const connect = () => {
-        const socket = new WebSocket("ws://localhost:8080/ws");
-        stompClient.current = Stomp.over(socket);
-        stompClient.current.connect({}, () => {
-          stompClient.current.subscribe(`/topic/chat/${chatRoomId}`, (message) => {
-          fetchMessages(); 
-        });
-        })};
+  const connect = () => {
+    const socket = new WebSocket("ws://localhost:8080/ws");
+    stompClient.current = Stomp.over(socket);
+    stompClient.current.connect({}, () => {
+      stompClient.current.subscribe(`/topic/chat/${chatRoomId}`, (message) => {
+        fetchMessages(); 
+      });
+    });
+  };
 
   const disconnect = () => {
     if (stompClient.current) {
@@ -85,27 +84,26 @@ function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose}) {
   
 
   return (
-    <div className="w-full min-h-screen flex flex-col">
+    <div className="w-full flex flex-col">
       <div className="w-full bg-emerald-400 sticky top-0 z-50 flex justify-between items-center px-4 py-2">
         <button onClick={onBackClick} className="text-white"><IoIosArrowBack className="w-10 h-10" /></button>
         <span className="text-white text-lg">{userNick}</span>
         <button onClick={onClose} className="text-white"><IoCloseSharp className="w-10 h-10" /></button>
       </div>
-      <div className="flex-grow overflow-auto p-4 pb-0">
-
-      {messages.length > 0 && messages.map((chatMessage) => (
-  <div key={chatMessage.id} style={{ maxWidth: '100%', minWidth:'205px',width: `calc(${chatMessage.messageContent.length}ch + 2rem)` }} className={`p-2 my-3 rounded shadow ${chatMessage.senderEmail === userEmail ? 'bg-green-100 ml-auto' : 'bg-white mr-auto'}`}>
-    <div className="font-bold text-indigo-500">{chatMessage.senderEmail === userEmail ? '나' : userNick}</div>
-    <p className="text-gray-800">{chatMessage.messageContent}</p>
-    <div className="text-sm text-gray-500">
-      {new Date(chatMessage.sentAt).toLocaleString('ko-KR')}
-    </div>
-  </div>
-))}
+      <div className="flex-grow h-full overflow-auto p-4 mb-12">
+        {messages.length > 0 && messages.map((chatMessage) => (
+          <div key={chatMessage.id} style={{ maxWidth: '100%', minWidth:'205px',width: `calc(${chatMessage.messageContent.length}ch + 2rem)` }} className={`p-2 my-3 rounded shadow ${chatMessage.senderEmail === userEmail ? 'bg-green-100 ml-auto' : 'bg-white mr-auto'}`}>
+            <div className="font-bold text-indigo-500">{chatMessage.senderEmail === userEmail ? '나' : userNick}</div>
+            <p className="text-gray-800">{chatMessage.messageContent}</p>
+            <div className="text-sm text-gray-500">
+              {new Date(chatMessage.sentAt).toLocaleString('ko-KR')}
+            </div>
+          </div>
+        ))}
 
         <div ref={messagesEndRef} />
       </div>
-      <div className="flex flex-col w-full pt-4 mb-4 mt-auto">
+      <div className="flex flex-col pt-4 mb-4 w-96 mt-auto fixed bottom-0">
         <form onSubmit={handleSendMessage} className="flex w-full">
           <input
             type="text"
