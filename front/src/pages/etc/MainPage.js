@@ -32,6 +32,7 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { CiLogin } from "react-icons/ci";
+import ChatList from "../../components/chat/ChatList";
 
 // **** Main Banner ****
 const settings = {
@@ -108,6 +109,7 @@ const MainPage = () => {
     }
   }, [isLogin]);
 
+  
   return (
     <div>
       <BasicMenu />
@@ -266,6 +268,7 @@ const MainPage = () => {
           </div>
         </div>
       </footer>
+      
     </div>
   );
 };

@@ -12,7 +12,6 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class ChatRoom {
     @Id
@@ -32,4 +31,9 @@ public class ChatRoom {
 
     private String lastMessage;
 
+    private LocalDateTime lastTime;
+
+    public ChatRoom() {
+        this.lastTime = LocalDateTime.now();
+    }
 }
