@@ -359,7 +359,9 @@ const OrderComponent = ({ totalPrice }) => {
                   <option value="배송 전 미리 연락해 주세요">
                     배송 전 미리 연락해 주세요
                   </option>
-                  <option value="기타 요청사항">기타 요청사항</option>
+                  <option value="기타 요청사항">
+                    기타 요청 사항이 없습니다.
+                  </option>
                 </select>
               </div>
             </div>
