@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class ProductListReplyCountDTO {
-    private Long bno;
+    private Long pno;
     private String title;
     private String writer;
     private LocalDateTime regDate;

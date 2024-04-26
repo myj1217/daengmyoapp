@@ -107,9 +107,14 @@ const ProductReadComponent = ({ pno }) => {
       <div className="w-full border-2 border-gray-300 mt-4 m-2 p-4">
         {fetching ? <FetchingModal /> : <></>}
         <div id="product_zone" className="flex">
-          <div id="product_image_zone" className="flex flex-col w-1/2">
+          <div
+            id="product_image_zone"
+            className="flex flex-col w-1/2 m-2 justify-center items-center"
+          >
             <img
-              className="border border-gray-300 object-cover w-full h-52 sm:h-64 md:h-80 lg:h-96"
+              className="object-cover
+              h-52 sm:h-64 md:h-80 lg:h-96
+              w-52 sm:w-64 md:w-80 lg:w-96"
               src={`${host}/api/products/view/${product.uploadFileNames[selectedImageIndex]}`}
               alt="selected product"
             />
@@ -131,7 +136,7 @@ const ProductReadComponent = ({ pno }) => {
             <div
               id="product_image_list_zone"
               // className="w-1/2 justify-center flex  flex-col m-auto items-center"
-              className="flex flex-row"
+              className="flex flex-row m-2"
             >
               {product.uploadFileNames.map((imgFile, i) => (
                 <img
