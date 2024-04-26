@@ -72,7 +72,7 @@ const CartItemComponent = ({
           <div className="w-2/12">{(qty * price).toLocaleString("ko-KR")}</div>
           <div className="w-1/12">
             <button
-              className="bg-green-300 hover:bg-green-500 m-1 p-1 text-base text-white w-12 rounded-lg"
+              className="bg-emerald-500 hover:bg-emerald-700 m-1 p-1 text-base text-white w-12 rounded-lg"
               onClick={() => handleClickQty(-1 * qty)}
             >
               삭제

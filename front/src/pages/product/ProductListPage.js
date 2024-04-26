@@ -6,7 +6,7 @@ const ProductListPage = () => {
   return (
     <div className="flex flex-col w-full">
       <BasicMenu />
-      <div className="h-11 bg-green-300 text-white flex items-center pl-8 sticky top-0 z-50">
+      <div className="h-11 bg-emerald-500 text-white flex items-center pl-8 sticky top-0 z-50">
         <FaGift className="w-6 h-6 mr-2" />
         상품 목록
       </div>

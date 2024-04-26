@@ -43,13 +43,13 @@ export const deleteOne = async (pno) => {
   return res.data;
 };
 
-export const searchProducts = async (pname, page, size) => {
-  try {
-    const response = await axios.get(
-      `${host}/search?pname=${pname}&page=${page}&size=${size}`
-    );
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// export const searchProducts = async (pname, page, size) => {
+//   try {
+//     const response = await axios.get(
+//       `${host}/search?pname=${pname}&page=${page}&size=${size}`
+//     );
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };

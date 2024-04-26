@@ -105,14 +105,14 @@ const ReviewAddComponent = ({ closeAddReview, pno, reviewRedirect }) => {
         <div className="flex flex-row justify-around">
           <button
             type="button"
-            className="rounded p-4 w-20 bg-green-300 hover:bg-green-500 text-xs text-white"
+            className="rounded p-4 w-20 bg-emerald-500 hover:bg-emerald-700 text-xs text-white"
             onClick={handleClickAdd}
           >
             추가하기
           </button>
           <button
             type="button"
-            className="rounded p-4 w-20 bg-green-300 hover:bg-green-500 text-xs text-white"
+            className="rounded p-4 w-20 bg-emerald-500 hover:bg-emerald-700 text-xs text-white"
             onClick={closeAddReview}
           >
             닫기
