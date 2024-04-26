@@ -8,7 +8,7 @@ const CartPage = () => {
   return (
     <>
       <BasicMenu />
-      <div className="h-11 bg-green-300 text-white flex items-center pl-8 sticky top-0 z-55">
+      <div className="h-11 bg-emerald-500 text-white flex items-center pl-8 sticky top-0 z-55">
         <FaShoppingCart className="w-6 h-6 mr-2" /> 장바구니
       </div>
       <aside className="flex w-full px-5 py-5 bg-white text-black">
