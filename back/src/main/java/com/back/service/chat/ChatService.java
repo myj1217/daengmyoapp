@@ -45,8 +45,25 @@ public class ChatService {
                 .userEmail2(userEmail2)
                 .build();
 
-        return chatRoomRepository.save(chatRoom);
+        chatRoom = chatRoomRepository.save(chatRoom);
+
+        // 채팅방이 생성되었다는 메시지 생성
+        ChatMessage chatMessage = ChatMessage.builder()
+                .chatRoom(chatRoom)
+                .senderEmail(userEmail1)
+                .messageContent("채팅방을 생성했습니다.")
+                .sentAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
+                .build();
+
+        chatMessageRepository.save(chatMessage);
+
+        // 새 메시지 알림을 userEmail1과 userEmail2에게 보냅니다.
+        simpMessagingTemplate.convertAndSend("/topic/chat/email/" + userEmail1, chatMessage);
+        simpMessagingTemplate.convertAndSend("/topic/chat/email/" + userEmail2, chatMessage);
+
+        return chatRoom;
     }
+
 
 
 

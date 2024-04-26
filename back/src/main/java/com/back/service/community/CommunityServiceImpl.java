@@ -177,6 +177,7 @@ public class CommunityServiceImpl implements CommunityService {
                 .communityTitle(community.getCommunityTitle())
                 .communityContent(community.getCommunityContent())
                 .communityWriter(community.getCommunityWriter())
+                .communityWriterEmail(community.getCommunityWriterEmail())
                 .build();
 
         List<CommunityImage> imageList = community.getImageList();

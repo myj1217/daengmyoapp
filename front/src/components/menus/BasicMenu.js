@@ -164,7 +164,7 @@ const BasicMenu = () => {
     {isLogin && ( // 로그인 상태일 때만 채팅 버튼을 표시합니다.
         <>
           <button
-            className="fixed right-4 bottom-4 z-50 p-2 bg-emerald-400 text-white rounded-full shadow-lg"
+            className="fixed right-8 bottom-96 z-50 p-2 bg-emerald-400 text-white rounded-full shadow-lg"
             onClick={() => {
               dispatch(setChatVisible(true));
               dispatch(setNewMessageArrived(false)); // 채팅을 열면 newMessageArrived 상태를 false로 설정합니다.
