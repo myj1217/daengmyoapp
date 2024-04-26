@@ -23,7 +23,6 @@ public class NoticeDTO {
     private String noticeWriter;
     private boolean delFlag;
 
-
     private LocalDateTime regDate;
 
     @Builder.Default
@@ -31,5 +30,5 @@ public class NoticeDTO {
 
     @Builder.Default
     private List<String> uploadFileNames = new ArrayList<>();
-
 }
+

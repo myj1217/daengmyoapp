@@ -1,4 +1,4 @@
-package com.back.dto.community;
+package com.back.dto.missing;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,27 +11,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 
-
-public class CommunityDTO {
-
-    private Long communityBno;
-    private String communityTitle;
-    private String communityContent;
-    private String communityWriter;
-    private String communityWriterEmail;
+public class MissingListAllDTO {
+    private Long mno;
+    private String mname;
+    private int age;
+    private String gender;
+    private String description;
+    private double latitude;
+    private double longitude;
     private boolean delFlag;
-
 
     private LocalDateTime regDate;
 
     @Builder.Default
-    private List<MultipartFile> files = new ArrayList<>();
+    private List<MultipartFile> MissingImages = new ArrayList<>();
 
     @Builder.Default
-    private List<String> uploadFileNames = new ArrayList<>();
+    private List<String> uploadMissingFileNames = new ArrayList<>();
 
 }

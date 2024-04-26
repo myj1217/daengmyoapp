@@ -4,6 +4,8 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 import { Link } from "react-router-dom";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import { noticeList } from "../../api/noticeApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFont, faImage } from "@fortawesome/free-solid-svg-icons";
 
 const host = API_SERVER_HOST;
 
@@ -41,21 +43,36 @@ const ListNoticeComponent = () => {
           serverData.dtoList.map((notice) => (
             <div
               key={notice.noticeBno}
-              className="rounded shadow-md border-2 mb-4 p-4 bg-white"
+              className="flex items-center rounded shadow-md border-2 mb-4 p-4 bg-white cursor-pointer"
               onClick={() => moveToRead(notice.noticeBno)}
             >
-              {notice.uploadFileNames && notice.uploadFileNames.length > 0 && (
-                <div className="w-full overflow-hidden my-4">
-                  <img
+              {notice.uploadFileNames && notice.uploadFileNames.length > 0 ? (
+                // 이미지가 있는 경우
+                <div className="w-1/6 overflow-hidden flex items-center justify-center">
+                  <FontAwesomeIcon
+                    icon={faImage}
+                    className="h-12 w-12 text-green-700"
+                  />
+                  {/* <img
                     alt="notice"
                     className="m-auto rounded-md"
                     style={{ maxWidth: "200px", maxHeight: "200px" }}
                     src={`${host}/notice/view/${notice.uploadFileNames[0]}`}
+                  /> */}
+                </div>
+              ) : (
+                // 이미지가 없는 경우
+                <div className="w-1/6 overflow-hidden flex items-center justify-center">
+                  <FontAwesomeIcon
+                    icon={faFont}
+                    className="h-12 w-12 text-green-700"
                   />
                 </div>
               )}
-              <div className="font-bold text-xl mb-2">{notice.noticeTitle}</div>
-              <p>{notice.noticeWriter}</p>
+              <div className="w-4/6 ml-4 font-bold text-xl">
+                {notice.noticeTitle}
+              </div>
+              <div className="w-1/6 ml-4">{notice.noticeWriter}</div>
             </div>
           ))}
       </div>

@@ -44,6 +44,26 @@ const ProductAddComponent = () => {
     formData.append("artist", loginState.nickname);
     formData.append("email", loginState.email);
 
+    if (!product.pname) {
+      window.alert("상품명을 입력해주세요.");
+      return;
+    }
+
+    if (!product.pdesc) {
+      window.alert("상품설명을 입력해주세요.");
+      return;
+    }
+
+    if (!product.price) {
+      window.alert("상품가격을 입력해주세요.");
+      return;
+    }
+
+    if (!files[0]) {
+      window.alert("상품이미지를 업로드해주세요.");
+      return;
+    }
+
     setFetching(true);
 
     postAdd(formData).then((data) => {

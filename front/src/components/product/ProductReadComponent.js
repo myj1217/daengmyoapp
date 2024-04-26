@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { getOne } from "../../api/productApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
-import useCustomMove from "../../hooks/useCustomMove";
+// import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
+import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 
 const initState = {
   pno: 0,
@@ -19,11 +20,14 @@ const host = API_SERVER_HOST;
 
 const ProductReadComponent = ({ pno }) => {
   const [product, setProduct] = useState(initState);
-  const { page, size, moveToList, moveToModify } = useCustomMove();
+  // const { page, size, moveToList, moveToModify } = useCustomMove();
   const [fetching, setFetching] = useState(false);
   const { changeCart, cartItems } = useCustomCart();
   const { isLogin, loginState } = useCustomLogin();
   const navigate = useNavigate();
+  const [totalPrice, setTotalPrice] = useState(0); // 총 금액
+  const [quantity, setQuantity] = useState(1);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   // 장바구니 담기 핸들러
   const handleClickAddCart = () => {
@@ -53,6 +57,11 @@ const ProductReadComponent = ({ pno }) => {
     }
   };
 
+  // 바로 주문하기 핸들러
+  const directOrder = () => {
+    navigate(`../order/${totalPrice}`);
+  };
+
   // 목록으로 돌아가기 핸들러
   const clickListHandler = () => {
     navigate("/products/list");
@@ -66,16 +75,32 @@ const ProductReadComponent = ({ pno }) => {
     navigate(`/products/modify/${pno}`);
   };
 
+  const redQty = () => {
+    if (quantity > 1) {
+      setQuantity((prevQuantity) => prevQuantity - 1);
+    }
+    setTotalPrice(product.price * quantity);
+  };
+
+  const incQty = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+    setTotalPrice(product.price * quantity);
+  };
+
   useEffect(() => {
     setFetching(true);
 
     // 상품 정보
     getOne(pno).then((data) => {
       setProduct(data);
-      console.log(data);
+      setTotalPrice(data.price);
       setFetching(false);
     });
   }, [pno]);
+
+  useEffect(() => {
+    setTotalPrice(product.price * quantity);
+  }, [quantity]);
 
   return (
     <>
@@ -84,18 +109,48 @@ const ProductReadComponent = ({ pno }) => {
         <div id="product_zone" className="flex">
           <div
             id="product_image_zone"
-            // className="w-1/2 justify-center flex  flex-col m-auto items-center"
-            className="w-1/2"
+            className="flex flex-col w-1/2 m-2 justify-center items-center"
           >
-            {product.uploadFileNames.map((imgFile, i) => (
-              <img
-                alt="product"
-                key={i}
-                className="w-full object-cover"
-                src={`${host}/api/products/view/${imgFile}`}
-              />
-            ))}
+            <img
+              className="object-cover
+              h-52 sm:h-64 md:h-80 lg:h-96
+              w-52 sm:w-64 md:w-80 lg:w-96"
+              src={`${host}/api/products/view/${product.uploadFileNames[selectedImageIndex]}`}
+              alt="selected product"
+            />
+
+            {/* <div
+              id="product_first_image_zone"
+              // className="w-1/2 justify-center flex  flex-col m-auto items-center"
+              className="w-1/2"
+            >
+              {product.uploadFileNames.map((imgFile, i) => (
+                <img
+                  alt="product"
+                  key={i}
+                  className="w-full object-cover"
+                  src={`${host}/api/products/view/${imgFile}`}
+                />
+              ))}
+            </div> */}
+            <div
+              id="product_image_list_zone"
+              // className="w-1/2 justify-center flex  flex-col m-auto items-center"
+              className="flex flex-row m-2"
+            >
+              {product.uploadFileNames.map((imgFile, i) => (
+                <img
+                  alt="product"
+                  key={i}
+                  // className="w-full object-cover"
+                  className="w-24 h-24 object-cover hover:border hover:border-gray-300 cursor-pointer"
+                  src={`${host}/api/products/view/${imgFile}`}
+                  onClick={() => setSelectedImageIndex(i)}
+                />
+              ))}
+            </div>
           </div>
+
           <div id="product_text_zone" className="w-1/2">
             <div className="flex justify-center">
               <div className="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -114,6 +169,25 @@ const ProductReadComponent = ({ pno }) => {
                 <div className="w-full p-4 text-lg">{product.pdesc}</div>
               </div>
             </div>
+
+            <div className="flex justify-between w-full p-4 m-2">
+              <div>구매수량</div>
+              <div id="qty_button_zone">
+                <button className="bg-white rounded-lg mr-2" onClick={redQty}>
+                  <FaMinusCircle />
+                </button>
+                {quantity}
+                <button className="bg-white rounded-lg ml-2" onClick={incQty}>
+                  <FaPlusCircle />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex justify-between w-full p-4 m-2 text-lg text-red-500 border-b-2 border-red-500">
+              <div className="">상품금액 합계</div>
+              <div>{totalPrice.toLocaleString("ko-KR")}원</div>
+            </div>
+
             <div
               id="product_read_buttons"
               // className="flex-col justify-center p-4 text-sm text-white"
@@ -122,6 +196,13 @@ const ProductReadComponent = ({ pno }) => {
               <button
                 type="button"
                 className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
+                onClick={directOrder}
+              >
+                바로 주문하기
+              </button>
+              <button
+                type="button"
+                className="inline-block rounded p-4 m-2 w-full text-green-300 hover:text-white hover:bg-green-500 border border-green-300"
                 onClick={handleClickAddCart}
               >
                 장바구니에 담기
@@ -136,7 +217,7 @@ const ProductReadComponent = ({ pno }) => {
               {loginState.email === product.email ? (
                 <button
                   type="button"
-                  className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
+                  className="inline-block rounded p-4 m-2 w-full bg-red-300 hover:bg-red-500"
                   onClick={clickModifyHandler}
                 >
                   상품정보 수정

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import InfoComponent from "./InfoComponent";
 import { useSelector } from "react-redux";
 import AdminComponent from "./AdminComponent";
-import OrderComponent from "../order/OrderComponent";
+import OrderListComponent from "../order/OrderListComponent";
+import MyListComponent from "../community/MyListComponent";
 
 const MyPageComponent = () => {
   const [selectedTab, setSelectedTab] = useState("profile"); // 선택된 탭 상태
@@ -31,9 +32,9 @@ const MyPageComponent = () => {
       case "profile":
         return <InfoComponent />;
       case "write":
-        return <div>글</div>;
+        return <MyListComponent />;
       case "orders":
-        return <OrderComponent />;
+        return <OrderListComponent />;
       case "admin":
         return <AdminComponent />;
       // 다른 탭에 대한 렌더링을 추가할 수 있음

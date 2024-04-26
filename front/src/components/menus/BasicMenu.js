@@ -102,7 +102,7 @@ const BasicMenu = () => {
             </li>
             <li>
               <Link
-                to="/"
+                to="/missing/report"
                 className="hover:text-amber-200 transition-colors duration-300"
               >
                 실종신고

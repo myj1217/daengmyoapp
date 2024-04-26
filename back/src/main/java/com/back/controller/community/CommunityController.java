@@ -61,9 +61,16 @@ public class CommunityController {
 
     @GetMapping("/list")
     public PageResponseDTO<CommunityDTO> getCommunityList(PageRequestDTO pageRequestDTO) {
-        log.info("Community List입니다 " + pageRequestDTO);
-        log.info("----------d" + communityService.getCommunityList(pageRequestDTO));
+
         return communityService.getCommunityList(pageRequestDTO);
+    }
+
+
+    //자신의 글만 GET
+    @GetMapping("/myList")
+    public PageResponseDTO<CommunityDTO> getMyList(PageRequestDTO pageRequestDTO, @RequestParam(name="email") String email) {
+
+        return communityService.getMyList(pageRequestDTO, email);
     }
 
     @PutMapping("/{communityBno}")
@@ -108,5 +115,7 @@ public class CommunityController {
 
         return Map.of("RESULT", "SUCCESS");
     }
+
+
 
 }

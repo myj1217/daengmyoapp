@@ -50,6 +50,7 @@ const RegCommunityComponent = () => {
     formData.append("communityTitle", community.communityTitle);
     formData.append("communityContent", community.communityContent);
     formData.append("communityWriter", loginState.nickname);
+    formData.append("communityWriterEmail", loginState.email);
 
     // 이미지를 첨부한 경우에만 FormData에 이미지 추가
     // if (uploadRef.current.files.length > 0) {
