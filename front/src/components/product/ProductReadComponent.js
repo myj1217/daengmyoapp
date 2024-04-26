@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { getOne } from "../../api/productApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
-// import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
 import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
+import useCustomProduct from "../../hooks/useCustomProduct";
+import { useSelector } from "react-redux";
 
 const initState = {
   pno: 0,
@@ -28,6 +29,18 @@ const ProductReadComponent = ({ pno }) => {
   const [totalPrice, setTotalPrice] = useState(0); // 총 금액
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  // const { totalPrice } = useCustomProduct();
+  // const price = useSelector((state) => state.cartSlice.price);
+  const { updateOrderAmount } = useCustomProduct();
+  // const test = useSelector((state) => state.productSlice?.totalOrderAmount);
+
+  // const handleOrder = () => {
+  //   // 주문 처리 로직 후
+  //   // const totalAmount = calculateTotalOrderAmount(); // 주문 총 금액 계산
+  //   updateOrderAmount(totalPrice); // Redux를 통해 전역 상태 업데이트
+  //   console.log("Save totalPrice");
+  //   console.log(`totalPrice의 값: ${totalPrice}`);
+  // };
 
   // 장바구니 담기 핸들러
   const handleClickAddCart = () => {
@@ -59,7 +72,13 @@ const ProductReadComponent = ({ pno }) => {
 
   // 바로 주문하기 핸들러
   const directOrder = () => {
-    navigate(`../order/${totalPrice}`);
+    // console.log(`B.. dispatch 전 test: ${test}`);
+
+    updateOrderAmount(totalPrice);
+
+    // console.log(`B.. dispatch 후 test: ${test}`);
+
+    navigate("../order");
   };
 
   // 목록으로 돌아가기 핸들러
@@ -94,6 +113,7 @@ const ProductReadComponent = ({ pno }) => {
     getOne(pno).then((data) => {
       setProduct(data);
       setTotalPrice(data.price);
+      // console.log(`getOne의 price 값: ${price}`);
       setFetching(false);
     });
   }, [pno]);
@@ -101,6 +121,16 @@ const ProductReadComponent = ({ pno }) => {
   useEffect(() => {
     setTotalPrice(product.price * quantity);
   }, [quantity]);
+
+  // useEffect(() => {
+  //   console.log(`dispatch 전 totalPrice: ${totalPrice}`);
+  //   console.log(`dispatch 전 test: ${test}`);
+
+  //   // updateOrderAmount(totalPrice);
+
+  //   console.log(`dispatch 후 totalPrice: ${totalPrice}`);
+  //   console.log(`dispatch 후 test: ${test}`);
+  // }, [test]);
 
   return (
     <>
@@ -185,6 +215,7 @@ const ProductReadComponent = ({ pno }) => {
 
             <div className="flex justify-between w-full p-4 m-2 text-lg text-red-500 border-b-2 border-red-500">
               <div className="">상품금액 합계</div>
+              {/* <div>{price}원</div> */}
               <div>{totalPrice.toLocaleString("ko-KR")}원</div>
             </div>
 
@@ -195,21 +226,21 @@ const ProductReadComponent = ({ pno }) => {
             >
               <button
                 type="button"
-                className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
+                className="inline-block rounded p-4 m-2 w-full bg-emerald-500 hover:bg-emerald-700"
                 onClick={directOrder}
               >
                 바로 주문하기
               </button>
               <button
                 type="button"
-                className="inline-block rounded p-4 m-2 w-full text-green-300 hover:text-white hover:bg-green-500 border border-green-300"
+                className="inline-block rounded p-4 m-2 w-full text-emerald-500 hover:text-white hover:bg-emerald-700 border border-emerald-500"
                 onClick={handleClickAddCart}
               >
                 장바구니에 담기
               </button>
               <button
                 type="button"
-                className="inline-block rounded p-4 m-2 w-full bg-green-300 hover:bg-green-500"
+                className="inline-block rounded p-4 m-2 w-full bg-emerald-500 hover:bg-emerald-700"
                 onClick={clickListHandler}
               >
                 목록으로 돌아가기
@@ -217,7 +248,7 @@ const ProductReadComponent = ({ pno }) => {
               {loginState.email === product.email ? (
                 <button
                   type="button"
-                  className="inline-block rounded p-4 m-2 w-full bg-red-300 hover:bg-red-500"
+                  className="inline-block rounded p-4 m-2 w-full bg-pink-500 hover:bg-red-700"
                   onClick={clickModifyHandler}
                 >
                   상품정보 수정

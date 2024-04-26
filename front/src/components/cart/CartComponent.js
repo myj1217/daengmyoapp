@@ -86,7 +86,7 @@ const CartComponent = () => {
       {isLogin ? (
         <div className="flex flex-col">
           <div className="w-full flex justify-end">
-            <div className="bg-green-300 text-center text-white font-bold w-1/6 rounded-full py-1">
+            <div className="bg-emerald-500 text-center text-white font-bold w-1/6 rounded-full py-1">
               상품 종류: {cartItems.length}개
             </div>
           </div>
@@ -131,7 +131,7 @@ const CartComponent = () => {
             <div className="flex w-2/12 items-center">
               <button
                 onClick={clearCart}
-                className="h-1/2 bg-green-300 hover:bg-green-500 text-white text-xs font-bold px-2 rounded"
+                className="h-1/2 bg-emerald-500 hover:bg-emerald-700 text-white text-xs font-bold px-2 rounded"
               >
                 선택 삭제
               </button>

@@ -68,7 +68,7 @@ const ReviewListComponent = ({ pno }) => {
       <div className="flex justify-start">
         <button
           type="button"
-          className="inline-block rounded p-4 m-2 bg-green-300 hover:bg-green-500 text-white"
+          className="inline-block rounded p-4 m-2 bg-emerald-500 hover:bg-emerald-700 text-white"
           onClick={reviewHandler}
         >
           리뷰 작성하기

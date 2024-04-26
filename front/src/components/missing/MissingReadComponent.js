@@ -1,34 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getOne } from "../../api/missingApi";
+import { replyAdd } from "../../api/missingReplyApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
-import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
-import { useNavigate } from "react-router-dom";
-
-const initState = {
-  mno: 0,
-  mname: "",
-  gender: "",
-  age: 0,
-  description: "",
-  uploadFileNames: [],
-  latitude: null,
-  longitude: null,
-};
-
-const host = API_SERVER_HOST;
+import { useSelector } from "react-redux";
+import ReportListComponent from "../../components/missing/ReportListComponent";
 
 const MissingReadComponent = ({ mno }) => {
-  const [missing, setMissing] = useState(initState);
-  const { moveToModify } = useCustomMove();
+  const [missing, setMissing] = useState({
+    mno: 0,
+    mname: "",
+    gender: "",
+    age: 0,
+    description: "",
+    uploadFileNames: [],
+    latitude: null,
+    longitude: null,
+    replies: [],
+    newReply: "",
+    star: 3,
+  });
   const [fetching, setFetching] = useState(false);
-  const navigate = useNavigate();
+  const loginState = useSelector((state) => state.loginSlice);
   const mapContainer = useRef(null);
 
   useEffect(() => {
     setFetching(true);
     getOne(mno).then((data) => {
-      setMissing({ ...initState, ...data });
+      setMissing({ ...missing, ...data, replies: data.replies || [] });
       setFetching(false);
     });
   }, [mno]);
@@ -39,21 +38,36 @@ const MissingReadComponent = ({ mno }) => {
         missing.latitude,
         missing.longitude
       );
-      const options = {
-        center: center,
-        level: 3,
-      };
-
+      const options = { center, level: 3 };
       const map = new window.kakao.maps.Map(mapContainer.current, options);
-      new window.kakao.maps.Marker({
-        position: center,
-        map: map,
-      });
+      new window.kakao.maps.Marker({ position: center, map });
     }
   }, [missing.latitude, missing.longitude]);
 
-  const handleClickList = () => {
-    navigate("/missing/list");
+  const addReply = () => {
+    if (!missing.newReply) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("mno", mno);
+    formData.append("missingReplyText", missing.newReply);
+    formData.append("missingReplyer", loginState.nickname);
+    formData.append("star", missing.star);
+    formData.append("email", loginState.email);
+
+    setFetching(true);
+    replyAdd(formData)
+      .then(() => {
+        setMissing((prevState) => ({
+          ...prevState,
+          replies: [...prevState.replies, { ...formData }],
+          newReply: "",
+        }));
+      })
+      .catch((error) => console.error("리포트 등록 중 오류 발생:", error))
+      .finally(() => setFetching(false));
   };
 
   return (
@@ -66,39 +80,40 @@ const MissingReadComponent = ({ mno }) => {
               alt="missing"
               key={i}
               className="object-cover h-full w-full rounded"
-              src={`${host}/api/missing/view/${imgFile}`}
+              src={`${API_SERVER_HOST}/api/missing/view/${imgFile}`}
             />
           ))}
         </div>
         <div className="w-1/2 flex flex-col justify-center">
-          <div className="bg-white p-4 rounded shadow ">
+          <div className="bg-white p-4 rounded shadow relative">
             <h3 className="text-2xl font-bold text-center">상세 정보</h3>
             <p className="text-xl">이름: {missing.mname}</p>
             <p className="text-xl">나이: {missing.age}살</p>
             <p className="text-xl">성별: {missing.gender}</p>
             <p className="text-xl">특징: {missing.description}</p>
           </div>
+          <div className="text-center text-xl mt-2">실종위치</div>
           <div
             ref={mapContainer}
             style={{ height: "300px" }}
-            className="rounded shadow-lg mt-4"
+            className="rounded shadow-lg mt-4 relative"
           ></div>
         </div>
       </div>
-      <div className="flex justify-end space-x-4 mt-4">
+      <ReportListComponent mno={mno} />
+      <div className="mt-4 flex justify-end">
+        <textarea
+          className="w-full p-2 border rounded"
+          placeholder="제보 내용을 입력하세요"
+          value={missing.newReply}
+          onChange={(e) => setMissing({ ...missing, newReply: e.target.value })}
+        />
         <button
-          type="button"
-          className="bg-gray-800 text-white p-2 rounded hover:bg-gray-600"
-          onClick={() => moveToModify(mno)}
+          className="ml-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+          style={{ whiteSpace: "nowrap" }}
+          onClick={addReply}
         >
-          정보 수정
-        </button>
-        <button
-          type="button"
-          className="bg-gray-800 text-white p-2 rounded hover:bg-gray-600"
-          onClick={handleClickList}
-        >
-          목록으로 돌아가기
+          제보하기
         </button>
       </div>
     </div>
