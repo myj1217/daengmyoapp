@@ -59,6 +59,8 @@ public class CommunityServiceImpl implements CommunityService {
                     .communityTitle(community.getCommunityTitle())
                     .communityContent(community.getCommunityContent())
                     .communityWriter(community.getCommunityWriter())
+                    .communityWriterEmail(community.getCommunityWriterEmail())
+
                     .delFlag(community.isDelFlag())
                     .build();
 
@@ -80,6 +82,53 @@ public class CommunityServiceImpl implements CommunityService {
                 .build();
     }
 
+    //자신의 글 목록 불러옴
+    @Override
+    public PageResponseDTO<CommunityDTO> getMyList(PageRequestDTO pageRequestDTO, String communityWriterEmail) {
+        log.info("getList..............");
+
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage() - 1,  //페이지 시작 번호가 0부터 시작하므로
+                pageRequestDTO.getSize(),
+                Sort.by("communityBno").descending());
+
+        Page<Object[]> result = communityRepository.selectListByEmail(pageable, communityWriterEmail);
+
+        log.info("커뮤니티 게시글 리스트입니다. " + result);
+
+        List<CommunityDTO> dtoList = result.get().map(arr -> {
+            Community community = (Community) arr[0];
+            CommunityImage communityImage = (CommunityImage) arr[1];
+
+            CommunityDTO communityDTO = CommunityDTO.builder()
+                    .communityBno(community.getCommunityBno())
+                    .communityTitle(community.getCommunityTitle())
+                    .communityContent(community.getCommunityContent())
+                    .communityWriter(community.getCommunityWriter())
+                    .communityWriterEmail(community.getCommunityWriterEmail())
+
+                    .delFlag(community.isDelFlag())
+                    .build();
+
+            // CommunityImage 객체가 null이 아닌 경우에만 이미지 파일명을 설정합니다.
+            if (communityImage != null) {
+                String imageStr = communityImage.getFileName();
+                communityDTO.setUploadFileNames(List.of(imageStr));
+            }
+
+            return communityDTO;
+        }).collect(Collectors.toList());
+
+        long totalCount = result.getTotalElements();
+
+        return PageResponseDTO.<CommunityDTO>withAll()
+                .dtoList(dtoList)
+                .totalCount(totalCount)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+    }
+
+
     @Override
     public Long regCommunity(CommunityDTO communityDTO) {
         // DTO를 Entity로 변환
@@ -92,6 +141,7 @@ public class CommunityServiceImpl implements CommunityService {
         Community community = Community.builder()
                 .communityBno(communityDTO.getCommunityBno())
                 .communityWriter(communityDTO.getCommunityWriter())
+                .communityWriterEmail(communityDTO.getCommunityWriterEmail())
                 .communityContent(communityDTO.getCommunityContent())
                 .communityTitle(communityDTO.getCommunityTitle())
                 .build();

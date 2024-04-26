@@ -21,5 +21,5 @@ public interface CommunityService {
 
     PageResponseDTO<CommunityDTO> getCommunityList(PageRequestDTO pageRequestDTO);
 
-
+    PageResponseDTO<CommunityDTO> getMyList(PageRequestDTO pageRequestDTO, String communityWriterEmail);
 }

@@ -24,6 +24,7 @@ public class CommunityRepositoryTests {
                             .communityTitle("title" + i)
                             .communityContent("content" + i)
                             .communityWriter("user")
+                            .communityWriter("user" + i +"@aaa.com")
                             .build();
 
                     Community result = communityRepository.save(community);
