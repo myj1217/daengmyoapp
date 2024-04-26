@@ -7,7 +7,7 @@ const ProductList = lazy(() => import("../pages/product/ProductListPage"));
 const ProductAdd = lazy(() => import("../pages/product/ProductAddPage"));
 const ProductRead = lazy(() => import("../pages/product/ProductReadPage"));
 const ProductModify = lazy(() => import("../pages/product/ProductModifyPage"));
-const ProductSearch = lazy(() => import("../pages/product/ProductSearchPage"));
+// const ProductSearch = lazy(() => import("../pages/product/ProductSearchPage"));
 const ProductOrder = lazy(() => import("../pages/order/OrderPage"));
 
 const productRouter = () => {
@@ -48,16 +48,16 @@ const productRouter = () => {
         </Suspense>
       ),
     },
+    // {
+    //   path: "search",
+    //   element: (
+    //     <Suspense fallback={<LoadingSpinner />}>
+    //       <ProductSearch />
+    //     </Suspense>
+    //   ),
+    // },
     {
-      path: "search",
-      element: (
-        <Suspense fallback={<LoadingSpinner />}>
-          <ProductSearch />
-        </Suspense>
-      ),
-    },
-    {
-      path: "order/:totalPrice",
+      path: "order",
       element: (
         <Suspense fallback={<LoadingSpinner />}>
           <ProductOrder />

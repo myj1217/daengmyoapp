@@ -35,4 +35,6 @@ public class ChatMessage {
     public ChatMessage() {
         this.sentAt = LocalDateTime.now();
     }
+
+
 }

@@ -13,7 +13,8 @@ const initState = {
   communityBno: 0,
   communityTitle: "",
   communityContent: "",
-  communityWriter: 0,
+  communityWriter: "",
+  communityWriterEmail: "",
   uploadFileNames: [],
 };
 
@@ -73,7 +74,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
   const createChatRoom = () => {
     jwtAxios.post(`${API_SERVER_HOST}/api/chat`, {
       userEmail1: loginState.email, // 사용자의 이메일
-      userEmail2: "user1@aaa.com", // 게시글 작성자의 이메일
+      userEmail2: community.communityWriterEmail, // 게시글 작성자의 이메일
     });
   };
 

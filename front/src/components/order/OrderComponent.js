@@ -20,12 +20,15 @@ const iniState = {
   deliveryRequest: "",
 };
 
-const OrderComponent = ({ totalPrice }) => {
+const OrderComponent = () => {
   const [payment, setPayment] = useState(iniState);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   // const [showOrder, setShowOrder] = useState(false);
   const user = useSelector((state) => state.loginSlice);
   const [fetching, setFetching] = useState(false);
+  const totalPrice = useSelector(
+    (state) => state.productSlice?.totalOrderAmount
+  );
 
   // 결제 데이터 정의
   const info = {
@@ -205,7 +208,7 @@ const OrderComponent = ({ totalPrice }) => {
       >
         <button
           onClick={onClickOrder}
-          className="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded my-6"
+          className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded my-6"
           style={{
             width: "200px",
             height: "35px",
@@ -250,7 +253,7 @@ const OrderComponent = ({ totalPrice }) => {
                     </div>
                     <div
                       onClick={openPostcode}
-                      className="ml-2 p-6 bg-green-300 hover:bg-green-500 text-white font-bold rounded-md cursor-pointer"
+                      className="ml-2 p-6 bg-emerald-500 hover:bg-emerald-700 text-white font-bold rounded-md cursor-pointer"
                     >
                       주소 찾기
                     </div>
@@ -296,7 +299,7 @@ const OrderComponent = ({ totalPrice }) => {
                     </div>
                     <div
                       onClick={openPostcode}
-                      className="ml-2 p-6 bg-green-300 hover:bg-green-500 text-white font-bold rounded-md cursor-pointer"
+                      className="ml-2 p-6 bg-emerald-500 hover:bg-emerald-700 text-white font-bold rounded-md cursor-pointer"
                     >
                       주소 찾기
                     </div>
@@ -359,7 +362,9 @@ const OrderComponent = ({ totalPrice }) => {
                   <option value="배송 전 미리 연락해 주세요">
                     배송 전 미리 연락해 주세요
                   </option>
-                  <option value="기타 요청사항">기타 요청사항</option>
+                  <option value="기타 요청사항">
+                    기타 요청 사항이 없습니다.
+                  </option>
                 </select>
               </div>
             </div>
@@ -375,7 +380,7 @@ const OrderComponent = ({ totalPrice }) => {
           {" "}
           <button
             onClick={onClickPayment}
-            className="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mt-4"
+            className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded mt-4"
             style={{
               width: "200px",
               height: "35px",

@@ -67,7 +67,7 @@ const PaymentResult = ({
       <div className="flex flex-col items-center">
         <button
           onClick={redirectToOrderList}
-          className="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mt-4"
+          className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded mt-4"
           style={{
             width: "200px",
             height: "35px",
@@ -81,7 +81,7 @@ const PaymentResult = ({
         </button>
         <button
           onClick={redirectToMain}
-          className="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mt-4"
+          className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded mt-4"
           style={{
             width: "200px",
             height: "35px",

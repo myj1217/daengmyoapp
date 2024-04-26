@@ -6,6 +6,7 @@ import com.back.repository.chat.ChatMessageRepository;
 import com.back.repository.chat.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -22,7 +23,7 @@ public class ChatService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
-
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     public List<ChatMessage> getChatHistory(Long chatRoomId) {
         List<ChatMessage> chatMessage = chatMessageRepository.findByChatRoomId(chatRoomId);
@@ -44,8 +45,25 @@ public class ChatService {
                 .userEmail2(userEmail2)
                 .build();
 
-        return chatRoomRepository.save(chatRoom);
+        chatRoom = chatRoomRepository.save(chatRoom);
+
+        // 채팅방이 생성되었다는 메시지 생성
+        ChatMessage chatMessage = ChatMessage.builder()
+                .chatRoom(chatRoom)
+                .senderEmail(userEmail1)
+                .messageContent("채팅방을 생성했습니다.")
+                .sentAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
+                .build();
+
+        chatMessageRepository.save(chatMessage);
+
+        // 새 메시지 알림을 userEmail1과 userEmail2에게 보냅니다.
+        simpMessagingTemplate.convertAndSend("/topic/chat/email/" + userEmail1, chatMessage);
+        simpMessagingTemplate.convertAndSend("/topic/chat/email/" + userEmail2, chatMessage);
+
+        return chatRoom;
     }
+
 
 
 
@@ -63,7 +81,12 @@ public class ChatService {
 
         chatMessage = chatMessageRepository.save(chatMessage);
         chatRoom.setLastMessage(messageContent); // 마지막 메시지 업데이트
+        chatRoom.setLastTime(sentAt);
         chatRoomRepository.save(chatRoom); // 변경사항 저장
+
+        // 새 메시지 알림을 userEmail1과 userEmail2에게 보냅니다.
+        simpMessagingTemplate.convertAndSend("/topic/chat/email/" + chatRoom.getUserEmail1(), chatMessage);
+        simpMessagingTemplate.convertAndSend("/topic/chat/email/" + chatRoom.getUserEmail2(), chatMessage);
 
         return chatMessage;
     }

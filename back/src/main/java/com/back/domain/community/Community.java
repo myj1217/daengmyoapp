@@ -29,8 +29,11 @@ public class Community {
     @Column(length = 500, nullable = false)
     private String communityContent;
 
-    @Column(length = 10, nullable = false)
+    @Column(nullable = false)
     private String communityWriter;
+
+    @Column(nullable = false)
+    private String communityWriterEmail;
 
     private boolean delFlag;
 

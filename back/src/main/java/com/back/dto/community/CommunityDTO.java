@@ -22,6 +22,7 @@ public class CommunityDTO {
     private String communityTitle;
     private String communityContent;
     private String communityWriter;
+    private String communityWriterEmail;
     private boolean delFlag;
 
 
