@@ -206,7 +206,7 @@ const PaymentComponent = ({ totalPrice, clearCart }) => {
       >
         <button
           onClick={onClickOrder}
-          className="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded my-6"
+          className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded my-6"
           style={{
             width: "200px",
             height: "35px",
@@ -253,7 +253,7 @@ const PaymentComponent = ({ totalPrice, clearCart }) => {
                       </div>
                       <div
                         onClick={openPostcode}
-                        className="ml-2 p-6 bg-green-300 hover:bg-green-500 text-white font-bold rounded-md cursor-pointer"
+                        className="ml-2 p-6 bg-emerald-500 hover:bg-emerald-700 text-white font-bold rounded-md cursor-pointer"
                       >
                         주소 찾기
                       </div>
@@ -299,7 +299,7 @@ const PaymentComponent = ({ totalPrice, clearCart }) => {
                       </div>
                       <div
                         onClick={openPostcode}
-                        className="ml-2 p-6 bg-green-300 hover:bg-green-500 text-white font-bold rounded-md cursor-pointer"
+                        className="ml-2 p-6 bg-emerald-500 hover:bg-emerald-700 text-white font-bold rounded-md cursor-pointer"
                       >
                         주소 찾기
                       </div>
@@ -345,7 +345,7 @@ const PaymentComponent = ({ totalPrice, clearCart }) => {
                   </div>
                   <div
                     onClick={openPostcode}
-                    className="ml-2 p-6 bg-green-300 hover:bg-green-500 text-white font-bold rounded-md cursor-pointer"
+                    className="ml-2 p-6 bg-emerald-500 hover:bg-emerald-700 text-white font-bold rounded-md cursor-pointer"
                   >
                     주소 찾기
                   </div>
@@ -419,7 +419,7 @@ const PaymentComponent = ({ totalPrice, clearCart }) => {
             {" "}
             <button
               onClick={onClickPayment}
-              className="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mt-4"
+              className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded mt-4"
               style={{
                 width: "200px",
                 height: "35px",
