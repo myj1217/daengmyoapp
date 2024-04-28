@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import { communityList } from "../../api/communityApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFont } from "@fortawesome/free-solid-svg-icons";
 
 const host = API_SERVER_HOST;
 
@@ -21,6 +23,7 @@ const initState = {
 const ListCommunityComponent = () => {
   const { exceptionHandle } = useCustomLogin();
   const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
+  const navigate = useNavigate();
 
   //serverData는 나중에 사용
   const [serverData, setServerData] = useState(initState);
@@ -34,47 +37,76 @@ const ListCommunityComponent = () => {
       .catch((err) => exceptionHandle(err));
   }, [page, size, refresh]);
 
+  const handleClickReg = useCallback(() => {
+    navigate({ pathname: "../register" });
+  });
+
   return (
-    <div className="border-2 border-gray-300 mt-10 mr-2 ml-2">
+    <div className="border-2 border-gray-100 mt-10 mr-2 ml-2">
       <div className="p-6">
         {serverData.dtoList &&
-          serverData.dtoList.map((community) => (
+          serverData.dtoList.map((community, index) => (
             <div
               key={community.communityBno}
               className="flex items-center rounded shadow-md border-2 mb-4 bg-white p-4 justify-between"
               style={{ minHeight: "80px" }}
               onClick={() => moveToRead(community.communityBno)}
             >
-              {community.uploadFileNames &&
-                community.uploadFileNames.length > 0 && (
-                  <div
-                    className="my-2 mr-4"
-                    style={{ width: "80px", height: "80px" }}
-                  >
-                    <img
-                      alt="community"
-                      className="rounded-md"
-                      style={{ maxWidth: "80px", maxHeight: "80px" }}
-                      src={`${host}/community/view/${community.uploadFileNames[0]}`}
-                    />
-                  </div>
-                )}
+              {/* 글 번호 추가 */}
+              <div className="w-1/12 text-center">
+                {serverData.dtoList.length - index}
+              </div>
+              {!community.uploadFileNames ||
+              community.uploadFileNames.length === 0 ? (
+                <div
+                  className="my-2 mr-4"
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    overflow: "hidden",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faFont}
+                    className="text-emerald-600 mr-2"
+                    size="3x"
+                  />
+                </div>
+              ) : (
+                <div
+                  className="my-2 mr-4"
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    overflow: "hidden",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  {/* 이미지가 있는 경우 */}
+                  <img
+                    alt="community"
+                    className="rounded-md"
+                    style={{ maxWidth: "100%", maxHeight: "100%" }}
+                    src={`${host}/community/view/${community.uploadFileNames[0]}`}
+                  />
+                </div>
+              )}
+
               <div
                 className="flex-grow flex items-center"
                 style={{ width: "900px" }}
               >
-                <div
-                  className="font-bold text-xl mb-2"
-                  style={{ width: "600px" }}
-                >
+                <div className="w-7/12 ml-4 font-bold text-xl">
                   {community.communityTitle}
                 </div>
-                <div
-                  className="font-bold text-xl mb-2 flex-grow justify-end"
-                  style={{ width: "400px" }}
-                >
-                  {community.communityWriter}
-                </div>
+                <div className="w-3/12 ml-4">{community.communityWriter}</div>
               </div>
             </div>
           ))}
@@ -88,7 +120,7 @@ const ListCommunityComponent = () => {
               key={pageNum}
               className={`${
                 pageNum === serverData.current
-                  ? "bg-gray-500 text-white"
+                  ? "bg-teal-300 text-white"
                   : "bg-white text-black"
               } border-solid border-2 border-gray-500 p-2 mx-1`}
               onClick={() => moveToList({ page: pageNum })}
@@ -99,12 +131,15 @@ const ListCommunityComponent = () => {
         </div>
       )}
 
-      <Link
-        to="/community/register"
-        className="block w-1/3 py-2 bg-black text-white text-center mt-4 hover:bg-gray-700 transition duration-200 ease-in-out mx-auto cursor-pointer"
-      >
-        게시글 등록
-      </Link>
+      <div className="flex justify-center">
+        <button
+          type="button"
+          className="inline-block rounded p-3 m-6 bg-emerald-300 hover:bg-emerald-500 text-white w-48"
+          onClick={handleClickReg}
+        >
+          게시글 등록
+        </button>
+      </div>
     </div>
   );
 };
