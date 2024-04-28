@@ -4,6 +4,7 @@ import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
 import { useSelector } from "react-redux";
 import { regCommunity } from "../../api/communityApi";
+import { Navigate } from "react-router-dom";
 
 const initState = {
   communityTitle: "",
@@ -73,8 +74,12 @@ const RegCommunityComponent = () => {
     moveToList();
   };
 
+  const handleClickList = () => {
+    Navigate({ pathname: "../" });
+  };
+
   return (
-    <div className="max-w-4xl mx-auto my-10 border rounded-lg shadow-lg overflow-hidden">
+    <div className="border-2 border-gray-300 mt-10 m-2 p-4">
       {fetching && <FetchingModal />}
       {result && (
         <ResultModal
@@ -83,61 +88,52 @@ const RegCommunityComponent = () => {
           callbackFn={closeModal}
         />
       )}
-      <form className="space-y-6 bg-white p-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <label className="md:col-span-1 flex items-center justify-end text-lg font-medium text-gray-700">
-            작성자
-          </label>
+      <div className="flex flex-col">
+        <div className="mb-4 flex items-center">
+          <label className="w-1/5 p-6 text-right font-bold">작성자</label>
           <input
-            className="md:col-span-2 form-input rounded-md border-gray-300 shadow-sm"
+            className="w-4/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
             name="communitydWriter"
-            type={"text"}
+            type="text"
             value={loginState.nickname}
             onChange={handleChangeCommunity}
             readOnly
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <label className="md:col-span-1 flex items-center justify-end text-lg font-medium text-gray-700">
-            제목
-          </label>
+        <div className="mb-4 flex items-center">
+          <label className="w-1/5 p-6 text-right font-bold">제목</label>
           <textarea
-            className="md:col-span-2 form-textarea rounded-md border-gray-300 shadow-sm resize-none"
+            className="w-4/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
             name="communityTitle"
-            type={"text"}
             value={community.communityTitle}
             onChange={handleChangeCommunity}
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <label className="md:col-span-1 flex items-center justify-end text-lg font-medium text-gray-700">
-            내용
-          </label>
-          <input
-            className="md:col-span-2 form-input rounded-md border-gray-300 shadow-sm"
+        <div className="mb-4 flex items-center">
+          <label className="w-1/5 p-6 text-right font-bold">내용</label>
+          <textarea
+            className="w-4/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md resize-y"
             name="communityContent"
-            // type={"text"}
-            rows="4"
             value={community.communityContent}
             onChange={handleChangeCommunity}
+            style={{ height: "100px" }}
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <label className="md:col-span-1 flex items-center justify-end text-lg font-medium text-gray-700">
-            파일
-          </label>
+        <div className="mb-4 flex items-center">
+          <label className="w-1/5 p-6 text-right font-bold">파일</label>
           <input
             ref={uploadRef}
-            className="md:col-span-2 form-input rounded-md border-gray-300 shadow-sm"
-            type={"file"}
-            multiple={true}
+            className="md:col-span-2 form-input rounded-md border-gray-300 shadow-sm bg-gray-50"
+            type="file"
+            multiple
             onChange={updatePreviewImages}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div className="flex justify-end">
           <div className="md:col-span-1"></div>
           <div className="md:col-span-2 grid grid-cols-3 gap-2">
             {community.imagesPreview.map((preview, index) => (
@@ -154,13 +150,20 @@ const RegCommunityComponent = () => {
         <div className="flex justify-end mt-4">
           <button
             type="button"
-            className="btn bg-gray-600 hover:bg-black-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="rounded mx-2 p-4 w-36 bg-emerald-500 hover:bg-emerald-600 text-xl text-white shadow-md"
             onClick={handleClickReg}
           >
             등록하기
           </button>
+          <button
+            type="button"
+            className="rounded mx-2 p-4 w-36 bg-emerald-500 hover:bg-emerald-600  text-xl text-white shadow-md"
+            onClick={handleClickList}
+          >
+            목록으로
+          </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

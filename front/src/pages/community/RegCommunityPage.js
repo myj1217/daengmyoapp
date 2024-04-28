@@ -12,7 +12,7 @@ const RegCommunityPage = () => {
   return (
     <div className="p-4 w-full bg-white">
       <BasicMenu />
-      <div className="text-3xl font-extrabold">게시물 추가하기</div>
+      <div className="text-3xl font-extrabold">게시물 등록하기</div>
 
       <RegCommunityComponent />
     </div>
