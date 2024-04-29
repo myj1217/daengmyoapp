@@ -1,11 +1,10 @@
 import { useSelector } from "react-redux";
 import ProductAddComponent from "../../components/product/ProductAddComponent";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import BasicMenu from "../../components/menus/BasicMenu";
 import { MdAddBusiness } from "react-icons/md";
 const ProductAddPage = () => {
   const loginState = useSelector((state) => state.loginSlice);
-  const navigate = useNavigate();
 
   if (!loginState.email) {
     return <Navigate to="/member/login" />;
