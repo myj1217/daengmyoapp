@@ -13,7 +13,7 @@ const initState = {
   aname: "",
   gender: "",
   age: 0,
-  features: "",
+  notes: "",
   uploadFileNames: [],
   adoptionAgency: {
     address: "서울특별시 용산구 후암로 51 (후암동) 1층",
@@ -60,7 +60,7 @@ const AnimalReadComponent = ({ ano }) => {
             <h1 className="text-4xl font-bold mb-3">이름: {animal.aname}</h1>
             <p className="text-2xl mb-2">나이: {animal.age}살</p>
             <p className="text-xl mb-2">성별: {animal.gender}</p>
-            <p className="text-xl mb-2">특징: {animal.features}</p>
+            <p className="text-xl mb-2">특징: {animal.notes}</p>
           </div>
           <div className="p-4 bg-gray-100 rounded-lg shadow-inner">
             <h2 className="text-xl font-semibold mb-2">입양 기관 정보:</h2>
