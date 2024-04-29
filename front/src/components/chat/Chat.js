@@ -5,7 +5,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useDispatch } from 'react-redux';
 import { setChatVisible } from "../../slices/chatSlice";
 import { Stomp } from '@stomp/stompjs'; // Stomp 라이브러리를 import합니다.
-
+import { CHAT_HOST } from "../../api/rootApi";
 
 function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose}) {
   const [messages, setMessages] = useState([]);
@@ -38,7 +38,7 @@ function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose}) {
   };
 
   const connect = () => {
-    const socket = new WebSocket("ws://localhost:8080/ws");
+    const socket = new WebSocket(CHAT_HOST);
     stompClient.current = Stomp.over(socket);
     stompClient.current.connect({}, () => {
       stompClient.current.subscribe(`/topic/chat/${chatRoomId}`, (message) => {

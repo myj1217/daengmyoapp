@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setChatVisible, selectChatVisible, setNewMessageArrived, selectNewMessageArrived } from "../../slices/chatSlice";  
 import { Stomp } from '@stomp/stompjs';
 import { FaShoppingCart,FaUser } from "react-icons/fa";
-
+import { CHAT_HOST } from "../../api/rootApi";
 
 const BasicMenu = () => {
   const { isLogin, doLogout, moveToPath } = useCustomLogin();
@@ -41,7 +41,7 @@ const BasicMenu = () => {
   const isMainPage = location.pathname === "/";
 
   const update = () => {
-    const socket = new WebSocket("ws://localhost:8080/ws");
+    const socket = new WebSocket(CHAT_HOST);
     stompClient.current = Stomp.over(socket);
     stompClient.current.connect({}, () => {
       stompClient.current.subscribe(`/topic/chat/email/${loginState.email}`, (message) => {
