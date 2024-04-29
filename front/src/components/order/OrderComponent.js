@@ -46,15 +46,6 @@ const OrderComponent = () => {
     buyer_postcode: user.postcode, // 구매자 우편번호
   };
 
-  // 주문정보 창 호출
-  // const onClickOrder = () => {
-  //   if (totalPrice === 0) {
-  //     window.alert("주문할 상품을 선택해주세요.");
-  //     return;
-  //   }
-  //   setShowOrder(true);
-  // };
-
   const handleChange = (e) => {
     payment[e.target.name] = e.target.value;
     setPayment({ ...payment });
@@ -151,13 +142,8 @@ const OrderComponent = () => {
 
     if (success) {
       window.alert("결제 성공");
-      //   setPayment({
-      //     ...payment,
-      //     orderStatus: "결제 성공",
-      //   });
       orderSaveHandler();
       setPaymentSuccess(true);
-      // clearCart();
     } else {
       window.alert(`결제 실패: ${error_msg}`);
     }
@@ -199,28 +185,6 @@ const OrderComponent = () => {
           </div>
         </div>
       )}
-      {/* <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-        className="border-b border-gray-300"
-      >
-        <button
-          onClick={onClickOrder}
-          className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded my-6"
-          style={{
-            width: "200px",
-            height: "35px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          선택 상품 주문하기
-        </button>
-      </div> */}
       <>
         <div className="my-10 text-5xl">주문정보</div>
         <div>

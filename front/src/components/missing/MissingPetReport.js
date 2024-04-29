@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { postAdd } from "../../api/missingApi";
 import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const initState = {
   mname: "",
@@ -22,7 +22,6 @@ const MissingPetReport = () => {
   const uploadRef = useRef();
   const [fetching, setFetching] = useState(false);
   const [result, setResult] = useState(null);
-
   const mapContainer = useRef(null);
   const marker = useRef(null);
 
@@ -62,6 +61,20 @@ const MissingPetReport = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (
+      !missing.mname ||
+      !missing.age ||
+      !missing.gender ||
+      !missing.description ||
+      !missing.latitude ||
+      !missing.longitude ||
+      uploadRef.current.files.length === 0
+    ) {
+      alert("모든 필수 정보를 입력해 주세요.");
+      return;
+    }
+
     const files = uploadRef.current.files;
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
@@ -86,7 +99,7 @@ const MissingPetReport = () => {
   };
 
   return (
-    <div className=" mx-auto p-4 my-2 shadow-lg rounded-lg bg-white">
+    <div className="mx-auto p-4 my-2 shadow-lg rounded-lg bg-white">
       {fetching ? <FetchingModal /> : null}
       {result && (
         <ResultModal

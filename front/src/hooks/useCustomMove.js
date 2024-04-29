@@ -97,7 +97,17 @@ const useCustomMove = () => {
     });
   };
 
+  const moveToAnimalRead = (num) => {
+    console.log(queryDefault);
+
+    navigate({
+      pathname: `../animal/read/${num}`,
+      search: queryDefault,
+    });
+  };
+
   return {
+    moveToAnimalRead,
     moveToRead,
     moveToModify,
     moveToList,

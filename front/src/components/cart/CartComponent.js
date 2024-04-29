@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import useCustomCart from "../../hooks/useCustomCart";
 import CartItemComponent from "./CartItemComponent";
-import PaymentComponent from "../payment/PaymentComponent";
 import useCustomProduct from "../../hooks/useCustomProduct";
 import { useNavigate } from "react-router-dom";
 
@@ -39,6 +38,12 @@ const CartComponent = () => {
 
   // 주문완료 후 장바구니 비우기
   const clearCart = () => {
+    // if (
+    //   window.confirm("선택한 상품을 장바구니에서 삭제하시겠습니까?") === false
+    // ) {
+    //   return;
+    // }
+
     cartItems.forEach((item) => {
       if (checkList.includes(item.cino)) {
         return changeCart({
@@ -54,9 +59,17 @@ const CartComponent = () => {
 
   // 선택 상품 주문하기 핸들러
   const selectOrder = () => {
+    // 선택한 상품이 없을 경우 return
+    if (selectedPrice === 0) {
+      window.alert("주문할 상품을 선택해주세요.");
+      return;
+    }
+
     updateOrderAmount(selectedPrice);
 
     navigate("../products/order");
+
+    clearCart();
   };
 
   useEffect(() => {
@@ -182,8 +195,6 @@ const CartComponent = () => {
               선택 상품 주문하기
             </button>
           </div>
-
-          {/* <PaymentComponent totalPrice={selectedPrice} clearCart={clearCart} /> */}
         </div>
       ) : (
         <></>
