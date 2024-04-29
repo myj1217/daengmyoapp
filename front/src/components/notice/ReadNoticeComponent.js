@@ -46,6 +46,7 @@ const ReadNoticeComponent = ({ noticeBno }) => {
   const handleClickList = () => {
     navigate("/notice/list");
   };
+  const isAdmin = loginState.isAdmin;
 
   return (
     <div className="border-2 border-gray-300 mt-10 m-2 p-4">
@@ -110,15 +111,17 @@ const ReadNoticeComponent = ({ noticeBno }) => {
         id="notice_read_buttons"
         className="flex justify-end p-4 text-sm text-white"
       >
-        <button
-          type="button"
-          className="inline-block rounded p-4 m-2 w-32 bg-gray-800"
-          onClick={() => moveToModify(noticeBno)}
-        >
-          게시글
-          <br />
-          수정
-        </button>
+        {isAdmin && (
+          <button
+            type="button"
+            className="inline-block rounded p-4 m-2 w-32 bg-gray-800"
+            onClick={() => moveToModify(noticeBno)}
+          >
+            게시글
+            <br />
+            수정
+          </button>
+        )}
         <button
           type="button"
           className="rounded p-4 m-2 w-32 bg-gray-800"

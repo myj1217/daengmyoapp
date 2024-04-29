@@ -53,9 +53,7 @@ const ListCommunityComponent = () => {
               onClick={() => moveToRead(community.communityBno)}
             >
               {/* 글 번호 추가 */}
-              <div className="w-1/12 text-center">
-                {serverData.dtoList.length - index}
-              </div>
+              <div className="w-1/12 text-center">{community.communityBno}</div>
               {!community.uploadFileNames ||
               community.uploadFileNames.length === 0 ? (
                 <div

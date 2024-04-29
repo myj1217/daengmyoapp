@@ -22,26 +22,17 @@ const host = API_SERVER_HOST;
 
 const ReadCommunityComponent = ({ communityBno }) => {
   const [community, setCommunity] = useState(initState);
-
-  // 댓글 상태 추가
   const [replies, setReplies] = useState([]);
-  //화면 이동용 함수
-  const { moveToModify } = useCustomMove();
-  const navigate = useNavigate(); // useNavigate 훅 추가
-
-  //fetching
   const [fetching, setFetching] = useState(false);
-
-  // 로그인 정보
   const { loginState } = useCustomLogin();
+  const navigate = useNavigate();
+  const { moveToModify } = useCustomMove();
 
   useEffect(() => {
     setFetching(true);
     getCommunity(communityBno)
       .then((data) => {
         setCommunity(data);
-        console.log(data);
-
         setFetching(false);
       })
       .catch((error) => {
@@ -52,8 +43,6 @@ const ReadCommunityComponent = ({ communityBno }) => {
 
   useEffect(() => {
     if (communityBno) {
-      // communityBno가 정의되어 있는 경우에만 실행
-
       setFetching(true);
       listReply(communityBno)
         .then((data) => {
@@ -72,17 +61,19 @@ const ReadCommunityComponent = ({ communityBno }) => {
   };
 
   const createChatRoom = () => {
-    if(loginState.email !== community.communityWriterEmail){
-    jwtAxios.post(`${API_SERVER_HOST}/api/chat`, {
-      userEmail1: loginState.email, // 사용자의 이메일
-      userEmail2: community.communityWriterEmail, // 게시글 작성자의 이메일
-    });
-  }
+    if (loginState.email !== community.communityWriterEmail) {
+      jwtAxios.post(`${API_SERVER_HOST}/api/chat`, {
+        userEmail1: loginState.email,
+        userEmail2: community.communityWriterEmail,
+      });
+    }
   };
+
+  const isAuthor = loginState.email === community.communityWriterEmail;
 
   return (
     <div className="border-2 border-gray-300 mt-10 m-2 p-4">
-      {fetching ? <FetchingModal /> : <></>}
+      {fetching ? <FetchingModal /> : null}
       <div className="w-full justify-center flex flex-col items-center"></div>
       <div className="flex justify-center mb-4">
         <div className="relative flex w-full flex-wrap items-stretch">
@@ -127,25 +118,29 @@ const ReadCommunityComponent = ({ communityBno }) => {
         id="community_read_buttons"
         className="flex justify-end p-4 text-sm text-white"
       >
+        {!isAuthor && (
+          <button
+            type="button"
+            className="inline-block rounded p-4 m-2 w-32 bg-emerald-500 hover:bg-emerald-700"
+            onClick={createChatRoom}
+          >
+            채팅하기
+          </button>
+        )}
+        {isAuthor && (
+          <button
+            type="button"
+            className="inline-block rounded p-4 m-2 w-32 bg-emerald-500 hover:bg-emerald-700"
+            onClick={() => moveToModify(communityBno)}
+          >
+            게시글
+            <br />
+            수정
+          </button>
+        )}
         <button
           type="button"
-          className="inline-block rounded p-4 m-2 w-32 bg-gray-800"
-          onClick={createChatRoom} // "채팅하기" 버튼 클릭 시 createChatRoom 함수 호출
-        >
-          채팅하기
-        </button>
-        <button
-          type="button"
-          className="inline-block rounded p-4 m-2 w-32 bg-gray-800"
-          onClick={() => moveToModify(communityBno)}
-        >
-          게시글
-          <br />
-          수정
-        </button>
-        <button
-          type="button"
-          className="rounded p-4 m-2 w-32 bg-gray-800"
+          className="rounded p-4 m-2 w-32 bg-emerald-500 hover:bg-emerald-700"
           onClick={handleClickList}
         >
           목록으로

@@ -26,7 +26,7 @@ public class ProductReplyRepositoryTests {
 
     @Test
     public void testInsert(){
-        Long pno = 3L;
+        Long pno = 1L;
         // 상품 후기를 추가할 상품의 pno 값을 가져옴
         Product product = Product.builder().pno(pno).build();
         // 상품 후기 생성
@@ -44,7 +44,7 @@ public class ProductReplyRepositoryTests {
     @Transactional// 데이터베이스 연산을 하나의 작업 단위로 묶는 역할.
     @Test
     public void testProductReplies() {
-        Long pno = 7L;
+        Long pno = 1L;
         // 페이지 및 정렬 정보 설정
         Pageable pageable = PageRequest.of(0,10,
                 Sort.by("prno").descending());

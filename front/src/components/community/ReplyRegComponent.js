@@ -79,7 +79,7 @@ const ReplyRegComponent = ({ communityBno }) => {
         <Link to={`/community/read/${communityBno}`}>
           <button
             type="button"
-            className="rounded p-4 w-36 bg-gray-800 text-xl text-white"
+            className="rounded p-4 w-36 bg-emerald-500 hover:bg-emerald-700 text-xl text-white"
             onClick={handleClickReg}
           >
             추가하기

@@ -4,7 +4,6 @@ package com.back.controller.community;
 import com.back.dto.PageRequestDTO;
 import com.back.dto.PageResponseDTO;
 import com.back.dto.community.ReplyDTO;
-import com.back.dto.product.ProductReplyDTO;
 import com.back.service.community.ReplyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +18,16 @@ import java.util.Map;
 @RestController
 @Log4j2
 @RequestMapping("/community/reply")
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 
 public class ReplyController {
 
     private final ReplyService replyService;
 
-    @Autowired
-    public ReplyController(ReplyService replyService) {
-        this.replyService = replyService;
-    }
+//    @Autowired
+//    public ReplyController(ReplyService replyService) {
+//        this.replyService = replyService;
+//    }
 
     @GetMapping("/list/{communityBno}")
     public PageResponseDTO<ReplyDTO> getReplyList(@PathVariable("communityBno")
