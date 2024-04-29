@@ -72,16 +72,6 @@ function ChatList({onClose, stompClient}) {
     }, [loginState.email, selectedChatRoom]);
     
 
-    // const update = () => {
-    //     const socket = new WebSocket("ws://localhost:8080/ws");
-    //     stompClient.current = Stomp.over(socket);
-    //     stompClient.current.connect({}, () => {
-    //       stompClient.current.subscribe(`/topic/chat/${loginState.email}`, (message) => {
-    //       fetchRooms(); 
-    //     });
-    //     })};
-
-
         const handleChatRoomClick = (chatRoomId) => {
             const room = chatRooms.find(room => room.id === chatRoomId);
             if (room) {

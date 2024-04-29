@@ -58,7 +58,7 @@ const BasicMenu = () => {
 
   return (
     <header className={`flex bg-green-100 text-green-800 p-4 w-full h-20 top-0 z-50 ${!isMainPage ? "" : "sticky shadow-md"}`}>
-      <div className="container mx-auto flex justify-between items-center h-full w-full">
+      <div className="container mx-auto flex justify-between items-center h-full w-full min-w-[1025px]">
         {/* 로고 */}
         <Link to="/" className="text-lg font-bold">
           <img src={image} alt="logo" className="w-32 h-auto"></img>

@@ -114,7 +114,7 @@ const MainPage = () => {
     <div>
       <BasicMenu />
       <div className="flex w-full h-full border border-bottom-2">
-        <div className="main-banner relative overflow-hidden w-4/5 m-2 h-full rounded-lg shadow-lg">
+        <div className="main-banner relative overflow-hidden w-4/5 m-2 min-w-[620px] h-full rounded-lg shadow-lg">
           <Slider {...settings}>
             <Link to="/community">
               <div className="slide-item">
@@ -147,7 +147,7 @@ const MainPage = () => {
           <div className="h-7" />
         </div>
 
-        <div className="w-1/5 h-80 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
+        <div className="w-1/5 h-80 min-w-64 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
           <div className="w-full flex items-center justify-center mb-auto mt-2 border-b-2 pb-2">
             <p className="text-xl font-bold">프로필</p>
           </div>

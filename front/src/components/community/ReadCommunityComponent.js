@@ -8,6 +8,8 @@ import ReplyListComponent from "./ReplyListComponent";
 import { listReply } from "../../api/communityReplyApi";
 import { useNavigate } from "react-router-dom";
 import jwtAxios from "../../utils/jwtUtil";
+import { useDispatch,useSelector} from 'react-redux';
+import { setChatVisible, selectChatVisible, setNewMessageArrived, selectNewMessageArrived } from "../../slices/chatSlice";  
 
 const initState = {
   communityBno: 0,
@@ -20,6 +22,8 @@ const initState = {
 
 const host = API_SERVER_HOST;
 
+
+
 const ReadCommunityComponent = ({ communityBno }) => {
   const [community, setCommunity] = useState(initState);
   const [replies, setReplies] = useState([]);
@@ -27,6 +31,8 @@ const ReadCommunityComponent = ({ communityBno }) => {
   const { loginState } = useCustomLogin();
   const navigate = useNavigate();
   const { moveToModify } = useCustomMove();
+  const dispatch = useDispatch();
+  
 
   useEffect(() => {
     setFetching(true);
@@ -66,6 +72,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
         userEmail1: loginState.email,
         userEmail2: community.communityWriterEmail,
       });
+      dispatch(setChatVisible(true));
     }
   };
 
