@@ -6,6 +6,7 @@ import { API_SERVER_HOST } from "../../api/rootApi";
 import { noticeList } from "../../api/noticeApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFont, faImage } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 const host = API_SERVER_HOST;
 
@@ -27,6 +28,8 @@ const ListNoticeComponent = () => {
 
   // serverData는 나중에 사용
   const [serverData, setServerData] = useState(initState);
+
+  const isAdmin = useSelector((state) => state.loginSlice.isAdmin);
 
   const handleClickReg = useCallback(() => {
     navigate({ pathname: "../register" });
@@ -52,9 +55,7 @@ const ListNoticeComponent = () => {
               onClick={() => moveToRead(notice.noticeBno)}
             >
               {/* 글 번호 추가 */}
-              <div className="w-1/12 text-center">
-                {serverData.dtoList.length - index}
-              </div>
+              <div className="w-1/12 text-center">{notice.noticeBno}</div>
 
               {/* 글 제목 추가 */}
               <div className="w-7/12 ml-4 font-bold text-xl">
@@ -78,7 +79,7 @@ const ListNoticeComponent = () => {
               </div>
 
               {/* 작성자 추가 */}
-              <div className="w-3/12 ml-4">{notice.noticeWriter}</div>
+              <div className="w-3/12 ml-4">관리자</div>
             </div>
           ))}
       </div>
@@ -102,15 +103,17 @@ const ListNoticeComponent = () => {
         </div>
       )}
 
-      <div className="flex justify-center">
-        <button
-          type="button"
-          className="inline-block rounded p-3 m-6 bg-emerald-300 hover:bg-emerald-500 text-white w-48"
-          onClick={handleClickReg}
-        >
-          게시글 등록
-        </button>
-      </div>
+      {isAdmin && (
+        <div className="flex justify-center">
+          <button
+            type="button"
+            className="inline-block rounded p-3 m-6 bg-emerald-300 hover:bg-emerald-500 text-white w-48"
+            onClick={handleClickReg}
+          >
+            게시글 등록
+          </button>
+        </div>
+      )}
     </div>
   );
 };

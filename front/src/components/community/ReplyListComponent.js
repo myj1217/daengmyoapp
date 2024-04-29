@@ -5,6 +5,7 @@ import { API_SERVER_HOST } from "../../api/rootApi";
 import { listReply, regReply, delReply } from "../../api/communityReplyApi";
 import ReplyRegComponent from "./ReplyRegComponent";
 import ReplyModComponent from "./ReplyModComponent";
+import { FaUserCircle } from "react-icons/fa";
 
 const host = API_SERVER_HOST;
 
@@ -56,43 +57,10 @@ const ReplyListComponent = ({ communityBno }) => {
       });
   };
 
-  // // 수정 모드로 변경하는 함수
-  // const handleEditReply = (replyRno) => {
-  //   setServerData((prevState) => {
-  //     const updatedDtoList = prevState.dtoList.map((item) => {
-  //       if (item.replyRno === replyRno) {
-  //         return { ...item, editing: true }; // 수정 모드로 변경
-  //       }
-  //       return item;
-  //     });
-  //     return { ...prevState, dtoList: updatedDtoList };
-  //   });
-  // };
-
-  // // 댓글 수정 취소를 처리하는 함수
-  // const cancelEditReply = () => {
-  //   setServerData((prevState) => {
-  //     const updatedDtoList = prevState.dtoList.map((item) => {
-  //       return { ...item, editing: false }; // 수정 모드에서 일반 모드로 변경
-  //     });
-  //     return { ...prevState, dtoList: updatedDtoList };
-  //   });
-  // };
-
-  // // 댓글 삭제를 시작하는 함수
-  // const handleDeleteReply = (replyRno) => {
-  //   setDeletingReplyRno(replyRno);
-  // };
-
-  // // 댓글 삭제 취소를 처리하는 함수
-  // const cancelDeleteReply = () => {
-  //   setDeletingReplyRno(null);
-  // };
-
   return (
     <div>
       {/* 댓글 목록 */}
-      <div className="mt-4 border-t pt-4">
+      <div className="mt-4 border-t pt-4 mb-8">
         <h2 className="text-lg font-semibold mb-2">댓글</h2>
         {serverData.dtoList && serverData.dtoList.length === 0 ? (
           <div>댓글이 없습니다.</div>
@@ -139,23 +107,6 @@ const ReplyListComponent = ({ communityBno }) => {
           ))}
         </div>
       )}
-
-      {/* <div className="mt-4">
-        <h2 className="text-lg font-semibold mb-2">댓글 작성</h2>
-        <textarea
-          className="border p-2 w-full"
-          value={replyContent}
-          onChange={(e) => setReplyContent(e.target.value)}
-          rows="4"
-          placeholder="댓글을 입력하세요..."
-        ></textarea>
-        <button
-          className="mt-2 bg-gray-800 text-white py-2 px-4 rounded"
-          onClick={handleReplySubmit}
-        >
-          댓글 작성
-        </button>
-      </div> */}
     </div>
   );
 };
