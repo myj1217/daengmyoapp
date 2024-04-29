@@ -1,32 +1,32 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getOne } from "../../api/animalApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
-import { useNavigate } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
+
+const host = API_SERVER_HOST;
 
 const initState = {
   ano: 0,
   aname: "",
   gender: "",
   age: 0,
-  features: "", // 동물의 특징을 추가
+  features: "",
   uploadFileNames: [],
   adoptionAgency: {
-    address: "가상 주소",
-    phone: "010-1234-5678",
+    address: "서울특별시 용산구 후암로 51 (후암동) 1층",
+    phone: "02-778-7582",
     email: "contact@example.com",
   },
 };
-
-const host = API_SERVER_HOST;
 
 const AnimalReadComponent = ({ ano }) => {
   const [animal, setAnimal] = useState(initState);
   const { moveToModify } = useCustomMove();
   const [fetching, setFetching] = useState(false);
-  const {isAdmin} = useCustomLogin();
+  const { isAdmin } = useCustomLogin();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,50 +42,47 @@ const AnimalReadComponent = ({ ano }) => {
   };
 
   return (
-    <div className="w-full border-2 border-gray-300 mt-4 mx-2 p-4">
+    <div className="max-w-7xl mx-auto mt-6 p-6 border-2 border-gray-300 shadow-lg">
       {fetching ? <FetchingModal /> : null}
-      <div className="flex">
-        <div className="w-1/2">
-          {animal.uploadFileNames.map((imgFile, i) => (
+      <div className="flex flex-wrap md:flex-nowrap">
+        <div className="w-full md:w-1/2 p-4">
+          {animal.uploadFileNames.map((imgFile, index) => (
             <img
+              key={index}
               alt="animal"
-              key={i}
-              style={{ width: "600px", height: "600px" }}
-              className="object-cover"
+              className="w-full h-auto object-cover rounded-lg shadow"
               src={`${host}/api/animal/view/${imgFile}`}
             />
           ))}
         </div>
-        <div className="w-1/2 p-4 flex flex-col justify-between">
+        <div className="w-full md:w-1/2 p-4 flex flex-col justify-between space-y-4">
           <div>
-            <div className="text-3xl mb-2 font-bold">이름: {animal.aname}</div>
-            <div className="text-xl mb-2">
-              나이: {animal.age.toLocaleString("ko-KR")}살
-            </div>
-            <div className="text-lg mb-2">성별: {animal.gender}</div>
-            <div className="text-3xl mb-2 font-bold">특징: {animal.notes}</div>
+            <h1 className="text-4xl font-bold mb-3">이름: {animal.aname}</h1>
+            <p className="text-2xl mb-2">나이: {animal.age}살</p>
+            <p className="text-xl mb-2">성별: {animal.gender}</p>
+            <p className="text-xl mb-2">특징: {animal.features}</p>
           </div>
-          <div className="bg-gray-100 p-4 rounded-lg shadow">
-            <div className="text-lg font-semibold mb-2">입양 기관 정보:</div>
-            <div className="text-md">주소: {animal.adoptionAgency.address}</div>
-            <div className="text-md">
+          <div className="p-4 bg-gray-100 rounded-lg shadow-inner">
+            <h2 className="text-xl font-semibold mb-2">입양 기관 정보:</h2>
+            <p className="text-lg mb-1">
+              주소: {animal.adoptionAgency.address}
+            </p>
+            <p className="text-lg mb-1">
               전화번호: {animal.adoptionAgency.phone}
-            </div>
-            <div className="text-md">이메일: {animal.adoptionAgency.email}</div>
+            </p>
+            <p className="text-lg">이메일: {animal.adoptionAgency.email}</p>
           </div>
-          <div className="flex flex-col space-y-2 mt-4">
+          <div>
             {isAdmin && (
-            <button
-              type="button"
-              className="rounded bg-red-800 text-white p-4 hover:bg-red-600"
-              onClick={() => moveToModify(ano)}
-            >
-              정보 수정
-            </button>
+              <button
+                className="w-full py-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300 ease-in-out"
+                onClick={() => moveToModify(ano)}
+              >
+                정보 수정
+              </button>
             )}
             <button
-              type="button"
-              className="rounded bg-gray-800 text-white p-4 hover:bg-gray-600"
+              className="w-full py-3 mt-2 bg-gray-700 text-white rounded hover:bg-gray-800 transition-colors duration-300 ease-in-out"
               onClick={handleClickList}
             >
               목록으로 돌아가기
