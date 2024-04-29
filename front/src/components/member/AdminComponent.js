@@ -46,7 +46,7 @@ const AdminComponent = () => {
           >
             회원 관리
           </button>
-          {/* <button
+           <button
             onClick={() => handleTabClick("report")}
             className={`border-r border-gray-300 p-3 cursor-pointer ${
               selectedTab === "report"
@@ -56,7 +56,7 @@ const AdminComponent = () => {
           >
             신고 목록
           </button>
-          <button
+          {/*<button
             onClick={() => handleTabClick("orders")}
             className={`border-r border-gray-300 p-3 cursor-pointer ${
               selectedTab === "orders"

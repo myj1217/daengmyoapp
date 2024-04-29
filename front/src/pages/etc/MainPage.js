@@ -19,6 +19,8 @@ import { FaUser, FaPencilAlt, FaFacebookF, FaTwitter, FaInstagram, FaTiktok, FaY
 import { IoReceipt, IoLogOut } from "react-icons/io5";
 import { CiLogin } from "react-icons/ci";
 import { RiAdminFill } from "react-icons/ri";
+import { IoIosCall } from "react-icons/io";
+
 
 const settings = {
   dots: true,

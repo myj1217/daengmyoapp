@@ -4,23 +4,26 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { setChatVisible } from "../../slices/chatSlice";
-import { Stomp } from "@stomp/stompjs"; // Stomp 라이브러리를 import합니다.
+import { Stomp } from "@stomp/stompjs";
 import { CHAT_HOST } from "../../api/rootApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
+import { PiSiren } from "react-icons/pi";
 
 function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-
+  const [reportingMessage, setReportingMessage] = useState(null);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [reportingInfo, setReportingInfo] = useState(null);
   const dispatch = useDispatch();
 
   const messagesEndRef = useRef(null);
-
   const stompClient = useRef(null);
+
   useEffect(() => {
     fetchMessages();
     connect();
-    scrollToBottom(); // 페이지가 로드될 때마다 스크롤을 가장 아래로 이동합니다.
+    scrollToBottom();
 
     return () => {
       if (stompClient) {
@@ -30,7 +33,7 @@ function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose }) {
   }, [chatRoomId]);
 
   useEffect(() => {
-    scrollToBottom(); // 메시지가 추가될 때마다 스크롤을 가장 아래로 이동합니다.
+    scrollToBottom();
   }, [messages]);
 
   const scrollToBottom = () => {
@@ -64,15 +67,19 @@ function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose }) {
 
   const handleSendMessage = (e) => {
     e.preventDefault();
+    if (!message.trim()) {
+      return;
+    }
+  
+
     if (stompClient && message) {
       const nowUtc = new Date();
-      // 한국 시간대로 변환합니다 (UTC+9).
       const koreaTime = new Date(nowUtc.getTime() + 9 * 60 * 60 * 1000);
 
       const messageObj = {
         senderEmail: userEmail,
         messageContent: message,
-        sentAt: koreaTime, // 한국 시간대의 Date 객체를 사용합니다.
+        sentAt: koreaTime,
       };
       stompClient.current.send(
         `/app/chat/${chatRoomId}`,
@@ -82,6 +89,20 @@ function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose }) {
 
       setMessage("");
     }
+  };
+
+  const handleReportClick = (message) => {
+    setReportingInfo(message);
+    setReportingMessage(message.messageContent);
+    setShowReportModal(true);
+  };
+
+  const handleReportConfirm = () => {
+    // 여기에 해당 messageId를 신고하는 API 호출 등의 작업을 수행합니다.
+    console.log("신고:", reportingInfo);
+
+    // 모달 닫기
+    setShowReportModal(false);
   };
 
   return (
@@ -114,10 +135,16 @@ function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose }) {
               <div className="font-bold text-indigo-500">
                 {chatMessage.senderEmail === userEmail ? "나" : userNick}
               </div>
-              <p className="text-gray-800">{chatMessage.messageContent}</p>
+              <p className="text-gray-800 break-all">{chatMessage.messageContent}</p>
               <div className="text-sm text-gray-500">
                 {new Date(chatMessage.sentAt).toLocaleString("ko-KR")}
               </div>
+              {chatMessage.senderEmail !== userEmail ? 
+              <button onClick={() => handleReportClick(chatMessage)}
+                className="w-full text-sm text-red-500 flex">
+                <PiSiren className="ml-auto mt-0.5 w-4 h-auto" /> 신고
+              </button>
+              : <></>}
             </div>
           ))}
 
@@ -140,6 +167,33 @@ function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose }) {
           </button>
         </form>
       </div>
+
+      {/* 신고 모달 */}
+      {showReportModal && (
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded shadow-lg">
+            <p className="text-lg font-semibold mb-4">[채팅 신고]</p>
+            <p className="mb-2">해당 채팅을 신고하시겠습니까?</p>
+           <p className="mb-4 text-center text-lg">" {reportingMessage} "</p>
+           
+            <div className="flex justify-end">
+            <p className="text-red-400 mr-auto text-sm">*허위 신고가 누적될 경우 제재 될 수 있습니다.</p>
+              <button
+                className="px-4 py-2 ml-2 bg-red-500 text-white rounded mr-2 hover:bg-red-600"
+                onClick={handleReportConfirm}
+              >
+                신고
+              </button>
+              <button
+                className="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded"
+                onClick={() => setShowReportModal(false)}
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
