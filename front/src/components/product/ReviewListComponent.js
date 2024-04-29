@@ -57,7 +57,7 @@ const ReviewListComponent = ({ pno }) => {
 
   return (
     <div className="w-full h-full p-4">
-    <div className="w-full border-2 border-gray-300 p-4">
+    <div className="w-full border-2 border-gray-300 p-6">
       {/* {fetching ? <FetchingModal /> : <></>} */}
 
       {review.dtoList && review.dtoList.length > 0 ? (
