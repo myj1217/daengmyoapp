@@ -33,6 +33,11 @@ const ProductReadComponent = ({ pno }) => {
   // const price = useSelector((state) => state.cartSlice.price);
   const { updateOrderAmount } = useCustomProduct();
   // const test = useSelector((state) => state.productSlice?.totalOrderAmount);
+  const loginInfo = useSelector((state) => state.loginSlice);
+  const isAdmin =
+    isLogin &&
+    (loginInfo.roleNames.includes("MANAGER") ||
+      loginInfo.roleNames.includes("ADMIN"));
 
   // const handleOrder = () => {
   //   // 주문 처리 로직 후
@@ -245,10 +250,10 @@ const ProductReadComponent = ({ pno }) => {
               >
                 목록으로 돌아가기
               </button>
-              {loginState.email === product.email ? (
+              {isAdmin ? (
                 <button
                   type="button"
-                  className="inline-block rounded p-4 m-2 w-full bg-pink-500 hover:bg-red-700"
+                  className="inline-block rounded p-4 m-2 w-full bg-red-500 hover:bg-red-700"
                   onClick={clickModifyHandler}
                 >
                   상품정보 수정

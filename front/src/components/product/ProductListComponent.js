@@ -6,6 +6,7 @@ import { API_SERVER_HOST } from "../../api/rootApi";
 import PageComponent from "../common/PageComponent";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const host = API_SERVER_HOST;
 
@@ -29,6 +30,12 @@ const ProductListComponent = () => {
 
   //serverData는 나중에 사용
   const [serverData, setServerData] = useState(initState);
+  const { isLogin } = useCustomLogin();
+  const loginInfo = useSelector((state) => state.loginSlice);
+  const isAdmin =
+    isLogin &&
+    (loginInfo.roleNames.includes("MANAGER") ||
+      loginInfo.roleNames.includes("ADMIN"));
 
   const handleClickAdd = useCallback(() => {
     navigate({ pathname: "../add" });
@@ -75,15 +82,17 @@ const ProductListComponent = () => {
       >
         <button>상품 추가</button>
       </div> */}
-      <div className="flex justify-center">
-        <button
-          type="button"
-          className="inline-block rounded p-4 m-2 bg-emerald-500 hover:bg-emerald-700 text-white"
-          onClick={handleClickAdd}
-        >
-          상품 추가
-        </button>
-      </div>
+      {isAdmin && (
+        <div className="flex justify-center">
+          <button
+            type="button"
+            className="inline-block rounded p-4 m-2 bg-red-500 hover:bg-red-700 text-white"
+            onClick={handleClickAdd}
+          >
+            상품 추가
+          </button>
+        </div>
+      )}
     </div>
   );
 };

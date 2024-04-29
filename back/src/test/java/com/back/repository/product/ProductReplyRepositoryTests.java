@@ -25,8 +25,8 @@ public class ProductReplyRepositoryTests {
     private ProductRepository productRepository;
 
     @Test
-    public void testInsert(){
-        Long pno = 3L;
+    public void testInsertReview(){
+        Long pno = 1L;
         // 상품 후기를 추가할 상품의 pno 값을 가져옴
         Product product = Product.builder().pno(pno).build();
         // 상품 후기 생성
