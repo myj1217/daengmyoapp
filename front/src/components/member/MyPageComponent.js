@@ -4,13 +4,12 @@ import { useSelector } from "react-redux";
 import AdminComponent from "./AdminComponent";
 import OrderListComponent from "../order/OrderListComponent";
 import MyListComponent from "../community/MyListComponent";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const MyPageComponent = () => {
   const [selectedTab, setSelectedTab] = useState("profile"); // 선택된 탭 상태
   const loginInfo = useSelector((state) => state.loginSlice);
-  const isAdmin =
-    loginInfo.roleNames.includes("MANAGER") ||
-    loginInfo.roleNames.includes("ADMIN");
+  const isAdmin = useCustomLogin;
 
   useEffect(() => {
     // URL에서 쿼리 매개변수 가져오기
@@ -24,6 +23,9 @@ const MyPageComponent = () => {
     }
     if (urlParams.has("order")) {
       setSelectedTab("orders");
+    }
+    if (urlParams.has("admin")) {
+      setSelectedTab("admin");
     }
   }, []);
 
@@ -99,7 +101,6 @@ const MyPageComponent = () => {
           {/* 다른 탭을 추가할 수 있음 */}
         </div>
       </div>
-      {/* 오른쪽에 선택된 탭 컨텐츠 */}
       <div className="w-full shadow-lg rounded-lg">{renderTabContent()}</div>
     </div>
   );

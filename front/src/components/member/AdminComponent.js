@@ -46,7 +46,7 @@ const AdminComponent = () => {
           >
             회원 관리
           </button>
-          <button
+          {/* <button
             onClick={() => handleTabClick("report")}
             className={`border-r border-gray-300 p-3 cursor-pointer ${
               selectedTab === "report"
@@ -75,7 +75,7 @@ const AdminComponent = () => {
             }`}
           >
             문의 처리
-          </button>
+          </button> */}
           {/* 다른 탭을 추가할 수 있음 */}
         </div>
       </div>

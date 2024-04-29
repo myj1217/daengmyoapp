@@ -18,6 +18,7 @@ import image from "../../images/user.png";
 import { FaUser, FaPencilAlt, FaFacebookF, FaTwitter, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
 import { IoReceipt, IoLogOut } from "react-icons/io5";
 import { CiLogin } from "react-icons/ci";
+import { RiAdminFill } from "react-icons/ri";
 
 const settings = {
   dots: true,
@@ -85,7 +86,7 @@ const MainPage = () => {
   const loginInfo = useSelector((state) => state.loginSlice);
   const [nickname, setNickname] = useState("");
   const { isLogin } = useCustomLogin();
-  const { doLogout, moveToPath } = useCustomLogin();
+  const { doLogout, moveToPath,isAdmin } = useCustomLogin();
 
   useEffect(() => {
     if (isLogin) {
@@ -146,7 +147,7 @@ const MainPage = () => {
           <div className="h-7" />
         </div>
 
-        <div className="w-1/5 h-72 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
+        <div className="w-1/5 h-80 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
           <div className="w-full flex items-center justify-center mb-auto mt-2 border-b-2 pb-2">
             <p className="text-xl font-bold">프로필</p>
           </div>
@@ -198,6 +199,13 @@ const MainPage = () => {
                     <IoReceipt className="w-5 h-auto mt-1" /> 주문내역
                   </button>
                 </Link>
+                {isAdmin && (
+                <Link to="member/mypage?admin">
+                  <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
+                    <RiAdminFill className="w-5 h-auto mt-1" /> 관리자 페이지
+                  </button>
+                </Link>
+                )}
               </div>
               <button
                 onClick={clickLogout}
