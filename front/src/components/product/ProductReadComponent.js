@@ -24,7 +24,7 @@ const ProductReadComponent = ({ pno }) => {
   // const { page, size, moveToList, moveToModify } = useCustomMove();
   const [fetching, setFetching] = useState(false);
   const { changeCart, cartItems } = useCustomCart();
-  const { isLogin, loginState } = useCustomLogin();
+  const { isLogin, loginState,isAdmin } = useCustomLogin();
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState(0); // 총 금액
   const [quantity, setQuantity] = useState(1);
@@ -34,10 +34,7 @@ const ProductReadComponent = ({ pno }) => {
   const { updateOrderAmount } = useCustomProduct();
   // const test = useSelector((state) => state.productSlice?.totalOrderAmount);
   const loginInfo = useSelector((state) => state.loginSlice);
-  const isAdmin =
-    isLogin &&
-    (loginInfo.roleNames.includes("MANAGER") ||
-      loginInfo.roleNames.includes("ADMIN"));
+
 
   // const handleOrder = () => {
   //   // 주문 처리 로직 후
