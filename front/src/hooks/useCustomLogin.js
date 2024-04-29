@@ -11,6 +11,9 @@ const useCustomLogin = () => {
 
   const isLogin = loginState.email ? true : false; //----------로그인 여부
 
+  const isAdmin = isLogin && (loginState.roleNames.includes("MANAGER") || loginState.roleNames.includes("ADMIN"));
+ 
+
   const doLogin = async (loginParam) => {
     //----------로그인 함수
 
@@ -65,6 +68,7 @@ const useCustomLogin = () => {
   return {
     loginState,
     isLogin,
+    isAdmin,
     doLogin,
     doLogout,
     moveToPath,

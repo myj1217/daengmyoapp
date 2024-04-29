@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import useCustomMove from "../../hooks/useCustomMove";
-import useCustomLogin from "../../hooks/useCustomLogin";
+
 import { useNavigate } from "react-router-dom";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import { noticeList } from "../../api/noticeApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFont, faImage } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const host = API_SERVER_HOST;
 
@@ -22,14 +22,13 @@ const initState = {
 };
 
 const ListNoticeComponent = () => {
-  const { exceptionHandle } = useCustomLogin();
+  const { exceptionHandle, isAdmin } = useCustomLogin();
   const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
   const navigate = useNavigate();
 
   // serverData는 나중에 사용
   const [serverData, setServerData] = useState(initState);
 
-  const isAdmin = useSelector((state) => state.loginSlice.isAdmin);
 
   const handleClickReg = useCallback(() => {
     navigate({ pathname: "../register" });
@@ -77,7 +76,6 @@ const ListNoticeComponent = () => {
                   />
                 )}
               </div>
-
               {/* 작성자 추가 */}
               <div className="w-3/12 ml-4">관리자</div>
             </div>
@@ -102,7 +100,6 @@ const ListNoticeComponent = () => {
           ))}
         </div>
       )}
-
       {isAdmin && (
         <div className="flex justify-center">
           <button

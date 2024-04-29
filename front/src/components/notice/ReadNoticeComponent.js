@@ -26,7 +26,7 @@ const ReadNoticeComponent = ({ noticeBno }) => {
   //fetching
   const [fetching, setFetching] = useState(false);
   // 로그인 정보
-  const { loginState } = useCustomLogin();
+  const { isAdmin } = useCustomLogin();
 
   useEffect(() => {
     setFetching(true);
@@ -46,7 +46,7 @@ const ReadNoticeComponent = ({ noticeBno }) => {
   const handleClickList = () => {
     navigate("/notice/list");
   };
-  const isAdmin = loginState.isAdmin;
+
 
   return (
     <div className="border-2 border-gray-300 mt-10 m-2 p-4">
