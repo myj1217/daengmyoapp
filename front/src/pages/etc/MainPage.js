@@ -115,7 +115,7 @@ const MainPage = () => {
   const { isLogin } = useCustomLogin();
   const { doLogout, moveToPath, isAdmin, exceptionHandle } = useCustomLogin();
   const [serverData, setServerData] = useState(initState);
-  const { moveToRead } = useCustomMove();
+  const { moveToAnimalRead } = useCustomMove();
 
   useEffect(() => {
     if (isLogin) {
@@ -152,7 +152,7 @@ const MainPage = () => {
     };
 
     fetchData();
-  }, [isLogin]); // 의존성 배열에서 exceptionHandle 제거
+  }, []); // 의존성 배열에서 exceptionHandle 제거
 
   return (
     <div>
@@ -302,7 +302,7 @@ const MainPage = () => {
               {serverData.dtoList.map((animal) => (
                 <div
                   className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
-                  onClick={() => moveToRead(animal.ano)}
+                  onClick={() => moveToAnimalRead(animal.ano)}
                   aria-label={`${animal.aname} 상세 정보 보기`}
                   key={animal.ano}
                 >
