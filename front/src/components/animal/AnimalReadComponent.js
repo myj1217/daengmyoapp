@@ -75,10 +75,10 @@ const AnimalReadComponent = ({ ano }) => {
           <div className="flex flex-col space-y-2 mt-4">
             <button
               type="button"
-              className="rounded bg-gray-800 text-white p-4 hover:bg-gray-600"
+              className="rounded bg-red-800 text-white p-4 hover:bg-red-600"
               onClick={() => moveToModify(ano)}
             >
-              정보 수정
+              정보 수정(admin)
             </button>
             <button
               type="button"

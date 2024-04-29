@@ -75,11 +75,11 @@ const AnimalListComponent = () => {
         movePage={moveToList}
       ></PageComponent>
       <div
-        className="block w-1/3 py-2 bg-gray-900 text-white text-center mt-4 hover:bg-gray-700 transition duration-200 ease-in-out mx-auto cursor-pointer"
+        className="block w-1/3 py-2 bg-red-900 text-white text-center mt-4 hover:bg-red-700 transition duration-200 ease-in-out mx-auto cursor-pointer"
         onClick={handleClickAdd}
         aria-label="새 동물 추가"
       >
-        동물 추가
+        동물 추가(admin)
       </div>
     </div>
   );

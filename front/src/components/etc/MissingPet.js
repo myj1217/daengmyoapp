@@ -9,8 +9,8 @@ const lostPets = [
     gender: "수컷",
     image: loopy,
     details: "마지막으로 서울 강남구에서 발견되었습니다.",
-    lat: 37.4979, // 예시 위도
-    lng: 127.0276, // 예시 경도
+    lat: 37.4979,
+    lng: 127.0276,
   },
 ];
 
