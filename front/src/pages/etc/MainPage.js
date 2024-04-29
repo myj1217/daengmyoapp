@@ -15,10 +15,24 @@ import moka from "../../asset/images/moka.jpg";
 import navi from "../../asset/images/navi.jpg";
 import ddongyi from "../../asset/images/ddongyi.jpg";
 import image from "../../images/user.png";
-import { FaUser, FaPencilAlt, FaFacebookF, FaTwitter, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
+import {
+  FaUser,
+  FaPencilAlt,
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaTiktok,
+  FaYoutube,
+} from "react-icons/fa";
 import { IoReceipt, IoLogOut } from "react-icons/io5";
 import { CiLogin } from "react-icons/ci";
 import { RiAdminFill } from "react-icons/ri";
+// import AnimalListComponent from "../../components/animal/AnimalListComponent";
+import { getList } from "../../api/animalApi";
+import useCustomMove from "../../hooks/useCustomMove";
+import { API_SERVER_HOST } from "../../api/rootApi";
+
+const host = API_SERVER_HOST;
 
 const settings = {
   dots: true,
@@ -58,35 +72,50 @@ const settings = {
   ],
 };
 
-const pets = [
-  { id: 1, name: "초코", age: 2, gender: "수컷", image: choko },
-  { id: 2, name: "나비", age: 3, gender: "암컷", image: navi },
-  { id: 3, name: "모카", age: 1, gender: "수컷", image: moka },
-  { id: 4, name: "뚱이", age: 3, gender: "암컷", image: ddongyi },
-];
+// const pets = [
+//   { id: 1, name: "초코", age: 2, gender: "수컷", image: choko },
+//   { id: 2, name: "나비", age: 3, gender: "암컷", image: navi },
+//   { id: 3, name: "모카", age: 1, gender: "수컷", image: moka },
+//   { id: 4, name: "뚱이", age: 3, gender: "암컷", image: ddongyi },
+// ];
 
-const PetCard = ({ pet }) => {
-  return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110">
-      <img
-        style={{ height: "300px", width: "300px", objectFit: "cover" }}
-        src={pet.image}
-        alt={pet.name}
-      />
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{pet.name}</div>
-        <p className="text-gray-700 text-base">나이: {pet.age}세</p>
-        <p className="text-gray-700 text-base">성별: {pet.gender}</p>
-      </div>
-    </div>
-  );
+// const PetCard = ({ pet }) => {
+//   return (
+//     <div className="max-w-sm rounded overflow-hidden shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110">
+//       <img
+//         style={{ height: "300px", width: "300px", objectFit: "cover" }}
+//         src={pet.image}
+//         alt={pet.name}
+//       />
+//       <div className="px-6 py-4">
+//         <div className="font-bold text-xl mb-2">{pet.name}</div>
+//         <p className="text-gray-700 text-base">나이: {pet.age}세</p>
+//         <p className="text-gray-700 text-base">성별: {pet.gender}</p>
+//       </div>
+//     </div>
+//   );
+// };
+
+const initState = {
+  dtoList: [],
+  pageNumList: [],
+  pageRequestDTO: null,
+  prev: false,
+  next: false,
+  totalCount: 0,
+  prevPage: 0,
+  nextPage: 0,
+  totalPage: 0,
+  current: 0,
 };
 
 const MainPage = () => {
   const loginInfo = useSelector((state) => state.loginSlice);
   const [nickname, setNickname] = useState("");
   const { isLogin } = useCustomLogin();
-  const { doLogout, moveToPath,isAdmin } = useCustomLogin();
+  const { doLogout, moveToPath, isAdmin, exceptionHandle } = useCustomLogin();
+  const [serverData, setServerData] = useState(initState);
+  const { moveToRead } = useCustomMove();
 
   useEffect(() => {
     if (isLogin) {
@@ -109,6 +138,21 @@ const MainPage = () => {
     }
     return "";
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const pageParam = { page: 1, size: 4 };
+      try {
+        const data = await getList(pageParam);
+        setServerData(data);
+      } catch (err) {
+        exceptionHandle(err); // 여기서 에러를 처리합니다.
+        alert("데이터를 불러오는 데 실패했습니다. 나중에 다시 시도해주세요.");
+      }
+    };
+
+    fetchData();
+  }, [isLogin]); // 의존성 배열에서 exceptionHandle 제거
 
   return (
     <div>
@@ -175,36 +219,49 @@ const MainPage = () => {
                   <img src={image} alt="user" className="w-12 h-auto"></img>
                 </div>
                 <div className="mt- ml-auto text-center">
-                  <div className="text-sm text-gray-500">{renderUserRole()}</div>
+                  <div className="text-sm text-gray-500">
+                    {renderUserRole()}
+                  </div>
                   <div className="text-lg">{nickname} 님</div>
                 </div>
               </div>
 
               <div className="w-4/5 h-full mt-4">
-                <Link to="member/mypage" className="flex justify-center items-center">
+                <Link
+                  to="member/mypage"
+                  className="flex justify-center items-center"
+                >
                   <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
-                    <FaUser className="w-5 h-auto mt-1 " /> 
-                    내 정보
+                    <FaUser className="w-5 h-auto mt-1 " />내 정보
                   </button>
                 </Link>
 
-                <Link to="member/mypage?write"className="flex justify-center items-center">
+                <Link
+                  to="member/mypage?write"
+                  className="flex justify-center items-center"
+                >
                   <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
                     <FaPencilAlt className="w-5 h-auto mt-1" /> 글 작성 목록
                   </button>
                 </Link>
 
-                <Link to="member/mypage?order"className="flex justify-center items-center">
+                <Link
+                  to="member/mypage?order"
+                  className="flex justify-center items-center"
+                >
                   <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
                     <IoReceipt className="w-5 h-auto mt-1" /> 주문내역
                   </button>
                 </Link>
                 {isAdmin && (
-                <Link to="member/mypage?admin"className="flex justify-center items-center ">
-                  <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
-                    <RiAdminFill className="w-5 h-auto mt-1 " /> 관리자 페이지
-                  </button>
-                </Link>
+                  <Link
+                    to="member/mypage?admin"
+                    className="flex justify-center items-center "
+                  >
+                    <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
+                      <RiAdminFill className="w-5 h-auto mt-1 " /> 관리자 페이지
+                    </button>
+                  </Link>
                 )}
               </div>
               <button
@@ -218,24 +275,57 @@ const MainPage = () => {
           )}
         </div>
       </div>
-      <div className="py-8">
+
+      <div className="mt-20">
         <div className="text-center text-4xl font-bold mb-6">
           당신을 기다리고 있는 아이들
         </div>
-        <div className="flex flex-row justify-center gap-4 p-6">
+        {serverData.dtoList && serverData.dtoList.length > 0 ? (
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-1">
+              {serverData.dtoList.map((animal) => (
+                <div
+                  key={animal.ano}
+                  className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
+                  onClick={() => moveToRead(animal.ano)}
+                  aria-label={`${animal.aname} 상세 정보 보기`}
+                >
+                  <img
+                    alt={`${animal.aname}`}
+                    className="w-full h-64 object-cover transform transition duration-300 ease-in-out hover:scale-110"
+                    src={`${host}/api/animal/view/s_${animal.uploadFileNames[0]}`}
+                  />
+                  <div className="bottom-0 bg-white text-lg p-4">
+                    <div className="text-center p-1">{animal.aname}</div>
+                    <div className="text-center p-1 font-extrabold">
+                      {animal.age.toLocaleString("ko-KR")}살
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-6">
+              <Link to="animal/list">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer">
+                  더보기
+                </button>
+              </Link>
+            </div>
+          </>
+        ) : (
+          <div className="my-10 text-4xl">
+            분양 리스트를 불러올 수 없습니다.
+          </div>
+        )}
+
+        {/* <div className="flex flex-row justify-center gap-4 p-6">
           {pets.map((pet) => (
             <PetCard key={pet.id} pet={pet} />
           ))}
-        </div>
-        <div className="text-center mt-6">
-          <Link to="animal/list">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer">
-              더보기
-            </button>
-          </Link>
-        </div>
+        </div> */}
       </div>
-      <div className="text-center text-4xl font-bold mb-6">
+
+      <div className="text-center text-4xl font-bold mt-20">
         우리 아이를 찾고 있어요
       </div>
 
