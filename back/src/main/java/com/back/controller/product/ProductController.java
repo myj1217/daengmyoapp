@@ -31,6 +31,7 @@ public class ProductController {
   private final ProductService productService;
   private final CustomFileUtil fileUtil;
 
+  @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
   @PostMapping("/")
   public Map<String, Long> register(ProductDTO productDTO){
     log.info("register: " + productDTO);
@@ -58,7 +59,6 @@ public class ProductController {
   }
 
   // /api/products/list를 user, admin 권한을 가지고 있는 사용자만 접근하도록 제한.
-  //  @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
   // @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("/list")
   public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO){
@@ -70,6 +70,7 @@ public class ProductController {
     return productService.get(pno);
   }
 
+  @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
   @PutMapping("/{pno}")
   public Map<String, String> modify(@PathVariable(name="pno")Long pno, ProductDTO productDTO) {
     productDTO.setPno(pno);
@@ -103,6 +104,7 @@ public class ProductController {
     return Map.of("RESULT", "SUCCESS");
   }
 
+  @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')")
   @DeleteMapping("/{pno}")
   public Map<String, String> remove(@PathVariable("pno") Long pno) {
     //삭제해야할 파일들 알아내기 
