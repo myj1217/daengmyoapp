@@ -4,6 +4,7 @@ import { API_SERVER_HOST } from "../../api/rootApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import { useNavigate } from "react-router-dom";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const initState = {
   ano: 0,
@@ -25,7 +26,7 @@ const AnimalReadComponent = ({ ano }) => {
   const [animal, setAnimal] = useState(initState);
   const { moveToModify } = useCustomMove();
   const [fetching, setFetching] = useState(false);
-
+  const isAdmin = useCustomLogin;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,13 +74,15 @@ const AnimalReadComponent = ({ ano }) => {
             <div className="text-md">이메일: {animal.adoptionAgency.email}</div>
           </div>
           <div className="flex flex-col space-y-2 mt-4">
+            {isAdmin && (
             <button
               type="button"
               className="rounded bg-red-800 text-white p-4 hover:bg-red-600"
               onClick={() => moveToModify(ano)}
             >
-              정보 수정(admin)
+              정보 수정
             </button>
+            )}
             <button
               type="button"
               className="rounded bg-gray-800 text-white p-4 hover:bg-gray-600"

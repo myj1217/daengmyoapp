@@ -22,7 +22,7 @@ const initState = {
 };
 
 const AnimalListComponent = () => {
-  const { exceptionHandle } = useCustomLogin(); // 에러 핸들러는 훅에서 받아옵니다.
+  const { exceptionHandle,isAdmin } = useCustomLogin(); // 에러 핸들러는 훅에서 받아옵니다.
   const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
   const navigate = useNavigate();
 
@@ -74,13 +74,15 @@ const AnimalListComponent = () => {
         serverData={serverData}
         movePage={moveToList}
       ></PageComponent>
+      {isAdmin && (
       <div
         className="block w-1/3 py-2 bg-red-900 text-white text-center mt-4 hover:bg-red-700 transition duration-200 ease-in-out mx-auto cursor-pointer"
         onClick={handleClickAdd}
         aria-label="새 동물 추가"
       >
-        동물 추가(admin)
+        동물 추가
       </div>
+      )}
     </div>
   );
 };

@@ -220,7 +220,7 @@ const MainPage = () => {
       </div>
       <div className="py-8">
         <div className="text-center text-4xl font-bold mb-6">
-          당신을 기다리고 있는 천사들
+          당신을 기다리고 있는 아이들
         </div>
         <div className="flex flex-row justify-center gap-4 p-6">
           {pets.map((pet) => (
