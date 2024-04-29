@@ -349,7 +349,7 @@ const OrderComponent = () => {
                   배송 요청사항
                 </div>
                 <select
-                  className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
+                  className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md cursor-pointer"
                   name="deliveryRequest"
                   value={payment.deliveryRequest}
                   onChange={handleChange}
@@ -362,9 +362,7 @@ const OrderComponent = () => {
                   <option value="배송 전 미리 연락해 주세요">
                     배송 전 미리 연락해 주세요
                   </option>
-                  <option value="기타 요청사항">
-                    기타 요청 사항이 없습니다.
-                  </option>
+                  <option value="요청사항 없음">요청사항 없음</option>
                 </select>
               </div>
             </div>

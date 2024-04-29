@@ -3,6 +3,8 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 import useCustomCart from "../../hooks/useCustomCart";
 import CartItemComponent from "./CartItemComponent";
 import PaymentComponent from "../payment/PaymentComponent";
+import useCustomProduct from "../../hooks/useCustomProduct";
+import { useNavigate } from "react-router-dom";
 
 const CartComponent = () => {
   const { isLogin, loginState } = useCustomLogin();
@@ -10,6 +12,8 @@ const CartComponent = () => {
   const [checkList, setCheckList] = useState([]); // 체크 여부
   const [selectedQty, setSelectedQty] = useState(0); // 선택 물품 수량
   const [selectedPrice, setSelectedPrice] = useState(0); // 선택 물품 총 금액
+  const { updateOrderAmount } = useCustomProduct(); // 총 금액 넘기기
+  const navigate = useNavigate();
 
   // 개별 체크박스 핸들러
   const changeSingleBox = (checked, id) => {
@@ -46,6 +50,13 @@ const CartComponent = () => {
       }
       return item;
     });
+  };
+
+  // 선택 상품 주문하기 핸들러
+  const selectOrder = () => {
+    updateOrderAmount(selectedPrice);
+
+    navigate("../products/order");
   };
 
   useEffect(() => {
@@ -148,7 +159,31 @@ const CartComponent = () => {
               </div>
             </div>
           </div>
-          <PaymentComponent totalPrice={selectedPrice} clearCart={clearCart} />
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+            className="border-b border-gray-300"
+          >
+            <button
+              onClick={selectOrder}
+              className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded my-6"
+              style={{
+                width: "200px",
+                height: "35px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              선택 상품 주문하기
+            </button>
+          </div>
+
+          {/* <PaymentComponent totalPrice={selectedPrice} clearCart={clearCart} /> */}
         </div>
       ) : (
         <></>
