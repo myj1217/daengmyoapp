@@ -7,7 +7,7 @@ const ReadCommunityPage = () => {
   const { communityBno } = useParams();
 
   return (
-    <div className="p-4 w-full bg-white">
+    <div className="w-full bg-white">
       <BasicMenu />
       <div className="text-3xl font-extrabold">커뮤니티</div>
 

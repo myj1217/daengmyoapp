@@ -20,12 +20,15 @@ const MissingPetReportPage = () => {
   };
 
   return (
+    <div className="w-full h-full">
+    <BasicMenu />
     <div
       style={backgroundStyle}
-      className="p-4 w-full bg-white flex flex-col items-center"
+      className="w-full bg-white flex flex-col items-center"
     >
-      <BasicMenu />
+      
       <MissingPetReport />
+    </div>
     </div>
   );
 };

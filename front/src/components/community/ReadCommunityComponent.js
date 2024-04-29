@@ -72,8 +72,9 @@ const ReadCommunityComponent = ({ communityBno }) => {
   const isAuthor = loginState.email === community.communityWriterEmail;
 
   return (
-    <div className="border-2 border-gray-300 mt-10 m-2 p-4">
-      {fetching ? <FetchingModal /> : null}
+    <div className="w-ful h-full p-4">
+    <div className="border-2 border-gray-300 m-2 p-4">
+      {fetching ? <FetchingModal /> : <></>}
       <div className="w-full justify-center flex flex-col items-center"></div>
       <div className="flex justify-center mb-4">
         <div className="relative flex w-full flex-wrap items-stretch">
@@ -149,6 +150,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
         </button>
       </div>
       <ReplyListComponent replies={replies} communityBno={communityBno} />
+    </div>
     </div>
   );
 };

@@ -1,11 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BasicMenu from "../../components/menus/BasicMenu";
 import useCustomLogin from "../../hooks/useCustomLogin";
-// import MainBanner from "../../components/main/MainBanner";
-// import Introduction from "../../components/main/Introduction";
 import MissingPet from "../../components/etc/MissingPet";
-// import Footer from "../../components/main/Footer";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -14,27 +10,15 @@ import { Link } from "react-router-dom";
 import dog1 from "../../asset/images/dog1.png";
 import dog2 from "../../asset/images/dog2.png";
 import dog3 from "../../asset/images/dog3.png";
-
 import choko from "../../asset/images/choko.jpg";
 import moka from "../../asset/images/moka.jpg";
 import navi from "../../asset/images/navi.jpg";
 import ddongyi from "../../asset/images/ddongyi.jpg";
-
-// import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
-// import loopy from "../../asset/images/loopy.jpg";
-
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaTiktok,
-  FaYoutube,
-  FaUser,
-} from "react-icons/fa";
+import image from "../../images/user.png";
+import { FaUser, FaPencilAlt, FaFacebookF, FaTwitter, FaInstagram, FaTiktok, FaYoutube } from "react-icons/fa";
+import { IoReceipt, IoLogOut } from "react-icons/io5";
 import { CiLogin } from "react-icons/ci";
-import ChatList from "../../components/chat/ChatList";
 
-// **** Main Banner ****
 const settings = {
   dots: true,
   infinite: true,
@@ -44,7 +28,7 @@ const settings = {
   autoplay: true,
   autoplaySpeed: 5000,
   cssEase: "linear",
-  arrows: true, // 화살표 컨트롤 추가
+  arrows: true,
   responsive: [
     {
       breakpoint: 1024,
@@ -73,7 +57,6 @@ const settings = {
   ],
 };
 
-// **** introduce ****
 const pets = [
   { id: 1, name: "초코", age: 2, gender: "수컷", image: choko },
   { id: 2, name: "나비", age: 3, gender: "암컷", image: navi },
@@ -102,6 +85,7 @@ const MainPage = () => {
   const loginInfo = useSelector((state) => state.loginSlice);
   const [nickname, setNickname] = useState("");
   const { isLogin } = useCustomLogin();
+  const { doLogout, moveToPath } = useCustomLogin();
 
   useEffect(() => {
     if (isLogin) {
@@ -109,14 +93,27 @@ const MainPage = () => {
     }
   }, [isLogin]);
 
-  
+  const clickLogout = () => {
+    doLogout();
+    moveToPath("/");
+  };
+
+  const renderUserRole = () => {
+    if (loginInfo.roleNames.includes("ADMIN")) {
+      return "관리자";
+    } else if (loginInfo.roleNames.includes("MANAGER")) {
+      return "매니저";
+    } else if (loginInfo.roleNames.includes("USER")) {
+      return "유저";
+    }
+    return "";
+  };
+
   return (
     <div>
       <BasicMenu />
-
-      {/* <MainBanner /> */}
       <div className="flex w-full h-full border border-bottom-2">
-        <div className="main-banner relative overflow-hidden w-3/4 m-2 h-full rounded-lg shadow-lg">
+        <div className="main-banner relative overflow-hidden w-4/5 m-2 h-full rounded-lg shadow-lg">
           <Slider {...settings}>
             <Link to="/community">
               <div className="slide-item">
@@ -149,9 +146,8 @@ const MainPage = () => {
           <div className="h-7" />
         </div>
 
-        <div className="w-1/4 min-h-40 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
+        <div className="w-1/5 h-72 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
           <div className="w-full flex items-center justify-center mb-auto mt-2 border-b-2 pb-2">
-            <FaUser className="text-3xl mr-2 mt-1 w-5 f-5" />
             <p className="text-xl font-bold">프로필</p>
           </div>
 
@@ -173,13 +169,43 @@ const MainPage = () => {
             </>
           ) : (
             <div className="w-full h-full items-center flex flex-col">
-              <div>{nickname} 님</div>
+              <div className="my-2 w-1/2 rounded-md h-auto flex ">
+                <div>
+                  <img src={image} alt="user" className="w-12 h-auto"></img>
+                </div>
+                <div className="mt- ml-auto text-center">
+                  <div className="text-sm text-gray-500">{renderUserRole()}</div>
+                  <div className="text-lg">{nickname} 님</div>
+                </div>
+              </div>
 
-              <Link to="member/mypage">
-                <button className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer h-full top-0">
-                  마이페이지
-                </button>
-              </Link>
+              <div className="w-4/5 h-full">
+                <Link to="member/mypage">
+                  <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
+                    <FaUser className="w-5 h-auto mt-1 " /> 
+                    내 정보
+                  </button>
+                </Link>
+
+                <Link to="member/mypage?write">
+                  <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
+                    <FaPencilAlt className="w-5 h-auto mt-1" /> 글 작성 목록
+                  </button>
+                </Link>
+
+                <Link to="member/mypage?order">
+                  <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
+                    <IoReceipt className="w-5 h-auto mt-1" /> 주문내역
+                  </button>
+                </Link>
+              </div>
+              <button
+                onClick={clickLogout}
+                className="w-4/5 mb-4 h-12 rounded-md shadow-md justify-center items-center text-white bg-red-400 hover:bg-red-500 transition-colors duration-300 cursor-pointer flex"
+              >
+                <IoLogOut className="w-5 h-auto mt-1" />
+                로그아웃
+              </button>
             </div>
           )}
         </div>
@@ -207,7 +233,6 @@ const MainPage = () => {
 
       <MissingPet />
 
-      {/* <Footer /> */}
       <footer className="bg-gray-200 text-gray-800 text-center p-4">
         <div className="max-w-screen-lg mx-auto text-sm">
           <div className="flex justify-center space-x-4 mb-2">
@@ -268,7 +293,6 @@ const MainPage = () => {
           </div>
         </div>
       </footer>
-      
     </div>
   );
 };

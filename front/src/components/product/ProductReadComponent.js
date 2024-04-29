@@ -133,10 +133,10 @@ const ProductReadComponent = ({ pno }) => {
   // }, [test]);
 
   return (
-    <>
-      <div className="w-full border-2 border-gray-300 mt-4 m-2 p-4">
+    <div className="p-4">
+      <div className="w-full border-2 border-gray-300">
         {fetching ? <FetchingModal /> : <></>}
-        <div id="product_zone" className="flex">
+        <div id="product_zone" className="flex w-full">
           <div
             id="product_image_zone"
             className="flex flex-col w-1/2 m-2 justify-center items-center"
@@ -181,7 +181,7 @@ const ProductReadComponent = ({ pno }) => {
             </div>
           </div>
 
-          <div id="product_text_zone" className="w-1/2">
+          <div id="product_text_zone" className="w-1/2 p-4">
             <div className="flex justify-center">
               <div className="relative mb-4 flex w-full flex-wrap items-stretch">
                 <div className="w-full p-4 text-3xl">{product.pname}</div>
@@ -260,7 +260,7 @@ const ProductReadComponent = ({ pno }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

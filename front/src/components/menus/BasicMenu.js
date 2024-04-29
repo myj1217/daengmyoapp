@@ -1,4 +1,4 @@
-import React, { useEffect,useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import image from "../../images/logo.png";
@@ -8,6 +8,8 @@ import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
 import { setChatVisible, selectChatVisible, setNewMessageArrived, selectNewMessageArrived } from "../../slices/chatSlice";  
 import { Stomp } from '@stomp/stompjs';
+import { FaShoppingCart,FaUser } from "react-icons/fa";
+
 
 const BasicMenu = () => {
   const { isLogin, doLogout, moveToPath } = useCustomLogin();
@@ -31,10 +33,9 @@ const BasicMenu = () => {
     if (isLogin) {
       refreshCart();
     }
-    if(!showChatList && isLogin){
-    update();
+    if (!showChatList && isLogin) {
+      update();
     }
-
   }, [isLogin, showChatList]);
 
   const isMainPage = location.pathname === "/";
@@ -44,29 +45,27 @@ const BasicMenu = () => {
     stompClient.current = Stomp.over(socket);
     stompClient.current.connect({}, () => {
       stompClient.current.subscribe(`/topic/chat/email/${loginState.email}`, (message) => {
-        console.log(message+"newwwwwwwwwwwww")
-        dispatch(setNewMessageArrived({ email: loginState.email, newMessageArrived: true })); // 새로운 메시지가 도착하면 newMessageArrived 상태를 true로 설정합니다.
+        console.log(message + "newwwwwwwwwwwww")
+        dispatch(setNewMessageArrived({ email: loginState.email, newMessageArrived: true }));
       });
     });
   };
 
-    const handleCloseChat = () => {
-      dispatch(setChatVisible(false));
-      dispatch(setNewMessageArrived(false)); // 채팅을 닫으면 newMessageArrived 상태를 false로 설정합니다.
-    };
+  const handleCloseChat = () => {
+    dispatch(setChatVisible(false));
+    dispatch(setNewMessageArrived(false));
+  };
 
   return (
-    <div>
-    <header
-      className={`flex bg-green-50 text-green-800 p-4 w-full h-20 top-0 z-50 ${
-        !isMainPage ? "" : "sticky shadow-md"
-      }`}
-    >
+    <header className={`flex bg-green-100 text-green-800 p-4 w-full h-20 top-0 z-50 ${!isMainPage ? "" : "sticky shadow-md"}`}>
       <div className="container mx-auto flex justify-between items-center h-full w-full">
+        {/* 로고 */}
         <Link to="/" className="text-lg font-bold">
           <img src={image} alt="logo" className="w-32 h-auto"></img>
         </Link>
-        <nav>
+
+        {/* 메뉴 */}
+        <nav className="flex justify-center flex-grow">
           <ul className="flex gap-8">
             <li>
               <Link
@@ -116,58 +115,65 @@ const BasicMenu = () => {
                 문의하기
               </Link>
             </li>
-            {isLogin && (
-              <div className="flex items-center">
-                <Link
+          </ul>
+        </nav>
+
+        {/* 로그인/로그아웃/회원가입 */}
+        <div className="flex items-center">
+          
+          {isLogin ? (
+            <div className="flex gap-4">
+               <Link
+                  to="/member/mypage"
+                  className="hover:text-amber-200 transition-colors duration-300 flex items-center"
+                >
+                  <FaUser className="w-5 h-5" /> 
+                  
+                </Link>
+
+            <Link
                   to="/cart"
                   className="hover:text-amber-200 transition-colors duration-300 flex items-center"
                 >
-                  <span className="mr-1">장바구니</span>
-                  <div className="text-xs rounded-full bg-red-500 w-4 h-4 flex items-center justify-center text-white">
+                  <FaShoppingCart className="w-5 h-5" /> 
+                 {cartItems.length !== 0 && <div className="mb-2 ml-0.5 text-xs rounded-full bg-red-500 w-4 h-4 flex items-center justify-center text-white">
                     {cartItems.length}
-                  </div>
+                  </div>}
                 </Link>
-              </div>
-            )}
-            {isLogin ? (
-              <li
-                onClick={clickLogout}
-                className="hover:text-amber-200 transition-colors duration-300 cursor-pointer"
+            <button
+              onClick={clickLogout}
+              className="hover:text-amber-200 transition-colors duration-300 cursor-pointer flex"
+            >
+              로그아웃
+              
+            </button>
+            </div>
+          ) : (
+            <div className="flex gap-4">
+              <Link
+                to="/member/login"
+                className="hover:text-amber-200 transition-colors duration-300"
               >
-                로그아웃
-              </li>
-            ) : (
-              <>
-                <li>
-                  <Link
-                    to="/member/login"
-                    className="hover:text-amber-200 transition-colors duration-300"
-                  >
-                    로그인
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/member/register"
-                    className="hover:text-amber-200 transition-colors duration-300"
-                  >
-                    회원가입
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </nav>
+                로그인
+              </Link>
+              <Link
+                to="/member/register"
+                className="hover:text-amber-200 transition-colors duration-300"
+              >
+                회원가입
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
-      
-    </header>
-    {isLogin && ( // 로그인 상태일 때만 채팅 버튼을 표시합니다.
+
+      {isLogin && (
         <>
           <button
             className="fixed right-8 bottom-96 z-50 p-2 bg-emerald-400 text-white rounded-full shadow-lg"
             onClick={() => {
               dispatch(setChatVisible(true));
-              dispatch(setNewMessageArrived(false)); // 채팅을 열면 newMessageArrived 상태를 false로 설정합니다.
+              dispatch(setNewMessageArrived(false));
             }}
           >
             <IoChatbubbleEllipsesSharp className="w-9 h-9" />
@@ -184,7 +190,7 @@ const BasicMenu = () => {
           )}
         </>
       )}
-    </div>
+    </header>
   );
 };
 

@@ -19,6 +19,12 @@ const MyPageComponent = () => {
     if (urlParams.has("order")) {
       setSelectedTab("orders");
     }
+    if (urlParams.has("write")) {
+      setSelectedTab("write");
+    }
+    if (urlParams.has("order")) {
+      setSelectedTab("orders");
+    }
   }, []);
 
   // 탭을 클릭했을 때 호출되는 함수

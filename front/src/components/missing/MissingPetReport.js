@@ -86,7 +86,7 @@ const MissingPetReport = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 shadow-lg rounded-lg bg-white">
+    <div className=" mx-auto p-4 my-2 shadow-lg rounded-lg bg-white">
       {fetching ? <FetchingModal /> : null}
       {result && (
         <ResultModal

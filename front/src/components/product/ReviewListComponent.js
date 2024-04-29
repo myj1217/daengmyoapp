@@ -56,7 +56,8 @@ const ReviewListComponent = ({ pno }) => {
   }, [reviewListener]);
 
   return (
-    <div className="w-full border-2 border-gray-300 mt-4 m-2 p-4">
+    <div className="w-full h-full p-4">
+    <div className="w-full border-2 border-gray-300 p-6">
       {/* {fetching ? <FetchingModal /> : <></>} */}
 
       {review.dtoList && review.dtoList.length > 0 ? (
@@ -76,9 +77,9 @@ const ReviewListComponent = ({ pno }) => {
       </div>
 
       <div
-        id="review zone"
+        id="review_zone"
         // className="w-full border-2 border-gray-300 mt-4 m-2 p-4"
-        className="w-full mt-4 m-2 p-4"
+        className="w-full"
       >
         {/* 리뷰 타이틀 */}
         <div id="review title" className="border-b border-gray-300">
@@ -139,6 +140,7 @@ const ReviewListComponent = ({ pno }) => {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 };
