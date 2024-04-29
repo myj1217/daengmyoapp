@@ -26,7 +26,7 @@ const AnimalReadComponent = ({ ano }) => {
   const [animal, setAnimal] = useState(initState);
   const { moveToModify } = useCustomMove();
   const [fetching, setFetching] = useState(false);
-  const isAdmin = useCustomLogin;
+  const {isAdmin} = useCustomLogin();
   const navigate = useNavigate();
 
   useEffect(() => {

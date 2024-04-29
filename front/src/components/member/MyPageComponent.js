@@ -9,7 +9,7 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 const MyPageComponent = () => {
   const [selectedTab, setSelectedTab] = useState("profile"); // 선택된 탭 상태
   const loginInfo = useSelector((state) => state.loginSlice);
-  const isAdmin = useCustomLogin;
+  const {isAdmin} = useCustomLogin();
 
   useEffect(() => {
     // URL에서 쿼리 매개변수 가져오기
@@ -86,7 +86,7 @@ const MyPageComponent = () => {
           >
             주문내역
           </button>
-          {isAdmin && (
+          {isAdmin ? (
             <button
               onClick={() => handleTabClick("admin")}
               className={`p-3 cursor-pointer ${
@@ -97,6 +97,8 @@ const MyPageComponent = () => {
             >
               관리자 페이지
             </button>
+          ):(
+            <></>
           )}
           {/* 다른 탭을 추가할 수 있음 */}
         </div>
