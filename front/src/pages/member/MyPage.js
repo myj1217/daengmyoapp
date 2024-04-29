@@ -21,10 +21,9 @@ const MyPagePage = () => {
     <div>
       <BasicMenu />
       <div className="flex flex-col w-full">
-        {/* "커뮤니티" 헤더 */}
-        <div className="h-11 bg-green-100 shadow-md text-gray-700 flex items-center pl-8 sticky top-0 z-55">
-          <FaUser className="w-6 h-6 mr-2" />
-          마이 페이지
+      <div className="h-11 bg-emerald-400 bg-gradient-to-b from-emerald-300 via-emerald-400 text-white flex items-center pl-8 sticky top-0 z-50 shadow-md">
+          <FaUser className="w-6 h-6 mr-2 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]" />
+          <p className="drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,1)]">마이 페이지</p>
         </div>
         <MyPageComponent />
       </div>

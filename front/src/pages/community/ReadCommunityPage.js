@@ -7,7 +7,7 @@ const ReadCommunityPage = () => {
   const { communityBno } = useParams();
 
   return (
-    <div className="p-4 w-full bg-white">
+    <div className="w-full bg-white">
       <BasicMenu />
       <ReadCommunityComponent communityBno={communityBno} />
       {/* <ReplyListComponent communityBno={communityBno} /> */}

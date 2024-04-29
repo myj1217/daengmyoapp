@@ -101,7 +101,7 @@ const LoginComponent = () => {
           <button
             type="submit"
             onSubmit={handleClickLogin}
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-center font-medium text-white bg-emerald-500 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
           >
             로그인
           </button>

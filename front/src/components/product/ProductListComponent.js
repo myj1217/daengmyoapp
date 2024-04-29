@@ -44,7 +44,7 @@ const ProductListComponent = () => {
   }, [page, size, refresh]);
 
   return (
-    <div className="border-2 border-gray-300">
+    <div className="w-full h-full">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-1">
         {serverData.dtoList.map((product) => (
           <div
