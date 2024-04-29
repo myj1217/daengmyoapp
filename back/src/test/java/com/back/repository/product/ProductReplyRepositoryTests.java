@@ -37,7 +37,7 @@ public class ProductReplyRepositoryTests {
                     .productReplyer("홍길동")
                     .regDate(LocalDateTime.now())
                     .modDate(LocalDateTime.now())
-                    .star(i%5+1)
+                    .star((i-1)%5+1)
                     .email("user"+i+"@aaa.com")
                     .build();
             // 상품 후기 저장
