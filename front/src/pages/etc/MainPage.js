@@ -114,7 +114,7 @@ const MainPage = () => {
     <div>
       <BasicMenu />
       <div className="flex w-full h-full border border-bottom-2">
-        <div className="main-banner relative overflow-hidden w-4/5 m-2 min-w-[620px] h-full rounded-lg shadow-lg">
+        <div className="main-banner relative overflow-hidden w-4/5 m-2 min-w-[620px] h-full rounded-lg shadow-lg ">
           <Slider {...settings}>
             <Link to="/community">
               <div className="slide-item">
@@ -147,7 +147,7 @@ const MainPage = () => {
           <div className="h-7" />
         </div>
 
-        <div className="w-1/5 h-80 min-w-64 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
+        <div className="w-1/5 h-[350px] min-w-64 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
           <div className="w-full flex items-center justify-center mb-auto mt-2 border-b-2 pb-2">
             <p className="text-xl font-bold">프로필</p>
           </div>
@@ -180,29 +180,29 @@ const MainPage = () => {
                 </div>
               </div>
 
-              <div className="w-4/5 h-full">
-                <Link to="member/mypage">
+              <div className="w-4/5 h-full mt-4">
+                <Link to="member/mypage" className="flex justify-center items-center">
                   <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
                     <FaUser className="w-5 h-auto mt-1 " /> 
                     내 정보
                   </button>
                 </Link>
 
-                <Link to="member/mypage?write">
+                <Link to="member/mypage?write"className="flex justify-center items-center">
                   <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
                     <FaPencilAlt className="w-5 h-auto mt-1" /> 글 작성 목록
                   </button>
                 </Link>
 
-                <Link to="member/mypage?order">
+                <Link to="member/mypage?order"className="flex justify-center items-center">
                   <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
                     <IoReceipt className="w-5 h-auto mt-1" /> 주문내역
                   </button>
                 </Link>
                 {isAdmin && (
-                <Link to="member/mypage?admin">
+                <Link to="member/mypage?admin"className="flex justify-center items-center ">
                   <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
-                    <RiAdminFill className="w-5 h-auto mt-1" /> 관리자 페이지
+                    <RiAdminFill className="w-5 h-auto mt-1 " /> 관리자 페이지
                   </button>
                 </Link>
                 )}
