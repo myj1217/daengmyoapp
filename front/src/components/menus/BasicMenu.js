@@ -58,7 +58,7 @@ const BasicMenu = () => {
 
   return (
     <header className={`flex bg-green-100 text-green-800 p-4 w-full h-20 top-0 z-50 ${!isMainPage ? "" : "sticky shadow-md"}`}>
-      <div className="container mx-auto flex justify-between items-center h-full w-full min-w-[1025px]">
+      <div className="container mx-auto flex justify-between items-center h-full w-full min-w-[1157px]">
         {/* 로고 */}
         <Link to="/" className="text-lg font-bold">
           <img src={image} alt="logo" className="w-32 h-auto"></img>
@@ -170,7 +170,7 @@ const BasicMenu = () => {
       {isLogin && (
         <>
           <button
-            className="fixed right-8 bottom-96 z-50 p-2 bg-emerald-400 text-white rounded-full shadow-lg"
+            className="fixed right-8 bottom-52 z-50 p-2 bg-emerald-400 text-white rounded-full shadow-lg"
             onClick={() => {
               dispatch(setChatVisible(true));
               dispatch(setNewMessageArrived(false));

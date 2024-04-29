@@ -113,8 +113,8 @@ const MainPage = () => {
   return (
     <div>
       <BasicMenu />
-      <div className="flex w-full h-full border border-bottom-2">
-        <div className="main-banner relative overflow-hidden w-4/5 m-2 min-w-[620px] h-full rounded-lg shadow-lg ">
+      <div className="flex w-full h-full border border-bottom-2 p-2 gap-2">
+        <div className="main-banner my-auto relative overflow-hidden w-4/5 m-2 h-full rounded-lg shadow-lg ">
           <Slider {...settings}>
             <Link to="/community">
               <div className="slide-item">
@@ -146,8 +146,8 @@ const MainPage = () => {
           </Slider>
           <div className="h-7" />
         </div>
-
-        <div className="w-1/5 h-[350px] min-w-64 bg-green-50 flex flex-col items-center justify-center m-2 rounded-lg shadow-lg mb-2">
+<div className="w-1/5 min-w-[300px]">
+        <div className="w-full h-[330px] bg-green-50 flex flex-col items-center justify-center rounded-lg shadow-lg mb-2">
           <div className="w-full flex items-center justify-center mb-auto mt-2 border-b-2 pb-2">
             <p className="text-xl font-bold">프로필</p>
           </div>
@@ -180,7 +180,7 @@ const MainPage = () => {
                 </div>
               </div>
 
-              <div className="w-4/5 h-full mt-4">
+              <div className="w-4/5 h-full mt-2">
                 <Link to="member/mypage" className="flex justify-center items-center">
                   <button className="w-30 font-bold py-2 px-4 rounded cursor-pointer top-0 flex gap-2 hover:underline underline-offset-1">
                     <FaUser className="w-5 h-auto mt-1 " /> 
@@ -215,7 +215,17 @@ const MainPage = () => {
                 로그아웃
               </button>
             </div>
+            
           )}
+        </div>
+        <div className="w-full min-h-40 rounded-lg shadow-lg bg-stone-200">
+        <p className="w-full text-center text-sm">동물보호 상담센터</p>
+        <p className="w-full text-center text-2xl text-green-700">1577-0954</p>
+        <p className="w-full text-center text-sm">시스템 문의</p>
+        <p className="w-full text-center text-xl text-green-700 ">012-345-6788, 6789</p>
+        <p className="w-full text-center">상담시간</p>
+        <p className="w-full text-center text-xl text-green-700">평일 09:00 ~ 18:00</p>
+        </div>
         </div>
       </div>
       <div className="py-8">
