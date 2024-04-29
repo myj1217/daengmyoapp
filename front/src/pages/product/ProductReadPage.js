@@ -6,7 +6,7 @@ import ReviewListComponent from "../../components/product/ReviewListComponent";
 const ProductReadPage = () => {
   const { pno } = useParams();
   return (
-    <div className="p-4 w-full bg-white">
+    <div className="w-full bg-white">
       <BasicMenu />
       <ProductReadComponent pno={pno} />
       <ReviewListComponent pno={pno} />
