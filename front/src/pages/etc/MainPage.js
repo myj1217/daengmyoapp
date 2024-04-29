@@ -10,10 +10,10 @@ import { Link } from "react-router-dom";
 import dog1 from "../../asset/images/dog1.png";
 import dog2 from "../../asset/images/dog2.png";
 import dog3 from "../../asset/images/dog3.png";
-import choko from "../../asset/images/choko.jpg";
-import moka from "../../asset/images/moka.jpg";
-import navi from "../../asset/images/navi.jpg";
-import ddongyi from "../../asset/images/ddongyi.jpg";
+// import choko from "../../asset/images/choko.jpg";
+// import moka from "../../asset/images/moka.jpg";
+// import navi from "../../asset/images/navi.jpg";
+// import ddongyi from "../../asset/images/ddongyi.jpg";
 import image from "../../images/user.png";
 import {
   FaUser,
@@ -301,10 +301,10 @@ const MainPage = () => {
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-1">
               {serverData.dtoList.map((animal) => (
                 <div
-                  key={animal.ano}
                   className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
                   onClick={() => moveToRead(animal.ano)}
                   aria-label={`${animal.aname} 상세 정보 보기`}
+                  key={animal.ano}
                 >
                   <img
                     alt={`${animal.aname}`}
@@ -312,9 +312,18 @@ const MainPage = () => {
                     src={`${host}/api/animal/view/s_${animal.uploadFileNames[0]}`}
                   />
                   <div className="bottom-0 bg-white text-lg p-4">
-                    <div className="text-center p-1">{animal.aname}</div>
-                    <div className="text-center p-1 font-extrabold">
-                      {animal.age.toLocaleString("ko-KR")}살
+                    <div className="text-center font-bold text-2xl mb-2">
+                      {animal.aname}
+                    </div>
+                    <div className="flex justify-start items-center mb-1">
+                      <span className="font-semibold">성별:</span>
+                      <span className="ml-1">{animal.gender}</span>
+                    </div>
+                    <div className="flex justify-start items-center">
+                      <span className="font-semibold">나이:</span>
+                      <span className="ml-1">
+                        {animal.age.toLocaleString("ko-KR")}살
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -344,10 +353,9 @@ const MainPage = () => {
       <div className="text-center text-4xl font-bold mt-20">
         우리 아이를 찾고 있어요
       </div>
-
       <MissingPet />
 
-      <footer className="bg-gray-200 text-gray-800 text-center p-4">
+      <footer className="bg-gray-200 text-gray-800 text-center p-4 mt-10">
         <div className="max-w-screen-lg mx-auto text-sm">
           <div className="flex justify-center space-x-4 mb-2">
             <a href="/" className="hover:underline">

@@ -14,11 +14,12 @@ public class AnimalRepositoryTests {
 
     @Test
     public void testInsertAnimal() {
+        String[] genders = {"수컷", "암컷"};
         for (int i = 1; i <= 10; i++) {
             Animal animal = Animal.builder()
                     .aname("pet" + i)
                     .age(1 * i)
-                    .gender("gender")
+                    .gender(genders[i % 2])
                     .notes("notes " + i)
                     .build();
 
