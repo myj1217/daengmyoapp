@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { getOne } from "../../api/missingApi";
 import { replyAdd } from "../../api/missingReplyApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import FetchingModal from "../common/FetchingModal";
-import { useSelector } from "react-redux";
 import ReportListComponent from "../../components/missing/ReportListComponent";
 
 const MissingReadComponent = ({ mno }) => {
@@ -23,6 +23,8 @@ const MissingReadComponent = ({ mno }) => {
   const [fetching, setFetching] = useState(false);
   const loginState = useSelector((state) => state.loginSlice);
   const mapContainer = useRef(null);
+  const imageContainerRef = useRef(null);
+  const infoContainerRef = useRef(null);
 
   useEffect(() => {
     setFetching(true);
@@ -44,6 +46,18 @@ const MissingReadComponent = ({ mno }) => {
     }
   }, [missing.latitude, missing.longitude]);
 
+  useEffect(() => {
+    const setEqualHeight = () => {
+      if (imageContainerRef.current && infoContainerRef.current) {
+        const totalHeight = infoContainerRef.current.offsetHeight;
+        imageContainerRef.current.style.height = `${totalHeight}px`;
+      }
+    };
+    setEqualHeight();
+    window.addEventListener("resize", setEqualHeight);
+    return () => window.removeEventListener("resize", setEqualHeight);
+  }, [missing]);
+
   const addReply = () => {
     if (!missing.newReply) {
       alert("내용을 입력해주세요.");
@@ -62,7 +76,15 @@ const MissingReadComponent = ({ mno }) => {
       .then(() => {
         setMissing((prevState) => ({
           ...prevState,
-          replies: [...prevState.replies, { ...formData }],
+          replies: [
+            ...prevState.replies,
+            {
+              text: missing.newReply,
+              replyer: loginState.nickname,
+              star: missing.star,
+              email: loginState.email,
+            },
+          ],
           newReply: "",
         }));
       })
@@ -74,30 +96,33 @@ const MissingReadComponent = ({ mno }) => {
     <div className="w-full border-2 border-gray-300 mt-4 mx-8 p-4 rounded-lg shadow-lg">
       {fetching ? <FetchingModal /> : null}
       <div className="flex justify-between space-x-8">
-        <div className="w-1/2 p-2">
-          {missing.uploadFileNames.map((imgFile, i) => (
+        <div className="w-1/2 p-2" ref={imageContainerRef}>
+          {missing.uploadFileNames.map((imgFile, index) => (
             <img
               alt="missing"
-              key={i}
+              key={index}
               className="object-cover h-full w-full rounded"
               src={`${API_SERVER_HOST}/api/missing/view/${imgFile}`}
             />
           ))}
         </div>
-        <div className="w-1/2 flex flex-col justify-center">
+        <div
+          className="w-1/2 flex flex-col justify-center"
+          ref={infoContainerRef}
+        >
           <div className="bg-white p-4 rounded shadow relative">
             <h3 className="text-2xl font-bold text-center">상세 정보</h3>
             <p className="text-xl">이름: {missing.mname}</p>
             <p className="text-xl">나이: {missing.age}살</p>
             <p className="text-xl">성별: {missing.gender}</p>
             <p className="text-xl">특징: {missing.description}</p>
+            <div className="text-center text-xl mt-2">실종위치</div>
+            <div
+              ref={mapContainer}
+              style={{ height: "300px" }}
+              className="rounded shadow-lg mt-4 relative"
+            ></div>
           </div>
-          <div className="text-center text-xl mt-2">실종위치</div>
-          <div
-            ref={mapContainer}
-            style={{ height: "300px" }}
-            className="rounded shadow-lg mt-4 relative"
-          ></div>
         </div>
       </div>
       <ReportListComponent mno={mno} />
