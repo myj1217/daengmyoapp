@@ -4,6 +4,7 @@ import { getList } from "../../api/missingApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import useCustomMove from "../../hooks/useCustomMove";
+import { Link } from "react-router-dom";
 
 const host = API_SERVER_HOST;
 
@@ -99,24 +100,33 @@ const MissingPet = () => {
             <div className="grid grid-cols-1 gap-1">
               {/* <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-1"> */}
               {serverData.dtoList.map((missing) => (
-                <div
-                  key={missing.mno}
-                  className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
-                  onClick={() => moveToMissingRead(missing.mno)}
-                >
-                  <img
-                    alt="missing"
-                    className="w-full h-64 object-cover transform transition duration-300 ease-in-out hover:scale-110"
-                    src={`${host}/api/missing/view/s_${missing.uploadFileNames[0]}`}
-                  />
-
-                  <div className="bottom-0 bg-white text-lg p-4">
-                    <div className="text-center p-1">{missing.mname}</div>
-                    <div className="text-center p-1 font-extrabold">
-                      {missing.age.toLocaleString("ko-KR")}살
+                <>
+                  <div
+                    key={missing.mno}
+                    className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
+                    onClick={() => moveToMissingRead(missing.mno)}
+                  >
+                    <img
+                      alt="missing"
+                      className="w-full h-64 object-cover transform transition duration-300 ease-in-out hover:scale-110"
+                      src={`${host}/api/missing/view/s_${missing.uploadFileNames[0]}`}
+                    />
+                    <div className="bottom-0 bg-white text-lg p-4">
+                      <div className="text-center p-1">{missing.mname}</div>
+                      <div className="text-center p-1 font-extrabold">
+                        {missing.age.toLocaleString("ko-KR")}살
+                      </div>
                     </div>
                   </div>
-                </div>
+                  <div
+                    className="text-center mt-6"
+                    onClick={() => moveToMissingRead(missing.mno)}
+                  >
+                    <button className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer">
+                      목격 제보하기
+                    </button>
+                  </div>
+                </>
               ))}
             </div>
           </div>
