@@ -4,7 +4,7 @@ import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
 import { useSelector } from "react-redux";
 import { regCommunity } from "../../api/communityApi";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const initState = {
   communityTitle: "",
@@ -17,6 +17,7 @@ const initState = {
 const RegCommunityComponent = () => {
   const loginState = useSelector((state) => state.loginSlice);
 
+  const navigate = useNavigate();
   const [community, setCommunity] = useState({ ...initState });
   const uploadRef = useRef();
 
@@ -75,7 +76,7 @@ const RegCommunityComponent = () => {
   };
 
   const handleClickList = () => {
-    Navigate({ pathname: "../" });
+    navigate({ pathname: "../" });
   };
 
   return (

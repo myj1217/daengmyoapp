@@ -74,7 +74,7 @@ const BasicMenu = () => {
         !isMainPage ? "" : "sticky shadow-md"
       }`}
     >
-      <div className="container mx-auto flex justify-between items-center h-full w-full min-w-[1157px]">
+      <div className="container mx-auto flex justify-between items-center h-full w-full ">
         {/* 로고 */}
         <Link to="/" className="text-lg font-bold">
           <img src={image} alt="logo" className="w-32 h-auto"></img>

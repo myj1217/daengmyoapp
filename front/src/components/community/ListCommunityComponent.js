@@ -42,6 +42,12 @@ const ListCommunityComponent = () => {
     navigate({ pathname: "../register" });
   });
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString('ko-KR');
+  };
+
+  
   return (
     <div className="border-2 border-gray-100 mt-10 mr-2 ml-2">
       <div className="p-6">
@@ -106,7 +112,9 @@ const ListCommunityComponent = () => {
                   {community.communityTitle}
                 </div>
                 <div className="w-3/12 ml-4">{community.communityWriter}</div>
-                <div className="text-red-400 flex"><IoChatboxEllipsesOutline className="mr-2 w-4 mt-0.5 h-auto"/> {community.commentCount}</div>
+                <div className="text-red-400 flex"><IoChatboxEllipsesOutline className="mr-2 w-4 h-auto"/> {community.commentCount}</div>
+                <div>{formatDate(community.regDate)}</div>
+
               </div>
             </div>
           ))}

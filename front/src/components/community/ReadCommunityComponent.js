@@ -94,11 +94,11 @@ const ReadCommunityComponent = ({ communityBno }) => {
       <div className="flex justify-center">
         <div className="relative flex w-full flex-wrap items-stretch">
           <div className="w-1/5 p-6 text-right font-bold">이미지</div>
-          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
+          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md justify-center items-center">
             {community.uploadFileNames.map((fileName, i) => (
               <img
                 key={i}
-                className="p-4 max-w-full h-auto"
+                className="p-4 max-w-[500px] h-auto mx-auto"
                 src={`${host}/community/view/${fileName}`}
                 alt="community"
               />
@@ -146,15 +146,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
             수정
           </button>
         )}
-        <button
-          type="button"
-          className="rounded p-4 m-2 w-32 bg-emerald-500 hover:bg-emerald-700"
-          onClick={handleClickList}
-        >
-          목록으로
-          <br />
-          돌아가기
-        </button>
+        
       </div>
       <ReplyListComponent replies={replies} communityBno={communityBno} />
     </div>

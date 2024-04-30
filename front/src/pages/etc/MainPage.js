@@ -276,7 +276,7 @@ const MainPage = () => {
             )}
           </div>
           <div className="w-full min-h-40 rounded-lg shadow-lg bg-stone-200">
-            <p className="w-full text-center text-sm">동물보호 상담센터</p>
+            <p className="w-full text-center text-sm pt-1">동물보호 상담센터</p>
             <p className="w-full text-center text-2xl text-green-700">
               1577-0954
             </p>
