@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { updateTotalOrderAmount } from "../slices/productSlice";
+import { updateChecked, updateTotalOrderAmount } from "../slices/productSlice";
 
 const useCustomProduct = () => {
   const dispatch = useDispatch();
@@ -8,26 +8,14 @@ const useCustomProduct = () => {
     dispatch(updateTotalOrderAmount(amount));
   };
 
+  const updateCheckList = (items) => {
+    dispatch(updateChecked(items));
+  };
+
   return {
     updateOrderAmount,
+    updateCheckList,
   };
 };
 
 export default useCustomProduct;
-
-// import { useDispatch, useSelector } from "react-redux";
-// import { setTotalPrice } from "../slices/productSlice";
-
-// const useCustomProduct = () => {
-//   const price = useSelector((state) => state.cartSlice);
-
-//   const dispatch = useDispatch();
-
-//   const totalPrice = (price) => {
-//     dispatch(setTotalPrice(price));
-//   };
-
-//   return { price, totalPrice };
-// };
-
-// export default useCustomProduct;

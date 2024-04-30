@@ -3,6 +3,9 @@ import { useSelector } from "react-redux";
 import PaymentResult from "../payment/PaymentResult";
 import FetchingModal from "../common/FetchingModal";
 import { orderAdd } from "../../api/orderApi";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import useCustomCart from "../../hooks/useCustomCart";
+import useCustomProduct from "../../hooks/useCustomProduct";
 
 const iniState = {
   ono: 0,
@@ -23,12 +26,17 @@ const iniState = {
 const OrderComponent = () => {
   const [payment, setPayment] = useState(iniState);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  // const [showOrder, setShowOrder] = useState(false);
   const user = useSelector((state) => state.loginSlice);
   const [fetching, setFetching] = useState(false);
+
+  const { updateCheckList } = useCustomProduct(); // 총 금액 넘기기
   const totalPrice = useSelector(
     (state) => state.productSlice?.totalOrderAmount
   );
+  const checkList = useSelector((state) => state.productSlice?.checked);
+
+  const { loginState } = useCustomLogin();
+  const { cartItems, changeCart } = useCustomCart();
 
   // 결제 데이터 정의
   const info = {
@@ -71,9 +79,7 @@ const OrderComponent = () => {
     setFetching(true);
 
     orderAdd(formData)
-      .then((data) => {
-        // reviewRedirect();
-      })
+      .then((data) => {})
       .catch((error) => {
         console.error("주문내역 저장 중 오류 발생:", error);
       })
@@ -114,6 +120,24 @@ const OrderComponent = () => {
     }).open();
   };
 
+  // 결제 성공 시 선택한 장바구니 항목 비우기
+  const clearCart = () => {
+    cartItems.forEach((item) => {
+      if (checkList.includes(item.cino)) {
+        return changeCart({
+          email: loginState.email,
+          cino: item.cino,
+          pno: item.pno,
+          qty: 0,
+        });
+      }
+      return item;
+    });
+
+    // 장바구니 선택 항목을 전역으로 담고있던 내용 초기화
+    updateCheckList([]);
+  };
+
   // 결제 창 호출
   const onClickPayment = () => {
     // 배송지 주소를 입력하지 않았을 경우 return
@@ -142,6 +166,7 @@ const OrderComponent = () => {
 
     if (success) {
       window.alert("결제 성공");
+      clearCart();
       orderSaveHandler();
       setPaymentSuccess(true);
     } else {
@@ -186,7 +211,7 @@ const OrderComponent = () => {
         </div>
       )}
       <>
-        <div className="my-10 text-5xl">주문정보</div>
+        <div className="my-10 ml-6 text-5xl">주문정보</div>
         <div>
           <div>
             <div className="flex justify-center">
@@ -258,9 +283,7 @@ const OrderComponent = () => {
                     <div
                       onClick={openPostcode}
                       className="w-1/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md cursor-pointer"
-                    >
-                      {/* {payment.buyerAddressCode} */}
-                    </div>
+                    ></div>
                     <div
                       onClick={openPostcode}
                       className="ml-2 p-6 bg-emerald-500 hover:bg-emerald-700 text-white font-bold rounded-md cursor-pointer"
