@@ -298,7 +298,8 @@ const MainPage = () => {
         </div>
         {serverData.dtoList && serverData.dtoList.length > 0 ? (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-1">
+            <div className="grid grid-cols-4 gap-1">
+              {/* <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-1"> */}
               {serverData.dtoList.map((animal) => (
                 <div
                   className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
@@ -331,7 +332,7 @@ const MainPage = () => {
             </div>
             <div className="text-center mt-6">
               <Link to="animal/list">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer">
+                <button className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded shadow-lg cursor-pointer">
                   더보기
                 </button>
               </Link>

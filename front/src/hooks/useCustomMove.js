@@ -106,7 +106,17 @@ const useCustomMove = () => {
     });
   };
 
+  const moveToMissingRead = (num) => {
+    console.log(queryDefault);
+
+    navigate({
+      pathname: `../missing/read/${num}`,
+      search: queryDefault,
+    });
+  };
+
   return {
+    moveToMissingRead,
     moveToAnimalRead,
     moveToRead,
     moveToModify,
