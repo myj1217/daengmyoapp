@@ -79,7 +79,7 @@ function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose }) {
       const messageObj = {
         senderEmail: userEmail,
         messageContent: message,
-        sentAt: koreaTime,
+        // sentAt: koreaTime,
       };
       stompClient.current.send(
         `/app/chat/${chatRoomId}`,

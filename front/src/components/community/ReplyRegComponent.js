@@ -26,28 +26,29 @@ const ReplyRegComponent = ({ communityBno }) => {
   };
 
   // 댓글 등록 버튼 클릭 시 호출되는 함수
-  const handleClickReg = (e) => {
-    const formData = new FormData();
+// 댓글 등록 버튼 클릭 시 호출되는 함수
+const handleClickReg = (e) => {
+  const formData = new FormData();
 
-    formData.append("communityBno", communityBno);
-    formData.append("replyContent", reply.replyContent);
-    // formData.append("regDate", review.regDate);
-    formData.append("replyWriter", loginState.nickname);
-    console.log("formData");
-    console.log(communityBno);
-    console.log(reply.replyContent);
-    console.log(loginState.nickname);
+  formData.append("communityBno", communityBno);
+  formData.append("replyContent", reply.replyContent);
+  formData.append("replyWriter", loginState.nickname);
+  
 
-    regReply(formData)
-      .then((data) => {
-        // 댓글 등록 후 해당 게시글 화면으로 이동
-        // 여기
-        window.location.href = `/community/read/${communityBno}`;
-      })
-      .catch((error) => {
-        console.error("댓글 등록 실패", error);
-      });
-  };
+  // console.log("formData");
+  // console.log(reply.replyContent);
+  // console.log(loginState.nickname);
+
+  regReply(formData)
+    .then((data) => {
+      // 댓글 등록 후 해당 게시글 화면으로 이동
+      window.location.href = `/community/read/${communityBno}`;
+    })
+    .catch((error) => {
+      console.error("댓글 등록 실패", error);
+    });
+};
+
 
   return (
     <div>

@@ -189,6 +189,9 @@ const BasicMenu = () => {
             onClick={() => {
               dispatch(setChatVisible(true));
               dispatch(setNewMessageArrived(false));
+              if (showChatList) {
+                dispatch(setNewMessageArrived(false));
+              }
             }}
           >
             <IoChatbubbleEllipsesSharp className="w-9 h-9" />

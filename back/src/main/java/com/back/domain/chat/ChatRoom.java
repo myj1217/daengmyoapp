@@ -1,6 +1,7 @@
 // ChatRoom.java
 package com.back.domain.chat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +31,7 @@ public class ChatRoom {
 
 
     private String lastMessage;
+
 
     private LocalDateTime lastTime;
 
