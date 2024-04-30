@@ -59,11 +59,16 @@ const ProductReadComponent = ({ pno }) => {
 
   // 바로 주문하기 핸들러
   const directOrder = () => {
-    // totalPrice 전역으로 저장
-    updateOrderAmount(totalPrice);
+    if (!isLogin) {
+      window.alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+      navigate("/member/login");
+    } else {
+      // totalPrice 전역으로 저장
+      updateOrderAmount(totalPrice);
 
-    // 주문 페이지로 이동
-    navigate("../order");
+      // 주문 페이지로 이동
+      navigate("../order");
+    }
   };
 
   // 목록으로 돌아가기 핸들러

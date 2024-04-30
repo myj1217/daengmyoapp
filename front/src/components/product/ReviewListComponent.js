@@ -4,6 +4,7 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
 import ReviewAddComponent from "./ReviewAddComponent";
 import ReviewItemComponent from "./ReviewItemComponent";
+import StarRating from "./StarRating";
 
 const iniState = {
   prno: 0,
@@ -20,6 +21,7 @@ const ReviewListComponent = ({ pno }) => {
   const navigate = useNavigate();
   const [reviewAddModal, setReviewAddModal] = useState(false); // 모달 상태 추가
   const [reviewListener, setReviewListener] = useState(false);
+  const [avgStar, setAvgStar] = useState(0);
 
   // 리뷰 작성하기 핸들러
   const reviewHandler = () => {
@@ -46,101 +48,122 @@ const ReviewListComponent = ({ pno }) => {
     setReviewListener(!reviewListener);
   };
 
+  // 별점의 평균값을 계산합니다.
+  const calculateAverageStar = (review) => {
+    if (review.dtoList.length === 0) return 0;
+
+    const totalStars = review.dtoList.reduce(
+      (sum, review) => sum + review.star,
+      0
+    );
+    setAvgStar(totalStars / review.dtoList.length);
+  };
+
   useEffect(() => {
     // 상품 리뷰
     replyList(pno)
       .then((data) => {
         setReview(data);
+        calculateAverageStar(data);
       })
       .catch((err) => exceptionHandle(err));
   }, [reviewListener]);
 
   return (
     <div className="w-full h-full p-4">
-    <div className="w-full border-2 border-gray-300 p-6">
-      {/* {fetching ? <FetchingModal /> : <></>} */}
+      <div className="w-full border-2 border-gray-300 p-6">
+        {/* {fetching ? <FetchingModal /> : <></>} */}
 
-      {review.dtoList && review.dtoList.length > 0 ? (
-        <div className="my-10 text-4xl">상품리뷰({review.dtoList.length})</div>
-      ) : (
-        <div className="my-10 text-4xl">상품리뷰(0)</div>
-      )}
-
-      <div className="flex justify-start">
-        <button
-          type="button"
-          className="inline-block rounded p-4 m-2 bg-emerald-500 hover:bg-emerald-700 text-white"
-          onClick={reviewHandler}
-        >
-          리뷰 작성하기
-        </button>
-      </div>
-
-      <div
-        id="review_zone"
-        // className="w-full border-2 border-gray-300 mt-4 m-2 p-4"
-        className="w-full"
-      >
-        {/* 리뷰 타이틀 */}
-        <div id="review title" className="border-b border-gray-300">
-          <div className="flex text-sm font-bold p-4 justify-between">
-            <div className="w-2/12 text-center p-1">별점</div>
-            <div className="w-5/12 text-center p-1">내용</div>
-            <div className="w-2/12 text-center p-1">작성자</div>
-            <div className="w-2/12 text-center p-1">등록시간</div>
-            <div className="w-1/12 text-center p-1">{""}</div>
-          </div>
-        </div>
-
-        {/* 리뷰 목록 */}
-        {review.dtoList ? (
-          <div id="review list">
-            <ul>
-              {review.dtoList.map((item) => (
-                <ReviewItemComponent
-                  {...item}
-                  key={item.prno}
-                  reviewRedirect={reviewRedirect}
-                  pno={pno}
-                />
-              ))}
-            </ul>
+        {review.dtoList && review.dtoList.length > 0 ? (
+          <div className="my-10 text-4xl">
+            상품리뷰({review.dtoList.length})
           </div>
         ) : (
-          <div>리뷰를 불러올 수 없습니다.</div>
+          <div className="my-10 text-4xl">상품리뷰(0)</div>
         )}
 
-        {/* reviewAdd 모달 */}
-        {reviewAddModal && (
-          <div
-            className="fixed top-0 left-0 w-full h-full flex justify-center items-center overflow-y-auto bg-black bg-opacity-80"
-            style={{ zIndex: 9999 }}
+        {/* 평균 별점 표시 */}
+        <div className="flex text-xl font-bold my-4 items-center">
+          {/* <span className="mr-2">평균 별점: </span> */}
+          <StarRating rating={avgStar} />
+          <span className="ml-2">({avgStar.toFixed(1)})</span>
+        </div>
+
+        <div className="flex justify-start">
+          <button
+            type="button"
+            className="inline-block rounded p-4 m-2 bg-emerald-500 hover:bg-emerald-700 text-white"
+            onClick={reviewHandler}
           >
+            리뷰 작성하기
+          </button>
+        </div>
+
+        <div
+          id="review_zone"
+          // className="w-full border-2 border-gray-300 mt-4 m-2 p-4"
+          className="w-full"
+        >
+          {/* 리뷰 타이틀 */}
+          <div id="review title" className="border-b border-gray-300">
+            <div className="flex text-sm font-bold p-4 justify-between">
+              <div className="w-2/12 text-center p-1">별점</div>
+              <div className="w-5/12 text-center p-1">내용</div>
+              <div className="w-2/12 text-center p-1">작성자</div>
+              <div className="w-2/12 text-center p-1">등록시간</div>
+              <div className="w-1/12 text-center p-1">{""}</div>
+            </div>
+          </div>
+
+          {/* 리뷰 목록 */}
+          {review.dtoList ? (
+            <div id="review list">
+              <ul>
+                {review.dtoList.map((item) => (
+                  <ReviewItemComponent
+                    {...item}
+                    key={item.prno}
+                    reviewRedirect={reviewRedirect}
+                    pno={pno}
+                  />
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div>리뷰를 불러올 수 없습니다.</div>
+          )}
+
+          {/* reviewAdd 모달 */}
+          {reviewAddModal && (
             <div
-              className="bg-white p-8 rounded-lg"
-              style={{ width: "300px", height: "300px", zIndex: 9999999 }}
+              className="fixed top-0 left-0 w-full h-full flex justify-center items-center overflow-y-auto bg-black bg-opacity-80"
+              style={{ zIndex: 9999 }}
             >
               <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100%",
-                }}
+                className="bg-white p-8 rounded-lg"
+                style={{ width: "300px", height: "300px", zIndex: 9999999 }}
               >
-                <div id="comp modal">
-                  <ReviewAddComponent
-                    closeAddReview={closeAddReview}
-                    pno={pno}
-                    reviewRedirect={reviewRedirect}
-                  />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                  }}
+                >
+                  <div id="comp modal">
+                    <ReviewAddComponent
+                      closeAddReview={closeAddReview}
+                      pno={pno}
+                      reviewRedirect={reviewRedirect}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 };
