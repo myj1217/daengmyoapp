@@ -92,10 +92,15 @@ const ReviewItemComponent = ({
   };
 
   return (
-    <li key={prno} className={"border-b border-gray-300"}>
+    <li key={prno} className={"border-b border-gray-300 p-4"}>
       {fetching ? <FetchingModal /> : <></>}
+      <div className="flex flex-col">
+        <div className="flex">
+          <div className="w-1/12 p-1">{productReplyer}</div>
+          <div className="w-2/12 p-1 text-gray-400">{regDate}</div>
+        </div>
 
-      <div className="flex text-sm p-4 justify-between items-center">
+        {/* 별점 */}
         {modifyMode ? (
           <div className="w-2/12 text-center p-1">
             <div>
@@ -115,7 +120,7 @@ const ReviewItemComponent = ({
             </div>
           </div>
         ) : (
-          <div className="w-2/12 text-center p-1">
+          <div className="w-2/12 p-1">
             <div>
               {[1, 2, 3, 4, 5].map((value) => (
                 <span
@@ -132,6 +137,8 @@ const ReviewItemComponent = ({
             </div>
           </div>
         )}
+
+        {/* 리뷰내용 */}
         {modifyMode ? (
           <textarea
             className="w-5/12 p-2 rounded-r border border-solid border-neutral-300 shadow-md resize-y"
@@ -143,23 +150,22 @@ const ReviewItemComponent = ({
             {text}
           </textarea>
         ) : (
-          <div className="w-5/12 text-center p-1">{productReplyText}</div>
+          <div className="w-5/12 p-1">{productReplyText}</div>
         )}
-        <div className="w-2/12 text-center p-1">{productReplyer}</div>
-        <div className="w-2/12 text-center p-1">{regDate}</div>
+
         {loginState.email === email ? (
           <>
             {modifyMode ? (
-              <div className="w-1/12 text-center p-1">
+              <div className="flex w-1/2 p-1">
                 <button
-                  className="bg-emerald-500 hover:bg-emerald-700 m-1 p-1 text-white w-12 rounded-lg"
+                  className="bg-emerald-500 hover:bg-emerald-700 m-1 p-1 text-white w-20 rounded-lg"
                   onClick={reviewModifyHandler}
                   disabled={fetching} // 요청 중일 때 버튼 비활성화
                 >
                   수정완료
                 </button>
                 <button
-                  className="bg-emerald-500 hover:bg-emerald-700 m-1 p-1 text-white w-12 rounded-lg"
+                  className="bg-emerald-500 hover:bg-emerald-700 m-1 p-1 text-white w-20 rounded-lg"
                   onClick={reviewDeleteHandler}
                   disabled={fetching} // 요청 중일 때 버튼 비활성화
                 >
@@ -167,7 +173,7 @@ const ReviewItemComponent = ({
                 </button>
               </div>
             ) : (
-              <div className="w-1/12 text-center p-1">
+              <div className="w-1/12 p-1">
                 <button
                   className="bg-emerald-500 hover:bg-emerald-700 m-1 p-1 text-white w-12 rounded-lg"
                   onClick={modifyClickHandler}
@@ -183,6 +189,97 @@ const ReviewItemComponent = ({
         )}
       </div>
     </li>
+    // <li key={prno} className={"border-b border-gray-300"}>
+    //   {fetching ? <FetchingModal /> : <></>}
+
+    //   <div className="flex text-sm p-4 justify-between items-center">
+    //     {modifyMode ? (
+    //       <div className="w-2/12 text-center p-1">
+    //         <div>
+    //           {[1, 2, 3, 4, 5].map((value) => (
+    //             <span
+    //               name="star"
+    //               key={value}
+    //               onClick={() => scoreHandler(value)}
+    //               style={{
+    //                 cursor: "pointer",
+    //                 color: value <= score ? "gold" : "gray",
+    //               }}
+    //             >
+    //               &#9733;
+    //             </span>
+    //           ))}
+    //         </div>
+    //       </div>
+    //     ) : (
+    //       <div className="w-2/12 text-center p-1">
+    //         <div>
+    //           {[1, 2, 3, 4, 5].map((value) => (
+    //             <span
+    //               name="star"
+    //               key={value}
+    //               style={{
+    //                 cursor: "pointer",
+    //                 color: value <= star ? "gold" : "gray",
+    //               }}
+    //             >
+    //               &#9733;
+    //             </span>
+    //           ))}
+    //         </div>
+    //       </div>
+    //     )}
+    //     {modifyMode ? (
+    //       <textarea
+    //         className="w-5/12 p-2 rounded-r border border-solid border-neutral-300 shadow-md resize-y"
+    //         name="productReplyText"
+    //         rows="4"
+    //         onChange={handleChangeText}
+    //         value={text}
+    //       >
+    //         {text}
+    //       </textarea>
+    //     ) : (
+    //       <div className="w-5/12 text-center p-1">{productReplyText}</div>
+    //     )}
+    //     <div className="w-2/12 text-center p-1">{productReplyer}</div>
+    //     <div className="w-2/12 text-center p-1">{regDate}</div>
+    //     {loginState.email === email ? (
+    //       <>
+    //         {modifyMode ? (
+    //           <div className="w-1/12 text-center p-1">
+    //             <button
+    //               className="bg-emerald-500 hover:bg-emerald-700 m-1 p-1 text-white w-12 rounded-lg"
+    //               onClick={reviewModifyHandler}
+    //               disabled={fetching} // 요청 중일 때 버튼 비활성화
+    //             >
+    //               수정완료
+    //             </button>
+    //             <button
+    //               className="bg-emerald-500 hover:bg-emerald-700 m-1 p-1 text-white w-12 rounded-lg"
+    //               onClick={reviewDeleteHandler}
+    //               disabled={fetching} // 요청 중일 때 버튼 비활성화
+    //             >
+    //               삭제하기
+    //             </button>
+    //           </div>
+    //         ) : (
+    //           <div className="w-1/12 text-center p-1">
+    //             <button
+    //               className="bg-emerald-500 hover:bg-emerald-700 m-1 p-1 text-white w-12 rounded-lg"
+    //               onClick={modifyClickHandler}
+    //               disabled={fetching} // 요청 중일 때 버튼 비활성화
+    //             >
+    //               수정
+    //             </button>
+    //           </div>
+    //         )}
+    //       </>
+    //     ) : (
+    //       <div className="w-1/12 text-center p-1">{""}</div>
+    //     )}
+    //   </div>
+    // </li>
   );
 };
 

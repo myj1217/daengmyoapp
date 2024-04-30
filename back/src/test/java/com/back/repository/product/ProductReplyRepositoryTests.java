@@ -33,7 +33,7 @@ public class ProductReplyRepositoryTests {
             // 상품 후기 생성
             ProductReply productReply = ProductReply.builder()
                     .product(product)
-                    .productReplyText("우리 아이가 정말 좋아해요")
+                    .productReplyText("우리 아이가 정말 좋아해요. 다음에 또 이용할 것 같네요. 번창하세요.")
                     .productReplyer("홍길동")
                     .regDate(LocalDateTime.now())
                     .modDate(LocalDateTime.now())
