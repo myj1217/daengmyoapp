@@ -88,8 +88,9 @@ const ProductReadComponent = ({ pno }) => {
     navigate("/products/list");
   };
 
+  // 상품정보 수정하기 핸들러 (관리자만)
   const clickModifyHandler = () => {
-    if (loginState.email !== product.email) {
+    if (!isAdmin) {
       window.alert("수정권한이 없습니다.");
       return;
     }
