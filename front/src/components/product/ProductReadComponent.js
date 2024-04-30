@@ -32,7 +32,13 @@ const ProductReadComponent = ({ pno }) => {
   // 장바구니 담기 핸들러
   const handleClickAddCart = () => {
     if (!isLogin) {
-      window.alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+      if (
+        window.confirm(
+          "로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?"
+        ) === false
+      ) {
+        return;
+      }
       navigate("/member/login");
     } else {
       let qty = 1;
@@ -60,7 +66,13 @@ const ProductReadComponent = ({ pno }) => {
   // 바로 주문하기 핸들러
   const directOrder = () => {
     if (!isLogin) {
-      window.alert("로그인이 필요한 서비스입니다. 로그인 페이지로 이동합니다.");
+      if (
+        window.confirm(
+          "로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?"
+        ) === false
+      ) {
+        return;
+      }
       navigate("/member/login");
     } else {
       // totalPrice 전역으로 저장
