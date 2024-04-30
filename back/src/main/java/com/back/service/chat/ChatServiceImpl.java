@@ -83,12 +83,12 @@ public class ChatServiceImpl implements ChatService {
                 .chatRoom(chatRoom)
                 .senderEmail(senderEmail)
                 .messageContent(messageContent)
-                .sentAt(sentAt)
+                .sentAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .build();
 
         chatMessage = chatMessageRepository.save(chatMessage);
         chatRoom.setLastMessage(messageContent); // 마지막 메시지 업데이트
-        chatRoom.setLastTime(sentAt);
+        chatRoom.setLastTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
         chatRoomRepository.save(chatRoom); // 변경사항 저장
 
         // 새 메시지 알림을 userEmail1과 userEmail2에게 보냅니다.

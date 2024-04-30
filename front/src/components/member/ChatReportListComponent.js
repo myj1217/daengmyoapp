@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import jwtAxios from '../../utils/jwtUtil';
 import { API_SERVER_HOST } from '../../api/rootApi';
+import { FaCheck } from "react-icons/fa";
 
 const ChatReportListComponent = () => {
     const [reportList, setReportList] = useState([]);
@@ -67,18 +68,20 @@ const ChatReportListComponent = () => {
                 </thead>
                 <tbody>
                     {sortedReportList.map(report => (
-                        <tr key={report.id}>
-                            <td className="border  px-4 py-2">{report.reporter}</td>
-                            <td className="border  px-4 py-2">{report.sender}</td>
-                            <td className="border  px-4 py-2">{report.sendTime}</td>
-                            <td className="border  px-4 py-2 break-all">{report.message}</td>
-                            <td className="border  px-4 py-2">
-                                <select onChange={e => handleStatusChange(report.id, e.target.value)} defaultValue={report.completed ? true : false} className="px-2 py-1">
-                                    <option value={true}>처리 완료</option>
-                                    <option value={false}>처리 미완료</option>
-                                </select>
-                            </td>
-                        </tr>
+                        <tr key={report.id} className={report.completed ? "bg-gray-300" : ""}>
+                        <td className="border px-4 py-2">{report.reporter}</td>
+                        <td className="border px-4 py-2">{report.sender}</td>
+                        <td className="border px-4 py-2">{report.sendTime}</td>
+                        <td className="border px-4 py-2 break-all">{report.message}</td>
+                        <td className={`border px-4 py-2 ${report.completed ? 'bg-gray-300' : ''}`}>
+                        <select onChange={e => handleStatusChange(report.id, e.target.value)} defaultValue={report.completed ? true : false} className={`px-2 py-1 ${report.completed ? 'bg-gray-300' : ''}`}>
+                        <option value={true}>처리 완료</option>
+                        <option value={false}>처리 미완료</option>
+                        </select>
+                        </td>
+
+                      </tr>
+                      
                     ))}
                 </tbody>
             </table>

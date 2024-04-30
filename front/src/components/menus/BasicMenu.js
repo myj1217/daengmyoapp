@@ -185,10 +185,13 @@ const BasicMenu = () => {
       {isLogin && (
         <>
           <button
-            className="fixed right-8 bottom-52 z-50 p-2 bg-emerald-400 text-white rounded-full shadow-lg"
+            className="fixed right-8 bottom-52 z-50 p-2 bg-emerald-400 hover:bg-emerald-600 text-white rounded-full shadow-lg"
             onClick={() => {
               dispatch(setChatVisible(true));
               dispatch(setNewMessageArrived(false));
+              if (showChatList) {
+                dispatch(setNewMessageArrived(false));
+              }
             }}
           >
             <IoChatbubbleEllipsesSharp className="w-9 h-9" />

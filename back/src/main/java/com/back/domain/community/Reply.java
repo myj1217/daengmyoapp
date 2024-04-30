@@ -1,8 +1,11 @@
 package com.back.domain.community;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table (name = "reply" )
@@ -33,4 +36,6 @@ public class Reply {
         this.replyContent = updatedContent;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime regDate;
 }

@@ -27,7 +27,7 @@ const MyListComponent = () => {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-8 w-full min-h-[calc(100vh-124px)]">
       {/* Display the number of posts */}
       {myPosts.dtoList ? (
         <div className="py-8 text-5xl border-b border-gray-300">

@@ -30,6 +30,7 @@ public class ChatMessage {
     private String messageContent;
 
     @Column(nullable = false)
+
     private LocalDateTime sentAt;
 
     public ChatMessage() {

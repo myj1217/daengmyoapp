@@ -53,7 +53,7 @@ const MapComponent = ({ lat, lng }) => {
     }
   }, [lat, lng]);
 
-  return <div ref={mapContainer} style={{ width: "95%", height: "95%" }} />;
+  return <div ref={mapContainer} style={{ width: "100%", height: "100%" }} />;
 };
 
 const MissingPet = () => {
@@ -78,7 +78,7 @@ const MissingPet = () => {
   }, []); // 의존성 배열에서 exceptionHandle 제거
 
   return (
-    <div className="flex h-screen mx-8 my-4">
+    <div className="flex h-[550px] mx-8 my-4">
       {serverData.dtoList && serverData.dtoList.length > 0 ? (
         <>
           <div
@@ -94,7 +94,7 @@ const MissingPet = () => {
             ))}
           </div>
           <div
-            className="w-1/2 bg-white p-4 overflow-hidden"
+            className="w-1/2 bg-white p-4 overflow-hidden flex justify-center items-center"
             style={{ height: "100%" }}
           >
             <div className="grid grid-cols-1 gap-1">
@@ -108,7 +108,7 @@ const MissingPet = () => {
                   >
                     <img
                       alt="missing"
-                      className="w-full h-64 object-cover transform transition duration-300 ease-in-out hover:scale-110"
+                      className="w-full h-80 object-cover transform transition duration-300 ease-in-out hover:scale-110"
                       src={`${host}/api/missing/view/s_${missing.uploadFileNames[0]}`}
                     />
                     <div className="bottom-0 bg-white text-lg p-4">

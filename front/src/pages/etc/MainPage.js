@@ -214,7 +214,7 @@ const MainPage = () => {
               </>
             ) : (
               <div className="w-full h-full items-center flex flex-col">
-                <div className="my-2 w-1/2 rounded-md h-auto flex ">
+                <div className="my-2 w-1/2 rounded-md flex ">
                   <div>
                     <img src={image} alt="user" className="w-12 h-auto"></img>
                   </div>

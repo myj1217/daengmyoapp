@@ -32,7 +32,7 @@ const OrderListComponent = () => {
   }, [isLogin]);
 
   return (
-    <div className="p-8">
+    <div className="p-8 w-full min-h-[calc(100vh-124px)]">
       {order.dtoList && order.dtoList.length > 0 ? (
         <div className="py-8 text-5xl border-b border-gray-300">
           주문내역({order.dtoList.length})

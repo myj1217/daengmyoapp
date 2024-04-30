@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,16 +41,17 @@ public class ReplyServiceImpl implements ReplyService {
                 .community(Community.builder().communityBno(replyDTO.getCommunityBno()).build())
                 .replyWriter(replyDTO.getReplyWriter())
                 .replyContent(replyDTO.getReplyContent())
+                .regDate(LocalDateTime.now(ZoneId.of("Asia/Seoul"))) // 한국 시간대로 설정
                 .build();
         Reply result = replyRepository.save(reply);
 
         Community community = communityRepository.findByCommunityBno(replyDTO.getCommunityBno());
-
         community.increaseCommentCount();
         communityRepository.save(community);
 
         return reply.getReplyRno();
     }
+
 
     @Override
     public ReplyDTO getReply(Long replyRno) {
