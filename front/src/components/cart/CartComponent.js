@@ -11,7 +11,7 @@ const CartComponent = () => {
   const [checkList, setCheckList] = useState([]); // 체크 여부
   const [selectedQty, setSelectedQty] = useState(0); // 선택 물품 수량
   const [selectedPrice, setSelectedPrice] = useState(0); // 선택 물품 총 금액
-  const { updateOrderAmount } = useCustomProduct(); // 총 금액 넘기기
+  const { updateOrderAmount, updateCheckList } = useCustomProduct(); // 총 금액, 체크항목 넘기기
   const navigate = useNavigate();
 
   // 개별 체크박스 핸들러
@@ -36,13 +36,13 @@ const CartComponent = () => {
     }
   };
 
-  // 주문완료 후 장바구니 비우기
+  // 선택삭제 핸들러
   const clearCart = () => {
-    // if (
-    //   window.confirm("선택한 상품을 장바구니에서 삭제하시겠습니까?") === false
-    // ) {
-    //   return;
-    // }
+    if (
+      window.confirm("선택한 상품을 장바구니에서 삭제하시겠습니까?") === false
+    ) {
+      return;
+    }
 
     cartItems.forEach((item) => {
       if (checkList.includes(item.cino)) {
@@ -65,11 +65,13 @@ const CartComponent = () => {
       return;
     }
 
+    // 총 결제금액 전역으로 저장
     updateOrderAmount(selectedPrice);
 
-    navigate("../products/order");
+    // 체크된 항목 전역으로 저장
+    updateCheckList(checkList);
 
-    clearCart();
+    navigate("../products/order");
   };
 
   useEffect(() => {
