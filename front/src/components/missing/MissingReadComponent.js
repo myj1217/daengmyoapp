@@ -5,6 +5,8 @@ import { replyAdd } from "../../api/missingReplyApi";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import FetchingModal from "../common/FetchingModal";
 import ReportListComponent from "../../components/missing/ReportListComponent";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import { useNavigate } from "react-router-dom";
 
 const MissingReadComponent = ({ mno }) => {
   const [missing, setMissing] = useState({
@@ -25,6 +27,19 @@ const MissingReadComponent = ({ mno }) => {
   const mapContainer = useRef(null);
   const imageContainerRef = useRef(null);
   const infoContainerRef = useRef(null);
+  const { isLogin } = useCustomLogin();
+  const navigate = useNavigate();
+
+  const loginHandler = () => {
+    if (
+      window.confirm(
+        "로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?"
+      ) === false
+    ) {
+      return;
+    }
+    navigate("/member/login");
+  };
 
   useEffect(() => {
     setFetching(true);
@@ -126,21 +141,41 @@ const MissingReadComponent = ({ mno }) => {
         </div>
       </div>
       <ReportListComponent mno={mno} />
-      <div className="mt-4 flex justify-end">
-        <textarea
-          className="w-full p-2 border rounded"
-          placeholder="제보 내용을 입력하세요"
-          value={missing.newReply}
-          onChange={(e) => setMissing({ ...missing, newReply: e.target.value })}
-        />
-        <button
-          className="ml-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-          style={{ whiteSpace: "nowrap" }}
-          onClick={addReply}
-        >
-          제보하기
-        </button>
-      </div>
+      {isLogin ? (
+        <div className="mt-4 flex justify-end">
+          <textarea
+            className="w-full p-2 border rounded"
+            placeholder="제보 내용을 입력하세요"
+            value={missing.newReply}
+            onChange={(e) =>
+              setMissing({ ...missing, newReply: e.target.value })
+            }
+          />
+          <button
+            className="ml-4 p-2 text-white rounded bg-emerald-500 hover:bg-emerald-700"
+            style={{ whiteSpace: "nowrap" }}
+            onClick={addReply}
+          >
+            제보하기
+          </button>
+        </div>
+      ) : (
+        <div className="mt-4 flex justify-end">
+          <div
+            className="w-full p-2 border rounded bg-gray-200 cursor-pointer"
+            onClick={loginHandler}
+          >
+            로그인 후 이용이 가능합니다.
+          </div>
+          <button
+            className="ml-4 p-2 text-white rounded bg-emerald-500 hover:bg-emerald-700"
+            style={{ whiteSpace: "nowrap" }}
+            onClick={loginHandler}
+          >
+            제보하기
+          </button>
+        </div>
+      )}
     </div>
   );
 };
