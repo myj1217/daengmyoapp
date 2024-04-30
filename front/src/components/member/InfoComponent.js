@@ -58,11 +58,11 @@ const InfoComponent = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full min-h-screen">
+    <div className="flex flex-col items-center justify-center h-full min-h-[calc(100vh-124px)]">
       {isModify ? (
         <ModifyComponent setIsModify={setIsModify} />
       ) : (
-        <div className="w-full max-w-4xl mb-auto mt-20 p-8 bg-white rounded-lg shadow-lg">
+        <div className="w-full max-w-4xl mb-auto mt-8 p-8 bg-white rounded-lg shadow-lg">
           <div className="grid grid-cols-2 gap-8">
             {/* Left column */}
             <div className="pl-8 text-center">

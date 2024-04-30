@@ -32,7 +32,7 @@ const AdminComponent = () => {
   };
 
   return (
-    <div className="flex w-full h-full flex-col rounded-lg shadow-xl min-h-screen">
+    <div className="flex w-full h-full flex-col rounded-lg shadow-xl min-h-[calc(100vh-124px)]">
       {/* 위쪽 탭 메뉴 */}
       <div className="w-full border-b">
 

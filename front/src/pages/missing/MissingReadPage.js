@@ -6,7 +6,7 @@ const MissingReadPage = () => {
   const { mno } = useParams();
 
   return (
-    <div className="p-4 w-full bg-white">
+    <div className="w-full bg-white">
       <BasicMenu />
       <MissingReadComponent mno={mno} />
     </div>
