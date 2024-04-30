@@ -39,6 +39,13 @@ public class Community {
 
 
     private long commentCount;
+    public void increaseCommentCount() {
+        this.commentCount++;
+    }
+
+    public void decreaseCommentCount() {
+        this.commentCount--;
+    }
 
 
     public void changeTitle(String communityTitle) {

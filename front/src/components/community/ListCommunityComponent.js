@@ -6,6 +6,7 @@ import { API_SERVER_HOST } from "../../api/rootApi";
 import { communityList } from "../../api/communityApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFont } from "@fortawesome/free-solid-svg-icons";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 const host = API_SERVER_HOST;
 
@@ -105,6 +106,7 @@ const ListCommunityComponent = () => {
                   {community.communityTitle}
                 </div>
                 <div className="w-3/12 ml-4">{community.communityWriter}</div>
+                <div className="text-red-400 flex"><IoChatboxEllipsesOutline className="mr-2 w-4 mt-0.5 h-auto"/> {community.commentCount}</div>
               </div>
             </div>
           ))}

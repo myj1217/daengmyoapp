@@ -61,7 +61,7 @@ const ReplyListComponent = ({ communityBno }) => {
     <div>
       {/* 댓글 목록 */}
       <div className="mt-4 border-t pt-4 mb-8">
-        <h2 className="text-lg font-semibold mb-2">댓글</h2>
+        <h2 className="text-lg font-semibold mb-2">댓글 ({serverData.dtoList.length})</h2>
         {serverData.dtoList && serverData.dtoList.length === 0 ? (
           <div>댓글이 없습니다.</div>
         ) : (

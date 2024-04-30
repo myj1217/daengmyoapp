@@ -32,4 +32,5 @@ public interface CommunityRepository  extends JpaRepository <Community, Long> {
     Page<Object[]> selectListByEmail(Pageable pageable, @Param("email") String email);
 
 
+    Community findByCommunityBno(Long bno);
 }

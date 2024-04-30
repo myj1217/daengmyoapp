@@ -6,6 +6,7 @@ import com.back.domain.community.Reply;
 import com.back.dto.PageRequestDTO;
 import com.back.dto.PageResponseDTO;
 import com.back.dto.community.ReplyDTO;
+import com.back.repository.community.CommunityRepository;
 import com.back.repository.community.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class ReplyServiceImpl implements ReplyService {
 
     private final ReplyRepository replyRepository;
+    private final CommunityRepository communityRepository;
     private final ModelMapper modelMapper;
 
 
@@ -39,6 +41,12 @@ public class ReplyServiceImpl implements ReplyService {
                 .replyContent(replyDTO.getReplyContent())
                 .build();
         Reply result = replyRepository.save(reply);
+
+        Community community = communityRepository.findByCommunityBno(replyDTO.getCommunityBno());
+
+        community.increaseCommentCount();
+        communityRepository.save(community);
+
         return reply.getReplyRno();
     }
 
@@ -59,7 +67,17 @@ public class ReplyServiceImpl implements ReplyService {
 
     @Override
     public void delReply(Long replyRno) {
+
+        Reply reply = replyRepository.findByReplyRno(replyRno);
+
+
+        Community community = reply.getCommunity();
+
+        community.decreaseCommentCount();
+        communityRepository.save(community);
+
         replyRepository.deleteById(replyRno);
+
     }
 
     @Override

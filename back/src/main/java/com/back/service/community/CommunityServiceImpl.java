@@ -60,7 +60,7 @@ public class CommunityServiceImpl implements CommunityService {
                     .communityContent(community.getCommunityContent())
                     .communityWriter(community.getCommunityWriter())
                     .communityWriterEmail(community.getCommunityWriterEmail())
-
+                    .commentCount(community.getCommentCount())
                     .delFlag(community.isDelFlag())
                     .build();
 
@@ -106,7 +106,7 @@ public class CommunityServiceImpl implements CommunityService {
                     .communityContent(community.getCommunityContent())
                     .communityWriter(community.getCommunityWriter())
                     .communityWriterEmail(community.getCommunityWriterEmail())
-
+                    .commentCount(community.getCommentCount())
                     .delFlag(community.isDelFlag())
                     .build();
 
@@ -144,6 +144,7 @@ public class CommunityServiceImpl implements CommunityService {
                 .communityWriterEmail(communityDTO.getCommunityWriterEmail())
                 .communityContent(communityDTO.getCommunityContent())
                 .communityTitle(communityDTO.getCommunityTitle())
+                .commentCount(communityDTO.getCommentCount())
                 .build();
 
         //업로드 처리가 끝난 파일들의 이름 리스트
@@ -178,6 +179,7 @@ public class CommunityServiceImpl implements CommunityService {
                 .communityContent(community.getCommunityContent())
                 .communityWriter(community.getCommunityWriter())
                 .communityWriterEmail(community.getCommunityWriterEmail())
+                .commentCount(community.getCommentCount())
                 .build();
 
         List<CommunityImage> imageList = community.getImageList();
