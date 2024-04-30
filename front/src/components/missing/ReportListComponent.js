@@ -21,9 +21,7 @@ const ReportListComponent = ({ mno }) => {
   return (
     <div className="w-full bg-white shadow-md rounded-lg mt-4 p-4">
       <div className="text-lg font-semibold mb-4">
-        {reports.length > 0
-          ? `목격제보 (${reports.length})`
-          : "아직 목격제보가 없습니다"}
+        {reports.length > 0 ? `목격제보 (${reports.length})` : "목격제보 (0)"}
       </div>
       <ul>
         {reports.map((report) => (
