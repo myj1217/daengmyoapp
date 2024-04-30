@@ -7,7 +7,6 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
 import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 import useCustomProduct from "../../hooks/useCustomProduct";
-import { useSelector } from "react-redux";
 
 const initState = {
   pno: 0,
@@ -21,28 +20,14 @@ const host = API_SERVER_HOST;
 
 const ProductReadComponent = ({ pno }) => {
   const [product, setProduct] = useState(initState);
-  // const { page, size, moveToList, moveToModify } = useCustomMove();
   const [fetching, setFetching] = useState(false);
   const { changeCart, cartItems } = useCustomCart();
-  const { isLogin, loginState,isAdmin } = useCustomLogin();
+  const { isLogin, loginState, isAdmin } = useCustomLogin();
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState(0); // 총 금액
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  // const { totalPrice } = useCustomProduct();
-  // const price = useSelector((state) => state.cartSlice.price);
   const { updateOrderAmount } = useCustomProduct();
-  // const test = useSelector((state) => state.productSlice?.totalOrderAmount);
-  const loginInfo = useSelector((state) => state.loginSlice);
-
-
-  // const handleOrder = () => {
-  //   // 주문 처리 로직 후
-  //   // const totalAmount = calculateTotalOrderAmount(); // 주문 총 금액 계산
-  //   updateOrderAmount(totalPrice); // Redux를 통해 전역 상태 업데이트
-  //   console.log("Save totalPrice");
-  //   console.log(`totalPrice의 값: ${totalPrice}`);
-  // };
 
   // 장바구니 담기 핸들러
   const handleClickAddCart = () => {
@@ -74,12 +59,10 @@ const ProductReadComponent = ({ pno }) => {
 
   // 바로 주문하기 핸들러
   const directOrder = () => {
-    // console.log(`B.. dispatch 전 test: ${test}`);
-
+    // totalPrice 전역으로 저장
     updateOrderAmount(totalPrice);
 
-    // console.log(`B.. dispatch 후 test: ${test}`);
-
+    // 주문 페이지로 이동
     navigate("../order");
   };
 
@@ -115,7 +98,6 @@ const ProductReadComponent = ({ pno }) => {
     getOne(pno).then((data) => {
       setProduct(data);
       setTotalPrice(data.price);
-      // console.log(`getOne의 price 값: ${price}`);
       setFetching(false);
     });
   }, [pno]);
@@ -123,16 +105,6 @@ const ProductReadComponent = ({ pno }) => {
   useEffect(() => {
     setTotalPrice(product.price * quantity);
   }, [quantity]);
-
-  // useEffect(() => {
-  //   console.log(`dispatch 전 totalPrice: ${totalPrice}`);
-  //   console.log(`dispatch 전 test: ${test}`);
-
-  //   // updateOrderAmount(totalPrice);
-
-  //   console.log(`dispatch 후 totalPrice: ${totalPrice}`);
-  //   console.log(`dispatch 후 test: ${test}`);
-  // }, [test]);
 
   return (
     <div className="p-4">
@@ -150,32 +122,12 @@ const ProductReadComponent = ({ pno }) => {
               src={`${host}/api/products/view/${product.uploadFileNames[selectedImageIndex]}`}
               alt="selected product"
             />
-
-            {/* <div
-              id="product_first_image_zone"
-              // className="w-1/2 justify-center flex  flex-col m-auto items-center"
-              className="w-1/2"
-            >
+            <div id="product_image_list_zone" className="flex flex-row m-2">
               {product.uploadFileNames.map((imgFile, i) => (
                 <img
                   alt="product"
                   key={i}
-                  className="w-full object-cover"
-                  src={`${host}/api/products/view/${imgFile}`}
-                />
-              ))}
-            </div> */}
-            <div
-              id="product_image_list_zone"
-              // className="w-1/2 justify-center flex  flex-col m-auto items-center"
-              className="flex flex-row m-2"
-            >
-              {product.uploadFileNames.map((imgFile, i) => (
-                <img
-                  alt="product"
-                  key={i}
-                  // className="w-full object-cover"
-                  className="w-24 h-24 object-cover hover:border hover:border-gray-300 cursor-pointer"
+                  className="w-24 h-24 mx-1 object-cover hover:border hover:border-gray-300 cursor-pointer"
                   src={`${host}/api/products/view/${imgFile}`}
                   onClick={() => setSelectedImageIndex(i)}
                 />
@@ -217,13 +169,11 @@ const ProductReadComponent = ({ pno }) => {
 
             <div className="flex justify-between w-full p-4 m-2 text-lg text-red-500 border-b-2 border-red-500">
               <div className="">상품금액 합계</div>
-              {/* <div>{price}원</div> */}
               <div>{totalPrice.toLocaleString("ko-KR")}원</div>
             </div>
 
             <div
               id="product_read_buttons"
-              // className="flex-col justify-center p-4 text-sm text-white"
               className="grid grid-cols-1 lg:grid-cols-2 gap-1 text-white"
             >
               <button
