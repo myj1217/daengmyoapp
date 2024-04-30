@@ -106,13 +106,13 @@ const ReviewListComponent = ({ pno }) => {
         >
           {/* 리뷰 타이틀 */}
           <div id="review title" className="border-b border-gray-300">
-            <div className="flex text-sm font-bold p-4 justify-between">
+            {/* <div className="flex text-sm font-bold p-4 justify-between">
               <div className="w-2/12 text-center p-1">별점</div>
               <div className="w-5/12 text-center p-1">내용</div>
               <div className="w-2/12 text-center p-1">작성자</div>
               <div className="w-2/12 text-center p-1">등록시간</div>
               <div className="w-1/12 text-center p-1">{""}</div>
-            </div>
+            </div> */}
           </div>
 
           {/* 리뷰 목록 */}
