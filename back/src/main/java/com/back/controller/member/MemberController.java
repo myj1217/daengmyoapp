@@ -112,7 +112,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/modifyPw")
+    @PutMapping("/modifyPw")
     @ResponseBody
     public ResponseEntity<String> modifyPw(@RequestParam("email") String email,
                                            @RequestParam("pw") String pw,
@@ -144,7 +144,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/resetPw")
+    @PutMapping("/resetPw")
     @ResponseBody
     public ResponseEntity<String> resetPw(@RequestParam("email") String email,
                                           @RequestParam("verificationCode") String verificationCode,
@@ -167,7 +167,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> delete(@RequestParam("email") String email, @RequestParam("pw") String pw) {
 
         Member member = memberRepository.findByEmail(email);
@@ -192,7 +192,7 @@ public class MemberController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
-    @PostMapping("/deleteUsers")
+    @DeleteMapping("/deleteUsers")
     public ResponseEntity<String> delete(@RequestParam("email") String email) {
 
         Member member = memberRepository.findByEmail(email);
@@ -264,7 +264,7 @@ public class MemberController {
 
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
-    @PostMapping("/changeRole")
+    @PutMapping("/changeRole")
     public ResponseEntity<?> changeRole(@RequestParam("email") String email,
                                         @RequestParam("newRole") String newRole) {
 

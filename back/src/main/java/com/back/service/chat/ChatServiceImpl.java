@@ -1,13 +1,16 @@
 package com.back.service.chat;
 
 import com.back.domain.chat.ChatMessage;
+import com.back.domain.chat.ChatReport;
 import com.back.domain.chat.ChatRoom;
 import com.back.domain.member.Member;
 import com.back.repository.chat.ChatMessageRepository;
+import com.back.repository.chat.ChatReportRepository;
 import com.back.repository.chat.ChatRoomRepository;
 import com.back.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cglib.core.Local;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,7 @@ public class ChatServiceImpl implements ChatService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final ChatReportRepository chatReportRepository;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final MemberRepository memberRepository;
     @Override
@@ -97,5 +101,44 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public List<ChatRoom> getChatRooms(String userEmail) {
         return chatRoomRepository.findByUserEmail1OrUserEmail2(userEmail, userEmail);
+    }
+
+
+
+    @Override
+    public List<ChatReport> getReportList() {
+        List<ChatReport> chatReportList = chatReportRepository.findAll();
+
+        return chatReportList;
+    }
+
+
+    @Override
+    public ChatReport postReport(ChatReport chatReport) {
+
+        ChatReport report = ChatReport.builder()
+                .messageId(chatReport.getMessageId())
+                .reporter(chatReport.getReporter())
+                .sender(chatReport.getSender())
+                .sendTime(chatReport.getSendTime())
+                .message(chatReport.getMessage())
+
+                .build();
+
+        return chatReportRepository.save(report);
+    }
+
+    @Override
+    public void updateReportStatus(Long reportId, boolean completed) {
+        ChatReport report = chatReportRepository.findById(reportId)
+                .orElseThrow(() -> new IllegalArgumentException("신고를 찾을 수 없습니다. ID: " + reportId));
+
+        report.setCompleted(completed);
+
+        chatReportRepository.save(report);
+    }
+
+    public boolean isChatAlreadyReported(Long messageId) {
+        return chatReportRepository.existsByMessageId(messageId);
     }
 }

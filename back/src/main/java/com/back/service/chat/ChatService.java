@@ -1,6 +1,7 @@
 package com.back.service.chat;
 
 import com.back.domain.chat.ChatMessage;
+import com.back.domain.chat.ChatReport;
 import com.back.domain.chat.ChatRoom;
 
 import java.time.LocalDateTime;
@@ -11,4 +12,12 @@ public interface ChatService {
     ChatRoom createChatRoom(String userEmail1, String userEmail2);
     ChatMessage sendMessage(Long chatRoomId, String senderEmail, String messageContent, LocalDateTime sentAt);
     List<ChatRoom> getChatRooms(String userEmail);
+
+    List<ChatReport>getReportList();
+
+    ChatReport postReport(ChatReport chatReport);
+
+    void updateReportStatus(Long reportId, boolean completed);
+
+    boolean isChatAlreadyReported(Long messageId) ;
 }

@@ -37,9 +37,8 @@ public class Community {
 
     private boolean delFlag;
 
-//    public void changeDel(boolean delFlag) {
-//        this.delFlag = delFlag;
-//    }
+
+    private long commentCount;
 
 
     public void changeTitle(String communityTitle) {

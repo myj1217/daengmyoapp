@@ -98,12 +98,28 @@ function Chat({ userEmail, chatRoomId, onBackClick, userNick, onClose }) {
   };
 
   const handleReportConfirm = () => {
-    // 여기에 해당 messageId를 신고하는 API 호출 등의 작업을 수행합니다.
-    console.log("신고:", reportingInfo);
+    const reportData = {
+        reporter: userEmail,
+        sender: reportingInfo.senderEmail,
+        sendTime: reportingInfo.sentAt,
+        message: reportingInfo.messageContent,
+        messageId: reportingInfo.id
+    };
+
+    jwtAxios.post(`${API_SERVER_HOST}/api/chat/report`, reportData)
+        .then(response => {
+            console.log("채팅 신고 완료:", response.data);
+            alert(response.data);
+        })
+        .catch(error => {
+            console.error("채팅 신고 실패:", error.response.data);
+            alert(error.response.data);
+        });
 
     // 모달 닫기
     setShowReportModal(false);
-  };
+};
+
 
   return (
     <div className="w-full flex flex-col">

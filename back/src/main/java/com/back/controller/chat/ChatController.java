@@ -1,6 +1,7 @@
 package com.back.controller.chat;
 
 import com.back.domain.chat.ChatMessage;
+import com.back.domain.chat.ChatReport;
 import com.back.domain.chat.ChatRoom;
 import com.back.service.chat.ChatService;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +26,7 @@ import java.util.List;
 
 @Log4j2
 @AllArgsConstructor
-@Controller
+@RestController
 public class ChatController {
     private final ChatService chatService;
     private final SimpMessagingTemplate simpMessagingTemplate;
@@ -56,6 +58,35 @@ public class ChatController {
         return ResponseEntity.ok("메시지 전송 완료");
     }
 
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    @GetMapping("/api/chat/report")
+    public ResponseEntity<List<ChatReport>> getReport() {
+        List<ChatReport> chatReportList = chatService.getReportList();
+        return ResponseEntity.ok(chatReportList);
+    }
+
+    @PostMapping("/api/chat/report")
+    public ResponseEntity<String> postReport(@RequestBody ChatReport chatReport) {
+
+        if (chatService.isChatAlreadyReported(chatReport.getMessageId())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 신고된 채팅입니다.");
+        }
+
+
+        chatService.postReport(chatReport);
+        return ResponseEntity.ok("채팅 신고가 완료되었습니다.");
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_MANAGER')")
+    @PutMapping("/api/chat/report/{reportId}")
+    public ResponseEntity<String> updateReportStatus(@PathVariable Long reportId, @RequestParam boolean completed) {
+
+
+        chatService.updateReportStatus(reportId, completed);
+        return ResponseEntity.ok("신고 상태가 업데이트되었습니다.");
+    }
 
 
 }

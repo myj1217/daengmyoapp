@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import InfoComponent from "./InfoComponent";
 import { useSelector } from "react-redux";
 import MemberListComponent from "./MemberListComponent";
+import ChatReportListComponent from "./ChatReportListComponent";
 
 const AdminComponent = () => {
   const [selectedTab, setSelectedTab] = useState("members"); // 선택된 탭 상태
@@ -19,7 +20,7 @@ const AdminComponent = () => {
       case "members":
         return <div><MemberListComponent/></div>;
       case "report":
-        return <div>신고 목록</div>;
+        return <div><ChatReportListComponent/></div>;
       case "orders":
         return <div>주문 처리</div>;
         case "faq":
