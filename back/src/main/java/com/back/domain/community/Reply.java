@@ -32,10 +32,23 @@ public class Reply {
     @Column(length = 30)
     private String replyWriter;
 
+    private String writerEmail;
+
+    private boolean modified;
+
+
     public void changeContent(String updatedContent) {
         this.replyContent = updatedContent;
     }
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime regDate;
+
+    public void updateTime(LocalDateTime updateTime) {
+        this.regDate = updateTime;
+    }
+
+    public void changeModified() {
+        this.modified = true;
+    }
 }

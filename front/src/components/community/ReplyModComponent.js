@@ -10,24 +10,24 @@ const ReplyModComponent = ({
   replyWriter,
   listReplyRedirect,
   regDate,
+  writerEmail,
+  isModified,
 }) => {
   const { loginState } = useCustomLogin();
   const [modifyMode, setModifyMode] = useState(false);
   const [content, setContent] = useState(replyContent);
   const [fetching, setFetching] = useState(false);
+  const [modified, setModified] = useState(false); // 수정 여부 상태 추가
 
   // 수정버튼 클릭 시 수정 모드로 전환 핸들러
   const modReplyHandler = () => {
-    // if (loginState.nickname !== replyWriter) {
-    //   window.alert("수정권한이 없습니다.");
-    //   return;
-    // }
     setModifyMode(true); // 수정 모드로 전환
   };
 
   // 리뷰내용 수정 반응 핸들러
   const handleChangeContent = (e) => {
     setContent(e.target.value);
+    setModified(true); // 내용이 수정되면 수정됨 상태를 true로 설정
   };
 
   // 수정 버튼 함수
@@ -37,6 +37,7 @@ const ReplyModComponent = ({
     formData.append("communityBno", communityBno);
     formData.append("replyContent", content);
     formData.append("replyWriter", loginState.nickname);
+    formData.append("writerEmail", loginState.email);
     // formData.append("regDate", regDate);
 
     if (!content) {
@@ -89,6 +90,7 @@ const ReplyModComponent = ({
       className={
         "rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
       }
+      style={{ listStyleType: "none" }}
     >
       {fetching ? <FetchingModal /> : <></>}
       <div className="flex text-sm p-4 justify-between items-center">
@@ -104,35 +106,40 @@ const ReplyModComponent = ({
           <div className="w-5/12 text-center p-1">{replyContent}</div>
         )}
         <div className="w-2/12 text-center p-1">{replyWriter}</div>
-        <div className="w-2/12 text-center p-1">{regDate}</div>
-        {modifyMode ? (
-          <>
-            <button
-              className="bg-green-700 hover:bg-green-900 m-1 p-1 text-white w-12 rounded-lg"
-              onClick={handleClickModify}
-              disabled={fetching}
-            >
-              수정완료
-            </button>
-            <button
-              className="bg-red-700 hover:bg-red-900 m-1 p-1 text-white w-12 rounded-lg"
-              onClick={handleClickDelete}
-              disabled={fetching}
-            >
-              삭제하기
-            </button>
-          </>
-        ) : (
-          <div className="w-1/12 text-center p-1">
-            <button
-              className="bg-green-700 hover:bg-green-900 m-1 p-1 text-white w-12 rounded-lg"
-              onClick={modReplyHandler} // prop으로 받은 함수 호출
-              disabled={fetching} // 요청 중일 때 버튼 비활성화
-            >
-              수정
-            </button>
-          </div>
-        )}
+        <div className="w-2/12 text-center p-1">{regDate} {isModified && "(수정됨)"}</div> {/* 수정됨 상태에 따라 수정됨 글자 추가 */}
+        
+        <div className="w-1/12 text-center p-1">
+          {modifyMode ? (
+            <>
+              <button
+                className="bg-green-700 hover:bg-green-900 m-1 p-1 text-white w-12 rounded-lg"
+                onClick={handleClickModify}
+                disabled={fetching}
+              >
+                수정완료
+              </button>
+              <button
+                className="bg-red-700 hover:bg-red-900 m-1 p-1 text-white w-12 rounded-lg"
+                onClick={handleClickDelete}
+                disabled={fetching}
+              >
+                삭제하기
+              </button>
+            </>
+          ) : (
+            writerEmail === loginState.email ? (
+              <button
+                className="bg-green-700 hover:bg-green-900 m-1 p-1 text-white w-12 rounded-lg"
+                onClick={modReplyHandler}
+                disabled={fetching}
+              >
+                수정
+              </button>
+            ) : (
+              <div className="w-12"></div> // 수정 버튼의 크기만큼 공백 추가
+            )
+          )}
+        </div>
       </div>
     </li>
   );

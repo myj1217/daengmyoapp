@@ -33,7 +33,7 @@ const handleClickReg = (e) => {
   formData.append("communityBno", communityBno);
   formData.append("replyContent", reply.replyContent);
   formData.append("replyWriter", loginState.nickname);
-  
+  formData.append("writerEmail", loginState.email);
 
   // console.log("formData");
   // console.log(reply.replyContent);

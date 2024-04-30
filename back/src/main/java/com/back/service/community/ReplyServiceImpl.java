@@ -42,6 +42,8 @@ public class ReplyServiceImpl implements ReplyService {
                 .replyWriter(replyDTO.getReplyWriter())
                 .replyContent(replyDTO.getReplyContent())
                 .regDate(LocalDateTime.now(ZoneId.of("Asia/Seoul"))) // 한국 시간대로 설정
+                .replyWriter(replyDTO.getReplyWriter())
+                .writerEmail(replyDTO.getWriterEmail())
                 .build();
         Reply result = replyRepository.save(reply);
 
@@ -65,6 +67,8 @@ public class ReplyServiceImpl implements ReplyService {
         Optional<Reply> replyOptional = replyRepository.findById(replyDTO.getReplyRno());
         Reply reply = replyOptional.orElseThrow();
         reply.changeContent(replyDTO.getReplyContent());
+        reply.updateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
+        reply.changeModified();
         replyRepository.save(reply);
     }
 

@@ -27,6 +27,10 @@ public class ReplyDTO {
     @NotEmpty
     private String replyWriter;
 
+    private String writerEmail;
+
+    private boolean modified;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime regDate;
 }

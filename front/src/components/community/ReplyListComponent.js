@@ -25,7 +25,7 @@ const ReplyListComponent = ({ communityBno }) => {
   const { exceptionHandle } = useCustomLogin();
   const { refresh, moveToList } = useCustomMove();
   const [deletingReplyRno, setDeletingReplyRno] = useState(null);
-
+  const {isLogin} = useCustomLogin();
   // 댓글 목록 및 기타 데이터 저장
   const [serverData, setServerData] = useState(initState);
 
@@ -66,6 +66,7 @@ const ReplyListComponent = ({ communityBno }) => {
           <div>댓글이 없습니다.</div>
         ) : (
           serverData.dtoList.map((reply) => (
+            
             <ReplyModComponent
               key={reply.replyRno}
               communityBno={communityBno}
@@ -73,6 +74,8 @@ const ReplyListComponent = ({ communityBno }) => {
               replyContent={reply.replyContent}
               replyWriter={reply.replyWriter}
               regDate={reply.regDate}
+              writerEmail={reply.writerEmail}
+              isModified={reply.modified}
               listReplyRedirect={() => {
                 // 댓글 수정 또는 삭제 후 리다이렉트하는 함수
                 listReply(communityBno).then((data) => {
@@ -83,12 +86,12 @@ const ReplyListComponent = ({ communityBno }) => {
           ))
         )}
       </div>
-
+        {isLogin && (
       <ReplyRegComponent
         onSubmit={handleReplySubmit}
         communityBno={communityBno}
       />
-
+        )}
       {/* 페이지 목록 렌더링 */}
       {serverData.pageNumList && serverData.pageNumList.length > 0 && (
         <div className="flex justify-center mt-4">
