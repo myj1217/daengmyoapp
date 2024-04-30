@@ -53,7 +53,7 @@ const ReplyRegComponent = ({ communityBno }) => {
         <div className="relative mb-4 flex w-full flex-wrap items-stretch">
           {/* <div className="w-[120px] p-6 text-right font-bold mr-12 mb-24">댓글 작성</div> */}
           <textarea
-            className="w-full p-6 rounded-r border border-solid border-neutral-300 shadow-md resize-y ml-2"
+            className="w-full p-6 rounded-r border border-solid border-neutral-300 shadow-md resize-y ml-12"
             name="replyContent"
             rows="4"
             onChange={handleChangeReply}
@@ -63,10 +63,10 @@ const ReplyRegComponent = ({ communityBno }) => {
         <Link to={`/community/read/${communityBno}`}>
           <button
             type="button"
-            className="rounded p-4 w-36 bg-emerald-500 hover:bg-emerald-700 text-xl text-white mt-12 ml-4 mr-6"
+            className="rounded p-4 w-36 bg-emerald-500 hover:bg-emerald-700 text-xl text-white mt-20 ml-4"
             onClick={handleClickReg}
           >
-            추가하기
+            댓글등록
           </button>
         </Link>
       </div>

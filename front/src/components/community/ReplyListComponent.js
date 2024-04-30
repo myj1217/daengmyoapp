@@ -61,11 +61,11 @@ const ReplyListComponent = ({ communityBno }) => {
     <div>
       {/* 댓글 목록 */}
       <div className="mt-4  pt-4 mb-8">
-        <h2 className="text-lg font-semibold mb-2 mx-2 mt-14 border-t pt-2">
+        <h2 className="text-lg font-semibold mb-2 mx-6 mt-14 border-t pt-2">
           댓글 ({serverData.dtoList.length})
         </h2>
         {serverData.dtoList && serverData.dtoList.length === 0 ? (
-          <div className="mb-2 mx-2">댓글이 없습니다.</div>
+          <div className="mb-2 mx-6">댓글이 없습니다.</div>
         ) : (
           serverData.dtoList.map((reply) => (
             

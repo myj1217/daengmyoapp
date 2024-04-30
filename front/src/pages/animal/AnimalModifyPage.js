@@ -6,9 +6,9 @@ const AnimalModifyPage = () => {
   const { ano } = useParams();
 
   return (
-    <div className="p-4 w-full bg-white">
+    <div className="w-full bg-white">
       <BasicMenu />
-      <div className="text-3xl font-extrabold">동물 수정하기</div>
+    
 
       <AnimalModifyComponent ano={ano} />
     </div>

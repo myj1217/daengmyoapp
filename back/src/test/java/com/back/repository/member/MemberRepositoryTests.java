@@ -77,4 +77,25 @@ public class MemberRepositoryTests {
             memberRepository.save(member);
         }
     }
-}
+
+
+    @Test
+    public void testInsertAdmin2(){  // Create admins
+
+            String email = "admin1@aaa.com";
+            String nickname = "어드민1";
+            Member member = Member.builder()
+                    .email(email)
+                    .pw(passwordEncoder.encode("1111"))
+                    .name("홍길동")
+                    .nickname(nickname)
+                    .number("01012345678")
+                    .addressCode("1234")
+                    .streetAddress("12-34번지")
+                    .detailAddress("1층")
+                    .build();
+            member.addRole(MemberRole.ADMIN);
+            memberRepository.save(member);
+        }
+    }
+

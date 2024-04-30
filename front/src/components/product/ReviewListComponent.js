@@ -90,6 +90,7 @@ const ReviewListComponent = ({ pno }) => {
         </div>
 
         <div className="flex justify-start">
+          {isLogin && (
           <button
             type="button"
             className="inline-block rounded p-4 m-2 bg-emerald-500 hover:bg-emerald-700 text-white"
@@ -97,6 +98,7 @@ const ReviewListComponent = ({ pno }) => {
           >
             리뷰 작성하기
           </button>
+          )}
         </div>
 
         <div

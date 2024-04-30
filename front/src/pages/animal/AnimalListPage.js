@@ -9,7 +9,7 @@ const AnimalListPage = () => {
       <div className="flex w-full h-200">
         <img src={adopt} />
       </div>
-      <AnimalSearch />
+      {/* <AnimalSearch /> */}
 
       <div className="w-full h-full">
         <AnimalListComponent />

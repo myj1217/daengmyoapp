@@ -24,7 +24,7 @@ export const regNotice = async (notice) => {
 
 // 공지사항 상세보기
 export const getNotice = async (noticeBno, page, size) => {
-  const res = await jwtAxios.get(`${host}/read/${noticeBno}`, {
+  const res = await axios.get(`${host}/read/${noticeBno}`, {
     params: {
       page: page,
       size: size,

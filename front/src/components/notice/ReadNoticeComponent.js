@@ -47,90 +47,45 @@ const ReadNoticeComponent = ({ noticeBno }) => {
     navigate("/notice/list");
   };
 
-
   return (
-    <div className="border-2 border-gray-300 mt-10 m-2 p-4">
+    <div className="max-w-7xl mx-auto mt-10">
       {fetching ? <FetchingModal /> : <></>}
-      <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">제목</div>
-          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
-            {notice.noticeTitle}
-          </div>
-        </div>
-      </div>
-      {/* <div
-        id="notice_image_zone"
-        className="w-full justify-center flex  flex-col m-auto items-center"
-      >
-        {notice.uploadFileNames &&
-          notice.uploadFileNames.map((fileName, i) => (
-            <img
-              alt="notice"
-              key={i}
-              className="p-4 w-1/2"
-              src={`${host}/notice/view/${fileName}`}
-            />
-          ))}
-      </div> */}
-      <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">내용</div>
-          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
-            <div
-              id="notice_image_zone"
-              className="w-full justify-center flex  flex-col m-auto items-center"
+      <div className="px-6 pt-4 pb-2">
+        <div className="border-b pb-4 flex justify-between items-center">
+          <h1 className="font-bold text-4xl">{notice.noticeTitle}</h1>
+          <div className="flex items-center">
+            {isAdmin && (
+              <button
+                className="bg-gray-800 text-white font-bold py-2 px-4 rounded-full mr-2"
+                onClick={() => moveToModify(noticeBno)}
+              >
+                수정하기
+              </button>
+            )}
+            <button
+              className="bg-gray-800 text-white font-bold py-2 px-4 rounded-full"
+              onClick={handleClickList}
             >
-              {notice.uploadFileNames &&
-                notice.uploadFileNames.map((fileName, i) => (
-                  <img
-                    alt="notice"
-                    key={i}
-                    className="p-4 w-1/2"
-                    src={`${host}/notice/view/${fileName}`}
-                  />
-                ))}
-            </div>
-            <div style={{ marginBottom: "2rem" }}></div>
-
-            {notice.noticeContent}
+              목록으로 돌아가기
+            </button>
           </div>
         </div>
-      </div>
-
-      {/* 작성자 부분 */}
-      <div className="flex justify-center">
-        <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">작성자</div>
-          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
-            {notice.noticeWriter}
+        <p className="text-sm text-gray-600 mb-4 ml-auto" style={{ width: "fit-content" }}>
+          작성자 : {notice.noticeWriter}
+        </p>
+        <div className="flex justify-center">
+          <div className="flex flex-wrap gap-4">
+            {notice.uploadFileNames.map((fileName, i) => (
+              <img
+                key={i}
+                src={`${host}/notice/view/${fileName}`}
+                alt="Notice content"
+                className="object-contain h-48"
+              />
+            ))}
           </div>
         </div>
-      </div>
-      <div
-        id="notice_read_buttons"
-        className="flex justify-end p-4 text-sm text-white"
-      >
-        {isAdmin && (
-          <button
-            type="button"
-            className="inline-block rounded p-4 m-2 w-32 bg-gray-800"
-            onClick={() => moveToModify(noticeBno)}
-          >
-            게시글
-            <br />
-            수정
-          </button>
-        )}
-        <button
-          type="button"
-          className="rounded p-4 m-2 w-32 bg-gray-800"
-          onClick={handleClickList}
-        >
-          목록으로
-          <br />
-          돌아가기
-        </button>
+        <div className="text-gray-700 text-base mt-4">{notice.noticeContent}</div>
       </div>
     </div>
   );

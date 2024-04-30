@@ -13,7 +13,7 @@ const ReplyModComponent = ({
   writerEmail,
   isModified,
 }) => {
-  const { loginState } = useCustomLogin();
+  const { loginState,isAdmin } = useCustomLogin();
   const [modifyMode, setModifyMode] = useState(false);
   const [content, setContent] = useState(replyContent);
   const [fetching, setFetching] = useState(false);
@@ -88,7 +88,7 @@ const ReplyModComponent = ({
     <li
       key={replyRno}
       className={
-        "rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer mx-2"
+        "rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer mx-6"
       }
       style={{ listStyleType: "none" }}
     >
@@ -127,7 +127,7 @@ const ReplyModComponent = ({
               </button>
             </>
           ) : (
-            writerEmail === loginState.email ? (
+            writerEmail === loginState.email || isAdmin ? (
               <button
                 className="bg-green-700 hover:bg-green-900 m-1 p-1 text-white w-12 rounded-lg"
                 onClick={modReplyHandler}

@@ -23,7 +23,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
   const [community, setCommunity] = useState(initState);
   const [replies, setReplies] = useState([]);
   const [fetching, setFetching] = useState(false);
-  const { loginState } = useCustomLogin();
+  const { loginState, isLogin, isAdmin } = useCustomLogin();
   const navigate = useNavigate();
   const { moveToModify } = useCustomMove();
   const dispatch = useDispatch();
@@ -86,7 +86,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
                 작성자: {community.communityWriter}
               </span>
             )}
-            {!isAuthor && (
+            {!isAuthor && isLogin &&(
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 onClick={createChatRoom}
@@ -94,7 +94,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
                 채팅하기
               </button>
             )}
-            {isAuthor && (
+            {isAuthor || isAdmin &&(
               <button
                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full ml-2"
                 onClick={() => moveToModify(communityBno)}
@@ -114,7 +114,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
                 key={i}
                 src={`${API_SERVER_HOST}/community/view/${fileName}`}
                 alt="Community content"
-                className="object-contain h-48"
+                className="object-contain h-80"
               />
             ))}
           </div>
