@@ -16,11 +16,12 @@ public class MissingRepositoryTests {
 
     @Test
     public void testInsertMissing() {
+        String[] genders = {"수컷", "암컷"};
         for (int i = 1; i <= 10; i++) {
             Missing missing = Missing.builder()
                     .mname("missing" + i)
                     .age(1 * i)
-                    .gender("gender")
+                    .gender(genders[i % 2])
                     .description("notes " + i)
                     .latitude(37.4979)
                     .longitude(127.0276)

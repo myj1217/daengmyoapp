@@ -298,7 +298,8 @@ const MainPage = () => {
         </div>
         {serverData.dtoList && serverData.dtoList.length > 0 ? (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-1">
+            <div className="grid grid-cols-4 gap-1">
+              {/* <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-1"> */}
               {serverData.dtoList.map((animal) => (
                 <div
                   className="border rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
