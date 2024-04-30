@@ -4,9 +4,6 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import { communityList } from "../../api/communityApi";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFont } from "@fortawesome/free-solid-svg-icons";
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
 
 const host = API_SERVER_HOST;
 
@@ -26,13 +23,11 @@ const ListCommunityComponent = () => {
   const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
   const navigate = useNavigate();
 
-  //serverData는 나중에 사용
   const [serverData, setServerData] = useState(initState);
 
   useEffect(() => {
     communityList({ page, size })
       .then((data) => {
-        console.log(data);
         setServerData(data);
       })
       .catch((err) => exceptionHandle(err));
@@ -44,83 +39,56 @@ const ListCommunityComponent = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleString('ko-KR');
+    return `${date.getFullYear()}-${
+      date.getMonth() + 1
+    }-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   };
 
-  
   return (
-    <div className="border-2 border-gray-100 mt-10 mr-2 ml-2">
+    <div className="border-2 border-gray-100 mt-10 m-2 p-4">
+      {/* Column Labels */}
+      <div className="flex justify-between items-center bg-gray-200 p-4 rounded-t-md">
+        <span className="w-1/12 text-center">번호</span>
+        <span className="flex-grow text-center">제목 (댓글수)</span>
+        <span className="w-2/12 text-center">글쓴이</span>
+        <span className="w-2/12 text-center whitespace-nowrap">날짜</span>
+      </div>
+      {/* List Items */}
       <div className="p-6">
         {serverData.dtoList &&
-          serverData.dtoList.map((community, index) => (
+          serverData.dtoList.map((community) => (
             <div
               key={community.communityBno}
-              className="flex items-center rounded shadow-md border-2 mb-4 bg-white p-4 justify-between"
-              style={{ minHeight: "80px" }}
+              className="flex items-center rounded shadow-md border-b mb-4 bg-white p-4 hover:bg-gray-50"
               onClick={() => moveToRead(community.communityBno)}
             >
-              {/* 글 번호 추가 */}
               <div className="w-1/12 text-center">{community.communityBno}</div>
-              {!community.uploadFileNames ||
-              community.uploadFileNames.length === 0 ? (
-                <div
-                  className="my-2 mr-4"
-                  style={{
-                    width: "80px",
-                    height: "80px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden",
-                    backgroundColor: "transparent",
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faFont}
-                    className="text-emerald-600 mr-2"
-                    size="3x"
-                  />
-                </div>
-              ) : (
-                <div
-                  className="my-2 mr-4"
-                  style={{
-                    width: "80px",
-                    height: "80px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden",
-                    backgroundColor: "transparent",
-                  }}
-                >
-                  {/* 이미지가 있는 경우 */}
-                  <img
-                    alt="community"
-                    className="rounded-md"
-                    style={{ maxWidth: "100%", maxHeight: "100%" }}
-                    src={`${host}/community/view/${community.uploadFileNames[0]}`}
-                  />
-                </div>
-              )}
-
-              <div
-                className="flex-grow flex items-center"
-                style={{ width: "900px" }}
-              >
-                <div className="w-7/12 ml-4 font-bold text-xl">
-                  {community.communityTitle}
-                </div>
-                <div className="w-3/12 ml-4">{community.communityWriter}</div>
-                <div className="text-red-400 flex"><IoChatboxEllipsesOutline className="mr-2 w-4 h-auto"/> {community.commentCount}</div>
-                <div>{formatDate(community.regDate)}</div>
-
+              <div className="flex-grow flex items-center ml-2">
+                {community.uploadFileNames &&
+                  community.uploadFileNames.length > 0 && (
+                    <img
+                      alt="Thumbnail"
+                      className="rounded-md w-10 h-10 mr-2"
+                      src={`${host}/community/view/${community.uploadFileNames[0]}`}
+                    />
+                  )}
+                <span>
+                  {community.communityTitle}{" "}
+                  <span className="text-red-500">
+                    ({community.commentCount || 0})
+                  </span>
+                </span>
+              </div>
+              <div className="w-2/12 text-center">
+                {community.communityWriter}
+              </div>
+              <div className="w-2/12 text-center whitespace-nowrap">
+                {formatDate(community.regDate)}
               </div>
             </div>
           ))}
       </div>
-
-      {/* 페이지 목록 렌더링 */}
+      {/* Pagination */}
       {serverData.pageNumList && serverData.pageNumList.length > 0 && (
         <div className="flex justify-center mt-4">
           {serverData.pageNumList.map((pageNum) => (
@@ -138,7 +106,7 @@ const ListCommunityComponent = () => {
           ))}
         </div>
       )}
-
+      {/* Register Button */}
       <div className="flex justify-center">
         <button
           type="button"

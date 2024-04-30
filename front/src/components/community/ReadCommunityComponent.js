@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import useCustomMove from "../../hooks/useCustomMove";
-import FetchingModal from "../common/FetchingModal";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import { useNavigate } from "react-router-dom";
 import { API_SERVER_HOST } from "../../api/rootApi";
 import { getCommunity } from "../../api/communityApi";
 import ReplyListComponent from "./ReplyListComponent";
 import { listReply } from "../../api/communityReplyApi";
-import { useNavigate } from "react-router-dom";
 import jwtAxios from "../../utils/jwtUtil";
-import { useDispatch,useSelector} from 'react-redux';
-import { setChatVisible, selectChatVisible, setNewMessageArrived, selectNewMessageArrived } from "../../slices/chatSlice";  
+import { useDispatch } from "react-redux";
+import { setChatVisible } from "../../slices/chatSlice";
 
 const initState = {
   communityBno: 0,
@@ -20,10 +19,6 @@ const initState = {
   uploadFileNames: [],
 };
 
-const host = API_SERVER_HOST;
-
-
-
 const ReadCommunityComponent = ({ communityBno }) => {
   const [community, setCommunity] = useState(initState);
   const [replies, setReplies] = useState([]);
@@ -32,7 +27,6 @@ const ReadCommunityComponent = ({ communityBno }) => {
   const navigate = useNavigate();
   const { moveToModify } = useCustomMove();
   const dispatch = useDispatch();
-  
 
   useEffect(() => {
     setFetching(true);
@@ -62,95 +56,73 @@ const ReadCommunityComponent = ({ communityBno }) => {
     }
   }, [communityBno]);
 
-  const handleClickList = () => {
-    navigate("/community/list");
-  };
-
   const createChatRoom = () => {
     if (loginState.email !== community.communityWriterEmail) {
-      jwtAxios.post(`${API_SERVER_HOST}/api/chat`, {
-        userEmail1: loginState.email,
-        userEmail2: community.communityWriterEmail,
-      });
-      dispatch(setChatVisible(true));
+      jwtAxios
+        .post(`${API_SERVER_HOST}/api/chat`, {
+          userEmail1: loginState.email,
+          userEmail2: community.communityWriterEmail,
+        })
+        .then(() => {
+          dispatch(setChatVisible(true));
+        })
+        .catch((error) => {
+          console.error("Failed to create chat room:", error);
+        });
     }
   };
 
   const isAuthor = loginState.email === community.communityWriterEmail;
 
   return (
-    <div className="w-ful h-full p-4">
-    <div className="border-2 border-gray-300 m-2 p-4">
-      {fetching ? <FetchingModal /> : <></>}
-      <div className="w-full justify-center flex flex-col items-center"></div>
-      <div className="flex justify-center mb-4">
-        <div className="relative flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">제목</div>
-          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
-            {community.communityTitle}
+    <div className="max-w-7xl mx-auto mt-10">
+      {fetching && <div>Loading...</div>}
+      <div className="px-6 pt-4 pb-2">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="font-bold text-4xl">{community.communityTitle}</h1>
+          <div className="flex items-center">
+            {community.communityWriter && (
+              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                작성자: {community.communityWriter}
+              </span>
+            )}
+            {!isAuthor && (
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                onClick={createChatRoom}
+              >
+                채팅하기
+              </button>
+            )}
+            {isAuthor && (
+              <button
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full ml-2"
+                onClick={() => moveToModify(communityBno)}
+              >
+                수정하기
+              </button>
+            )}
           </div>
         </div>
-      </div>
-      <div className="flex justify-center">
-        <div className="relative flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">이미지</div>
-          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md justify-center items-center">
+        <div className="flex justify-center">
+          <div className="flex flex-wrap gap-4">
             {community.uploadFileNames.map((fileName, i) => (
               <img
                 key={i}
-                className="p-4 max-w-[500px] h-auto mx-auto"
-                src={`${host}/community/view/${fileName}`}
-                alt="community"
+                src={`${API_SERVER_HOST}/community/view/${fileName}`}
+                alt="Community content"
+                className="object-contain h-48"
               />
             ))}
           </div>
         </div>
-      </div>
-      <div className="flex justify-center mb-4">
-        <div className="relative flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">내용</div>
-          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
-            {community.communityContent}
-          </div>
+        <div className="text-gray-700 text-base mt-4">
+          {community.communityContent}
         </div>
-      </div>
-      <div className="flex justify-center mb-4">
-        <div className="relative flex w-full flex-wrap items-stretch">
-          <div className="w-1/5 p-6 text-right font-bold">작성자</div>
-          <div className="w-4/5 p-6 rounded-r border border-solid shadow-md">
-            {community.communityWriter}
-          </div>
-        </div>
-      </div>
-      <div
-        id="community_read_buttons"
-        className="flex justify-end p-4 text-sm text-white"
-      >
-        {!isAuthor && (
-          <button
-            type="button"
-            className="inline-block rounded p-4 m-2 w-32 bg-emerald-500 hover:bg-emerald-700"
-            onClick={createChatRoom}
-          >
-            채팅하기
-          </button>
-        )}
-        {isAuthor && (
-          <button
-            type="button"
-            className="inline-block rounded p-4 m-2 w-32 bg-emerald-500 hover:bg-emerald-700"
-            onClick={() => moveToModify(communityBno)}
-          >
-            게시글
-            <br />
-            수정
-          </button>
-        )}
-        
       </div>
       <ReplyListComponent replies={replies} communityBno={communityBno} />
     </div>
-    </div>
   );
 };
+
 export default ReadCommunityComponent;
