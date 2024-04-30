@@ -53,7 +53,7 @@ const MapComponent = ({ lat, lng }) => {
     }
   }, [lat, lng]);
 
-  return <div ref={mapContainer} style={{ width: "95%", height: "95%" }} />;
+  return <div ref={mapContainer} style={{ width: "100%", height: "100%" }} />;
 };
 
 const MissingPet = () => {
@@ -78,7 +78,7 @@ const MissingPet = () => {
   }, []); // 의존성 배열에서 exceptionHandle 제거
 
   return (
-    <div className="flex h-screen mx-8 my-4">
+    <div className="flex h-[550px] mx-8 my-4">
       {serverData.dtoList && serverData.dtoList.length > 0 ? (
         <>
           <div
