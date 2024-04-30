@@ -78,11 +78,11 @@ const ReadCommunityComponent = ({ communityBno }) => {
     <div className="max-w-7xl mx-auto mt-10">
       {fetching && <div>Loading...</div>}
       <div className="px-6 pt-4 pb-2">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center border-b pb-4">
           <h1 className="font-bold text-4xl">{community.communityTitle}</h1>
           <div className="flex items-center">
             {community.communityWriter && (
-              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+              <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
                 작성자: {community.communityWriter}
               </span>
             )}
@@ -104,6 +104,9 @@ const ReadCommunityComponent = ({ communityBno }) => {
             )}
           </div>
         </div>
+        <p className="text-sm text-gray-600 mb-4 ml-auto" style={{ width: "fit-content" }}>
+          {new Date(community.regDate).toLocaleString("ko-KR")} {community.modified && "(수정됨)"}
+        </p>
         <div className="flex justify-center">
           <div className="flex flex-wrap gap-4">
             {community.uploadFileNames.map((fileName, i) => (
@@ -116,9 +119,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
             ))}
           </div>
         </div>
-        <div className="text-gray-700 text-base mt-4">
-          {community.communityContent}
-        </div>
+        <div className="text-gray-700 text-base mt-4">{community.communityContent}</div>
       </div>
       <ReplyListComponent replies={replies} communityBno={communityBno} />
     </div>

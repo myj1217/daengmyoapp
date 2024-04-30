@@ -88,7 +88,7 @@ const ReplyModComponent = ({
     <li
       key={replyRno}
       className={
-        "rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer"
+        "rounded-lg overflow-hidden shadow-lg transition duration-300 ease-in-out cursor-pointer mx-2"
       }
       style={{ listStyleType: "none" }}
     >

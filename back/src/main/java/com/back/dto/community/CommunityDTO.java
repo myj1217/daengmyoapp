@@ -26,6 +26,7 @@ public class CommunityDTO {
     private Long commentCount;
     private boolean delFlag;
 
+    private boolean modified;
 
     private LocalDateTime regDate;
 

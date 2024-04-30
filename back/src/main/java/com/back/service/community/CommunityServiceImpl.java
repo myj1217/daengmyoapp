@@ -19,6 +19,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +65,7 @@ public class CommunityServiceImpl implements CommunityService {
                     .commentCount(community.getCommentCount())
                     .regDate(community.getRegDate())
                     .delFlag(community.isDelFlag())
+                    .modified(community.isModified())
                     .build();
 
             // CommunityImage 객체가 null이 아닌 경우에만 이미지 파일명을 설정합니다.
@@ -110,6 +113,7 @@ public class CommunityServiceImpl implements CommunityService {
                     .commentCount(community.getCommentCount())
                     .regDate(community.getRegDate())
                     .delFlag(community.isDelFlag())
+                    .modified(community.isModified())
                     .build();
 
             // CommunityImage 객체가 null이 아닌 경우에만 이미지 파일명을 설정합니다.
@@ -148,6 +152,7 @@ public class CommunityServiceImpl implements CommunityService {
                 .communityTitle(communityDTO.getCommunityTitle())
                 .commentCount(communityDTO.getCommentCount())
                 .regDate(communityDTO.getRegDate())
+                .modified(communityDTO.isModified())
                 .build();
 
         //업로드 처리가 끝난 파일들의 이름 리스트
@@ -184,6 +189,7 @@ public class CommunityServiceImpl implements CommunityService {
                 .communityWriterEmail(community.getCommunityWriterEmail())
                 .commentCount(community.getCommentCount())
                 .regDate(community.getRegDate())
+                .modified(community.isModified())
                 .build();
 
         List<CommunityImage> imageList = community.getImageList();
@@ -208,6 +214,8 @@ public class CommunityServiceImpl implements CommunityService {
         // 게시글 정보 변경
         community.changeTitle(communityDTO.getCommunityTitle());
         community.changeContent(communityDTO.getCommunityContent());
+        community.updateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")));
+        community.changeModified();
 
         // 업로드 파일을 초기화
         community.clearList();

@@ -84,5 +84,16 @@ public class Community {
     public void clearList() {
         this.imageList.clear();
     }
+
+    private boolean modified;
+
+    public void changeModified() {
+        this.modified = true;
+    }
+
+    public void updateTime(LocalDateTime updateTime) {
+        this.regDate = updateTime;
+    }
+
 }
 
