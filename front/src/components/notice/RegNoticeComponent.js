@@ -38,7 +38,7 @@ const RegNoticeComponent = () => {
     setNotice({ ...notice, imagesPreview: previewImages });
   };
 
-  const handleClickReg = async () => {
+  const handleClickReg = async (e) => {
     const files = uploadRef.current.files;
     const formData = new FormData();
 
@@ -125,9 +125,23 @@ const RegNoticeComponent = () => {
           <input
             ref={uploadRef}
             className="md:col-span-2 form-input rounded-md border-gray-300 shadow-sm"
-            type={"file"}
+            type="file"
             multiple={true}
+            onChange={updatePreviewImages}
           />
+        </div>
+        <div className="flex justify-end">
+          <div className="md:col-span-1"></div>
+          <div className="md:col-span-2 grid grid-cols-3 gap-2">
+            {notice.imagesPreview.map((preview, index) => (
+              <img
+                key={index}
+                src={preview}
+                alt={`Preview ${index}`}
+                className="rounded-md"
+              />
+            ))}
+          </div>
         </div>
 
         <div className="flex justify-end mt-4">

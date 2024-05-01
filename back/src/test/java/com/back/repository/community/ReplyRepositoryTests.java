@@ -16,8 +16,7 @@ public class ReplyRepositoryTests {
 
     @Test
     public void testInsertReply() {
-        Long communityBno = 1L;
-        // 상품 후기를 추가할 상품의 pno 값을 가져옴
+        Long communityBno = 11L;
         Community community = Community.builder().communityBno(communityBno).build();
         for (int i = 1; i <= 10; i++) {
             Reply reply = Reply.builder()
