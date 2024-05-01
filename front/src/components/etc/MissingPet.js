@@ -109,7 +109,7 @@ const MissingPet = () => {
                     <img
                       alt="missing"
                       className="w-full h-80 object-cover transform transition duration-300 ease-in-out hover:scale-110"
-                      src={`${host}/api/missing/view/s_${missing.uploadFileNames[0]}`}
+                      src={`${host}/api/missing/view/${missing.uploadFileNames[0]}`}
                     />
                     <div className="bottom-0 bg-white text-lg p-4">
                       <div className="text-center p-1">{missing.mname}</div>
