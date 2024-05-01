@@ -34,11 +34,10 @@ const MissingReadComponent = ({ mno }) => {
     if (
       window.confirm(
         "로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?"
-      ) === false
+      )
     ) {
-      return;
+      navigate("/member/login");
     }
-    navigate("/member/login");
   };
 
   useEffect(() => {
@@ -89,21 +88,13 @@ const MissingReadComponent = ({ mno }) => {
     setFetching(true);
     replyAdd(formData)
       .then(() => {
-        setMissing((prevState) => ({
-          ...prevState,
-          replies: [
-            ...prevState.replies,
-            {
-              text: missing.newReply,
-              replyer: loginState.nickname,
-              star: missing.star,
-              email: loginState.email,
-            },
-          ],
-          newReply: "",
-        }));
+        // 성공적으로 댓글 추가 후 페이지 새로 고침
+        window.location.reload();
       })
-      .catch((error) => console.error("리포트 등록 중 오류 발생:", error))
+      .catch((error) => {
+        console.error("리포트 등록 중 오류 발생:", error);
+        alert("제보 등록에 실패했습니다.");
+      })
       .finally(() => setFetching(false));
   };
 

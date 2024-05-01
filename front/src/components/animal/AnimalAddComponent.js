@@ -56,7 +56,7 @@ const AnimalAddComponent = () => {
 
   const closeModal = () => {
     setResult(null);
-    navigate({ page: "../" });
+    navigate({ pathname: "../" }); // 사용자가 확인을 클릭하면 목록 페이지로 이동
   };
 
   return (
@@ -64,9 +64,9 @@ const AnimalAddComponent = () => {
       {fetching ? <FetchingModal /> : null}
       {result && (
         <ResultModal
-          title={"Adoption Entry Added"}
-          content={"The entry has been successfully registered."}
-          callbackFn={closeModal}
+          title={"입양 등록 완료"}
+          content={"등록이 성공적으로 완료되었습니다."}
+          callbackFn={closeModal} // closeModal 함수를 콜백으로 설정
         />
       )}
       <div className="grid grid-cols-2 gap-4">
@@ -111,7 +111,7 @@ const AnimalAddComponent = () => {
           />
         </div>
         <div className="flex items-center col-span-2">
-          <label className="text-right font-bold w-1/6 px-2">Files:</label>
+          <label className="text-right font-bold w-1/6 px-2">파일:</label>
           <input
             ref={uploadRef}
             className="form-input w-5/6"
