@@ -7,9 +7,9 @@ const ProductModifyPage = () => {
 
   
   return (
-    <div className="p-4 w-full bg-white">
+    <div className="w-full bg-white">
       <BasicMenu />
-      <div className="text-3xl font-extrabold">상품 수정하기</div>
+    
 
       <ProdcutModifyComponent pno={pno} />
     </div>

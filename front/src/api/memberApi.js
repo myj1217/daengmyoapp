@@ -95,7 +95,8 @@ export const deleteId = async (member) => {
   form.append("pw", member.pw);
 
   try {
-    const res = await jwtAxios.delete(`${host}/delete`, form);
+    const res = await jwtAxios.delete(`${host}/delete?email=${member.email}&pw=${member.pw}`);
+
     return res.data;
   } catch (error) {
     throw error.response.data;

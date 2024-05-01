@@ -72,7 +72,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
     }
   };
 
-  const isAuthor = loginState.email === community.communityWriterEmail;
+  const isAuthor = loginState.email == community.communityWriterEmail;
 
   return (
     <div className="max-w-7xl mx-auto mt-10">
@@ -86,7 +86,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
                 작성자: {community.communityWriter}
               </span>
             )}
-            {!isAuthor && isLogin &&(
+            {!isAuthor && isLogin && ( 
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 onClick={createChatRoom}
@@ -94,7 +94,7 @@ const ReadCommunityComponent = ({ communityBno }) => {
                 채팅하기
               </button>
             )}
-            {isAuthor || isAdmin &&(
+            {(isAuthor || isAdmin) && (
               <button
                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full ml-2"
                 onClick={() => moveToModify(communityBno)}
