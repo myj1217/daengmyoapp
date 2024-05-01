@@ -196,6 +196,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
     }
+    
 
     //중복처리를 위한 코드
     /* 회원가입 시, 유효성 및 중복 검사 */

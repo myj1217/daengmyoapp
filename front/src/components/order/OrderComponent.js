@@ -6,6 +6,7 @@ import { orderAdd } from "../../api/orderApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomProduct from "../../hooks/useCustomProduct";
+import { modifyMember } from "../../api/memberApi";
 
 const iniState = {
   ono: 0,
@@ -63,6 +64,7 @@ const OrderComponent = () => {
   const orderSaveHandler = () => {
     const formData = new FormData();
 
+    // 주문정보
     formData.append("userId", user.email);
     formData.append("impUid", info.merchant_uid);
     formData.append("orderName", info.name);
@@ -70,11 +72,46 @@ const OrderComponent = () => {
     formData.append("buyerName", user.name);
     formData.append("buyerTel", user.number);
     formData.append("buyerEmail", user.email);
-    formData.append("buyerAddress", payment.buyerAddress);
-    formData.append("buyerAddressCode", payment.buyerAddressCode);
     formData.append("buyerDetailAddress", payment.buyerDetailAddress);
+    if (payment.buyerAddress) {
+      formData.append("buyerAddress", payment.buyerAddress);
+      formData.append("buyerAddressCode", payment.buyerAddressCode);
+    } else {
+      formData.append("buyerAddress", user.streetAddress);
+      formData.append("buyerAddressCode", user.addressCode);
+    }
     formData.append("orderStatus", "결제 성공");
     formData.append("deliveryRequest", payment.deliveryRequest);
+
+    // 수정된 회원정보
+    if (payment.buyerAddress) {
+      const form = new FormData();
+      form.append("email", user.email);
+      form.append("pw", user.pw);
+      form.append("name", user.name);
+      form.append("nickname", user.nickname);
+      form.append("number", user.number);
+      form.append("addressCode", payment.buyerAddressCode);
+      form.append("streetAddress", payment.buyerAddress);
+      form.append("detailAddress", payment.buyerDetailAddress);
+
+      // setFetching(true);
+
+      console.log("회원 주소지 변경 시작");
+
+      modifyMember(form);
+      console.log(form);
+      // .then((data) => {})
+      // .catch((error) => {
+      //   console.error("회원 주소 수정 중 오류 발생:", error);
+      // })
+      // .finally(() => {
+      //   setFetching(false);
+
+      // });
+
+      console.log("회원 주소지 변경 성공!");
+    }
 
     setFetching(true);
 
@@ -230,7 +267,55 @@ const OrderComponent = () => {
                 </div>
               </div>
             </div>
-            {payment.buyerAddressCode ? (
+
+            {/* 주소 정보가 있는 경우 */}
+            {user.addressCode && !payment.buyerAddress && (
+              <>
+                <div className="flex justify-center">
+                  <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                    <div className="w-1/5 p-6 text-right font-bold">
+                      우편번호
+                    </div>
+                    <div className="w-1/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md bg-gray-200">
+                      {user.addressCode}
+                    </div>
+                    <div
+                      onClick={openPostcode}
+                      className="ml-2 p-6 bg-emerald-500 hover:bg-emerald-700 text-white font-bold rounded-md cursor-pointer"
+                    >
+                      주소 찾기
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-center">
+                  <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                    <div className="w-1/5 p-6 text-right font-bold">
+                      배송지 주소
+                    </div>
+                    <div className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md bg-gray-200">
+                      {user.streetAddress}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-center">
+                  <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                    <div className="w-1/5 p-6 text-right font-bold">
+                      상세주소
+                    </div>
+                    <input
+                      className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md"
+                      name="buyerDetailAddress"
+                      type={"text"}
+                      value={user.detailAddress}
+                      onChange={handleChange}
+                    ></input>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* 주소 정보가 없고 주소 찾기를 했을 시 */}
+            {payment.buyerAddress && (
               <>
                 <div className="flex justify-center">
                   <div className="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -273,7 +358,10 @@ const OrderComponent = () => {
                   </div>
                 </div>
               </>
-            ) : (
+            )}
+
+            {/* 주소 정보가 없고 주소 찾기도 안할 시 */}
+            {!payment.buyerAddress && !user.addressCode && (
               <>
                 <div className="flex justify-center">
                   <div className="relative mb-4 flex w-full flex-wrap items-stretch">
