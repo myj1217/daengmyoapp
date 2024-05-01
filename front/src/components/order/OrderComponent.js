@@ -72,13 +72,14 @@ const OrderComponent = () => {
     formData.append("buyerName", user.name);
     formData.append("buyerTel", user.number);
     formData.append("buyerEmail", user.email);
-    formData.append("buyerDetailAddress", payment.buyerDetailAddress);
     if (payment.buyerAddress) {
       formData.append("buyerAddress", payment.buyerAddress);
       formData.append("buyerAddressCode", payment.buyerAddressCode);
+      formData.append("buyerDetailAddress", payment.buyerDetailAddress);
     } else {
       formData.append("buyerAddress", user.streetAddress);
       formData.append("buyerAddressCode", user.addressCode);
+      formData.append("buyerDetailAddress", user.detailAddress);
     }
     formData.append("orderStatus", "결제 성공");
     formData.append("deliveryRequest", payment.deliveryRequest);
@@ -178,7 +179,7 @@ const OrderComponent = () => {
   // 결제 창 호출
   const onClickPayment = () => {
     // 배송지 주소를 입력하지 않았을 경우 return
-    if (!payment.buyerAddress) {
+    if (!payment.buyerAddress && !user.addressCode) {
       window.alert("배송지 주소를 입력해주세요.");
       return;
     }
@@ -283,7 +284,7 @@ const OrderComponent = () => {
                       onClick={openPostcode}
                       className="ml-2 p-6 bg-emerald-500 hover:bg-emerald-700 text-white font-bold rounded-md cursor-pointer"
                     >
-                      주소 찾기
+                      주소 변경
                     </div>
                   </div>
                 </div>
@@ -300,6 +301,16 @@ const OrderComponent = () => {
                 <div className="flex justify-center">
                   <div className="relative mb-4 flex w-full flex-wrap items-stretch">
                     <div className="w-1/5 p-6 text-right font-bold">
+                      상세 주소
+                    </div>
+                    <div className="w-3/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md bg-gray-200">
+                      {user.detailAddress}
+                    </div>
+                  </div>
+                </div>
+                {/* <div className="flex justify-center">
+                  <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+                    <div className="w-1/5 p-6 text-right font-bold">
                       상세주소
                     </div>
                     <input
@@ -310,7 +321,7 @@ const OrderComponent = () => {
                       onChange={handleChange}
                     ></input>
                   </div>
-                </div>
+                </div> */}
               </>
             )}
 
