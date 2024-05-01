@@ -24,9 +24,17 @@ const iniState = {
 };
 
 const OrderComponent = () => {
-  const [payment, setPayment] = useState(iniState);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
+
   const user = useSelector((state) => state.loginSlice);
+
+  const [payment, setPayment] = useState({
+    ...iniState,
+    buyerAddress: user.streetAddress || "", // 주소 정보는 사용자 정보에서 가져오되, 없을 경우 빈 문자열로 초기화
+    buyerAddressCode: user.addressCode || "", // 우편번호 정보는 사용자 정보에서 가져오되, 없을 경우 0으로 초기화
+    buyerDetailAddress: user.detailAddress || "", // 상세 주소는 초기에 비워둠
+  });
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  
   const [fetching, setFetching] = useState(false);
 
   const { updateCheckList } = useCustomProduct(); // 총 금액 넘기기
@@ -283,6 +291,8 @@ const OrderComponent = () => {
                     <div
                       onClick={openPostcode}
                       className="w-1/5 p-6 rounded-r border border-solid border-neutral-300 shadow-md cursor-pointer"
+                      onChange={handleChange}
+                    
                     ></div>
                     <div
                       onClick={openPostcode}
@@ -297,6 +307,7 @@ const OrderComponent = () => {
                     <div
                       onClick={openPostcode}
                       className="w-1/5 p-6 text-right font-bold"
+                      onChange={handleChange}
                     >
                       배송지 주소
                     </div>
