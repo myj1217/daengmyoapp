@@ -106,7 +106,7 @@ const ReplyModComponent = ({
           <div className="w-5/12 text-center p-1">{replyContent}</div>
         )}
         <div className="w-2/12 text-center p-1">{replyWriter}</div>
-        <div className="w-2/12 text-center p-1">{regDate} {isModified && "(수정됨)"}</div> {/* 수정됨 상태에 따라 수정됨 글자 추가 */}
+        <div className="w-2/12 text-center p-1">{regDate}<br/>{isModified && "(수정됨)"}</div> {/* 수정됨 상태에 따라 수정됨 글자 추가 */}
         
         <div className="w-1/12 text-center p-1">
           {modifyMode ? (
