@@ -29,7 +29,6 @@ const ListNoticeComponent = () => {
   // serverData는 나중에 사용
   const [serverData, setServerData] = useState(initState);
 
-
   const handleClickReg = useCallback(() => {
     navigate({ pathname: "../register" });
   });
@@ -104,10 +103,10 @@ const ListNoticeComponent = () => {
         <div className="flex justify-center">
           <button
             type="button"
-            className="inline-block rounded p-3 m-6 bg-emerald-300 hover:bg-emerald-500 text-white w-48"
+            className="inline-block rounded p-3 m-6 bg-red-500 hover:bg-red-700 text-white w-48"
             onClick={handleClickReg}
           >
-            게시글 등록
+            공지사항 등록
           </button>
         </div>
       )}

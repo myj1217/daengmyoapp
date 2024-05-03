@@ -30,7 +30,6 @@ const ForgotPasswordComponent = () => {
   const [errors, setErrors] = useState({});
 
   const [passwordMatch, setPasswordMatch] = useState(true);
-
   const [passwordLength, setPasswordLength] = useState(false);
 
   const handleSendVerificationCode = async () => {
