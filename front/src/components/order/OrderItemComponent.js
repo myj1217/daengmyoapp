@@ -44,10 +44,10 @@ const OrderItemComponent = ({
         </div>
         <div className="flex w-full py-1">
           <div className="w-1/4">배송지 주소</div>
-          <div>
-            <div className="w-3/4">{buyerAddressCode}</div>
-            <div className="w-3/4">{buyerAddress}</div>
-            <div className="w-3/4">{buyerDetailAddress}</div>
+          <div className="w-3/4">
+            <div>{buyerAddressCode}</div>
+            <div>{buyerAddress}</div>
+            <div>{buyerDetailAddress}</div>
           </div>
         </div>
         <div className="flex w-full py-1">
