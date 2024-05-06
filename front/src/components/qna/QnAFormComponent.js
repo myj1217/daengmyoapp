@@ -11,8 +11,8 @@ const QnaForm = () => {
 
   // 모달 상태 추가
   const [modalOpen, setModalOpen] = useState(false);
-
-  const [loading, setLoading] = useState(false); // 로딩 상태 추가
+  // 로딩 상태 추가
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +28,6 @@ const QnaForm = () => {
 
     try {
       const response = await sendQna(formData);
-      // Handle response as needed
       // 제출 후 모달 열기
       setModalOpen(true);
       // 폼 데이터 초기화

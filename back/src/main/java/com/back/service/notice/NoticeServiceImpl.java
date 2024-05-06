@@ -78,21 +78,20 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeDTO;
     }
 
+    // 공지사항 페이징
     @Override
     public PageResponseDTO<NoticeDTO> getNoticeList(PageRequestDTO pageRequestDTO) {
         Pageable pageable = PageRequest.of(
-                pageRequestDTO.getPage() - 1,  // 페이지 시작 번호가 0부터 시작하므로
+                pageRequestDTO.getPage() - 1, // 페이지 시작 번호가 0부터 시작하므로
                 pageRequestDTO.getSize(),
                 Sort.by("noticeBno").descending());
         Page<Object[]> result = noticeRepository.selectList(pageable);
-
-        log.info("공지사항 리스트입니다. " + result);
 
         List<NoticeDTO> dtoList = result.get().map(arr -> {
             Notice notice = (Notice) arr[0];
             NoticeImage noticeImage = (NoticeImage) arr[1];
 
-            NoticeDTO noticeDTO =NoticeDTO.builder()
+            NoticeDTO noticeDTO = NoticeDTO.builder()
                     .noticeBno(notice.getNoticeBno())
                     .noticeTitle(notice.getNoticeTitle())
                     .noticeContent(notice.getNoticeContent())
@@ -118,13 +117,13 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     private Notice dtoToEntity(NoticeDTO noticeDTO) {
-       Notice notice = Notice.builder()
+        Notice notice = Notice.builder()
                 .noticeBno(noticeDTO.getNoticeBno())
                 .noticeTitle(noticeDTO.getNoticeTitle())
                 .noticeContent(noticeDTO.getNoticeContent())
                 .noticeWriter(noticeDTO.getNoticeWriter())
                 .build();
-        //업로드 처리가 끝난 파일들의 이름 리스트
+        // 업로드 처리가 끝난 파일들의 이름 리스트
         List<String> uploadFileNames = noticeDTO.getUploadFileNames();
 
         if (uploadFileNames == null) {
@@ -148,12 +147,11 @@ public class NoticeServiceImpl implements NoticeService {
 
         List<NoticeImage> imageList = notice.getImageList();
 
-        if(imageList == null || imageList.size() == 0 ){
+        if (imageList == null || imageList.size() == 0) {
             return noticeDTO;
         }
 
-        List<String> fileNameList = imageList.stream().map(noticeImage ->
-                noticeImage.getFileName()).toList();
+        List<String> fileNameList = imageList.stream().map(noticeImage -> noticeImage.getFileName()).toList();
 
         noticeDTO.setUploadFileNames(fileNameList);
         return noticeDTO;

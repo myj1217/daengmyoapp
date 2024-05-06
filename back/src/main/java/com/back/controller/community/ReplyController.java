@@ -1,6 +1,5 @@
 package com.back.controller.community;
 
-
 import com.back.dto.PageRequestDTO;
 import com.back.dto.PageResponseDTO;
 import com.back.dto.community.ReplyDTO;
@@ -24,22 +23,18 @@ public class ReplyController {
 
     private final ReplyService replyService;
 
-//    @Autowired
-//    public ReplyController(ReplyService replyService) {
-//        this.replyService = replyService;
-//    }
-
+    // 댓글 리스트
     @GetMapping("/list/{communityBno}")
-    public PageResponseDTO<ReplyDTO> getReplyList(@PathVariable("communityBno")
-                                                   Long communityBno, PageRequestDTO pageRequestDTO) {
-        PageResponseDTO<ReplyDTO> responseDTO =
-                replyService.getReplyList(communityBno, pageRequestDTO);
+    public PageResponseDTO<ReplyDTO> getReplyListDto(@PathVariable("communityBno") Long communityBno,
+            PageRequestDTO pageRequestDTO) {
+        PageResponseDTO<ReplyDTO> responseDTO = replyService.getReplyList(communityBno, pageRequestDTO);
         log.info("댓글 목록: " + responseDTO.getDtoList());
 
         return responseDTO;
     }
 
-    @PostMapping(value="/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    // 댓글 등록
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Long> regReply(@Valid @RequestBody ReplyDTO replyDTO) {
         Map<String, Long> resultMap = new HashMap<>();
         Long replyRno = replyService.regReply(replyDTO);
@@ -47,12 +42,14 @@ public class ReplyController {
         return resultMap;
     }
 
+    // 댓글 수정
     @PutMapping("/{replyRno}")
     public void modReply(@PathVariable Long replyRno, @Valid @RequestBody ReplyDTO replyDTO) {
         replyDTO.setReplyRno(replyRno);
         replyService.modReply(replyDTO);
     }
 
+    // 댓글 삭제
     @DeleteMapping("/{replyRno}")
     public void delReply(@PathVariable Long replyRno) {
         replyService.delReply(replyRno);

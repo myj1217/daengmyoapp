@@ -16,7 +16,6 @@ const initState = {
 
 const RegCommunityComponent = () => {
   const loginState = useSelector((state) => state.loginSlice);
-
   const navigate = useNavigate();
   const [community, setCommunity] = useState({ ...initState });
   const uploadRef = useRef();
@@ -54,14 +53,6 @@ const RegCommunityComponent = () => {
     formData.append("communityWriter", loginState.nickname);
     formData.append("communityWriterEmail", loginState.email);
     formData.append("commentCount", 0);
-
-    // 이미지를 첨부한 경우에만 FormData에 이미지 추가
-    // if (uploadRef.current.files.length > 0) {
-    //   const files = uploadRef.current.files;
-    //   for (let i = 0; i < files.length; i++) {
-    //     formData.append("files", files[i]);
-    //   }
-    // }
 
     setFetching(true);
 

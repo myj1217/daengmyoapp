@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { myCommunityList } from "../../api/myListApi";
 
-// Initialize state
 const initState = [];
 
 const MyListComponent = () => {
@@ -11,7 +10,6 @@ const MyListComponent = () => {
   const { isLogin, loginState, exceptionHandle } = useCustomLogin();
   const navigate = useNavigate();
 
-  // Fetch my community list on login state change
   useEffect(() => {
     if (isLogin) {
       myCommunityList(loginState.email)

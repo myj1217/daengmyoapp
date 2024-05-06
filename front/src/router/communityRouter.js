@@ -50,15 +50,6 @@ const communityRouter = () => {
         </Suspense>
       ),
     },
-    /////// reply //////
-    // {
-    //   path: "reply/list",
-    //   element: (
-    //     <Suspense fallback={<LoadingSpinner />}>
-    //       <ReplyComponent />
-    //     </Suspense>
-    //   ),
-    // },
   ];
 };
 export default communityRouter;

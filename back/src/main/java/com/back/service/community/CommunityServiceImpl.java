@@ -1,6 +1,5 @@
 package com.back.service.community;
 
-
 import com.back.domain.community.Community;
 import com.back.domain.community.CommunityImage;
 import com.back.dto.PageRequestDTO;
@@ -34,23 +33,20 @@ import java.util.stream.Collectors;
 public class CommunityServiceImpl implements CommunityService {
 
     private final CommunityRepository communityRepository;
-    private  final ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
-//    private final CustomFileUtil fileUtil;
+    // private final CustomFileUtil fileUtil;
 
+    // 커뮤니티 페이징
     @Override
     public PageResponseDTO<CommunityDTO> getCommunityList(PageRequestDTO pageRequestDTO) {
-        log.info("getList..............");
 
         Pageable pageable = PageRequest.of(
-                pageRequestDTO.getPage() - 1,  //페이지 시작 번호가 0부터 시작하므로
+                pageRequestDTO.getPage() - 1, // 페이지 시작 번호가 0부터 시작하므로
                 pageRequestDTO.getSize(),
                 Sort.by("communityBno").descending());
 
         Page<Object[]> result = communityRepository.selectList(pageable);
-
-        log.info("커뮤니티 게시글 리스트입니다. " + result);
-
 
         List<CommunityDTO> dtoList = result.get().map(arr -> {
             Community community = (Community) arr[0];
@@ -73,7 +69,6 @@ public class CommunityServiceImpl implements CommunityService {
                 String imageStr = communityImage.getFileName();
                 communityDTO.setUploadFileNames(List.of(imageStr));
             }
-
             return communityDTO;
         }).collect(Collectors.toList());
 
@@ -86,13 +81,13 @@ public class CommunityServiceImpl implements CommunityService {
                 .build();
     }
 
-    //자신의 글 목록 불러옴
+    // 자신의 글 목록 불러옴
     @Override
     public PageResponseDTO<CommunityDTO> getMyList(PageRequestDTO pageRequestDTO, String communityWriterEmail) {
         log.info("getList..............");
 
         Pageable pageable = PageRequest.of(
-                pageRequestDTO.getPage() - 1,  //페이지 시작 번호가 0부터 시작하므로
+                pageRequestDTO.getPage() - 1, // 페이지 시작 번호가 0부터 시작하므로
                 pageRequestDTO.getSize(),
                 Sort.by("communityBno").descending());
 
@@ -134,7 +129,6 @@ public class CommunityServiceImpl implements CommunityService {
                 .build();
     }
 
-
     @Override
     public Long regCommunity(CommunityDTO communityDTO) {
         // DTO를 Entity로 변환
@@ -143,7 +137,8 @@ public class CommunityServiceImpl implements CommunityService {
 
         return result.getCommunityBno();
     }
-    private Community dtoToEntity(CommunityDTO communityDTO){
+
+    private Community dtoToEntity(CommunityDTO communityDTO) {
         Community community = Community.builder()
                 .communityBno(communityDTO.getCommunityBno())
                 .communityWriter(communityDTO.getCommunityWriter())
@@ -155,10 +150,10 @@ public class CommunityServiceImpl implements CommunityService {
                 .modified(communityDTO.isModified())
                 .build();
 
-        //업로드 처리가 끝난 파일들의 이름 리스트
+        // 업로드 처리가 끝난 파일들의 이름 리스트
         List<String> uploadFileNames = communityDTO.getUploadFileNames();
 
-        if(uploadFileNames == null){
+        if (uploadFileNames == null) {
             return community;
         }
 
@@ -168,7 +163,6 @@ public class CommunityServiceImpl implements CommunityService {
 
         return community;
     }
-
 
     @Override
     public CommunityDTO getCommunity(Long communityBno) {
@@ -194,12 +188,11 @@ public class CommunityServiceImpl implements CommunityService {
 
         List<CommunityImage> imageList = community.getImageList();
 
-        if(imageList == null || imageList.size() == 0 ){
+        if (imageList == null || imageList.size() == 0) {
             return communityDTO;
         }
 
-        List<String> fileNameList = imageList.stream().map(communityImage ->
-                communityImage.getFileName()).toList();
+        List<String> fileNameList = imageList.stream().map(communityImage -> communityImage.getFileName()).toList();
 
         communityDTO.setUploadFileNames(fileNameList);
         return communityDTO;
@@ -237,6 +230,5 @@ public class CommunityServiceImpl implements CommunityService {
     public void delCommunity(Long communityBno) {
         communityRepository.updateToDelete(communityBno, true);
     }
-
 
 }

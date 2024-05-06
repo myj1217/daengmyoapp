@@ -15,8 +15,6 @@ export const listReply = async (communityBno) => {
 // 댓글 등록
 export const regReply = async (reply) => {
   const header = { headers: { "Content-Type": "application/json" } };
-  // const header = { headers: { "Content-Type": "multipart/form-data" } };
-
   const res = await jwtAxios.post(`${host}/register`, reply, header);
   return res.data;
 };
