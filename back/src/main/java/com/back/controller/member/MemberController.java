@@ -214,12 +214,6 @@ public class MemberController {
     @GetMapping("/check/nickname/{nickname}")
     public ResponseEntity<?> checkNickname(@PathVariable("nickname") String nickname) {
 
-        // 회원 테이블의 존재 여부를 확인
-        if (!memberService.isMemberTableExists()) {
-            // 회원 테이블이 없으면 닉네임 사용 가능
-            return ResponseEntity.status(HttpStatus.OK).body(true);
-        }
-
         if (memberService.checkNickname(nickname)) {
             return ResponseEntity.status(HttpStatus.OK).body(false);
         }
@@ -229,12 +223,6 @@ public class MemberController {
 
     @GetMapping("/check/email/{email}")
     public ResponseEntity<?> checkEmail(@PathVariable("email") String email) {
-
-        // 회원 테이블의 존재 여부를 확인
-        if (!memberService.isMemberTableExists()) {
-            // 회원 테이블이 없으면 닉네임 사용 가능
-            return ResponseEntity.status(HttpStatus.OK).body(true);
-        }
 
         if (memberService.checkEmail(email)) {
             return ResponseEntity.status(HttpStatus.OK).body(false);
