@@ -35,14 +35,16 @@
 -실종신고<br>
 
 <img src="https://github.com/myj1217/daengmyoapp/assets/166092013/22780cfe-8e5c-4efc-8950-6f6e2621cc5c.png" width="60%" height="60%"/>
+
+<br>
 -채팅<br>
 
 <img src="https://github.com/myj1217/daengmyoapp/assets/166092013/7c383826-3ac1-41f4-99ff-1282fa4d8ffc.png" width="60%" height="60%"/>
-
+<br>
 -문의<br>
 
 <img src="https://github.com/myj1217/daengmyoapp/assets/166092013/f9accd65-27f3-4eb1-82ed-4e1fb709b7f0.png" width="60%" height="60%"/>
-
+<br>
 -결제
 
 <img src="https://github.com/myj1217/daengmyoapp/assets/166092013/311d4df5-ff01-4aae-a9ae-f7e97e8020f4.png" width="60%" height="60%"/>
