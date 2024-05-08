@@ -44,7 +44,7 @@
 
 ![3](https://github.com/myj1217/daengmyoapp/assets/166092013/f9accd65-27f3-4eb1-82ed-4e1fb709b7f0){: width="70" height="70"}
 
--결제<br>
+-결제
 
 ![555](https://github.com/myj1217/daengmyoapp/assets/166092013/311d4df5-ff01-4aae-a9ae-f7e97e8020f4){: width="70" height="70"}
 
