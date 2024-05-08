@@ -3,7 +3,7 @@
 ✔  
 ✔
 
-📽 시연 영상 : 추후 제공 예정입니다.
+📽 시연 영상 : https://youtu.be/HuRwqg0PDUY?si=yvUicfO9UbzrRojC
 
 ## 1. 제작 기간 & 참여 인원
 
